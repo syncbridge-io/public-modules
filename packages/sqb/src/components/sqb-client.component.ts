@@ -49,20 +49,14 @@ export class SqbClientComponent<
   protected async _init(): Promise<void> {
     await super._init();
     this._createClient();
-    this.on('values-updated', async () => {
-      const isStopped = this.stopped;
-      await this._stop();
-      // The values are the client's: it is built again to take them
-      this._createClient();
-      if (!isStopped) {
-        await this._start(new AbortController().signal).catch(err => {
-          this.setStatus(ServiceStatus.unhealthy, err.message);
-        });
-      }
-    });
+    this.on('values-updated', () =>
+      this._restart().catch(err =>
+        this.setStatus(ServiceStatus.unhealthy, err.message),
+      ),
+    );
   }
 
-  /** A new client of the current values; the old one must be closed */
+  /** A client of the current values, for the next start; the old one is closed */
   protected _createClient() {
     const client = new SqbClient({
       dialect: this.values.dialect,
@@ -129,6 +123,9 @@ export class SqbClientComponent<
 
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     await super._start(abortSignal);
+    // The values are the client's: it is built again to take them
+    await this.client?.close().catch(noOp);
+    this._createClient();
     await this._testConnection(abortSignal);
   }
 

@@ -77,12 +77,17 @@ export class HL7ServerComponent<
         details: peerOf(info),
       });
     });
-    this.on('values-updated', () => this._configureServer());
-    await this._configureServer();
+    this.on('values-updated', () =>
+      this._restart().catch(err =>
+        this.setStatus(ServiceStatus.unhealthy, err.message),
+      ),
+    );
+    this._createServer();
   }
 
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     this._stopping = false;
+    this._createServer();
     await this.server.listen(this.values.port, this.values.bindInterface);
     await super._start(abortSignal);
   }
@@ -90,130 +95,121 @@ export class HL7ServerComponent<
   protected async _stop(): Promise<void> {
     this._stopping = true;
     await this.server.close(30000);
+    return super._stop();
   }
 
-  protected async _configureServer() {
-    const isStopped = this.stopped;
-    try {
-      if (!isStopped) await this._stop();
-      if (this.server) await this.server.close();
-      const options: HL7Server.Options = {
-        ...hl7ProtocolOptions(this.values),
-        responseTimeout: this.values.responseTimeout,
+  /** A server of the current values, for the next start */
+  protected _createServer() {
+    const options: HL7Server.Options = {
+      ...hl7ProtocolOptions(this.values),
+      responseTimeout: this.values.responseTimeout,
+    };
+    this.server =
+      this.values.tls_enabled && this.values.tls
+        ? HL7Server.createTlsServer(this.values.tls, options)
+        : HL7Server.createServer(undefined, options);
+    for (const m of this._middlewares) this.server.use(m.handler, m.priority);
+    for (const hook of this._responseHooks) this.server.beforeResponse(hook);
+    this.server.on('error', (error: any, socket: HL7Socket) => {
+      if (error.code === 'ECONNRESET') return;
+      if (socket) {
+        error.message =
+          error.message +
+          ` [${colors.blueBright(socket?.remoteAddress || '')}]`;
+      }
+      error = new SbError(error);
+      if (socket) {
+        const info = {
+          address: socket.remoteAddress,
+          toString: () => socket.remoteAddress,
+        };
+        this.emit('error', error, info, socket);
+      } else {
+        if (!this.server.listening)
+          this.setStatus(ServiceStatus.unhealthy, error.message);
+        this.emit('error', error);
+      }
+    });
+    this.server.on('listening', () => {
+      this.logger?.info(
+        `HL7 server listening on port ${colors.blueBright(String(this.values.port))}`,
+      );
+      this.emit('listening');
+    });
+    this.server.on('close', () => this.emit('close'));
+    this.server.on('connection', (socket: HL7Socket) => {
+      this.logger?.trace(
+        `Connection from: ${colors.blueBright(socket.remoteAddress || '')}`,
+      );
+      const info = {
+        address: socket.remoteAddress,
+        port: socket.remotePort,
+        toString: () => socket.remoteAddress,
       };
-      this.server =
-        this.values.tls_enabled && this.values.tls
-          ? HL7Server.createTlsServer(this.values.tls, options)
-          : HL7Server.createServer(undefined, options);
-      for (const m of this._middlewares) this.server.use(m.handler, m.priority);
-      for (const hook of this._responseHooks) this.server.beforeResponse(hook);
-      this.server.on('error', (error: any, socket: HL7Socket) => {
-        if (error.code === 'ECONNRESET') return;
-        if (socket) {
-          error.message =
-            error.message +
-            ` [${colors.blueBright(socket?.remoteAddress || '')}]`;
-        }
-        error = new SbError(error);
-        if (socket) {
-          const info = {
-            address: socket.remoteAddress,
-            toString: () => socket.remoteAddress,
-          };
-          this.emit('error', error, info, socket);
-        } else {
-          if (!this.server.listening)
-            this.setStatus(ServiceStatus.unhealthy, error.message);
-          this.emit('error', error);
-        }
+      this.communicationLog?.write({
+        direction: 'info',
+        event: 'connect',
+        message: 'Connected',
+        details: peerOf(info),
       });
-      this.server.on('listening', () => {
-        this.logger?.info(
-          `HL7 server listening on port ${colors.blueBright(String(this.values.port))}`,
-        );
-        this.emit('listening');
-      });
-      this.server.on('close', () => this.emit('close'));
-      this.server.on('connection', (socket: HL7Socket) => {
-        this.logger?.trace(
-          `Connection from: ${colors.blueBright(socket.remoteAddress || '')}`,
-        );
-        const info = {
-          address: socket.remoteAddress,
-          port: socket.remotePort,
-          toString: () => socket.remoteAddress,
-        };
-        this.communicationLog?.write({
-          direction: 'info',
-          event: 'connect',
-          message: 'Connected',
-          details: peerOf(info),
-        });
-        this.emit('connection', info, socket);
-      });
+      this.emit('connection', info, socket);
+    });
 
-      this.server.on('disconnect', (socket: HL7Socket) => {
-        this.logger?.trace(
-          `Disconnected: ${colors.blueBright(socket.remoteAddress || '')}`,
-        );
-        const info = {
-          address: socket.remoteAddress,
-          port: socket.remotePort,
-          toString: () => socket.remoteAddress,
-        };
-        this.communicationLog?.write({
-          direction: 'info',
-          event: 'disconnect',
-          message: 'Disconnected',
-          details: peerOf(info),
-        });
-        this.emit('disconnect', info, socket);
+    this.server.on('disconnect', (socket: HL7Socket) => {
+      this.logger?.trace(
+        `Disconnected: ${colors.blueBright(socket.remoteAddress || '')}`,
+      );
+      const info = {
+        address: socket.remoteAddress,
+        port: socket.remotePort,
+        toString: () => socket.remoteAddress,
+      };
+      this.communicationLog?.write({
+        direction: 'info',
+        event: 'disconnect',
+        message: 'Disconnected',
+        details: peerOf(info),
       });
-      this.server.on('message', (message, socket: HL7Socket) => {
-        this.logger?.trace(
-          `HL7 message (${message.messageType}) received from ${colors.blueBright(socket.remoteAddress || '')}`,
-        );
-        const info = {
-          address: socket.remoteAddress,
-          port: socket.remotePort,
-          toString: () => socket.remoteAddress,
-        };
-        this.emit('message', message, info, socket);
-      });
-      this.server.on('send', (message, socket: HL7Socket) => {
-        this.logger?.trace(
-          `HL7 message (${message.messageType}) sent to ${colors.blueBright(socket.remoteAddress || '')}`,
-        );
-        const info = {
-          address: socket.remoteAddress,
-          port: socket.remotePort,
-          toString: () => socket.remoteAddress,
-        };
-        this.emit('send', message, info, socket);
-      });
-      this.server.on('data', (data, socket: HL7Socket) => {
-        const info = {
-          address: socket.remoteAddress,
-          port: socket.remotePort,
-          toString: () => socket.remoteAddress,
-        };
-        this.emit('data', data, info, socket);
-      });
-      this.server.on('write', (data, socket: HL7Socket) => {
-        const info = {
-          address: socket.remoteAddress,
-          port: socket.remotePort,
-          toString: () => socket.remoteAddress,
-        };
-        this.emit('transmit', data, info, socket);
-      });
-    } catch (err: any) {
-      this.emitSafe('error', err);
-      this.setStatus(ServiceStatus.unhealthy, err.message);
-    }
-    if (!isStopped) {
-      await this._start(new AbortController().signal);
-    }
+      this.emit('disconnect', info, socket);
+    });
+    this.server.on('message', (message, socket: HL7Socket) => {
+      this.logger?.trace(
+        `HL7 message (${message.messageType}) received from ${colors.blueBright(socket.remoteAddress || '')}`,
+      );
+      const info = {
+        address: socket.remoteAddress,
+        port: socket.remotePort,
+        toString: () => socket.remoteAddress,
+      };
+      this.emit('message', message, info, socket);
+    });
+    this.server.on('send', (message, socket: HL7Socket) => {
+      this.logger?.trace(
+        `HL7 message (${message.messageType}) sent to ${colors.blueBright(socket.remoteAddress || '')}`,
+      );
+      const info = {
+        address: socket.remoteAddress,
+        port: socket.remotePort,
+        toString: () => socket.remoteAddress,
+      };
+      this.emit('send', message, info, socket);
+    });
+    this.server.on('data', (data, socket: HL7Socket) => {
+      const info = {
+        address: socket.remoteAddress,
+        port: socket.remotePort,
+        toString: () => socket.remoteAddress,
+      };
+      this.emit('data', data, info, socket);
+    });
+    this.server.on('write', (data, socket: HL7Socket) => {
+      const info = {
+        address: socket.remoteAddress,
+        port: socket.remotePort,
+        toString: () => socket.remoteAddress,
+      };
+      this.emit('transmit', data, info, socket);
+    });
   }
 
   /**

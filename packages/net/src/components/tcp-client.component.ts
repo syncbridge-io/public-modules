@@ -40,91 +40,85 @@ export class TcpClientComponent<
 
   protected async _init(): Promise<void> {
     await super._init();
-    this.on('values-updated', async () => {
-      await this._configureClient();
-    });
-    await this._configureClient();
+    this.on('values-updated', () =>
+      this._restart().catch(err =>
+        this.setStatus(ServiceStatus.unhealthy, err.message),
+      ),
+    );
+    this._createClient();
   }
 
-  protected async _configureClient() {
-    try {
-      const isStopped = this.stopped;
-      await this._client?.disconnect();
-      this._client = new TcpClient({
-        host: this.values.host || '127.0.0.1',
-        port: this.values.port || 0,
-        localAddress: this.values.bindInterface,
-        connectTimeout: this.values.connectTimeout,
-        keepAlive: this.values.keepAlive,
-        reconnect: this.values.reconnect,
-        tls: this.values.tls_enabled ? this.values.tls : undefined,
-        proxy: this.values.proxy_enabled
-          ? {
-              ...this.values.proxy,
-              userId: this.values.proxy.username,
-              type: this.values.proxy.proxyType === 'v4' ? 4 : 5,
-            }
-          : undefined,
-      });
+  /** A client of the current values, for the next start */
+  protected _createClient() {
+    this._client = new TcpClient({
+      host: this.values.host || '127.0.0.1',
+      port: this.values.port || 0,
+      localAddress: this.values.bindInterface,
+      connectTimeout: this.values.connectTimeout,
+      keepAlive: this.values.keepAlive,
+      reconnect: this.values.reconnect,
+      tls: this.values.tls_enabled ? this.values.tls : undefined,
+      proxy: this.values.proxy_enabled
+        ? {
+            ...this.values.proxy,
+            userId: this.values.proxy.username,
+            type: this.values.proxy.proxyType === 'v4' ? 4 : 5,
+          }
+        : undefined,
+    });
 
-      /* On connection */
-      this._client.on('connect', (socket: net.Socket) => {
-        this._address = {
-          address: this.values.host || '127.0.0.1',
-          port: socket.remotePort,
-        };
-        this._address.toString = function (this: any): string {
-          return `${this.address}:${this.port}`;
-        }.bind(this._address);
-        setImmediate(() => {
-          this.logger?.info(
-            `TCP socket connected to ${colors.cyan(this._client.host + ':' + this._client.port)}`,
-          );
-          this.setStatus(ServiceStatus.started);
-          this.emit('connect');
-        });
-      });
-
-      /* On disconnect */
-      this._client.on('disconnect', (err?: Error) => {
-        if (this._stopping) this.emit('disconnect');
-        else {
-          err = err || new Error('TCP socket disconnected');
-          this.logger?.error(err);
-          this.setStatus(ServiceStatus.unhealthy, err.message);
-          this.emit('disconnect');
-        }
-      });
-
-      /* On data */
-      this._client.on('data', (chunk: Buffer) => {
-        this.emit('data', chunk, this._address);
-      });
-
-      /* On error */
-      this._client.on('error', (err: Error) => {
-        this.emit('error', err);
-      });
-
-      /* On reconnecting */
-      this._client.on('reconnecting', (n: number, delay: number) => {
-        this.logger?.error(
-          `Connection failed (${colors.cyan(String(n + 1))}). Will be retried after ${colors.cyan(delay + 'ms')}`,
+    /* On connection */
+    this._client.on('connect', (socket: net.Socket) => {
+      this._address = {
+        address: this.values.host || '127.0.0.1',
+        port: socket.remotePort,
+      };
+      this._address.toString = function (this: any): string {
+        return `${this.address}:${this.port}`;
+      }.bind(this._address);
+      setImmediate(() => {
+        this.logger?.info(
+          `TCP socket connected to ${colors.cyan(this._client.host + ':' + this._client.port)}`,
         );
-        this.emit('reconnecting', n, delay);
+        this.setStatus(ServiceStatus.started);
+        this.emit('connect');
       });
-      if (!isStopped) {
-        await this._start(new AbortController().signal);
+    });
+
+    /* On disconnect */
+    this._client.on('disconnect', (err?: Error) => {
+      if (this._stopping) this.emit('disconnect');
+      else {
+        err = err || new Error('TCP socket disconnected');
+        this.logger?.error(err);
+        this.setStatus(ServiceStatus.unhealthy, err.message);
+        this.emit('disconnect');
       }
-    } catch (err: any) {
-      this.logger?.error(err);
-      this.setStatus(ServiceStatus.unhealthy, err.message);
-    }
+    });
+
+    /* On data */
+    this._client.on('data', (chunk: Buffer) => {
+      this.emit('data', chunk, this._address);
+    });
+
+    /* On error */
+    this._client.on('error', (err: Error) => {
+      this.emit('error', err);
+    });
+
+    /* On reconnecting */
+    this._client.on('reconnecting', (n: number, delay: number) => {
+      this.logger?.error(
+        `Connection failed (${colors.cyan(String(n + 1))}). Will be retried after ${colors.cyan(delay + 'ms')}`,
+      );
+      this.emit('reconnecting', n, delay);
+    });
   }
 
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     await super._start(abortSignal);
     this._stopping = false;
+    this._createClient();
     this.logger?.info(
       `TCP socket connecting to ${colors.cyan(this._client.host + ':' + this._client.port)}`,
     );
