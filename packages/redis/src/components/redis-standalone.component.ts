@@ -1,7 +1,7 @@
 import { omit } from '@jsopen/objects';
 import { Component, ServiceStatus } from '@syncbridge/common';
 import * as ioredis from 'ioredis';
-import { noOp } from '../constants.js';
+import { stopClient } from '../utils/stop-client.js';
 import { RedisComponent } from './redis.component.js';
 import { RedisStandaloneVariables } from './redis-standalone.variables.js';
 
@@ -70,21 +70,19 @@ export class RedisStandaloneComponent<
       };
       this._client.once('error', onError);
       this._client.once('ready', onReady);
-      if (this._client.status === 'close' || this._client.status === 'wait')
+      // 'end' is where stop() leaves it: it connects again from there
+      if (
+        this._client.status === 'close' ||
+        this._client.status === 'wait' ||
+        this._client.status === 'end'
+      )
         this._client.connect();
     });
   }
 
   protected async _stop(): Promise<void> {
     this._stopping = true;
-    if (this._client.status === 'ready') {
-      await this._client.quit().catch(noOp);
-    } else if (
-      this._client.status !== 'end' &&
-      this._client.status !== 'close'
-    ) {
-      this._client.disconnect();
-    }
+    await stopClient(this._client);
     return super._stop();
   }
 }

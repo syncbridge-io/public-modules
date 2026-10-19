@@ -3,7 +3,7 @@ import { Component, ServiceStatus } from '@syncbridge/common';
 import * as ioredis from 'ioredis';
 import type { SentinelConnectionOptions } from 'ioredis/built/connectors/SentinelConnector/index.js';
 import type { CommonRedisOptions } from 'ioredis/built/redis/RedisOptions.js';
-import { noOp } from '../constants.js';
+import { stopClient } from '../utils/stop-client.js';
 import { RedisComponent } from './redis.component.js';
 import { RedisSentinelVariables } from './redis-sentinel.variables.js';
 
@@ -76,14 +76,7 @@ export class RedisSentinelComponent<
 
   protected async _stop(): Promise<void> {
     this._stopping = true;
-    if (this._client.status === 'ready') {
-      await this._client.quit().catch(noOp);
-    } else if (
-      this._client.status !== 'end' &&
-      this._client.status !== 'close'
-    ) {
-      this._client.disconnect();
-    }
+    await stopClient(this._client);
     return super._stop();
   }
 }
