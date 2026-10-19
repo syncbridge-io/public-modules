@@ -21,12 +21,14 @@ export class TcpServerComponent<
   TEvents extends TcpServerComponent.Events = TcpServerComponent.Events,
 > extends IoServerBaseComponent<TEvents> {
   declare server: net.Server;
+  protected _sockets!: Set<net.Socket>;
 
   @Component.UseVariables()
   declare values: TcpServerVariables;
 
   protected async _init(): Promise<void> {
     await super._init();
+    this._sockets = new Set();
     const serverOptions = TcpServerComponent.variablesToNodeOptions(
       this.values,
     );
@@ -57,7 +59,11 @@ export class TcpServerComponent<
         details: peerOf(peer),
       });
     note('connect', 'Connected');
-    socket.once('close', () => note('disconnect', 'Disconnected'));
+    this._sockets.add(socket);
+    socket.once('close', () => {
+      this._sockets.delete(socket);
+      note('disconnect', 'Disconnected');
+    });
     const emit = socket.emit;
     socket.emit = function (this: net.Socket, event: string | symbol, ...args) {
       if (event === 'data') component.emit('data', args[0], peer);
@@ -81,7 +87,7 @@ export class TcpServerComponent<
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     return new Promise((resolve, reject) => {
       const onListening = () => {
-        this.server.removeListener('error', onListening);
+        this.server.removeListener('error', onError);
         resolve();
       };
       const onError = error => {
@@ -97,6 +103,8 @@ export class TcpServerComponent<
   protected async _stop(): Promise<void> {
     return new Promise<void>(resolve => {
       this.server.close(() => resolve());
+      // The server waits for its connections to end
+      for (const socket of this._sockets) socket.destroy();
     });
   }
 }

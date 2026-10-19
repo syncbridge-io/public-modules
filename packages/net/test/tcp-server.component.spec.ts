@@ -32,6 +32,18 @@ describe('TcpServerComponent', () => {
     }
   });
 
+  it('should stop while a client stays connected', async () => {
+    const component = createServer({ tls_enabled: false });
+    await component._init();
+    await component._start(new AbortController().signal);
+    const { port } = component.server.address() as net.AddressInfo;
+    const client = net.connect(port, '127.0.0.1');
+    await new Promise(resolve => client.once('connect', resolve));
+    await component._stop();
+    expect(component.server.listening).toBe(false);
+    client.destroy();
+  });
+
   it('should write what its connections read and write to its channel', async () => {
     const component = createServer({ tls_enabled: false });
     const records: any[] = [];

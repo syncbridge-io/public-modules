@@ -71,9 +71,14 @@ export class TcpReconnectManager extends AsyncEventEmitter {
       this._connecting = false;
       this._backoff.reset();
 
-      socket.once('close', err => {
+      // A socket's 'close' tells only whether there was an error, not which
+      let lastError: Error | undefined;
+      socket.on('error', err => {
+        lastError = err;
+      });
+      socket.once('close', () => {
         this._socket = undefined;
-        this.emit('disconnect', err || undefined);
+        this.emit('disconnect', lastError);
         if (this.reconnect) this._backoff.backoff();
       });
 

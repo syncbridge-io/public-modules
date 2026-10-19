@@ -1,6 +1,9 @@
 import https from 'node:https';
 import { DefineVariable } from '@syncbridge/common';
-import { TcpServerVariables } from './tcp-server.variables.js';
+import {
+  TcpServerVariables,
+  tcpServerVariablesToNodeOptions,
+} from './tcp-server.variables.js';
 
 export class HttpServerProtocolVariables {
   @DefineVariable({
@@ -100,7 +103,7 @@ export class HttpServerVariables extends TcpServerVariables {
   declare http: HttpServerProtocolVariables;
 }
 
-export function tcpServerVariablesToNodeOptions(
+export function httpServerVariablesToNodeOptions(
   values: HttpServerVariables,
 ): https.ServerOptions {
   const serverOptions: https.ServerOptions =

@@ -6,12 +6,9 @@ import { Component, LogChannel } from '@syncbridge/common';
 import {
   HttpServerProtocolVariables,
   HttpServerVariables,
+  httpServerVariablesToNodeOptions,
 } from './http-server.variables.js';
-import {
-  TcpServerTlsVariables,
-  TcpServerVariables,
-  tcpServerVariablesToNodeOptions,
-} from './tcp-server.variables.js';
+import { TcpServerTlsVariables } from './tcp-server.variables.js';
 
 /**
  * HttpServer component
@@ -91,7 +88,7 @@ export class HttpServerComponent<
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     return new Promise((resolve, reject) => {
       const onListening = () => {
-        this.server.removeListener('error', onListening);
+        this.server.removeListener('error', onError);
         resolve();
       };
       const onError = error => {
@@ -107,6 +104,8 @@ export class HttpServerComponent<
   protected async _stop(): Promise<void> {
     return new Promise<void>(resolve => {
       this.server.close(() => resolve());
+      // The server waits for its connections to end, keep-alive ones too
+      this.server.closeAllConnections();
     });
   }
 }
@@ -125,8 +124,8 @@ export namespace HttpServerComponent {
   export type ProtocolVariables = HttpServerProtocolVariables;
 
   export function variablesToNodeOptions(
-    values: TcpServerVariables,
+    values: HttpServerVariables,
   ): tls.TlsOptions {
-    return tcpServerVariablesToNodeOptions(values);
+    return httpServerVariablesToNodeOptions(values);
   }
 }
