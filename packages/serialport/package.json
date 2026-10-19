@@ -18,6 +18,9 @@
     "test": "mocha",
     "cover": "c8 mocha"
   },
+  "dependencies": {
+    "tslib": "^2.8.1"
+  },
   "peerDependencies": {
     "@serialport/bindings-interface": ">=1.2.2 <2",
     "@syncbridge/builtins": ">=1.0.4 <2",

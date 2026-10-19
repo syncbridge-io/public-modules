@@ -18,6 +18,9 @@
     "test": "mocha",
     "cover": "c8 mocha"
   },
+  "dependencies": {
+    "tslib": "^2.8.1"
+  },
   "peerDependencies": {
     "@sqb/builder": ">=4.19.6 <7",
     "@sqb/connect": ">=4.19.6 <7",

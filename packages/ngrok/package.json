@@ -18,6 +18,9 @@
     "test": "mocha",
     "cover": "c8 mocha"
   },
+  "dependencies": {
+    "tslib": "^2.8.1"
+  },
   "peerDependencies": {
     "@jsopen/objects": ">=2.3.4 <3",
     "@ngrok/ngrok": ">=1.7.0 <2",
