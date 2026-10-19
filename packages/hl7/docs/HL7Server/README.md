@@ -17,7 +17,7 @@ acknowledgments.
 | Default character set    | `defaultCharset`       | Character set of a message whose MSH-18 is empty or unknown, for example `windows-1254`. Without it, UTF-8.                                                                  |         | No       |
 | Batch acknowledgment     | `batchAcknowledgment`  | Which acknowledgments a received batch is answered with: `all`, `errors` (only those of messages that failed) or `none`.                                                     | `all`   | No       |
 | TLS Enabled              | `tls_enabled`          | Use TLS for connections.                                                                                                                                                     |         | No       |
-| TLS                      | `tls`                  | TLS options, used when TLS is enabled. See below.                                                                                                                            |         | No       |
+| TLS                      | `tls`                  | TLS options. TLS is on only when `tls_enabled` is true and `tls` is set. See below.                                                                                                                            |         | No       |
 | Socket                   | `socket`               | Socket options (keep-alive, blocked addresses). See the note below.                                                                                                          |         | No       |
 
 ### TLS
@@ -30,7 +30,7 @@ acknowledgments.
 | CA certificates                      | `ca`                     | Overrides the trusted CA certificates. Mozilla's well-known CAs are replaced when it is set.             |         | Yes      |
 | CRL (Certificate Revocation Lists)   | `crl`                    | PEM formatted CRLs.                                                                                      |         | No       |
 | Reject unauthorized                  | `rejectUnauthorized`     | Reject connections not authorized by the supplied CAs. Has an effect only if Request cert is on.         | true    | No       |
-| Headers Timeout                      | `handshakeTimeout`       | Abort the connection if the TLS handshake does not finish in this many milliseconds.                     | 120000  | No       |
+| Handshake Timeout                    | `handshakeTimeout`       | Abort the connection if the TLS handshake does not finish in this many milliseconds.                     | 120000  | No       |
 | Request cert                         | `requestCert`            | Request a certificate from clients and verify it.                                                        | false   | No       |
 | Session Timeout                      | `sessionTimeout`         | Seconds after which a TLS session can no longer be resumed.                                              |         | No       |
 | Allow Partial Trust Chain            | `allowPartialTrustChain` | Treat intermediate certificates in the trusted CA list as trusted.                                       |         | No       |
@@ -40,8 +40,16 @@ acknowledgments.
 
 The Socket group (Allow Half Open, Keep Alive, Keep Alive Initial Delay, No
 Delay, Blocked Ips, Blocked Subnets) is inherited from the TCP server
-settings. HL7Server does not pass it to the server: these settings have no
-effect on this component.
+settings. The component passes it, and the TLS settings, to the server with
+`variablesToNodeOptions()` of the
+[TcpServer](https://github.com/panates/syncbridge-public-modules/tree/main/packages/net/docs/TcpServer) component, so they work:
+a connection from a blocked address or subnet is refused. Both block lists
+apply; the default prefix of a subnet is 32 for IPv4 and 128 for IPv6.
+
+Only `responseTimeout` and the four protocol settings (Accept
+acknowledgment, Validate messages, Default character set, Batch
+acknowledgment) are live. A change of any other setting restarts the
+worker.
 
 ## Events
 
@@ -56,7 +64,7 @@ Listen with `component.on(name, listener)`. Where an event gives `info`, it is
 | `disconnect` | `info`, `socket`         | A peer disconnects.                                                               |
 | `message`    | `message`, `info`, `socket` | A message is received. `message` is an `HL7Message`.                           |
 | `send`       | `message`, `info`, `socket` | A message (an acknowledgment) is sent to a peer.                               |
-| `data`       | `data`, `info`, `socket` | Raw bytes are received.                                                           |
+| `data`       | `data`, `info`, `socket` | Raw bytes are received. `data` is a `Buffer`.                                     |
 | `transmit`   | `data`, `info`, `socket` | Raw bytes are written to a peer. `data` is a `Buffer`.                            |
 | `error`      | `error`, `info?`, `socket?` | An error occurs. `ECONNRESET` from a peer is ignored.                          |
 
@@ -91,7 +99,8 @@ and `details` (the peer as `address:port`).
 
 - Started: the server listens.
 - Unhealthy: a server error occurs while it is not listening (for example, the
-  port is in use). The component also emits `error`.
+  port is in use). The component also emits `error`. When the port cannot be
+  bound, starting the component fails with that error.
 - Stopped: the server is closed. It waits up to 30 seconds for running
   handlers.
 
@@ -126,7 +135,11 @@ export class OruReceiverApp extends AppBase {
 
 ## Notes
 
-- When a setting changes while the component runs, the server is created
-  again and the component restarts. Open connections are closed.
+- The server is created when the component starts, and once when it is
+  initialized, so that `use()` and `beforeResponse()` have a server to add to.
+  When a live setting changes while the component runs, the component
+  restarts in place with a new server and open connections are closed.
+  Handlers added with `use()` and hooks added with `beforeResponse()` are
+  kept.
 - The component has no `send()`: an HL7 server answers messages, it does not
   start them.

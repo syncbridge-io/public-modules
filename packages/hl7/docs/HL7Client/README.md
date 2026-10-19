@@ -21,8 +21,8 @@ opened again when it is lost.
 | Default character set  | `defaultCharset`       | Character set of a message whose MSH-18 is empty or unknown, for example `windows-1254`. Without it, UTF-8.                                                    |             | No       |
 | Batch acknowledgment   | `batchAcknowledgment`  | Which acknowledgments a received batch is answered with: `all`, `errors` or `none`.                                                                            | `all`       | No       |
 | TLS Enabled            | `tls_enabled`          | Use TLS for the connection.                                                                                                                                    |             | No       |
-| TLS                    | `tls`                  | TLS options, used when TLS is enabled. See below.                                                                                                              |             | No       |
-| Proxy Enabled, Proxy   | `proxy_enabled`, `proxy` | SOCKS proxy options inherited from the TCP client settings. Not used by this component.                                                                      |             | No       |
+| TLS                    | `tls`                  | TLS options. TLS is on only when `tls_enabled` is true and `tls` is set. See below.                                                                                                              |             | No       |
+| Proxy Enabled, Proxy   | `proxy_enabled`, `proxy` | SOCKS proxy options inherited from the TCP client settings. They do nothing: see Notes.                                                                      |             | No       |
 
 ### Reconnect
 
@@ -37,9 +37,9 @@ opened again when it is lost.
 | Setting              | Key                  | Description                                                                                          | Default | Required |
 | -------------------- | -------------------- | ---------------------------------------------------------------------------------------------------- | ------- | -------- |
 | SNI                  | `servername`         | Server Name Indication.                                                                              |         | No       |
-| Key                  | `key`                | Private key in PEM format.                                                                           |         | Yes      |
-| Cert                 | `cert`               | Certificate chain in PEM format.                                                                     |         | Yes      |
-| CA certificates      | `ca`                 | Overrides the trusted CA certificates. Mozilla's well-known CAs are replaced when it is set.         |         | Yes      |
+| Key                  | `key`                | Private key in PEM format.                                                                           |         | No       |
+| Cert                 | `cert`               | Certificate chain in PEM format.                                                                     |         | No       |
+| CA certificates      | `ca`                 | Overrides the trusted CA certificates. Mozilla's well-known CAs are replaced when it is set.         |         | No       |
 | Passphrase (secret)  | `passphrase`         | Passphrase to decrypt the private key.                                                               |         | No       |
 | Reject unauthorized  | `rejectUnauthorized` | Reject a connection to a server not authorized by the supplied CAs.                                  | true    | No       |
 
@@ -56,7 +56,7 @@ the server; `toString()` gives `address:port`.
 | `message`  | `message`, `info` | A message is received. `message` is an `HL7Message`.  |
 | `send`     | `message`, `info` | A message is sent.                                    |
 | `data`     | `data`, `info`    | Raw bytes are received.                               |
-| `transmit` | `data`, `info`    | Raw bytes are written. `data` is a `Buffer`.          |
+| `transmit` | `data`, `info`    | Raw bytes are written. `data` is a `Buffer`. The communication log writes them as `out` records. |
 | `error`    | `error`, `info`   | An error occurs. A refused connection reads `Connection refused to host:port`. |
 
 ## Methods
@@ -118,7 +118,12 @@ export class ResultSenderApp extends AppBase {
 
 ## Notes
 
-- When a setting changes while the component runs, the client is created again
-  and the component restarts.
-- The Proxy settings are shown because the component inherits them. The code
-  does not use them: connections do not go through a proxy.
+- The client is created when the component starts, and once when it is
+  initialized, so that `use()` and `beforeResponse()` have a client to add to.
+  When a setting changes while the component runs, the component restarts in
+  place with a new client. Handlers and hooks are kept.
+- With TLS, `bindInterface` is applied as the local address, as without it,
+  and the reconnect strategy defaults to `exponential`.
+- The Proxy settings are shown because the component inherits them from the
+  TCP client. They do nothing: the hl7v2-net library cannot use a SOCKS
+  proxy, so connections never go through one.
