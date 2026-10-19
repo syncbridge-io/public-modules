@@ -93,6 +93,9 @@ export class NgrokTcpClientComponent<
       await this._ngrokListener.close().catch(noOp);
       this._ngrokListener = undefined;
     }
+    // The server waits for its sockets to end before it closes
+    this._socket?.destroy();
+    this._socket = undefined;
     if (this._server?.listening) {
       await new Promise<void>(resolve => {
         this._server!.close(() => resolve());
@@ -115,7 +118,7 @@ export class NgrokTcpClientComponent<
     /** Close previous tunnels */
     if (this._ngrokListener) {
       this.logger?.debug('Disconnecting previous tunnel');
-      await this._ngrokListener.close();
+      await this._ngrokListener.close().catch(noOp);
     }
     this._ngrokListener = undefined;
     let tries = -1;
@@ -158,29 +161,32 @@ export class NgrokTcpClientComponent<
     /** Create the tunnel */
     try {
       this.logger?.debug(`Creating Ngrok tunnel`);
-      this._ngrokListener = await ngrok.forward({
+      const listener = await ngrok.forward({
         proto: 'tcp',
         authtoken: this.values.authToken,
         addr: port,
         onStatusChange: _ngrokStatusChange,
         onLogEvent: _ngrokLogEvent,
       });
+      // Stopped while the tunnel was being opened: nothing would close it
+      if (this._stopping || abortSignal?.aborted) {
+        await listener.close().catch(noOp);
+        return;
+      }
+      this._ngrokListener = listener;
       this.logger?.info(
         `Ngrok tunnel connected: ${colors.blueBright(this._ngrokListener.url()!)}`,
       );
     } catch (err: any) {
+      if (this._stopping || abortSignal?.aborted) return;
       tries++;
       this.logger?.error(
-        `Can't crate Ngrok tunnel. ${err?.message}\n` +
+        `Can't create Ngrok tunnel. ${err?.message}\n` +
           `  Retry attempt (${colors.cyan(String(tries))}) will be made in ${colors.cyan('5 secs')}`,
       );
       this._reconnectTimer = setTimeout(() => {
         this._startNgrok(abortSignal).catch(noOp);
       }, 5000);
-      abortSignal?.addEventListener('abort', () => {
-        clearTimeout(this._reconnectTimer);
-        this._ngrokListener?.close();
-      });
       return;
     }
   }

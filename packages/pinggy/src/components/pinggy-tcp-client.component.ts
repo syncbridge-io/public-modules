@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer';
 import net from 'node:net';
-import { clearInterval } from 'node:timers';
+import { clearInterval, clearTimeout } from 'node:timers';
 import { updateErrorMessage } from '@jsopen/objects';
 import { pinggy, TunnelInstance } from '@pinggy/pinggy';
 import { IoClientBaseComponent } from '@syncbridge/builtins';
@@ -92,6 +92,11 @@ export class PinggyTcpClientComponent<
   protected async _stop(): Promise<void> {
     this._stopping = true;
     clearInterval(this._tunnelHealthcheckTimer);
+    clearTimeout(this._reconnectTimer);
+    this._urls = undefined;
+    // The server waits for its sockets to end before it closes
+    this._socket?.destroy();
+    this._socket = undefined;
     if (this._tunnel) {
       this.logger?.debug('Disconnecting previous tunnel');
       try {
@@ -128,40 +133,49 @@ export class PinggyTcpClientComponent<
     /** Create the tunnel */
     try {
       this.logger?.debug(`Creating tcp tunnel`);
-      this._tunnel = await pinggy.forward({
+      const tunnel = await pinggy.forward({
         token: this.values.authToken,
         forwarding: 'tcp://localhost:' + port,
         autoReconnect: true,
         reconnectInterval: 5,
         maxReconnectAttempts: Number.MAX_SAFE_INTEGER,
       });
+      // Stopped while the tunnel was being opened: nothing would close it
+      if (this._stopping) {
+        await tunnel.stop().catch(noOp);
+        return;
+      }
+      this._tunnel = tunnel;
       this._retries = 0;
-      this._tunnel.setTunnelErrorCallback(payload => {
+      tunnel.setTunnelErrorCallback(payload => {
         const { errorNo, error, recoverable } = payload;
         const err: any = new Error(error);
         err.code = errorNo;
         err.recoverable = recoverable;
         this.emit('error', err);
-        if (!recoverable) {
-          setTimeout(() => {
+        if (!recoverable && !this._stopping) {
+          clearTimeout(this._reconnectTimer);
+          this._reconnectTimer = setTimeout(() => {
             this._startPinggy().catch(noOp);
           }, 1000);
         }
       });
 
-      const urls = await this._tunnel.urls();
+      const urls = await tunnel.urls();
       this._urls = urls;
+      await this.tunnelHealthCheck();
       this.logger?.info(
         `Tunnel started: tcp://${colors.blueBright(urls.join(', '))}`,
       );
     } catch (err: any) {
+      if (this._stopping) return;
       this._retries++;
       this.logger?.error(
-        `Can't crate tunnel. ${err?.message}\n` +
+        `Can't create tunnel. ${err?.message}\n` +
           `  Retry attempt (${colors.cyan(String(this._retries))}) will be made in ${colors.cyan('5 secs')}`,
       );
       this._reconnectTimer = setTimeout(() => {
-        this._startPinggy();
+        this._startPinggy().catch(noOp);
       }, 5000);
       return;
     }
@@ -170,6 +184,7 @@ export class PinggyTcpClientComponent<
   protected async tunnelHealthCheck() {
     // c8 ignore next
     if (!this._tunnel) return;
+    clearInterval(this._tunnelHealthcheckTimer);
     let lastStatus = await this._tunnel.getStatus();
     this._tunnelHealthcheckTimer = setInterval(() => {
       if (!this._tunnel) {
