@@ -25,7 +25,7 @@ one Claude session named **`syncbridge`**: the **SDK** (`@syncbridge/common`,
 `runtime`, `syncbuild`, `testing`, `plugin-api`), public, `syncbridge-io/node-sdk`
 at `/Users/ehanoglu/dev/syncbridge/node-sdk`, and the private rest (engine,
 Console, registry), `syncbridge-io/syncbridge-cloud`, at
-`/Users/ehanoglu/dev/panates/syncbridge`. See "The platform" below.
+`/Users/ehanoglu/dev/syncbridge/cloud`. See "The platform" below.
 
 ## Layout
 
@@ -61,8 +61,8 @@ an unreleased version to install.
 
 The other way round, the platform's engine runs these modules in
 development from this repository's sources (its `tsconfig.json` maps
-`@syncbridge/*` to `~/dev/syncbridge/public-modules/packages/*/src`): keep
-this repository where that points, and keep `main`'s modules working,
+`@syncbridge/*` to `../../../../public-modules/packages/*/src`, a sibling): keep
+this directory named `public-modules`, beside `cloud` and `node-sdk`, and keep `main`'s modules working,
 as the engine's development uses them.
 
 **A problem or a gap on the platform's side is reported, never worked
@@ -197,3 +197,13 @@ install, a short example, link to its docs.
   variable `SB_REGISTRY_PUBLISH` once the registry is live, making the
   GitHub repository public. The repository is at
   `github.com/syncbridge-io/public-modules`.
+
+## graphify
+
+This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+
+Rules:
+- For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
+- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
+- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
+- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).
