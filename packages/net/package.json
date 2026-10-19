@@ -24,15 +24,15 @@
   },
   "peerDependencies": {
     "@jsopen/objects": ">=2.3.4 <3",
-    "@syncbridge/builtins": ">=1.0.4 <2",
-    "@syncbridge/common": ">=1.1.3 <2",
+    "@syncbridge/builtins": ">=1.0.4 <3",
+    "@syncbridge/common": "^2.0.0",
     "ansi-colors": ">=4.1.3 <5",
     "backoff": ">=2.5.0 <3",
     "node-events-async": ">=1.5.2 <2",
     "socks": ">=2.8.10 <3"
   },
   "devDependencies": {
-    "@syncbridge/testing": "^1.1.1",
+    "@syncbridge/testing": "^2.0.0",
     "expect": "^30.5.2",
     "ts-gems": "^4.0.4"
   },

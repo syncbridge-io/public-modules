@@ -23,8 +23,8 @@
   },
   "peerDependencies": {
     "@platformatic/kafka": ">=1.34.0 <3",
-    "@syncbridge/common": ">=1.1.3 <2",
-    "@syncbridge/net": ">=1.0.4 <2"
+    "@syncbridge/common": "^2.0.0",
+    "@syncbridge/net": ">=1.0.4 <3"
   },
   "exports": {
     ".": {
