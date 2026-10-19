@@ -33,14 +33,19 @@ software flow control only if the device needs it.
 
 ## Permissions on Linux
 
-Serial devices belong to the group `dialout` (`uucp` on Arch and some
-others). The user that runs the worker must be in that group:
+The component declares the `serial-ports` worker permission. A worker runs as
+a user of its own, and the engine gives it access to serial ports, so a
+server needs no `dialout` setup for a worker.
+
+When you run the app with node by hand instead, serial devices belong to
+the group `dialout` (`uucp` on Arch and some others). The user that runs
+node must be in that group:
 
 ```bash
 sudo usermod -aG dialout <user>
 ```
 
-The user logs in again, or the worker's service is restarted, for the
+The user logs in again, or the process is restarted, for the
 change to apply. Without it, opening the port fails with a permission
 error (`EACCES`), and the component stays `unhealthy` and keeps retrying.
 

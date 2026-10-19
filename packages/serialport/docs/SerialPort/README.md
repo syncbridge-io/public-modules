@@ -51,7 +51,8 @@ Listen with `component.on(name, handler)`.
 | `data`         | `data: Buffer`       | The device sent bytes. Chunks are as they arrive: the component does no framing |
 | `transmit`     | `data`               | `write()` is called, before the bytes are sent                 |
 | `reconnecting` | `n`, `delay`         | A try failed; the next one is made after `delay` milliseconds  |
-| `disconnect`   |                      | The component was stopped while connected. Not emitted when the device goes away |
+| `disconnect`   | `error?`             | The port closed: the component was stopped while connected (no error), or the device went away (with the error, if there is one) |
+| `reconnect`    |                      | The port is open again after one or more failed tries or a lost connection. Emitted just before `connect` |
 | `stop`         |                      | The port is closed because the component was stopped (awaited) |
 | `error`        | `error: Error`       | The port reported an error                                     |
 
@@ -75,12 +76,12 @@ The records have `details` set to the port path.
 | Event        | Direction | Record                                                      |
 | ------------ | --------- | ----------------------------------------------------------- |
 | `connect`    | `info`    | `Connected`                                                 |
-| `disconnect` | `info`    | `Disconnected`, when the component is stopped while connected |
+| `disconnect` | `info`    | `Disconnected`, or `Disconnected: <error text>` when the device went away with an error. Written when the component is stopped while connected and when the device goes away |
 | `read`       | `in`      | The bytes the device sent, from each `data` event           |
 | `write`      | `out`     | The bytes passed to `write()`                               |
 
-A device that goes away while the component runs is shown in the status
-and the text log, not in this channel.
+A device that goes away while the component runs is also shown in the
+status and the text log.
 
 ## Status
 
