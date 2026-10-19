@@ -20,10 +20,12 @@ This repository does three things:
    registry with `spm` (`@syncbridge/syncbuild`), so they appear in the
    Marketplace and can be installed on SyncBridge servers.
 
-The SyncBridge platform itself (engine, Console, registry,
-`@syncbridge/common`, `syncbuild`, `testing`) lives in another, private
-repository: `/Users/ehanoglu/dev/panates/syncbridge`, worked on by its own
-Claude session named **`syncbridge`**. See "The platform" below.
+The SyncBridge platform lives in two other repositories, both worked on by
+one Claude session named **`syncbridge`**: the **SDK** (`@syncbridge/common`,
+`runtime`, `syncbuild`, `testing`, `plugin-api`), public, `syncbridge-io/node-sdk`
+at `/Users/ehanoglu/dev/syncbridge/node-sdk`, and the private rest (engine,
+Console, registry), `syncbridge-io/syncbridge-cloud`, at
+`/Users/ehanoglu/dev/panates/syncbridge`. See "The platform" below.
 
 ## Layout
 
@@ -51,16 +53,16 @@ node support/use-platform-builds.mjs
 ```
 
 It packs `@syncbridge/common`, `runtime`, `testing` and `syncbuild` from
-the platform repository's `packages/public/<name>/build` and installs them
+the SDK repository's `packages/<name>/build` and installs them
 here as tarballs (copied, so there is one `@syncbridge/common`), leaving
 `package.json` and the lockfile untouched; run it after every `npm install`.
-`SB_PLATFORM_DIR` points it elsewhere. Never commit a change that needs
+`SB_PLATFORM_DIR` points it elsewhere than `../node-sdk`. Never commit a change that needs
 an unreleased version to install.
 
 The other way round, the platform's engine runs these modules in
 development from this repository's sources (its `tsconfig.json` maps
-`@syncbridge/*` to `../syncbridge-public-modules/packages/*/src`): keep
-this repository beside the platform's, and keep `main`'s modules working,
+`@syncbridge/*` to `~/dev/syncbridge/public-modules/packages/*/src`): keep
+this repository where that points, and keep `main`'s modules working,
 as the engine's development uses them.
 
 **A problem or a gap on the platform's side is reported, never worked
