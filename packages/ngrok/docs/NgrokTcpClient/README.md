@@ -45,7 +45,7 @@ restarts the component, which opens a new tunnel.
 
 | Event          | Arguments        | When                                                                  |
 | -------------- | ---------------- | --------------------------------------------------------------------- |
-| `connect`      |                  | The tunnel's status becomes `connected`                               |
+| `connect`      |                  | The tunnel is open, and again each time it connects after it was closed |
 | `disconnect`   | `error?: Error`  | The tunnel's status becomes `closed`. Carries an error unless the component is stopping |
 | `data`         | `data: Buffer`   | The remote peer sent bytes                                            |
 | `transmit`     | `data`           | `write()` is called, before the bytes are sent                        |
@@ -73,13 +73,14 @@ The records have `details` set to the tunnel's public address.
 
 ## Status
 
-- `started`: the component is started once its local server listens. It
-  does not wait for the tunnel. If the local server cannot listen (the
-  `localPort` is taken), the start fails with
-  `Can't create local listener. <reason>`.
-- When ngrok refuses the tunnel (for example a wrong token) or is
-  unreachable, the status stays `started`. The component writes the error to
-  its log and tries again every 5 seconds, until it is stopped.
+- Starting: `start()` returns once the local server listens; it does not wait
+  for the tunnel. If the local server cannot listen (the `localPort` is
+  taken), the start fails with `Can't create local listener. <reason>`.
+- `started`: the tunnel is open. The component emits `connect` once.
+- `unhealthy` with `Can't create Ngrok tunnel. <reason>`: ngrok refused the
+  tunnel (for example a wrong token) or is unreachable. The component writes
+  the error to its log and tries again every 5 seconds, until it is stopped.
+  It is started when an attempt succeeds.
 - `unhealthy` with `Ngrok tunnel disconnected`: an open tunnel's status
   became `closed`. When the tunnel's status is `connected` again, the
   component is `started`.

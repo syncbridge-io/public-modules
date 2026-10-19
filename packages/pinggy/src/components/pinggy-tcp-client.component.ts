@@ -29,6 +29,8 @@ export class PinggyTcpClientComponent<
   protected _stopping?: boolean;
   protected _reconnectTimer?: NodeJS.Timeout;
   protected _retries: number = 0;
+  /** Whether the tunnel is open: started and connected are told once */
+  protected _tunnelUp = false;
 
   @Component.UseVariables()
   declare values: PinggyTcpClientVariables;
@@ -53,6 +55,7 @@ export class PinggyTcpClientComponent<
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     await super._start(abortSignal);
     this._stopping = false;
+    this._tunnelUp = false;
     if (this._server) {
       this._server.close();
     }
@@ -67,7 +70,7 @@ export class PinggyTcpClientComponent<
 
     this._retries = 0;
     this._server = await createServer(this.values.localPort, socket => {
-      // The last connected socket is ngrok agent, we will use it to read and write operations
+      // The last connected socket is tunnel agent, we will use it to read and write operations
       if (this._socket) {
         this._socket.off('data', onSocketData);
         this._socket.off('close', onSocketClose);
@@ -87,6 +90,7 @@ export class PinggyTcpClientComponent<
 
   protected async _stop(): Promise<void> {
     this._stopping = true;
+    this._tunnelUp = false;
     clearInterval(this._tunnelHealthcheckTimer);
     clearTimeout(this._reconnectTimer);
     this._urls = undefined;
@@ -160,6 +164,7 @@ export class PinggyTcpClientComponent<
       const urls = await tunnel.urls();
       this._urls = urls;
       await this.tunnelHealthCheck();
+      this._onTunnelUp();
       this.logger?.info(
         `Tunnel started: tcp://${colors.blueBright(urls.join(', '))}`,
       );
@@ -170,11 +175,23 @@ export class PinggyTcpClientComponent<
         `Can't create tunnel. ${err?.message}\n` +
           `  Retry attempt (${colors.cyan(String(this._retries))}) will be made in ${colors.cyan('5 secs')}`,
       );
+      this.setStatus(
+        ServiceStatus.unhealthy,
+        `Can't create tunnel. ${err?.message}`,
+      );
       this._reconnectTimer = setTimeout(() => {
         this._startPinggy().catch(noOp);
       }, 5000);
       return;
     }
+  }
+
+  /** The tunnel is open: the component is started, and tells it once */
+  protected _onTunnelUp() {
+    if (this._tunnelUp) return;
+    this._tunnelUp = true;
+    this.setStatus(ServiceStatus.started);
+    this.emit('connect');
   }
 
   protected async tunnelHealthCheck() {
@@ -200,6 +217,7 @@ export class PinggyTcpClientComponent<
 
   protected async _tunnelStatusChanged(status: string) {
     if (status === 'closed') {
+      this._tunnelUp = false;
       if (this._stopping) this.emit('disconnect');
       else {
         const error = new Error('Tunnel disconnected');
@@ -212,8 +230,7 @@ export class PinggyTcpClientComponent<
       this._retries = 0;
       const urls = await this._tunnel.urls();
       this.logger?.info(`Tunnel reconnected: ${colors.cyan(urls.join(', '))}`);
-      this.setStatus(ServiceStatus.started);
-      this.emit('connect');
+      this._onTunnelUp();
     }
   }
 }

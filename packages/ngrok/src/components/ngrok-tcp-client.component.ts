@@ -25,6 +25,8 @@ export class NgrokTcpClientComponent<
   protected _socket?: net.Socket;
   protected _stopping?: boolean;
   protected _reconnectTimer?: NodeJS.Timeout;
+  /** Whether the tunnel is open: started and connected are told once */
+  protected _tunnelUp = false;
 
   @Component.UseVariables()
   declare values: NgrokTcpClientVariables;
@@ -50,6 +52,7 @@ export class NgrokTcpClientComponent<
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     await super._start(abortSignal);
     this._stopping = false;
+    this._tunnelUp = false;
     if (this._server) {
       this._server.close();
     }
@@ -83,6 +86,7 @@ export class NgrokTcpClientComponent<
 
   protected async _stop(): Promise<void> {
     this._stopping = true;
+    this._tunnelUp = false;
     clearTimeout(this._reconnectTimer);
     if (this._ngrokListener) {
       this.logger?.debug('Disconnecting previous tunnel');
@@ -108,6 +112,14 @@ export class NgrokTcpClientComponent<
     this._socket?.write(data);
   }
 
+  /** The tunnel is open: the component is started, and tells it once */
+  protected _onTunnelUp() {
+    if (this._tunnelUp) return;
+    this._tunnelUp = true;
+    this.setStatus(ServiceStatus.started);
+    this.emit('connect');
+  }
+
   protected async _startNgrok(abortSignal: AbortSignal) {
     this.logger?.trace('Starting Ngrok tunnel');
     clearTimeout(this._reconnectTimer);
@@ -121,6 +133,7 @@ export class NgrokTcpClientComponent<
     /*  */
     const _ngrokStatusChange = (status: string) => {
       if (status === 'closed') {
+        this._tunnelUp = false;
         if (this._stopping) this.emit('disconnect');
         else {
           const error = new Error('Ngrok tunnel disconnected');
@@ -136,8 +149,7 @@ export class NgrokTcpClientComponent<
             `Ngrok tunnel reconnected: ${colors.cyan(this._ngrokListener.url()!)}`,
           );
         }
-        this.setStatus(ServiceStatus.started);
-        this.emit('connect');
+        this._onTunnelUp();
       }
     };
 
@@ -170,6 +182,7 @@ export class NgrokTcpClientComponent<
         return;
       }
       this._ngrokListener = listener;
+      this._onTunnelUp();
       this.logger?.info(
         `Ngrok tunnel connected: ${colors.blueBright(this._ngrokListener.url()!)}`,
       );
@@ -179,6 +192,10 @@ export class NgrokTcpClientComponent<
       this.logger?.error(
         `Can't create Ngrok tunnel. ${err?.message}\n` +
           `  Retry attempt (${colors.cyan(String(tries))}) will be made in ${colors.cyan('5 secs')}`,
+      );
+      this.setStatus(
+        ServiceStatus.unhealthy,
+        `Can't create Ngrok tunnel. ${err?.message}`,
       );
       this._reconnectTimer = setTimeout(() => {
         this._startNgrok(abortSignal).catch(noOp);

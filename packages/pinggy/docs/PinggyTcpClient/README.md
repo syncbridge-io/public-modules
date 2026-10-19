@@ -41,24 +41,22 @@ restarts the component, which opens a new tunnel.
 
 | Setting      | Label                       | What it does                                                                               | Default | Required |
 | ------------ | --------------------------- | ------------------------------------------------------------------------------------------ | ------- | -------- |
-| `authToken`  | Pingy Auth Token (secret)   | Pinggy auth token                                                                          |         | yes      |
+| `authToken`  | Pinggy Auth Token (secret)  | Pinggy auth token                                                                          |         | yes      |
 | `localPort`  | Local Port                  | Local port the tunnel connects to. If not set, a free port is selected automatically       | `0`     | no       |
 
-The label reads "Pingy" in the settings form, as the code spells it.
 
 ## Events
 
 | Event          | Arguments        | When                                                                        |
 | -------------- | ---------------- | --------------------------------------------------------------------------- |
-| `connect`      |                  | The tunnel's status changes to `live` again after it was not                |
+| `connect`      |                  | The tunnel is open, and again when its status becomes `live` after it was `closed` |
 | `disconnect`   | `error?: Error`  | The tunnel's status becomes `closed`. Carries an error unless the component is stopping |
 | `data`         | `data: Buffer`   | The remote peer sent bytes                                                  |
 | `transmit`     | `data`           | `write()` is called, before the bytes are sent                              |
 | `error`        | `error: Error`   | The tunnel reported an error: `code` is the SDK's error number and `recoverable` says whether the SDK recovers from it, or the status check failed |
 
 The component polls the tunnel's status every 100 milliseconds, so
-`connect` and `disconnect` follow a change within that time. The first
-`live` status after the tunnel opens does not emit `connect`.
+a later `connect` and `disconnect` follow a change within that time.
 
 When the SDK reports an error that is not recoverable, the component opens
 a new tunnel after 1 second.
@@ -86,13 +84,14 @@ The records have `details` set to `peerAddress`.
 
 ## Status
 
-- `started`: the component is started once its local server listens. It
-  does not wait for the tunnel. If the local server cannot listen (the
-  `localPort` is taken), the start fails with
-  `Can't create local listener. <reason>`.
-- When Pinggy refuses the tunnel (for example a wrong token) or is
-  unreachable, the status stays `started`. The component writes the error to
-  its log and tries again every 5 seconds, until it is stopped.
+- Starting: `start()` returns once the local server listens; it does not wait
+  for the tunnel. If the local server cannot listen (the `localPort` is
+  taken), the start fails with `Can't create local listener. <reason>`.
+- `started`: the tunnel is open. The component emits `connect` once.
+- `unhealthy` with `Can't create tunnel. <reason>`: Pinggy refused the tunnel
+  (for example a wrong token) or is unreachable. The component writes the
+  error to its log and tries again every 5 seconds, until it is stopped. It
+  is started when an attempt succeeds.
 - `unhealthy` with `Tunnel disconnected`: an open tunnel's status became
   `closed`. When the status is `live` again, the component is `started`.
 - `stopped`: the local connection is closed, the tunnel is stopped, then

@@ -115,6 +115,23 @@ describe('NgrokTcpClientComponent', () => {
     expect(fake.options.length).toBe(2);
   });
 
+  it('should be unhealthy while it cannot open a tunnel, and started once it can', async () => {
+    mock.timers.enable({ apis: ['setTimeout'] });
+    fake.failures.push(new Error('invalid token'));
+    const events: string[] = [];
+    component.on('connect', () => events.push('connect'));
+    await component.start();
+    await until(() => fake.options.length === 1, 'the first attempt');
+    await until(() => component.status === 'unhealthy', 'unhealthy');
+    expect(component.statusMessage).toMatch(/invalid token/);
+    expect(events).toEqual([]);
+
+    mock.timers.tick(5000);
+    await until(() => component.status === 'started', 'started');
+    expect(events).toEqual(['connect']);
+    expect(records.map(r => r.event)).toEqual(['connect']);
+  });
+
   it('should not try again once stopped', async () => {
     mock.timers.enable({ apis: ['setTimeout'] });
     fake.failures.push(new Error('offline'));
@@ -163,7 +180,11 @@ describe('NgrokTcpClientComponent', () => {
     component.write('to the tunnel');
     expect(String(await written)).toBe('to the tunnel');
 
-    expect(records.map(r => [r.direction, String(r.data)])).toEqual([
+    expect(
+      records
+        .filter(r => r.direction !== 'info')
+        .map(r => [r.direction, String(r.data)]),
+    ).toEqual([
       ['in', 'from the tunnel'],
       ['out', 'to the tunnel'],
     ]);
