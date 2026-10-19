@@ -17,7 +17,7 @@ builds a new one from the new values.
 
 | Setting          | Label               | What it does                                                                                           | Default      | Required |
 | ---------------- | ------------------- | ------------------------------------------------------------------------------------------------------ | ------------ | -------- |
-| `dialect`        | Dialect             | Database dialect: `postgres` or `oracle`                                                               |              | see note |
+| `dialect`        | Dialect             | Database dialect: `postgres` or `oracle`                                                               |              | yes      |
 | `host`           | Host                | Database server address or URL                                                                         |              | no       |
 | `port`           | Port                | Database listener port, 1 to 65535                                                                     |              | no       |
 | `username`       | Username            | Database username                                                                                      |              | no       |
@@ -27,10 +27,8 @@ builds a new one from the new values.
 | `applicationName`| Application Name    | Name passed to the client as the connection name, for debugging                                        | `syncbridge` | no       |
 | `pool`           | Pooling             | Pool options, below                                                                                    |              | no       |
 
-All settings except `host` are hot plug. No setting is marked required in
-the code, but the client cannot be built without a `dialect`: the
-component fails to initialize without one. The code does not mark `host`
-as hot plug. `password` is a secret.
+All settings are hot plug. `dialect` is the only required setting.
+`password` is a secret.
 
 ### Pool
 
@@ -39,17 +37,13 @@ as hot plug. `password` is a secret.
 | `acquireMaxRetries`   | Acquire max retries    | How many times the pool tries to create a connection before it returns the error | 0       |
 | `acquireRetryWait`    | Acquire retry wait     | Milliseconds the pool waits between tries                             | 2000    |
 | `acquireTimeoutMillis`| Acquire timeout millis | Milliseconds an acquire call waits for a connection before it times out | 0       |
-| `fifo`                | Fifo                   | When true, connections are handed out first-in-first-out; otherwise last-in-first-out | true    |
 | `idleTimeoutMillis`   | Idle timeout           | Minimum milliseconds a connection may sit idle in the pool            | 30000   |
-| `houseKeepInterval`   | House keep interval    | Milliseconds between the pool's cleanups                              | 1000    |
 | `min`                 | Min                    | Minimum number of connections the pool keeps                          | 0       |
 | `minIdle`             | Min idle               | Minimum number of idle connections the pool keeps                     | 0       |
 | `max`                 | Max                    | Maximum number of connections the pool creates                        | 30      |
 | `maxQueue`            | Max queue              | Maximum number of requests the pool accepts                           | 1000    |
 
-All pool settings are hot plug. The pool belongs to `@sqb/connect`; its
-version 6.2.1 reads every setting above except `fifo` and
-`houseKeepInterval`.
+All pool settings are hot plug. The pool belongs to `@sqb/connect`.
 
 ## Events
 
