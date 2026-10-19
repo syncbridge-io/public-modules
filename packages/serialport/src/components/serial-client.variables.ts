@@ -70,7 +70,7 @@ export class SerialClientVariables extends IoClientBaseComponent.Variables {
   @DefineVariable({
     type: VariableType.Enum,
     label: 'Data bits',
-    enumValues: ['5', '6', '7', '8', '9'],
+    enumValues: ['5', '6', '7', '8'],
     default: '8',
     required: true,
     index: 102,
@@ -145,7 +145,7 @@ export class SerialClientVariables extends IoClientBaseComponent.Variables {
 
   @DefineVariable({
     label: 'Reconnect Options',
-    description: 'Connection timeout in milliseconds',
+    description: 'How the connection is retried when it fails or is lost',
     hotPlug: true,
   })
   declare reconnect: SerialClientReconnectVariables;
