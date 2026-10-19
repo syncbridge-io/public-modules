@@ -169,11 +169,14 @@ install, a short example, link to its docs.
   so the platform's builds are used (see "The platform"). Once the
   platform releases it, set the modules' peer ranges and the root
   devDependency to that version.
-- The platform repository's `@syncbridge/testing` tests of the virtual
-  network and serial port (`network.spec`, `serial.spec` with their
-  `echo-ext` / `serial-ext` fixtures) are to move here as tests of `net`
-  and `serialport`, using `@syncbridge/testing` from npm: also the example
-  of how to test a module.
+- The platform's `@syncbridge/testing` tests of the virtual network and
+  serial port moved here: `packages/net/test/virtual-network.spec.ts` and
+  `packages/serialport/test/virtual-serial.spec.ts`, with their
+  `_fixtures/echo-ext` / `serial-ext`. They are also the example of how to
+  test a module with `@syncbridge/testing` (import it before the module
+  under test).
+- `HL7ClientComponent handlers / should keep its handlers when its values
+  change` failed once in seven runs: flaky, not looked into yet.
 - Not done yet: `docs/` for the modules, the spm publish in `release.yml`,
   registering this repository as npm Trusted Publisher and SyncBridge
   Trusted publisher, making the GitHub repository public.

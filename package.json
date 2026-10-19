@@ -27,6 +27,7 @@
     "@swc/core": "^1.16.18",
     "@swc/helpers": "^0.5.23",
     "@syncbridge/common": "^1.1.4",
+    "@syncbridge/testing": "^1.1.1",
     "@types/mocha": "^10.0.10",
     "@types/node": "^26.6.5",
     "c8": "^12.0.0",

@@ -29,6 +29,7 @@
     "socks": ">=2.8.10 <3"
   },
   "devDependencies": {
+    "@syncbridge/testing": "^1.1.1",
     "expect": "^30.5.2",
     "ts-gems": "^4.0.4"
   },
