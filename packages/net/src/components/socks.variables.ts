@@ -25,8 +25,8 @@ export class SocksVariables {
   declare port: number;
 
   @DefineVariable({
-    label: 'Keep alive',
-    description: 'Enables keep-alive on the TCP socket',
+    label: 'Proxy type',
+    description: 'SOCKS protocol version of the proxy',
     index: 102,
     enumValues: ['v4', 'v5'],
     type: VariableType.Enum,
@@ -43,8 +43,8 @@ export class SocksVariables {
   declare username?: string;
 
   @DefineVariable({
-    label: 'Username',
-    description: 'Username to be used for authentication',
+    label: 'Password',
+    description: 'Password to be used for authentication',
     hotPlug: true,
     type: VariableType.Secret,
   })

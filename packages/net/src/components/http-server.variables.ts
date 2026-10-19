@@ -7,14 +7,13 @@ import {
 
 export class HttpServerProtocolVariables {
   @DefineVariable({
-    label: 'Request timeout',
+    label: 'Socket timeout',
     description:
       'The number of milliseconds of inactivity before a socket is presumed to have timed out.\n' +
       'A value of 0 will disable the timeout behavior on incoming connections.\n' +
       'The socket timeout logic is set up on connection, so changing this value only affects new connections to the server, not any existing connections.',
     default: 0,
     index: 131,
-    hotPlug: true,
   })
   declare timeout?: number;
 
@@ -26,7 +25,6 @@ export class HttpServerProtocolVariables {
       'It must be set to a non-zero value (e.g. 120 seconds) to protect against potential Denial-of-Service attacks in case the server is deployed without a reverse proxy in front.',
     default: 300000,
     index: 132,
-    hotPlug: true,
   })
   declare requestTimeout?: number;
 
@@ -38,7 +36,6 @@ export class HttpServerProtocolVariables {
       'It must be set to a non-zero value (e.g. 120 seconds) to protect against potential Denial-of-Service attacks in case the server is deployed without a reverse proxy in front.',
     default: 60000,
     index: 133,
-    hotPlug: true,
   })
   declare headersTimeout?: number;
 
@@ -49,7 +46,6 @@ export class HttpServerProtocolVariables {
       'after it has finished writing the last response, before a socket will be destroyed.',
     default: 5000,
     index: 134,
-    hotPlug: true,
   })
   declare keepAliveTimeout?: number;
 
@@ -59,7 +55,6 @@ export class HttpServerProtocolVariables {
       'An additional buffer time added to the "keepAliveTimeout" to extend the internal socket timeout.',
     default: 1000,
     index: 135,
-    hotPlug: true,
   })
   declare keepAliveTimeoutBuffer?: number;
 
@@ -69,7 +64,6 @@ export class HttpServerProtocolVariables {
       'Limits maximum incoming headers count. If set to 0, no limit will be applied.',
     default: 2000,
     index: 136,
-    hotPlug: true,
   })
   declare maxHeadersCount?: number;
 
@@ -85,7 +79,7 @@ export class HttpServerProtocolVariables {
   @DefineVariable({
     label: 'Connections Checking Interval',
     description:
-      'Sets the timeout value in milliseconds for receiving the complete HTTP headers from the client. See Server.headersTimeout for more information.',
+      'Interval in milliseconds at which the server checks for requests that passed the request or headers timeout.',
     default: 30000,
     index: 138,
   })

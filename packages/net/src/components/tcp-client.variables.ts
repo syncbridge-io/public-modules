@@ -16,7 +16,6 @@ export class TcpClientTlsVariables {
   @DefineVariable({
     label: 'Key',
     description: 'Private keys in PEM format',
-    required: true,
     hotPlug: true,
   })
   declare key: string;
@@ -24,7 +23,6 @@ export class TcpClientTlsVariables {
   @DefineVariable({
     label: 'Cert',
     description: 'Cert chains in PEM format',
-    required: true,
     hotPlug: true,
   })
   declare cert: string;
@@ -35,7 +33,6 @@ export class TcpClientTlsVariables {
       'Optionally override the trusted CA certificates. Default is to trust the well-known CAs ' +
       "curated by Mozilla. Mozilla's CAs are completely replaced when CAs are explicitly specified " +
       'using this option.',
-    required: true,
     hotPlug: true,
   })
   declare ca?: string;

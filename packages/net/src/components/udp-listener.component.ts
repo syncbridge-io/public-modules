@@ -5,7 +5,7 @@ import { Component, ServiceStatus } from '@syncbridge/common';
 import { UdpListenerVariables } from './udp-listener.variables.js';
 
 /**
- * UdpClient component
+ * UdpListener component
  */
 @Component({
   className: 'UdpListener',
@@ -18,8 +18,6 @@ export class UdpListenerComponent<
 > extends IoClientBaseComponent<TEvents> {
   readonly protocol: string = 'udp';
   declare socket: dgram.Socket & { readonly isBroadcastEnabled: boolean };
-  protected _stopping?: boolean;
-
   @Component.UseVariables()
   declare values: UdpListenerVariables;
 
@@ -34,7 +32,6 @@ export class UdpListenerComponent<
 
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     await super._start(abortSignal);
-    this._stopping = false;
     this.socket = dgram.createSocket('udp4') as any;
     let isBroadcastEnabled = false;
     Object.defineProperty(this.socket, 'isBroadcastEnabled', {
@@ -47,17 +44,26 @@ export class UdpListenerComponent<
       isBroadcastEnabled = value;
       oldSetBroadcast.call(this.socket, value);
     };
+    this.socket.on('error', err => {
+      this.logger?.error(err);
+      this.emit('error', err);
+      this.setStatus(ServiceStatus.unhealthy, err.message);
+    });
     this.socket.on('listening', () => {
       const { bindInterface, multicastInterface } = this.values;
-      if (this.values.broadcast) {
-        this.logger?.debug(`Broadcast mode enabled`);
-        this.socket.setBroadcast(true);
-      }
-      if (this.values.multicastGroups)
-        this.values.multicastGroups.forEach(group => {
+      try {
+        if (this.values.broadcast) {
+          this.logger?.debug(`Broadcast mode enabled`);
+          this.socket.setBroadcast(true);
+        }
+        for (const group of this.values.multicastGroups ?? []) {
           this.logger?.debug(`Joining multicast group ${group}`);
           this.socket.addMembership(group, multicastInterface);
-        });
+        }
+      } catch (err: any) {
+        this.socket.emit('error', err);
+        return;
+      }
       const port = this.socket.address().port;
       this.emit('listening', port);
       this.logger?.info(
@@ -67,8 +73,6 @@ export class UdpListenerComponent<
       this.setStatus(ServiceStatus.started);
     });
     this.socket.on('message', (msg, info) => {
-      if (info.address === '127.0.0.1') return;
-      // todo logger
       // this.logger.debug(
       //   `Data received from ${colors.cyan(info.address + ':' + info.port)} (${msg.length} bytes)`,
       //   {
@@ -89,10 +93,9 @@ export class UdpListenerComponent<
   }
 
   protected async _stop(): Promise<void> {
-    this._stopping = true;
     await new Promise<void>(resolve => {
-      this.socket.close(resolve);
-      this._stopping = false;
+      if (this.socket) this.socket.close(resolve);
+      else resolve();
     });
   }
 
@@ -100,7 +103,7 @@ export class UdpListenerComponent<
     port = port || this.values.port;
     if (!host)
       throw new Error(
-        'You must provide "host" variable to send message over UDP socket',
+        'You must provide the "host" argument to send a message over UDP socket',
       );
     this.socket!.send(data, port, host);
     const info2 = {
@@ -112,15 +115,6 @@ export class UdpListenerComponent<
       },
     };
     this.emit('transmit', data, info2);
-    // todo logger
-    // if (this.socket.isBroadcastEnabled)
-    //   this.logger.debug(
-    //     `Broadcast message sent ${colors.cyan(host + ':' + port)} (${data.length} bytes)`,
-    //   );
-    // else
-    //   this.logger.debug(
-    //     `Message sent to ${colors.cyan(host + ':' + port)} (${data.length} bytes)`,
-    //   );
   }
 }
 
@@ -130,7 +124,6 @@ export class UdpListenerComponent<
 export namespace UdpListenerComponent {
   export interface Events extends IoClientBaseComponent.Events {
     data: [data: Buffer, info: dgram.RemoteInfo];
-    write: [data: Buffer | string];
   }
 
   export const Variables = UdpListenerVariables;

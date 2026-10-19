@@ -28,6 +28,11 @@ export class TcpServerComponent<
 
   protected async _init(): Promise<void> {
     await super._init();
+    this._createServer();
+  }
+
+  /** The server, made once: apps add their handlers to it */
+  protected _createServer() {
     this._sockets = new Set();
     const serverOptions = TcpServerComponent.variablesToNodeOptions(
       this.values,

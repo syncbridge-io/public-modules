@@ -191,11 +191,26 @@ async function createSocket(args: TcpClient.Options): Promise<net.Socket> {
   }
 
   if (args.tls) {
-    return tls.connect({
+    const secureSocket = tls.connect({
       ...args.tls,
       socket,
       timeout: undefined,
     });
+    // Connected is told once the handshake is done, not before
+    await new Promise<void>((resolve, reject) => {
+      const onError = (err: Error) => {
+        secureSocket.removeListener('secureConnect', onSecure);
+        secureSocket.destroy();
+        reject(err);
+      };
+      const onSecure = () => {
+        secureSocket.removeListener('error', onError);
+        resolve();
+      };
+      secureSocket.once('secureConnect', onSecure);
+      secureSocket.once('error', onError);
+    });
+    return secureSocket;
   }
 
   return socket;

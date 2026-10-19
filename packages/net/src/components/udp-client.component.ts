@@ -18,8 +18,6 @@ export class UdpClientComponent<
 > extends IoClientBaseComponent<TEvents> {
   readonly protocol: string = 'udp';
   declare socket: dgram.Socket & { readonly isBroadcastEnabled: boolean };
-  protected _stopping?: boolean;
-
   @Component.UseVariables()
   declare values: UdpClientVariables;
 
@@ -41,7 +39,6 @@ export class UdpClientComponent<
 
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     await super._start(abortSignal);
-    this._stopping = false;
     this.socket = dgram.createSocket('udp4') as any;
     let isBroadcastEnabled = false;
     Object.defineProperty(this.socket, 'isBroadcastEnabled', {
@@ -54,6 +51,11 @@ export class UdpClientComponent<
       isBroadcastEnabled = value;
       oldSetBroadcast.call(this.socket, value);
     };
+    this.socket.on('error', err => {
+      this.logger?.error(err);
+      this.emit('error', err);
+      this.setStatus(ServiceStatus.unhealthy, err.message);
+    });
     this.socket.on('connect', () => {
       this.emit('connect');
       this.setStatus(ServiceStatus.started);
@@ -69,7 +71,6 @@ export class UdpClientComponent<
       this.setStatus(ServiceStatus.started);
     });
     this.socket.on('message', (msg, info) => {
-      if (info.address === '127.0.0.1') return;
       const info2 = {
         ...info,
         toString() {
@@ -79,7 +80,7 @@ export class UdpClientComponent<
       this.emit('data', msg, info2);
     });
     if (this.values.bindInterface) {
-      this.socket.bind(this.values.port || 0, this.values.bindInterface);
+      this.socket.bind(0, this.values.bindInterface);
     }
     if (this.values.port) {
       this.socket.connect(this.values.port, this.values.host);
@@ -87,10 +88,9 @@ export class UdpClientComponent<
   }
 
   protected async _stop(): Promise<void> {
-    this._stopping = true;
     await new Promise<void>(resolve => {
-      this.socket.close(resolve);
-      this._stopping = false;
+      if (this.socket) this.socket.close(resolve);
+      else resolve();
     });
   }
 
@@ -111,15 +111,6 @@ export class UdpClientComponent<
       },
     };
     this.emit('transmit', data, info2);
-    // todo logger
-    // if (this.socket.isBroadcastEnabled)
-    //   this.logger.debug(
-    //     `Broadcast message sent ${colors.cyan(host + ':' + port)} (${data.length} bytes)`,
-    //   );
-    // else
-    //   this.logger.debug(
-    //     `Message sent to ${colors.cyan(host + ':' + port)} (${data.length} bytes)`,
-    //   );
   }
 }
 
@@ -129,7 +120,6 @@ export class UdpClientComponent<
 export namespace UdpClientComponent {
   export interface Events extends IoClientBaseComponent.Events {
     data: [data: Buffer, info: dgram.RemoteInfo];
-    write: [data: Buffer | string];
   }
 
   export const Variables = UdpClientVariables;

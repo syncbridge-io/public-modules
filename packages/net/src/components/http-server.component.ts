@@ -42,19 +42,29 @@ export class HttpServerComponent<
 
   protected async _init(): Promise<void> {
     await super._init();
+    this._createServer();
+  }
+
+  /** The server, made once: apps add their handlers to it */
+  protected _createServer() {
     const serverOptions = HttpServerComponent.variablesToNodeOptions(
       this.values,
     );
     if (this.values.tls_enabled) {
       this.server = https.createServer(serverOptions);
     } else this.server = http.createServer(serverOptions);
+    /* Not options of createServer(): they are the server's properties */
+    const { timeout, maxHeadersCount } = this.values.http ?? {};
+    if (timeout != null) this.server.timeout = timeout;
+    if (maxHeadersCount != null) this.server.maxHeadersCount = maxHeadersCount;
     this.server.on('request', (req, res) => this._watchRequest(req, res));
     this.server.once('listening', () => {
       this.logger?.info(
         `Http listener started on ` +
           (this.values.tls_enabled ? 'https' : 'http') +
           '://' +
-          (this.values.bindInterface || 'localhost:') +
+          (this.values.bindInterface || 'localhost') +
+          ':' +
           this.values.port,
       );
     });

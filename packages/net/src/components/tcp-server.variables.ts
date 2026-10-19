@@ -66,7 +66,7 @@ export class TcpServerTlsVariables implements tls.TlsOptions {
   declare rejectUnauthorized?: boolean;
 
   @DefineVariable({
-    label: 'Headers Timeout',
+    label: 'Handshake Timeout',
     description:
       'Abort the connection if the SSL/TLS handshake does not finish in the specified number of milliseconds.',
     default: 120000,
@@ -144,7 +144,6 @@ export class TcpServerSocketOptions implements StrictOmit<
     description:
       "If set to true, it disables the use of Nagle's algorithm immediately after a new incoming connection is received.",
     default: true,
-    hotPlug: true,
     index: 130,
   })
   declare noDelay?: boolean;
@@ -185,7 +184,6 @@ export class TcpServerVariables extends IoServerBaseComponent.Variables {
     minValue: 1,
     maxValue: 65535,
     index: 100,
-    hotPlug: true,
   })
   declare port: number;
 
@@ -195,7 +193,6 @@ export class TcpServerVariables extends IoServerBaseComponent.Variables {
       'Interface address to bind to. If not specified, will bind to all available addresses',
     enumSource: EnumSource.NetworkAddresses,
     index: 120,
-    hotPlug: true,
   })
   declare bindInterface?: string;
 
@@ -216,7 +213,6 @@ export class TcpServerVariables extends IoServerBaseComponent.Variables {
   @DefineVariable({
     label: 'Socket',
     description: 'Socket options',
-    hotPlug: true,
     index: 200,
   })
   declare socket: TcpServerSocketOptions;
@@ -227,7 +223,10 @@ export function tcpServerVariablesToNodeOptions(
 ): tls.TlsOptions {
   const serverOptions: net.ServerOpts = {};
   if (values.socket) {
-    const socketOptions: net.ServerOpts = omit(values.socket, ['blockedIps']);
+    const socketOptions: net.ServerOpts = omit(values.socket, [
+      'blockedIps',
+      'blockedSubnets',
+    ]);
     if (values.socket.blockedIps?.length) {
       serverOptions.blockList = new net.BlockList();
       for (const ip of values.socket.blockedIps) {
@@ -238,13 +237,15 @@ export function tcpServerVariablesToNodeOptions(
       }
     }
     if (values.socket.blockedSubnets?.length) {
-      serverOptions.blockList = new net.BlockList();
+      // Both lists block: the subnets are added to the one of the addresses
+      serverOptions.blockList ??= new net.BlockList();
       for (const ip of values.socket.blockedSubnets) {
         const [address, prefix, type] = ip.split(/[,;|]/);
+        const family = type === 'ipv6' ? 'ipv6' : 'ipv4';
         serverOptions.blockList.addSubnet(
           address,
-          parseInt(prefix, 10) || 32,
-          type === 'ipv6' ? 'ipv6' : 'ipv4',
+          parseInt(prefix, 10) || (family === 'ipv6' ? 128 : 32),
+          family,
         );
       }
     }

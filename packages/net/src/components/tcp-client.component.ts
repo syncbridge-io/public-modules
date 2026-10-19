@@ -92,7 +92,7 @@ export class TcpClientComponent<
         err = err || new Error('TCP socket disconnected');
         this.logger?.error(err);
         this.setStatus(ServiceStatus.unhealthy, err.message);
-        this.emit('disconnect');
+        this.emit('disconnect', err);
       }
     });
 
@@ -109,7 +109,7 @@ export class TcpClientComponent<
     /* On reconnecting */
     this._client.on('reconnecting', (n: number, delay: number) => {
       this.logger?.error(
-        `Connection failed (${colors.cyan(String(n + 1))}). Will be retried after ${colors.cyan(delay + 'ms')}`,
+        `Connection failed (${colors.cyan(String(n + 1))}). Trying again after ${colors.cyan(delay + 'ms')}`,
       );
       this.emit('reconnecting', n, delay);
     });
