@@ -3,14 +3,14 @@
   "version": "1.2.1",
   "description": "SyncBridge HL7 connection components",
   "author": "Panates Technology AS <info@panates.com> (https://www.panates.com)",
-  "homepage": "https://github.com/panates/syncbridge-public-modules/tree/main/packages/hl7#readme",
+  "homepage": "https://github.com/syncbridge-io/public-modules/tree/main/packages/hl7#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/panates/syncbridge-public-modules.git",
+    "url": "git+https://github.com/syncbridge-io/public-modules.git",
     "directory": "packages/hl7"
   },
   "bugs": {
-    "url": "https://github.com/panates/syncbridge-public-modules/issues"
+    "url": "https://github.com/syncbridge-io/public-modules/issues"
   },
   "license": "Apache-2.0",
   "private": true,

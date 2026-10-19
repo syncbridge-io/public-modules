@@ -8,7 +8,7 @@ clients connected, TLS, and a record of each request and response in the
 communication log.
 
 It extends
-[`IoServer`](https://github.com/panates/syncbridge-public-modules/tree/main/packages/builtins/docs/IoServer)
+[`IoServer`](https://github.com/syncbridge-io/public-modules/tree/main/packages/builtins/docs/IoServer)
 of `@syncbridge/builtins`, and its settings extend those of
 [`TcpServer`](../TcpServer/README.md). Its class is `HttpServerComponent`.
 

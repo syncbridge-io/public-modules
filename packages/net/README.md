@@ -57,4 +57,4 @@ export class EchoApp extends AppBase {
 
 ## Documentation
 
-https://github.com/panates/syncbridge-public-modules/tree/main/packages/net/docs
+https://github.com/syncbridge-io/public-modules/tree/main/packages/net/docs

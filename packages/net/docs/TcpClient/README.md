@@ -6,7 +6,7 @@ the component is stopped. It can wrap the connection in TLS and reach the
 server through a SOCKS proxy. Use it for devices and services that expect
 your app to connect to them.
 
-It extends [`IoClient`](https://github.com/panates/syncbridge-public-modules/tree/main/packages/builtins/docs/IoClient)
+It extends [`IoClient`](https://github.com/syncbridge-io/public-modules/tree/main/packages/builtins/docs/IoClient)
 of `@syncbridge/builtins`.
 
 The class is `TcpClientComponent`. Its protocol is `tcp`.

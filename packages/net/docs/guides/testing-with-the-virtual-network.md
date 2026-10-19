@@ -12,7 +12,7 @@ to, with no real port and no real device. Import it before the module under
 test.
 
 The tests in
-[`test/virtual-network.spec.ts`](https://github.com/panates/syncbridge-public-modules/blob/main/packages/net/test/virtual-network.spec.ts)
+[`test/virtual-network.spec.ts`](https://github.com/syncbridge-io/public-modules/blob/main/packages/net/test/virtual-network.spec.ts)
 are the working example. This page walks through it.
 
 ## The app under test

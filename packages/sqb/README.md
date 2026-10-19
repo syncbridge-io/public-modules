@@ -49,4 +49,4 @@ export class OrdersApp extends AppBase {
 
 ## Documentation
 
-[docs](https://github.com/panates/syncbridge-public-modules/tree/main/packages/sqb/docs)
+[docs](https://github.com/syncbridge-io/public-modules/tree/main/packages/sqb/docs)

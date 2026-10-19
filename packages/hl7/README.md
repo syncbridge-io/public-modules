@@ -54,4 +54,4 @@ export class OruReceiverApp extends AppBase {
 
 ## Documentation
 
-https://github.com/panates/syncbridge-public-modules/tree/main/packages/hl7/docs
+https://github.com/syncbridge-io/public-modules/tree/main/packages/hl7/docs

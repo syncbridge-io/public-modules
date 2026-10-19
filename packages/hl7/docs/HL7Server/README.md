@@ -42,7 +42,7 @@ The Socket group (Allow Half Open, Keep Alive, Keep Alive Initial Delay, No
 Delay, Blocked Ips, Blocked Subnets) is inherited from the TCP server
 settings. The component passes it, and the TLS settings, to the server with
 `variablesToNodeOptions()` of the
-[TcpServer](https://github.com/panates/syncbridge-public-modules/tree/main/packages/net/docs/TcpServer) component, so they work:
+[TcpServer](https://github.com/syncbridge-io/public-modules/tree/main/packages/net/docs/TcpServer) component, so they work:
 a connection from a blocked address or subnet is refused. Both block lists
 apply; the default prefix of a subnet is 32 for IPv4 and 128 for IPv6.
 

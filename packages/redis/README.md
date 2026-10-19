@@ -46,4 +46,4 @@ export class CounterApp extends AppBase {
 
 ## Documentation
 
-https://github.com/panates/syncbridge-public-modules/tree/main/packages/redis/docs
+https://github.com/syncbridge-io/public-modules/tree/main/packages/redis/docs

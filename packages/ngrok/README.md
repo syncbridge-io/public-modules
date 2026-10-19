@@ -47,4 +47,4 @@ export class TunnelEchoApp extends AppBase {
 
 ## Documentation
 
-[docs](https://github.com/panates/syncbridge-public-modules/tree/main/packages/ngrok/docs)
+[docs](https://github.com/syncbridge-io/public-modules/tree/main/packages/ngrok/docs)

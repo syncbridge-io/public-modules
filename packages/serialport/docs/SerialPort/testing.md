@@ -8,7 +8,7 @@ order: 3
 `@syncbridge/testing` provides virtual serial ports. The real `serialport`
 package and the component run; only the operating system's side is
 virtual, and the test plays the device. The tests of this module do this in
-[virtual-serial.spec.ts](https://github.com/panates/syncbridge-public-modules/blob/main/packages/serialport/test/virtual-serial.spec.ts).
+[virtual-serial.spec.ts](https://github.com/syncbridge-io/public-modules/blob/main/packages/serialport/test/virtual-serial.spec.ts).
 
 ## Setup
 

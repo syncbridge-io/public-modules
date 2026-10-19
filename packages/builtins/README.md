@@ -49,4 +49,4 @@ export class MyClientComponent extends IoClientBaseComponent {
 
 ## Documentation
 
-https://github.com/panates/syncbridge-public-modules/tree/main/packages/builtins/docs
+https://github.com/syncbridge-io/public-modules/tree/main/packages/builtins/docs
