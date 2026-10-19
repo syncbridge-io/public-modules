@@ -22,7 +22,7 @@ on its own.
 | Database                          | `db`                          | Database index to use.                                                                                                                       |             | No       |
 | Auto Resubscribe                  | `autoResubscribe`             | When the client reconnects, channels subscribed in the previous connection are subscribed again.                                              |             | No       |
 | Auto Resend Unfulfilled Commands  | `autoResendUnfulfilledCommands` | Resend unfulfilled commands on reconnect. They are most likely blocking commands such as `brpop` or `blpop`.                              |             | No       |
-| Keep alive                        | `keepAlive`                   | Keep-alive on the TCP socket. The value is a number (the initial delay in milliseconds in ioredis).                                          |             | No       |
+| Keep alive                        | `keepAlive`                   | Initial delay in milliseconds before the first keep-alive probe on the TCP socket.                                          |             | No       |
 | No Delay                          | `noDelay`                     | Enable or disable Nagle's algorithm.                                                                                                         |             | No       |
 | Connection Name                   | `connectionName`              | Name of the connection, to find it in the client list of Redis.                                                                              |             | No       |
 | Max Retries Per Request           | `maxRetriesPerRequest`        | Reconnection attempts allowed before commands that got no reply are flushed with a `MaxRetriesPerRequestError`. `-1` waits without limit.     |             | No       |
@@ -39,9 +39,9 @@ applies its own default.
 | Setting              | Key                  | Description                                                                                          | Default | Required |
 | -------------------- | -------------------- | ---------------------------------------------------------------------------------------------------- | ------- | -------- |
 | SNI                  | `servername`         | Server Name Indication.                                                                              |         | No       |
-| Key                  | `key`                | Private key in PEM format.                                                                           |         | Yes      |
-| Cert                 | `cert`               | Certificate chain in PEM format.                                                                     |         | Yes      |
-| CA certificates      | `ca`                 | Overrides the trusted CA certificates. Mozilla's well-known CAs are replaced when it is set.         |         | Yes      |
+| Key                  | `key`                | Private key in PEM format.                                                                           |         | No       |
+| Cert                 | `cert`               | Certificate chain in PEM format.                                                                     |         | No       |
+| CA certificates      | `ca`                 | Overrides the trusted CA certificates. Mozilla's well-known CAs are replaced when it is set.         |         | No       |
 | Passphrase (secret)  | `passphrase`         | Passphrase to decrypt the private key.                                                               |         | No       |
 | Reject unauthorized  | `rejectUnauthorized` | Reject a connection to a server not authorized by the supplied CAs.                                  | true    | No       |
 
