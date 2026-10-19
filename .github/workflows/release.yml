@@ -73,11 +73,14 @@ jobs:
   # version the registry has is left alone, so it also finishes a release whose
   # registry step failed (run the workflow by hand: a push that released
   # nothing does not come here).
+  # Only when the repository variable SB_REGISTRY_PUBLISH is 'true': the
+  # registry's cloud is not deployed yet.
   # The organization's Trusted publishers in Console must trust this repository
   # and this workflow file; the job's OIDC token is all it publishes with.
   registry:
     needs: [release]
     if: >
+      vars.SB_REGISTRY_PUBLISH == 'true' &&
       always() && !cancelled() &&
       needs.release.result == 'success' &&
       (needs.release.outputs.released == 'true' ||
