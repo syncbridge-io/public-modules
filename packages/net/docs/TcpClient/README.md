@@ -55,14 +55,11 @@ Values are PEM text. They are passed to Node's `tls.connect()`. See
 | Variable             | Label              | Description                                                                                       | Default | Required | Live |
 | -------------------- | ------------------ | ------------------------------------------------------------------------------------------------- | ------- | -------- | ---- |
 | `servername`         | SNI                | SNI (Server Name Indication).                                                                     |         | no       | yes  |
-| `key`                | Key                | Private keys in PEM format.                                                                       |         | yes      | yes  |
-| `cert`               | Cert               | Cert chains in PEM format.                                                                        |         | yes      | yes  |
-| `ca`                 | CA certificates    | Overrides the trusted CA certificates. By default the well-known CAs are trusted; giving this replaces them. |  | yes (\*) | yes  |
+| `key`                | Key                | Private keys in PEM format.                                                                       |         | no       | yes  |
+| `cert`               | Cert               | Cert chains in PEM format.                                                                        |         | no       | yes  |
+| `ca`                 | CA certificates    | Overrides the trusted CA certificates. By default the well-known CAs are trusted; giving this replaces them. |  | no       | yes  |
 | `passphrase`         | Passphrase         | Passphrase to decrypt the private key. A secret.                                                  |         | no       | yes  |
 | `rejectUnauthorized` | Reject unauthorized| Rejects a connection that is not authorized with the supplied CAs.                                | `true`  | no       | yes  |
-
-(\*) The variable is defined as required, although its description calls it
-optional.
 
 ### Proxy (`proxy`)
 
@@ -72,26 +69,23 @@ A SOCKS proxy.
 | ----------- | -------- | -------------------------------------------------------------- | ------- | -------- | ---- |
 | `host`      | Host     | Hostname or IP address of proxy server.                        |         | yes      | yes  |
 | `port`      | Port     | Port number of proxy listener. From 1 to 65535.                |         | yes      | yes  |
-| `proxyType` | Keep alive (\*) | SOCKS version: `v4` or `v5`.                            | `v5`    | no       | yes  |
+| `proxyType` | Proxy type | SOCKS protocol version of the proxy: `v4` or `v5`.           | `v5`    | no       | yes  |
 | `username`  | Username | Username to be used for authentication.                        |         | no       | yes  |
-| `password`  | Username (\*)  | Password for the user name. A secret.                    |         | no       | yes  |
-
-(\*) The labels in the profile editor are those of the code: `proxyType`
-shows as "Keep alive" and `password` as "Username".
+| `password`  | Password | Password to be used for authentication. A secret.              |         | no       | yes  |
 
 ## Events
 
 | Event          | Arguments                  | Emitted                                                                 |
 | -------------- | -------------------------- | ----------------------------------------------------------------------- |
-| `connect`      |                            | The connection is up (see Notes), after the status is `started`.         |
-| `disconnect`   |                            | The connection ended, by a stop or by a loss.                           |
+| `connect`      |                            | The connection is up (with TLS, after the handshake), after the status is `started`. |
+| `disconnect`   | `error?: Error`            | The connection ended. After a loss `error` is set; after a stop it is not. |
 | `reconnecting` | `n: number, delay: number` | Just before a retry: `n` counts the retries from 0, `delay` is the wait in milliseconds that just passed. |
 | `data`         | `data: Buffer, peer`       | Data arrived. `peer` is `{ address, port }`: the configured host and the remote port. |
 | `transmit`     | `data: string \| Buffer, peer` | `write()` is about to send data.                                 |
 | `error`        | `error: Error`             | A connection attempt failed, or the socket reported an error.            |
 
-`disconnect` carries no error, even when the connection was lost. The
-error is logged and becomes the status message.
+After a loss, `disconnect` carries the error. It is also logged and
+becomes the status message.
 
 A refused connection has the message `Connection refused to <address>:<port>`.
 A connection that was lost has the message `TCP socket connection lost: ...`.
@@ -122,12 +116,12 @@ and `write`.
 | When                | `direction` | `event`      | `message`      | `data`   | `details`                            |
 | ------------------- | ----------- | ------------ | -------------- | -------- | ------------------------------------ |
 | connection is up    | `info`      | `connect`    | `Connected`    |          | `host:port` (from the settings)      |
-| connection ends     | `info`      | `disconnect` | `Disconnected` |          | `host:port`                          |
+| connection ends     | `info`      | `disconnect` | `Disconnected` after a stop, `Disconnected: <reason>` after a loss |          | `host:port`                          |
 | data arrives        | `in`        | `read`       |                | the data | `host:remotePort`                    |
 | `write()` is called | `out`       | `write`      |                | the data | `host:remotePort`                    |
 
-The `disconnect` record never has a reason, because the event carries no
-error.
+The reason of a `disconnect` record is the message of the error the event
+carries.
 
 ## Status
 
@@ -175,7 +169,9 @@ message or several. Frame the stream in your app.
 - A `reconnect` change, like any change of the component's settings,
   restarts the connection.
 - `connect` and the status `started` are set when the TCP connection (and
-  the proxy handshake) is up. With TLS the handshake is not waited for.
+  the proxy handshake) is up. With TLS they wait for the TLS handshake. A
+  failed handshake is a connection failure: the component emits `error`
+  and retries.
 - The retries do not stop by themselves. The component stops them when it is
   stopped.
 - With a proxy, `keepAlive` is not applied to the socket. `bindInterface`

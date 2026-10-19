@@ -25,25 +25,23 @@ options of `http.createServer()` / `https.createServer()`.
 
 | Variable                      | Label                           | Description                                                                                                              | Default  | Required | Live |
 | ----------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | -------- | -------- | ---- |
-| `timeout`                     | Request timeout (\*)            | Milliseconds of inactivity before a socket is presumed to have timed out. 0 disables it.                                 | `0`      | no       | no   |
+| `timeout`                     | Socket timeout                  | Milliseconds of inactivity before a socket is presumed to have timed out. 0 disables it.                                 | `0`      | no       | no   |
 | `requestTimeout`              | Request timeout                 | Milliseconds allowed for receiving the entire request. When it expires the server answers 408 and closes the connection. | `300000` | no       | no   |
 | `headersTimeout`              | Headers Timeout                 | Milliseconds the parser waits for the complete headers. When it expires the server answers 408 and closes the connection. | `60000` | no       | no   |
 | `keepAliveTimeout`            | Keep Alive Timeout              | Milliseconds of inactivity the server waits for more data after the last response, before it destroys the socket.        | `5000`   | no       | no   |
 | `keepAliveTimeoutBuffer`      | Keep Alive Timeout Buffer       | An additional buffer time added to `keepAliveTimeout` for the internal socket timeout.                                   | `1000`   | no       | no   |
 | `maxHeadersCount`             | Max Headers Count               | Maximum incoming headers count. 0 means no limit.                                                                        | `2000`   | no       | no   |
 | `maxHeaderSize`               | Max Header Size                 | Maximum size of request headers in bytes.                                                                                | `16384`  | no       | no   |
-| `connectionsCheckingInterval` | Connections Checking Interval   | Interval in milliseconds of the check for requests and headers that timed out. (\*\*)                                    | `30000`  | no       | no   |
+| `connectionsCheckingInterval` | Connections Checking Interval   | Interval in milliseconds at which the server checks for requests that passed the request or headers timeout.             | `30000`  | no       | no   |
 
-(\*) Two settings carry the label "Request timeout": this one (`timeout`) and
-`requestTimeout`.
-(\*\*) The description in the profile editor says something else, which
-belongs to `headersTimeout`.
+None of these settings is live: a change restarts the worker.
 
 The `http` object is merged into the server's creation options. Node.js
 reads `requestTimeout`, `headersTimeout`, `keepAliveTimeout`,
 `keepAliveTimeoutBuffer`, `maxHeaderSize` and `connectionsCheckingInterval`
-from them. It does not read `timeout` and `maxHeadersCount` there (they are
-properties of a server, not creation options), so those two have no effect.
+from them. `timeout` and `maxHeadersCount` are properties of a server, not
+creation options, so the component sets them on the server after it creates
+it.
 
 ## Events
 
@@ -81,7 +79,7 @@ is aborted before it finishes has no `response` record.
 | Status    | When                                                                          |
 | --------- | ----------------------------------------------------------------------------- |
 | `started` | The server is listening.                                                      |
-| `stopped` | After a stop. All connections, keep-alive ones too, are closed.               |
+| `stopped` | After a stop. All connections, keep-alive ones too, are closed (`closeAllConnections`). |
 
 The start fails, and its error is reported, when the server cannot listen.
 
@@ -116,10 +114,9 @@ export class WebhookApp extends AppBase {
 
 ## Notes
 
-- Settings are read when the component is created, as in `TcpServer`. A
-  live change of `port` or `bindInterface` applies at the next start of the
-  component. The rest apply when the worker restarts.
+- Settings are read when the component is created, as in `TcpServer`. None
+  of them is live: a change of any setting restarts the worker.
 - The `socket` options of `TcpServer` and its block lists are put into the
   creation options of the HTTP server too.
-- The log line on start shows the address as `bindInterface` followed by the
-  port with no `:` between them when `bindInterface` is set.
+- The log line on start shows the address as `<bindInterface or localhost>:<port>`
+  after the scheme, for example `http://localhost:8080`.

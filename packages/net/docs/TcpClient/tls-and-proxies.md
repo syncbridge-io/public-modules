@@ -13,13 +13,14 @@ to it as they are.
 - `servername` sets the SNI name. Set it when you connect by IP address to a
   server that picks its certificate by name.
 - `key` and `cert` are the client's certificate, for servers that ask for
-  one. The profile editor marks `key`, `cert` and `ca` as required.
+  one. `key`, `cert` and `ca` are optional.
 - `passphrase` decrypts an encrypted `key`.
 
 All values are PEM text, not file paths.
 
-The component reports `connect` and the status `started` when the TCP
-connection is up, before the TLS handshake ends.
+The component reports `connect` and the status `started` when the TLS
+handshake is done. A failed handshake is a connection failure: the
+component emits `error` and retries like after a refused connection.
 
 ## SOCKS proxy
 

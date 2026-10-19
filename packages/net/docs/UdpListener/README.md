@@ -30,14 +30,15 @@ A change of any setting restarts the component.
 | `listening` | `port: number`                 | The socket is bound.                                                |
 | `data`      | `data: Buffer, info`           | A datagram arrived. `info` has `address`, `port`, `family`, `size`. |
 | `transmit`  | `data: string \| Buffer, info` | `write()` sent a datagram. `info` has `address`, `port`, `size`.    |
+| `error`     | `error: Error`                 | The socket reported an error, such as a failed bind.                |
 
 `info` of both events has a `toString()` that returns `address:port`.
 
-The component never emits `connect` or `disconnect`. The `write` event in
-its typed event list is never emitted.
+The component also emits `error` when the socket reports an error, such as a
+failed bind (`EADDRINUSE`) or a failure to join a multicast group. It never
+emits `connect` or `disconnect`.
 
-Datagrams from `127.0.0.1` are ignored: the component does not emit `data`
-for them.
+Datagrams from any address, `127.0.0.1` included, are emitted as `data`.
 
 ## Methods
 
@@ -45,7 +46,7 @@ for them.
 
 Sends a datagram from the listening socket, for example an answer to the
 sender of a `data` event. `host` is required: the method throws
-`You must provide "host" variable to send message over UDP socket` without
+`You must provide the "host" argument to send a message over UDP socket` without
 it. `port` defaults to the setting `port`. It emits `transmit` after the
 send call.
 
@@ -66,6 +67,7 @@ The component writes no `connect` or `disconnect` records.
 | Status    | When                                    |
 | --------- | --------------------------------------- |
 | `started` | After the socket is bound and set up.   |
+| `unhealthy` | The socket reported an error, with the error text as message. |
 | `stopped` | After a stop. The socket is closed.     |
 
 ## Example
@@ -93,7 +95,6 @@ export class BeaconReaderApp extends AppBase {
 
 - The component joins the multicast groups and sets broadcast once the
   socket is bound.
-- The socket has no `error` listener in the component. An error on the
-  socket, such as a failed bind, is not handled by it.
-- The listener ignores datagrams from the local machine's `127.0.0.1`, so
-  it cannot be tested with a sender on the same host over loopback.
+- An error on the socket, such as a failed bind, is logged, emitted as
+  `error`, and makes the component `unhealthy`. A failure to join a
+  multicast group or to enable broadcast is reported the same way.

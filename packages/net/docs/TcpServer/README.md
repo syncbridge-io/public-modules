@@ -15,15 +15,14 @@ of `@syncbridge/builtins`. Its class is `TcpServerComponent`.
 
 | Variable        | Label          | Description                                                                       | Default | Required | Live |
 | --------------- | -------------- | --------------------------------------------------------------------------------- | ------- | -------- | ---- |
-| `port`          | Port           | Port number to be listen. From 1 to 65535.                                        |         | yes      | yes  |
-| `bindInterface` | Bind Interface | Interface address to bind to. If not specified, binds to all available addresses. |         | no       | yes  |
+| `port`          | Port           | Port number to be listen. From 1 to 65535.                                        |         | yes      | no   |
+| `bindInterface` | Bind Interface | Interface address to bind to. If not specified, binds to all available addresses. |         | no       | no   |
 | `tls_enabled`   | TLS Enabled    | Whether to use TLS for the connection.                                            |         | no       | no   |
 | `tls`           | TLS            | TLS options. Used when `tls_enabled` is on. See below.                            |         | no       | no   |
-| `socket`        | Socket         | Socket options. See below.                                                        |         | no       | yes  |
+| `socket`        | Socket         | Socket options. See below.                                                        |         | no       | no   |
 
-"Live" means the engine applies a change to a running worker. The component
-reads its settings when it is created, so a change to any of them needs a
-restart of the worker to take effect: see Notes.
+"Live" means the engine applies a change to a running worker. No setting of
+the component is live: a change of any of them restarts the worker.
 
 ### Socket (`socket`)
 
@@ -32,7 +31,7 @@ restart of the worker to take effect: see Notes.
 | `allowHalfOpen`         | Allow Half Open          | Indicates whether half-opened TCP connections are allowed.                                                   | `false` | no       | no   |
 | `keepAlive`             | Keep Alive               | Enables keep-alive on the socket of each new incoming connection.                                            | `false` | no       | no   |
 | `keepAliveInitialDelay` | Keep Alive Initial Delay | If a positive number, the initial delay before the first keep-alive probe on an idle socket (milliseconds).  | `0`     | no       | no   |
-| `noDelay`               | No Delay                 | Disables Nagle's algorithm on the socket of each new incoming connection.                                    | `true`  | no       | yes  |
+| `noDelay`               | No Delay                 | Disables Nagle's algorithm on the socket of each new incoming connection.                                    | `true`  | no       | no   |
 | `blockedIps`            | Blocked Ips              | A list of blocked IP addresses.                                                                              |         | no       | no   |
 | `blockedSubnets`        | Blocked Subnets          | A list of blocked subnet addresses.                                                                          |         | no       | no   |
 
@@ -41,8 +40,10 @@ reverse proxy or NAT this is the address of the proxy, not the client's.
 
 `blockedIps` entries are an IPv4 or IPv6 address, or an IPv4 range
 `first-last`. `blockedSubnets` entries are `address,prefix` or
-`address,prefix,ipv6`, split by `,`, `;` or `|`. The prefix is 32 when it is
-missing. The type is `ipv4` unless it says `ipv6`.
+`address,prefix,ipv6`, split by `,`, `;` or `|`. The prefix is 32 for an IPv4
+subnet and 128 for an IPv6 one when it is missing. The type is `ipv4` unless
+it says `ipv6`. Both lists apply: an address is refused when it is in
+`blockedIps` or in a subnet of `blockedSubnets`.
 
 ### TLS (`tls`)
 
@@ -56,14 +57,13 @@ The values are passed to Node's `tls.createServer()`. They are PEM text.
 | `ca`                     | CA certificates                      | Overrides the trusted CA certificates. By default the well-known CAs are trusted. (\*)               |          | yes (\*) |
 | `crl`                    | CRL (Certificate Revocation Lists)   | PEM formatted CRLs.                                                                                  |          | no       |
 | `rejectUnauthorized`     | Reject unauthorized                  | Rejects a connection that is not authorized with the supplied CAs. Only has an effect when `requestCert` is true. | `true` | no  |
-| `handshakeTimeout`       | Headers Timeout (\*\*)               | Aborts the connection if the TLS handshake does not finish in this many milliseconds.                | `120000` | no       |
+| `handshakeTimeout`       | Handshake Timeout                    | Aborts the connection if the TLS handshake does not finish in this many milliseconds.                | `120000` | no       |
 | `requestCert`            | Request cert                         | Requests a certificate from connecting clients and verifies it.                                      | `false`  | no       |
 | `sessionTimeout`         | Session Timeout                      | Seconds after which a TLS session created by the server is no longer resumable.                      |          | no       |
 | `allowPartialTrustChain` | Allow Partial Trust Chain            | Treats intermediate (non-self-signed) certificates in the trusted CA list as trusted.                |          | no       |
 | `sigalgs`                | Sigalgs                              | Colon-separated list of supported signature algorithms.                                              |          | no       |
 
 (\*) Defined as required, although its description calls it optional.
-(\*\*) The label of `handshakeTimeout` in the profile editor.
 
 ## Events
 
@@ -148,13 +148,8 @@ With `tls_enabled` on, listen to `secureConnection` instead of
 
 ## Notes
 
-- Settings are read when the component is created: `port`, `bindInterface`,
-  the TLS values and the socket options. The component has no handler for a
-  change of its values. A live change of `port`, `bindInterface` or
-  `noDelay` updates `values` but does not move or reconfigure the running
-  server: `port` and `bindInterface` apply at the next start of the
-  component, the rest when the worker restarts.
-- The `blockedIps` list is replaced when `blockedSubnets` is also set: only
-  the subnets are blocked then.
-- `blockedSubnets` is also passed to Node as a server option, where it has no
-  meaning.
+- The component reads its settings when it is created: `port`,
+  `bindInterface`, the TLS values and the socket options. None of them is
+  live, so a change of any setting restarts the worker.
+- `blockedSubnets` is not passed to Node as a server option. The component
+  builds one block list from `blockedIps` and `blockedSubnets`.

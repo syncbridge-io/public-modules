@@ -30,14 +30,14 @@ new one is opened.
 | `listening` | `port: number`            | The socket is bound. `port` is the local port.                          |
 | `data`      | `data: Buffer, info`      | A datagram arrived. `info` has `address`, `port`, `family`, `size`.     |
 | `transmit`  | `data: string \| Buffer, info` | `write()` sent a datagram. `info` has `address`, `port`, `size`.   |
+| `error`     | `error: Error`            | The socket reported an error, such as a failed bind.                    |
 
 `info` of both events has a `toString()` that returns `address:port`.
 
-The component never emits `disconnect`. The `write` event in its typed event
-list is never emitted.
+The component also emits `error` when the socket reports an error, such as a
+failed bind (`EADDRINUSE`). It never emits `disconnect`.
 
-Datagrams from `127.0.0.1` are ignored: the component does not emit `data`
-for them.
+Datagrams from any address, `127.0.0.1` included, are emitted as `data`.
 
 ## Methods
 
@@ -72,6 +72,7 @@ The component writes no `disconnect` record.
 | Status    | When                                                                                  |
 | --------- | ------------------------------------------------------------------------------------- |
 | `started` | Without `port`: at once when started. With `port`: when the socket is connected or bound. |
+| `unhealthy` | The socket reported an error, with the error text as message.                       |
 | `stopped` | After a stop. The socket is closed.                                                   |
 
 ## Example
@@ -97,12 +98,12 @@ export class DiscoveryApp extends AppBase {
 
 ## Notes
 
-- With `bindInterface` set, the socket binds to that interface on the local
-  port `port` (a free port if `port` is empty), then connects to
-  `host:port` when `port` is set. The local port is the target's port.
+- With `bindInterface` set, the socket binds to that interface on a free
+  local port, then connects to `host:port` when `port` is set. The local
+  port is not the target's port.
 - Without `bindInterface` and `port`, the socket binds to a free port when
   it first sends, and receives only after that.
 - With `host` and `port` set, the socket is connected: the operating
   system delivers only datagrams from that address to it.
-- The socket has no `error` listener in the component. An error on the
-  socket, such as a failed bind, is not handled by it.
+- An error on the socket, such as a failed bind, is logged, emitted as
+  `error`, and makes the component `unhealthy`.
