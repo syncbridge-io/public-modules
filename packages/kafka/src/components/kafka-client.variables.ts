@@ -17,7 +17,7 @@ export class KafkaSaslVariables {
       'GSSAPI',
     ],
     required: true,
-    default: 'plain',
+    default: 'PLAIN',
     hotPlug: true,
   })
   declare mechanism:
@@ -34,7 +34,7 @@ export class KafkaSaslVariables {
   @DefineVariable({
     label: 'Password',
     description:
-      'Username. Available for "plain", "scram-sha-256" and "scram-sha-512" mechanisms"',
+      'Password. Available for "plain", "scram-sha-256" and "scram-sha-512" mechanisms"',
     type: VariableType.Secret,
     hotPlug: true,
   })

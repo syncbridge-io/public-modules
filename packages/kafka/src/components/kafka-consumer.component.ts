@@ -52,24 +52,31 @@ export class KafkaConsumerComponent<
 
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     await super._start(abortSignal);
+    this._stopping = false;
     await this._startConsumer();
   }
 
   protected async _stop(): Promise<void> {
     this._stopping = true;
-    await this.consumer.close();
+    await this.stream?.close().catch(noOp);
+    await this.consumer?.close();
     return super._stop();
   }
 
   protected async _terminate(): Promise<void> {
-    this.consumer.close(true);
+    this._stopping = true;
+    await this.consumer?.close(true).catch(noOp);
   }
 
   protected async _configureConsumer() {
     const isStopped = this.stopped;
     this.setStatus(ServiceStatus.starting);
-    await this.consumer?.close();
     try {
+      // The old client's disconnect is expected, not a failure
+      this._stopping = true;
+      await this.stream?.close().catch(noOp);
+      await this.consumer?.close();
+      this._stopping = isStopped;
       this.consumer = new Consumer({
         // Client options
         clientId: this.values.connection.clientId || this._context.path,
@@ -113,7 +120,7 @@ export class KafkaConsumerComponent<
       });
 
       this.consumer.on('client:broker:connect', () => {
-        this.emit('status-change', ServiceStatus.started);
+        this.setStatus(ServiceStatus.started);
         this.communicationLog?.write({
           direction: 'info',
           event: 'connect',
@@ -122,18 +129,18 @@ export class KafkaConsumerComponent<
         this.emit('connect');
       });
       this.consumer.on('client:broker:failed', () => {
-        this.emit(
-          'status-change',
-          ServiceStatus.unhealthy,
-          'Kafka broker failed',
-        );
+        this.setStatus(ServiceStatus.unhealthy, 'Kafka broker failed');
+        this.communicationLog?.write({
+          direction: 'info',
+          event: 'error',
+          message: 'Kafka broker failed',
+        });
       });
       this.consumer.on('client:broker:disconnect', () => {
         if (!this._stopping) {
-          this.emit(
-            'status-change',
+          this.setStatus(
             ServiceStatus.unhealthy,
-            new Error('Kafka broker disconnected unexpectedly'),
+            'Kafka broker disconnected unexpectedly',
           );
         }
         this.communicationLog?.write({
@@ -162,12 +169,17 @@ export class KafkaConsumerComponent<
           maxFetches: this.values.maxFetches,
         });
         this.stream.on('data', message => {
-          this._onMessage(message).catch(noOp);
+          this._onMessage(message).catch(e => this.emit('error', e));
+        });
+        this.stream.on('error', e => {
+          if (this._stopping) return;
+          this.emit('error', e);
+          this.setStatus(ServiceStatus.unhealthy, e.message);
         });
       })
       .catch(async e => {
         this.emit('error', e);
-        this.emit('status-change', ServiceStatus.unhealthy, e);
+        this.setStatus(ServiceStatus.unhealthy, e.message);
       });
   }
 

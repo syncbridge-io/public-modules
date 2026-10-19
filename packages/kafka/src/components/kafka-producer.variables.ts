@@ -14,12 +14,11 @@ export class KafkaProducerVariables {
   declare connection: KafkaConnectionVariables;
 
   @DefineVariable({
-    label: 'Group id',
-    description: ' Producer ID.',
+    label: 'Producer id',
+    description: 'Producer ID.',
     index: 101,
     type: VariableType.BigInt,
     hotPlug: true,
-    required: true,
   })
   declare producerId: bigint;
 
@@ -28,7 +27,6 @@ export class KafkaProducerVariables {
     description: 'Producer epoch.',
     index: 101,
     hotPlug: true,
-    required: true,
   })
   declare producerEpoch: number;
 
@@ -63,7 +61,6 @@ export class KafkaProducerVariables {
     index: 101,
     enumValues: ['all', 'no-response', 'leader'],
     hotPlug: true,
-    required: true,
   })
   declare acks?: 'all' | 'no-response' | 'leader';
 

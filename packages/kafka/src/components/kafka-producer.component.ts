@@ -3,7 +3,7 @@ import type {
   SendOptions,
   Serializers,
 } from '@platformatic/kafka';
-import { MessagesStream, ProduceAcks, Producer } from '@platformatic/kafka';
+import { ProduceAcks, Producer } from '@platformatic/kafka';
 import {
   Component,
   ComponentBase,
@@ -11,6 +11,7 @@ import {
   ServiceStatus,
 } from '@syncbridge/common';
 import { TcpClientComponent } from '@syncbridge/net';
+import { noOp } from '../constants.js';
 import {
   COMMUNICATION_CHANNEL,
   messageData,
@@ -39,7 +40,6 @@ export class KafkaProducerComponent<
 > extends ComponentBase<TEvents> {
   protected _stopping?: boolean;
   declare producer: Producer<Key, Value, HeaderKey, HeaderValue>;
-  declare stream: MessagesStream<any, any, any, any>;
 
   @Component.UseVariables()
   declare values: KafkaProducerVariables;
@@ -57,17 +57,19 @@ export class KafkaProducerComponent<
 
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     await super._start(abortSignal);
+    this._stopping = false;
     await this._startProducer();
   }
 
   protected async _stop(): Promise<void> {
     this._stopping = true;
-    await this.producer.close();
+    await this.producer?.close();
     return super._stop();
   }
 
   protected async _terminate(): Promise<void> {
-    this.producer.close(true);
+    this._stopping = true;
+    await this.producer?.close(true).catch(noOp);
   }
 
   protected async _configureProducer(options?: {
@@ -75,8 +77,11 @@ export class KafkaProducerComponent<
   }) {
     const isStopped = this.stopped;
     this.setStatus(ServiceStatus.starting);
-    await this.producer?.close();
     try {
+      // The old client's disconnect is expected, not a failure
+      this._stopping = true;
+      await this.producer?.close();
+      this._stopping = isStopped;
       this.producer = new Producer({
         ...options,
         // Client options
@@ -119,7 +124,7 @@ export class KafkaProducerComponent<
       });
 
       this.producer.on('client:broker:connect', () => {
-        this.emit('status-change', ServiceStatus.started);
+        this.setStatus(ServiceStatus.started);
         this.communicationLog?.write({
           direction: 'info',
           event: 'connect',
@@ -128,18 +133,18 @@ export class KafkaProducerComponent<
         this.emit('connect');
       });
       this.producer.on('client:broker:failed', () => {
-        this.emit(
-          'status-change',
-          ServiceStatus.unhealthy,
-          'Kafka broker failed',
-        );
+        this.setStatus(ServiceStatus.unhealthy, 'Kafka broker failed');
+        this.communicationLog?.write({
+          direction: 'info',
+          event: 'error',
+          message: 'Kafka broker failed',
+        });
       });
       this.producer.on('client:broker:disconnect', () => {
         if (!this._stopping) {
-          this.emit(
-            'status-change',
+          this.setStatus(
             ServiceStatus.unhealthy,
-            new Error('Kafka broker disconnected unexpectedly'),
+            'Kafka broker disconnected unexpectedly',
           );
         }
         this.communicationLog?.write({
@@ -162,7 +167,7 @@ export class KafkaProducerComponent<
     /* Test connection */
     await this.producer.listApis().catch(async e => {
       this.emit('error', e);
-      this.emit('status-change', ServiceStatus.unhealthy, e);
+      this.setStatus(ServiceStatus.unhealthy, e.message);
     });
   }
 
@@ -171,13 +176,14 @@ export class KafkaProducerComponent<
       [kTransaction]?: number;
     },
   ): Promise<ProduceResult> {
+    const result = await this.producer.send(options);
     for (const message of options.messages)
       this.communicationLog?.write({
         direction: 'out',
         data: messageData(message.value),
         details: messageDetails(message),
       });
-    return this.producer.send(options);
+    return result;
   }
 }
 
