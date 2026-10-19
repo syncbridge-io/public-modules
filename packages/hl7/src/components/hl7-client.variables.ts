@@ -1,6 +1,5 @@
-import { DefineVariable, VariableType } from '@syncbridge/common';
+import { DefineVariable, EnumSource } from '@syncbridge/common';
 import { TcpClientComponent } from '@syncbridge/net';
-import { getInterfaceAddresses } from '../utils/get-interface-address.js';
 import {
   defineHL7ProtocolVariables,
   type HL7ProtocolVariables,
@@ -26,8 +25,7 @@ export class HL7ClientVariables
     label: 'Bind Interface',
     description:
       'Interface address to bind to. If not specified, will bind to all available addresses',
-    type: VariableType.Enum,
-    enumValues: getInterfaceAddresses(),
+    enumSource: EnumSource.NetworkAddresses,
     index: 120,
     hotPlug: true,
   })

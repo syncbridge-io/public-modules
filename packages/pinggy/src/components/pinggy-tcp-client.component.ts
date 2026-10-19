@@ -43,15 +43,11 @@ export class PinggyTcpClientComponent<
 
   protected async _init(): Promise<void> {
     await super._init();
-    this.on('values-updated', async () => {
-      const isStopped = this.stopped;
-      await this._stop();
-      if (!isStopped) {
-        await this._start(new AbortController().signal).catch(err => {
-          this.setStatus(ServiceStatus.unhealthy, err.message);
-        });
-      }
-    });
+    this.on('values-updated', () =>
+      this._restart().catch(err =>
+        this.setStatus(ServiceStatus.unhealthy, err.message),
+      ),
+    );
   }
 
   protected async _start(abortSignal: AbortSignal): Promise<void> {

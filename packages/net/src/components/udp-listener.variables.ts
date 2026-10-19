@@ -1,6 +1,5 @@
 import { IoClientBaseComponent } from '@syncbridge/builtins';
-import { DefineVariable, VariableType } from '@syncbridge/common';
-import { getInterfaceAddresses } from '../utils/get-interface-address.js';
+import { DefineVariable, EnumSource, VariableType } from '@syncbridge/common';
 
 /**
  * Variables
@@ -40,8 +39,7 @@ export class UdpListenerVariables extends IoClientBaseComponent.Variables {
     label: 'Bind Interface',
     description:
       'Interface address to bind to. If not specified, will bind to all available addresses',
-    type: VariableType.Enum,
-    enumValues: getInterfaceAddresses(),
+    enumSource: EnumSource.NetworkAddresses,
     index: 103,
     hotPlug: true,
   })
@@ -50,8 +48,7 @@ export class UdpListenerVariables extends IoClientBaseComponent.Variables {
   @DefineVariable({
     label: 'Multicast Interface',
     description: 'Interface address to bind for multicast packages',
-    type: VariableType.Enum,
-    enumValues: getInterfaceAddresses(),
+    enumSource: EnumSource.NetworkAddresses,
     index: 104,
     hotPlug: true,
   })

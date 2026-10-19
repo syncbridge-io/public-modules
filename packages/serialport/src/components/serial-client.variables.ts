@@ -1,6 +1,5 @@
 import { IoClientBaseComponent } from '@syncbridge/builtins';
-import { DefineVariable, VariableType } from '@syncbridge/common';
-import { SerialPort } from 'serialport';
+import { DefineVariable, EnumSource, VariableType } from '@syncbridge/common';
 
 /**
  * Reconnect variables
@@ -41,12 +40,7 @@ export class SerialClientVariables extends IoClientBaseComponent.Variables {
     description:
       'The port or the system path of the serial port you want to open. For example, `/dev/tty.XXX` on Mac/Linux, or `COM1` on Windows',
     required: true,
-    enumValues: SerialPort.list()
-      .then(ports => ports.map(port => port.path))
-      .catch(() => []),
-    /* The ports present when the list was read: a device plugged in later
-     * must still be accepted, and the component retries until it is there */
-    enumStrict: false,
+    enumSource: EnumSource.SerialPorts,
     index: 100,
     hotPlug: true,
   })

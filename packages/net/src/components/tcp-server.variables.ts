@@ -2,9 +2,8 @@ import net, { type ServerOpts } from 'node:net';
 import tls from 'node:tls';
 import { omit } from '@jsopen/objects';
 import { IoServerBaseComponent } from '@syncbridge/builtins';
-import { DefineVariable, VariableType } from '@syncbridge/common';
+import { DefineVariable, EnumSource, VariableType } from '@syncbridge/common';
 import type { StrictOmit } from 'ts-gems';
-import { getInterfaceAddresses } from '../utils/get-interface-address.js';
 
 /**
  * TLS variables
@@ -194,8 +193,7 @@ export class TcpServerVariables extends IoServerBaseComponent.Variables {
     label: 'Bind Interface',
     description:
       'Interface address to bind to. If not specified, will bind to all available addresses',
-    type: VariableType.Enum,
-    enumValues: getInterfaceAddresses(),
+    enumSource: EnumSource.NetworkAddresses,
     index: 120,
     hotPlug: true,
   })

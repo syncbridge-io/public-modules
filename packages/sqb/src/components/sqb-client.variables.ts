@@ -1,4 +1,3 @@
-import { AdapterRegistry } from '@sqb/connect';
 import { DefineVariable, VariableType } from '@syncbridge/common';
 
 /**
@@ -99,7 +98,7 @@ export class SqbClientVariables {
     type: VariableType.Enum,
     label: 'Dialect',
     description: 'Database dialect',
-    enumValues: Array.from(AdapterRegistry.items()).map(x => x.dialect),
+    enumValues: ['postgres', 'oracle'],
     hotPlug: true,
   })
   declare dialect: string;
