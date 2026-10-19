@@ -2,7 +2,7 @@ import { Buffer } from 'node:buffer';
 import EventEmitter from 'node:events';
 import type { PortInfo } from '@serialport/bindings-interface';
 import { IoClientBaseComponent } from '@syncbridge/builtins';
-import { Component, ServiceStatus } from '@syncbridge/common';
+import { Component, ServiceStatus, WorkerPermission } from '@syncbridge/common';
 import colors from 'ansi-colors';
 import { toIntDef } from 'putil-varhelpers';
 import reconnectCore from 'reconnect-core';
@@ -18,6 +18,8 @@ import {
   displayName: 'Serial Port',
   description: 'Serial port connection component',
   tags: ['serial', 'rs232', 'client', 'connection'],
+  /* A worker runs as a user of its own: opening a port needs this */
+  permissions: [WorkerPermission.SerialPorts],
 })
 export class SerialClientComponent<
   TEvents extends SerialClientComponent.Events = SerialClientComponent.Events,
@@ -73,6 +75,7 @@ export class SerialClientComponent<
       })
       .on('reconnect', (n, delay) => {
         if (n === 0 && delay === 0) return;
+        reconnecting = true;
         this.logger?.warn(
           `Connection failed (${colors.cyan(String(n + 1))}). Will be retried after ${colors.cyan(delay + 'ms')}`,
         );
@@ -82,6 +85,8 @@ export class SerialClientComponent<
         this._serialPort = undefined;
         if (this._stopping) this.emit('disconnect');
         else {
+          // A device that goes away is written to the communication channel
+          this.emit('disconnect', err);
           this.logger?.info(
             `Serial port "${colors.cyan(this.values.port!)}" disconnected`,
           );
