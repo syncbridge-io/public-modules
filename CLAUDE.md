@@ -55,6 +55,12 @@ here as tarballs (copied, so there is one `@syncbridge/common`), leaving
 `package.json` and the lockfile untouched. It prints each build's version
 and time. `SB_PLATFORM_DIR` points it elsewhere.
 
+The other way round, the platform's engine runs these modules in
+development from this repository's sources (its `tsconfig.json` maps
+`@syncbridge/*` to `../syncbridge-public-modules/packages/*/src`): keep
+this repository beside the platform's, and keep `main`'s modules working,
+as the engine's development uses them.
+
 **A problem or a gap on the platform's side is reported, never worked
 around.** When `@syncbridge/common`, `spm`, `@syncbridge/testing`, the
 registry, Console or the engine is missing something, behaves wrongly, or
