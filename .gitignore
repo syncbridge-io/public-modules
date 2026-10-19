@@ -22,3 +22,4 @@ junit.xml
 .env
 .env.local
 .env.*.local
+.platform

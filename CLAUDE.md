@@ -22,8 +22,8 @@ This repository does three things:
 
 The SyncBridge platform itself (engine, Console, registry,
 `@syncbridge/common`, `syncbuild`, `testing`) lives in another, private
-repository. Here it is only what npm gives: never assume its unreleased
-code.
+repository: `/Users/ehanoglu/dev/panates/syncbridge`, worked on by its own
+Claude session named **`syncbridge`**. See "The platform" below.
 
 ## Layout
 
@@ -39,10 +39,43 @@ code.
   (`@syncbridge/hl7` peers `@syncbridge/net` and `@syncbridge/builtins`),
   and on `@syncbridge/common` as a peer: the engine provides it.
 
+## The platform
+
+**Its packages are taken from its local builds, not npm.** The modules
+need platform code that is not released yet, and the platform's builds are
+newer than npm's. After every `npm install`, run:
+
+```bash
+node support/use-platform-builds.mjs
+```
+
+It packs `@syncbridge/common`, `runtime`, `testing` and `syncbuild` from
+the platform repository's `packages/public/<name>/build` and installs them
+here as tarballs (copied, so there is one `@syncbridge/common`), leaving
+`package.json` and the lockfile untouched. It prints each build's version
+and time. `SB_PLATFORM_DIR` points it elsewhere.
+
+**A problem or a gap on the platform's side is reported, never worked
+around.** When `@syncbridge/common`, `spm`, `@syncbridge/testing`, the
+registry, Console or the engine is missing something, behaves wrongly, or
+its build is missing or stale:
+
+1. Stop that line of work. Do not invent a temporary fix: no local patch
+   of a platform package, no copy of its code here, no shim, no `any` cast
+   to get past it, no edit in the platform repository.
+2. Tell the platform's session: find it with `ListAgents` (named
+   `syncbridge`) and `SendMessage` it. Say what you were doing, what you
+   expected, what happened (the exact error, command, file and line), and
+   what you need - a fix, a feature, or a fresh build.
+3. Tell the user you did, and go on with work that does not depend on it.
+   When the platform's session answers that it is done, run
+   `node support/use-platform-builds.mjs` again and continue.
+
 ## Commands
 
 ```bash
 npm install
+node support/use-platform-builds.mjs
 npm test          # tsc -b tsconfig-test.json, then mocha (all modules)
 npm run build     # rman build: each module into packages/<name>/build
 rman lint
@@ -132,9 +165,10 @@ install, a short example, link to its docs.
   `packages/extensions`, without history. They are already on npm
   (`@syncbridge/builtins` 1.0.4, ...), then licensed UNLICENSED.
 - **They need an `@syncbridge/common` newer than npm's 1.1.4** (`App`,
-  `AppBase`, `LogChannel`): until the platform repository releases it,
-  `npm test` here fails to compile. Once it is out, set the modules' peer
-  ranges and the root devDependency to that version.
+  `AppBase`, `LogChannel`): with npm's alone `npm test` fails to compile,
+  so the platform's builds are used (see "The platform"). Once the
+  platform releases it, set the modules' peer ranges and the root
+  devDependency to that version.
 - The platform repository's `@syncbridge/testing` tests of the virtual
   network and serial port (`network.spec`, `serial.spec` with their
   `echo-ext` / `serial-ext` fixtures) are to move here as tests of `net`
