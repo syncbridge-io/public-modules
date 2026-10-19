@@ -170,9 +170,9 @@ export class KafkaConnectionVariables {
   declare tls_enabled: boolean;
 
   @DefineVariable({
-    label: 'TSL',
-    description: 'TSL options',
+    label: 'TLS',
+    description: 'TLS options',
     hotPlug: true,
   })
-  declare tsl: TcpClientComponent.TlsVariables;
+  declare tls: TcpClientComponent.TlsVariables;
 }

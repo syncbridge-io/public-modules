@@ -76,7 +76,7 @@ export class KafkaProducerComponent<
     serializers?: Partial<Serializers<any, any, any, any>>;
   }) {
     const isStopped = this.stopped;
-    this.setStatus(ServiceStatus.starting);
+    if (!isStopped) this.setStatus(ServiceStatus.starting);
     try {
       // The old client's disconnect is expected, not a failure
       this._stopping = true;
@@ -98,10 +98,10 @@ export class KafkaProducerComponent<
         requestTimeout: this.values.connection.requestTimeout * 1000,
         maxInflights: this.values.connection.maxInflights,
         ssl: this.values.connection.tls_enabled
-          ? this.values.connection.tsl
+          ? this.values.connection.tls
           : undefined,
         tlsServerName: this.values.connection.tls_enabled
-          ? this.values.connection.tsl?.servername
+          ? this.values.connection.tls?.servername
           : undefined,
         sasl: this.values.connection.sasl_enabled
           ? this.values.connection.sasl
@@ -191,7 +191,10 @@ export class KafkaProducerComponent<
  * @namespace
  */
 export namespace KafkaProducerComponent {
-  export interface Events extends ComponentBase.Events {}
+  export interface Events extends ComponentBase.Events {
+    connect: [];
+    disconnect: [];
+  }
 
   export const Variables = KafkaProducerVariables;
   export type Variables = KafkaProducerVariables;
