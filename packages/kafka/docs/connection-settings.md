@@ -22,7 +22,7 @@ Connection (`connection`). It tells how to reach the brokers.
 | SASL Enabled       | `sasl_enabled`    | Authenticate with SASL.                                                                                             |         | No       |
 | SASL               | `sasl`            | SASL options, used when SASL is enabled. See below.                                                                 |         | No       |
 | TLS Enabled        | `tls_enabled`     | Use TLS for the broker connections.                                                                                 |         | No       |
-| TSL                | `tsl`             | TLS options, used when TLS is enabled. See below. The key and the label are spelled `tsl` and `TSL` in the module.  |         | No       |
+| TLS                | `tls`             | TLS options, used when TLS is enabled. See below.                                                                   |         | No       |
 
 ## SASL
 
@@ -33,14 +33,14 @@ Connection (`connection`). It tells how to reach the brokers.
 | Password (secret)   | `password`  | Used by `PLAIN`, `SCRAM-SHA-256` and `SCRAM-SHA-512`.                               |         | No       |
 | Token (secret)      | `token`     | Token, for example an AWS session token.                                            |         | No       |
 
-## TLS (`tsl`)
+## TLS (`tls`)
 
 | Setting              | Key                  | Description                                                                                         | Default | Required |
 | -------------------- | -------------------- | --------------------------------------------------------------------------------------------------- | ------- | -------- |
 | SNI                  | `servername`         | Server Name Indication. It is also given to the client as the TLS server name.                      |         | No       |
-| Key                  | `key`                | Private key in PEM format.                                                                          |         | Yes      |
-| Cert                 | `cert`               | Certificate chain in PEM format.                                                                    |         | Yes      |
-| CA certificates      | `ca`                 | Overrides the trusted CA certificates. Mozilla's well-known CAs are replaced when it is set.        |         | Yes      |
+| Key                  | `key`                | Private key in PEM format.                                                                          |         | No       |
+| Cert                 | `cert`               | Certificate chain in PEM format.                                                                    |         | No       |
+| CA certificates      | `ca`                 | Overrides the trusted CA certificates. Mozilla's well-known CAs are replaced when it is set.        |         | No       |
 | Passphrase (secret)  | `passphrase`         | Passphrase to decrypt the private key.                                                              |         | No       |
 | Reject unauthorized  | `rejectUnauthorized` | Reject a connection to a broker not authorized by the supplied CAs.                                 | true    | No       |
 
@@ -48,4 +48,4 @@ Connection (`connection`). It tells how to reach the brokers.
 
 All connection settings can change while the component runs. The component
 then closes its client and creates a new one; if it was running, it starts
-again. While it does, its status is `starting`.
+again; while it starts, its status is `starting`. A component that is stopped stays stopped.
