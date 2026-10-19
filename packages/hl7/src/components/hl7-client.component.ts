@@ -217,6 +217,7 @@ export namespace HL7ClientComponent {
     close: [info: AddressInfo];
     error: [error: Error, info: AddressInfo];
     message: [message: HL7Message, info: AddressInfo];
+    send: [message: HL7Message, info: AddressInfo];
     data: [data: Buffer, info: AddressInfo];
     transmit: [data: Buffer, info: AddressInfo];
   }

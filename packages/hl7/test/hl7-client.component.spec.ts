@@ -80,11 +80,11 @@ describe('HL7ClientComponent handlers', () => {
   let client: HL7ClientComponent;
   const sockets: HL7Socket[] = [];
 
-  /** The connection open now: one closing may still be in the list */
-  async function openSocket(): Promise<HL7Socket> {
+  /** The connection the client made after `known` ones: an older one may be closing */
+  async function openSocket(known: number): Promise<HL7Socket> {
     for (let i = 0; i < 100; i++) {
-      const socket = sockets.findLast(s => s.connected);
-      if (socket) return socket;
+      const socket = sockets.length > known && sockets.at(-1);
+      if (socket && socket.connected) return socket;
       await new Promise(r => setTimeout(r, 20));
     }
     throw new Error('The client did not connect again');
@@ -142,6 +142,7 @@ describe('HL7ClientComponent handlers', () => {
     await statusOf(client, 'started');
 
     const before = client.client;
+    const known = sockets.length;
     const restarted = new Promise<void>(resolve =>
       client.on('status-change', (status: string) => {
         if (status === 'started') resolve();
@@ -153,7 +154,7 @@ describe('HL7ClientComponent handlers', () => {
 
     /* The server sends to the connection the new client made */
     await restarted;
-    const socket = await openSocket();
+    const socket = await openSocket(known);
     const ack = await socket.sendMessageWaitAck(
       HL7Message.parse(
         'MSH|^~\\&|HIS|HOSP|SB|HOSP|20261011120000||ADT^A01|ADT0001|P|2.5\r' +

@@ -1,4 +1,5 @@
-import net, { type AddressInfo } from 'node:net';
+import { Buffer } from 'node:buffer';
+import { type AddressInfo } from 'node:net';
 import { peerOf } from '@syncbridge/builtins';
 import {
   Component,
@@ -104,10 +105,14 @@ export class HL7ServerComponent<
       ...hl7ProtocolOptions(this.values),
       responseTimeout: this.values.responseTimeout,
     };
+    // The socket options, the block lists and, when enabled, the TLS ones
+    const listenerOptions = TcpServerComponent.variablesToNodeOptions(
+      this.values,
+    );
     this.server =
       this.values.tls_enabled && this.values.tls
-        ? HL7Server.createTlsServer(this.values.tls, options)
-        : HL7Server.createServer(undefined, options);
+        ? HL7Server.createTlsServer(listenerOptions, options)
+        : HL7Server.createServer(listenerOptions, options);
     for (const m of this._middlewares) this.server.use(m.handler, m.priority);
     for (const hook of this._responseHooks) this.server.beforeResponse(hook);
     this.server.on('error', (error: any, socket: HL7Socket) => {
@@ -243,15 +248,11 @@ export namespace HL7ServerComponent {
     close: [];
     connection: [info: AddressInfo, socket: HL7Socket];
     disconnect: [info: AddressInfo, socket: HL7Socket];
-    drop: [data?: net.DropArgument];
     error: [error: Error, info?: AddressInfo, socket?: HL7Socket | undefined];
-    warning: [
-      error: Error | string,
-      info: AddressInfo,
-      socket: HL7Socket | undefined,
-    ];
     message: [message: HL7Message, info: AddressInfo, socket: HL7Socket];
-    transmit: [message: HL7Message, info: AddressInfo, socket: HL7Socket];
+    send: [message: HL7Message, info: AddressInfo, socket: HL7Socket];
+    data: [data: Buffer, info: AddressInfo, socket: HL7Socket];
+    transmit: [data: Buffer, info: AddressInfo, socket: HL7Socket];
   }
 
   export const Variables = HL7ServerVariables;
