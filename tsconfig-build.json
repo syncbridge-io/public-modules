@@ -1,0 +1,9 @@
+{
+  "extends": "@panates/tsconfig/build.json",
+  "compilerOptions": {
+    "paths": {
+      "@syncbridge/builtins": ["./packages/builtins/build/index.d.ts"],
+      "@syncbridge/net": ["./packages/net/build/index.d.ts"]
+    }
+  }
+}

@@ -1,0 +1,55 @@
+name: Release
+on:
+  workflow_dispatch:
+    inputs:
+      skip-tests:
+        description: Skip test
+        type: boolean
+        default: false
+
+  # The version is decided in the release job from Conventional Commits
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  source:
+    uses: panates/github-actions/.github/workflows/pr-source.yaml@v3
+    permissions:
+      contents: read
+      pull-requests: read
+
+  test:
+    needs: [source]
+    if: >
+      !contains(github.event.head_commit.message, 'no-release') &&
+      (
+        (github.event_name == 'workflow_dispatch' && github.event.inputs.skip-tests != 'true') ||
+        (
+          github.event_name == 'push' &&
+          !contains(github.event.head_commit.message, 'no-test') &&
+          needs.source.outputs.head-ref != 'dev'
+        )
+      )
+    uses: ./.github/workflows/test.yml
+
+  release:
+    needs: [source, test]
+    if: >
+      always() && !cancelled() &&
+      needs.source.result == 'success' &&
+      (needs.test.result == 'success' || needs.test.result == 'skipped') &&
+      !contains(github.event.head_commit.message, 'no-release')
+    uses: panates/github-actions/.github/workflows/node-release.yaml@v3
+    # The modules are published with provenance: each registered on npm with
+    # this repository as its Trusted Publisher
+    permissions:
+      id-token: write
+      contents: write
+    secrets:
+      # Until all nine are registered as Trusted Publishers
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

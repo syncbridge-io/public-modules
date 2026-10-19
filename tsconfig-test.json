@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig-base.json",
+  "exclude": ["**/node_modules"],
+  "compilerOptions": {
+    "types": ["node", "mocha"],
+    "noEmit": true,
+    /* The modules of this repository from their sources; @syncbridge/common
+     * and the others from npm, as a module of your own takes them */
+    "paths": {
+      "@syncbridge/builtins": ["./packages/builtins/src/index.js"],
+      "@syncbridge/hl7": ["./packages/hl7/src/index.js"],
+      "@syncbridge/kafka": ["./packages/kafka/src/index.js"],
+      "@syncbridge/net": ["./packages/net/src/index.js"],
+      "@syncbridge/ngrok": ["./packages/ngrok/src/index.js"],
+      "@syncbridge/pinggy": ["./packages/pinggy/src/index.js"],
+      "@syncbridge/redis": ["./packages/redis/src/index.js"],
+      "@syncbridge/serialport": ["./packages/serialport/src/index.js"],
+      "@syncbridge/sqb": ["./packages/sqb/src/index.js"]
+    }
+  }
+}

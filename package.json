@@ -1,0 +1,39 @@
+{
+  "name": "syncbridge-public-modules",
+  "description": "Open source SyncBridge modules: components and apps to run, and examples to build your own",
+  "private": true,
+  "license": "Apache-2.0",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/panates/syncbridge-public-modules.git"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "rman build",
+    "test": "tsc -b tsconfig-test.json --noEmit && mocha",
+    "citest": "c8 mocha",
+    "lint": "rman lint",
+    "check": "rman check"
+  },
+  "devDependencies": {
+    "@panates/eslint-config": "^2.3.2",
+    "@panates/eslint-config-ts": "^2.3.2",
+    "@panates/rman-preset": "^1.12.0",
+    "@panates/tsconfig": "^2.1.8",
+    "@swc-node/register": "^1.12.1",
+    "@swc/core": "^1.16.18",
+    "@swc/helpers": "^0.5.23",
+    "@syncbridge/common": "^1.1.4",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^26.6.5",
+    "c8": "^12.0.0",
+    "expect": "^30.5.2",
+    "globals": "^17.13.0",
+    "mocha": "^12.0.3",
+    "ts-gems": "^4.0.4",
+    "typescript": "6.0.3"
+  }
+}

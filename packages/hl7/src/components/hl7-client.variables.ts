@@ -1,0 +1,42 @@
+import { DefineVariable, VariableType } from '@syncbridge/common';
+import { TcpClientComponent } from '@syncbridge/net';
+import { getInterfaceAddresses } from '../utils/get-interface-address.js';
+import {
+  defineHL7ProtocolVariables,
+  type HL7ProtocolVariables,
+} from './hl7-protocol.variables.js';
+
+/**
+ * Variables
+ */
+export class HL7ClientVariables
+  extends TcpClientComponent.Variables
+  implements HL7ProtocolVariables
+{
+  @DefineVariable({
+    label: 'Response timeout',
+    description: 'Response timeout in milliseconds',
+    default: 30000,
+    index: 110,
+    hotPlug: true,
+  })
+  declare responseTimeout: number;
+
+  @DefineVariable({
+    label: 'Bind Interface',
+    description:
+      'Interface address to bind to. If not specified, will bind to all available addresses',
+    type: VariableType.Enum,
+    enumValues: getInterfaceAddresses(),
+    index: 120,
+    hotPlug: true,
+  })
+  declare bindInterface?: string;
+
+  declare acceptAcknowledgment: HL7ProtocolVariables['acceptAcknowledgment'];
+  declare validate: boolean;
+  declare defaultCharset?: string;
+  declare batchAcknowledgment: HL7ProtocolVariables['batchAcknowledgment'];
+}
+
+defineHL7ProtocolVariables(HL7ClientVariables);

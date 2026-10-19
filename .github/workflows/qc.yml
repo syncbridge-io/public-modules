@@ -1,0 +1,19 @@
+name: Quality Check
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore:
+      - main
+      - dev
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  qc:
+    uses: panates/github-actions/.github/workflows/node-qc.yaml@v3
+    with:
+      qc_script: |
+        rman check
+        rman lint
