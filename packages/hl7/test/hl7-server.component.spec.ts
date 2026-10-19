@@ -218,4 +218,26 @@ describe('HL7ServerComponent socket settings', () => {
       await server.stop();
     }
   });
+
+  it('should fail to start, not swallow it, when its port is taken', async () => {
+    const taken = net.createServer();
+    await new Promise<void>(resolve => taken.listen(0, '127.0.0.1', resolve));
+    const server = new HL7ServerComponent({
+      app: {} as any,
+      parent: {} as any,
+      name: 'hl7Server',
+      path: 'hl7Server',
+      values: {
+        port: (taken.address() as net.AddressInfo).port,
+        bindInterface: '127.0.0.1',
+      },
+    });
+    try {
+      await server.init();
+      await expect(server.start()).rejects.toThrow(/EADDRINUSE/);
+    } finally {
+      await server.stop();
+      await new Promise(resolve => taken.close(resolve));
+    }
+  });
 });
