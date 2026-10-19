@@ -1,0 +1,45 @@
+name: Verify
+# spm verify: each module is packed, installed as SyncBridge does, and its
+# classes are loaded in a worker under the permission model. It catches what
+# a test in the project cannot: an undeclared dependency, a missing worker
+# permission. Needs @syncbridge/syncbuild among the root devDependencies.
+on:
+  workflow_call:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Verify ${{ matrix.package }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - builtins
+          - net
+          - hl7
+          - kafka
+          - redis
+          - sqb
+          - serialport
+          - ngrok
+          - pinggy
+    steps:
+      - name: Setup Environment
+        uses: panates/gh-setup-node@v2
+        with:
+          node-version: '24'
+          rman-version: '2'
+          install: 'ci'
+
+      - name: Build
+        run: rman build
+
+      - name: Verify
+        working-directory: packages/${{ matrix.package }}
+        run: npx spm verify
