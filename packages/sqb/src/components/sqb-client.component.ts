@@ -7,6 +7,7 @@ import {
   ComponentBase,
   LogChannel,
   ServiceStatus,
+  WorkerPermission,
 } from '@syncbridge/common';
 import colors from 'ansi-colors';
 import { noOp } from '../constants.js';
@@ -22,6 +23,8 @@ import {
   className: 'SqbClient',
   displayName: 'SqbClient',
   description: 'Database Connection Client',
+  /* A worker may load native code only when told: oracledb is a native addon */
+  permissions: [WorkerPermission.NativeCode],
   summary:
     'Connects to a PostgreSQL or Oracle database through SQB, with a connection pool and a log of the SQL it runs.',
   tags: ['io', 'stream'],

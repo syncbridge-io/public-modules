@@ -4,7 +4,7 @@ import { clearTimeout } from 'node:timers';
 import { updateErrorMessage } from '@jsopen/objects';
 import ngrok from '@ngrok/ngrok';
 import { IoClientBaseComponent } from '@syncbridge/builtins';
-import { Component, ServiceStatus } from '@syncbridge/common';
+import { Component, ServiceStatus, WorkerPermission } from '@syncbridge/common';
 import colors from 'ansi-colors';
 import { splitString } from 'fast-tokenizer';
 import { noOp } from '../constants.js';
@@ -13,6 +13,8 @@ import { NgrokTcpClientVariables } from './ngrok-tcp-client.variables.js';
 @Component({
   displayName: 'Ngrok TCP Client Tunnel',
   description: 'Tcp client tunnel for Ngrok (https://ngrok.com)',
+  /* A worker may load native code only when told: the ngrok SDK is a native addon */
+  permissions: [WorkerPermission.NativeCode],
   summary:
     'Opens an ngrok TCP tunnel to the component, so a remote device can connect to it, and reads and writes its bytes.',
   tags: ['tcp', 'client', 'socket', 'connection', 'ngrok'],

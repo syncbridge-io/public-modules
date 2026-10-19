@@ -4,7 +4,7 @@ import { clearInterval, clearTimeout } from 'node:timers';
 import { updateErrorMessage } from '@jsopen/objects';
 import { pinggy, TunnelInstance } from '@pinggy/pinggy';
 import { IoClientBaseComponent } from '@syncbridge/builtins';
-import { Component, ServiceStatus } from '@syncbridge/common';
+import { Component, ServiceStatus, WorkerPermission } from '@syncbridge/common';
 import colors from 'ansi-colors';
 import { noOp } from '../constants.js';
 import { PinggyTcpClientVariables } from './pinggy-tcp-client.variables.js';
@@ -13,6 +13,8 @@ import { PinggyTcpClientVariables } from './pinggy-tcp-client.variables.js';
   displayName: 'Pinggy Tcp Tunnel Client',
   description:
     'A Tcp client component which creates a tunnel using Pinggy (https://pinggy.io)',
+  /* A worker may load native code only when told: the Pinggy SDK is a native addon */
+  permissions: [WorkerPermission.NativeCode],
   summary:
     'Opens a Pinggy TCP tunnel to the component, so a remote device can connect to it, and reads and writes its bytes.',
   tags: ['tcp', 'client', 'socket', 'connection', 'pinggy', 'tunnel'],

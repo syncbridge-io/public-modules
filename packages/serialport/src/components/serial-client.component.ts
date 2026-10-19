@@ -20,8 +20,9 @@ import {
   summary:
     'Opens a serial port, opens it again when the device returns, and reads and writes its bytes.',
   tags: ['serial', 'rs232', 'client', 'connection'],
-  /* A worker runs as a user of its own: opening a port needs this */
-  permissions: [WorkerPermission.SerialPorts],
+  /* A worker runs as a user of its own: opening a port needs the first,
+   * and the serialport package is a native addon */
+  permissions: [WorkerPermission.SerialPorts, WorkerPermission.NativeCode],
 })
 export class SerialClientComponent<
   TEvents extends SerialClientComponent.Events = SerialClientComponent.Events,
