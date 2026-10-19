@@ -16,7 +16,6 @@ import {
   HL7Server,
   HL7Socket,
 } from 'hl7v2-net';
-import { noOp } from '../constants.js';
 import { hl7ProtocolOptions } from './hl7-protocol.variables.js';
 import { HL7ServerVariables } from './hl7-server.variables.js';
 
@@ -84,9 +83,7 @@ export class HL7ServerComponent<
 
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     this._stopping = false;
-    await this.server
-      .listen(this.values.port, this.values.bindInterface)
-      .catch(noOp);
+    await this.server.listen(this.values.port, this.values.bindInterface);
     await super._start(abortSignal);
   }
 
@@ -97,16 +94,17 @@ export class HL7ServerComponent<
 
   protected async _configureServer() {
     const isStopped = this.stopped;
-    if (!isStopped) await this._stop();
-    if (this.server) await this.server.close();
     try {
+      if (!isStopped) await this._stop();
+      if (this.server) await this.server.close();
       const options: HL7Server.Options = {
         ...hl7ProtocolOptions(this.values),
         responseTimeout: this.values.responseTimeout,
       };
-      this.server = this.values.tls
-        ? HL7Server.createTlsServer(this.values.tls, options)
-        : HL7Server.createServer(undefined, options);
+      this.server =
+        this.values.tls_enabled && this.values.tls
+          ? HL7Server.createTlsServer(this.values.tls, options)
+          : HL7Server.createServer(undefined, options);
       for (const m of this._middlewares) this.server.use(m.handler, m.priority);
       for (const hook of this._responseHooks) this.server.beforeResponse(hook);
       this.server.on('error', (error: any, socket: HL7Socket) => {

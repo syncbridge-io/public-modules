@@ -83,33 +83,24 @@ export class HL7ClientComponent<
       const isStopped = this.stopped;
       if (!isStopped) await this._stop();
       if (this.client) await this.client.close();
-      if (this.values.tls) {
-        this.client = Hl7Client.createTlsClient({
-          host: this.values.host,
-          port: this.values.port,
-          connectTimeout: this.values.connectTimeout,
-          responseTimeout: this.values.responseTimeout,
-          keepAlive: this.values.keepAlive,
-          reconnect: this.values.reconnect,
-          ...hl7ProtocolOptions(this.values),
-          ...this.values.tls,
-        });
-      } else {
-        this.client = Hl7Client.createClient({
-          host: this.values.host,
-          port: this.values.port,
-          localAddress: this.values.bindInterface,
-          connectTimeout: this.values.connectTimeout,
-          responseTimeout: this.values.responseTimeout,
-          keepAlive: this.values.keepAlive,
-          ...hl7ProtocolOptions(this.values),
-          reconnect: {
-            // @ts-ignore
-            strategy: 'exponential',
-            ...this.values.reconnect,
-          },
-        });
-      }
+      const options = {
+        host: this.values.host,
+        port: this.values.port,
+        localAddress: this.values.bindInterface,
+        connectTimeout: this.values.connectTimeout,
+        responseTimeout: this.values.responseTimeout,
+        keepAlive: this.values.keepAlive,
+        ...hl7ProtocolOptions(this.values),
+        reconnect: {
+          // @ts-ignore
+          strategy: 'exponential',
+          ...this.values.reconnect,
+        },
+      };
+      this.client =
+        this.values.tls_enabled && this.values.tls
+          ? Hl7Client.createTlsClient({ ...options, ...this.values.tls })
+          : Hl7Client.createClient(options);
       for (const m of this._middlewares) this.client.use(m.handler, m.priority);
       for (const hook of this._responseHooks) this.client.beforeResponse(hook);
       this.client.on('connect', () => {
@@ -173,6 +164,9 @@ export class HL7ClientComponent<
       });
       this.client.on('data', data => {
         this.emit('data', data, this._address);
+      });
+      this.client.on('write', data => {
+        this.emit('transmit', data, this._address);
       });
       if (!isStopped) {
         await this._start(new AbortController().signal);
