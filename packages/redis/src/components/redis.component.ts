@@ -48,7 +48,6 @@ export class RedisComponent<
 }
 
 /**
- /**
  * @namespace
  */
 export namespace RedisComponent {

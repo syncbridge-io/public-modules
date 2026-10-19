@@ -56,7 +56,7 @@ export class RedisStandaloneComponent<
     await super._start(abortSignal);
     this._stopping = false;
     await new Promise<void>((resolve, reject) => {
-      if (this._client.status === 'connect') return resolve();
+      if (this._client.status === 'ready') return resolve();
       const onError = (err: any) => {
         this.setStatus(ServiceStatus.unhealthy, err.message);
         this._client.removeListener('ready', onReady);
@@ -88,7 +88,6 @@ export class RedisStandaloneComponent<
 }
 
 /**
- /**
  * @namespace
  */
 export namespace RedisStandaloneComponent {

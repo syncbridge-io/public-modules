@@ -82,7 +82,6 @@ export class RedisSentinelComponent<
 }
 
 /**
- /**
  * @namespace
  */
 export namespace RedisSentinelComponent {
