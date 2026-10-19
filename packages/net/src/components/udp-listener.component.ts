@@ -11,6 +11,8 @@ import { UdpListenerVariables } from './udp-listener.variables.js';
   className: 'UdpListener',
   displayName: 'UDP Listener',
   description: 'UDP listener component',
+  summary:
+    'Listens on a UDP port, broadcast and multicast groups included, and reads the datagrams sent to it.',
   tags: ['udp', 'server', 'connection'],
 })
 export class UdpListenerComponent<

@@ -10,6 +10,8 @@ import { RedisSentinelVariables } from './redis-sentinel.variables.js';
 @Component({
   displayName: 'Redis Sentinel Client',
   description: 'Redis sentinel client component',
+  summary:
+    'Connects to the master of a Redis Sentinel group and gives apps its ioredis client.',
   tags: ['sentinel'],
 })
 export class RedisSentinelComponent<

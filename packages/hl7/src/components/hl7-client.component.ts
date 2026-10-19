@@ -21,6 +21,8 @@ import { hl7ProtocolOptions } from './hl7-protocol.variables.js';
   className: 'HL7Client',
   displayName: 'HL7 Client',
   description: 'HL7 Client component',
+  summary:
+    'Connects to an HL7 v2 server over MLLP, sends messages and waits for their acknowledgements, with TLS and reconnection.',
   tags: ['hl7', 'client'],
 })
 export class HL7ClientComponent<

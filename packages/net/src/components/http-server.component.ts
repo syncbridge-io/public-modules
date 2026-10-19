@@ -17,6 +17,8 @@ import { TcpServerTlsVariables } from './tcp-server.variables.js';
   className: 'HttpServer',
   displayName: 'Http Server',
   description: 'Http server component',
+  summary:
+    'Runs an HTTP or HTTPS server for an app to answer requests with, with TLS and socket limits.',
   tags: ['http', 'https', 'server'],
 })
 export class HttpServerComponent<

@@ -17,6 +17,8 @@ import {
   className: 'TcpClient',
   displayName: 'TCP Client',
   description: 'TCP client component',
+  summary:
+    'Connects to a TCP server, with TLS, SOCKS proxies and automatic reconnection, and reads and writes its bytes.',
   tags: ['tcp', 'client', 'socket', 'connection'],
 })
 export class TcpClientComponent<

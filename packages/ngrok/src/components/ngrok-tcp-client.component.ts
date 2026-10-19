@@ -13,6 +13,8 @@ import { NgrokTcpClientVariables } from './ngrok-tcp-client.variables.js';
 @Component({
   displayName: 'Ngrok TCP Client Tunnel',
   description: 'Tcp client tunnel for Ngrok (https://ngrok.com)',
+  summary:
+    'Opens an ngrok TCP tunnel to the component, so a remote device can connect to it, and reads and writes its bytes.',
   tags: ['tcp', 'client', 'socket', 'connection', 'ngrok'],
 })
 export class NgrokTcpClientComponent<

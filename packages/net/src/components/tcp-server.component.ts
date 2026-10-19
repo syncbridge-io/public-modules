@@ -15,6 +15,8 @@ import {
   className: 'TcpServer',
   displayName: 'TCP Server',
   description: 'TCP server component',
+  summary:
+    'Accepts TCP connections, with optional TLS and block lists, and reads and writes their bytes.',
   tags: ['tcp', 'server', 'socket'],
 })
 export class TcpServerComponent<

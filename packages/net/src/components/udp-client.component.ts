@@ -11,6 +11,8 @@ import { UdpClientVariables } from './udp-client.variables.js';
   className: 'UdpClient',
   displayName: 'UDP Client',
   description: 'UDP client component',
+  summary:
+    'Sends UDP datagrams and reads the replies, optionally bound to one network interface.',
   tags: ['udp', 'client', 'socket', 'connection'],
 })
 export class UdpClientComponent<

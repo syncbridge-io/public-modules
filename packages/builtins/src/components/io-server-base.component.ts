@@ -11,6 +11,8 @@ import { IoServerComponentVariables } from './io-server-base.variables.js';
   className: 'IoServer',
   displayName: 'IO Server',
   description: 'Abstract component for IO operations',
+  summary:
+    'Abstract base of the components that accept connections from many peers: it defines their data events and communication log.',
   tags: ['io', 'stream'],
 })
 export class IoServerBaseComponent<

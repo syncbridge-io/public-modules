@@ -29,6 +29,8 @@ export const kTransaction = Symbol('plt.kafka.producer.transactions');
   className: 'KafkaProducer',
   displayName: 'Kafka Producer',
   description: 'Kafka producer component',
+  summary:
+    'Sends messages to Kafka topics, with acknowledgement and compression settings, SASL and TLS.',
   tags: ['producer'],
 })
 export class KafkaProducerComponent<

@@ -13,6 +13,8 @@ import { PinggyTcpClientVariables } from './pinggy-tcp-client.variables.js';
   displayName: 'Pinggy Tcp Tunnel Client',
   description:
     'A Tcp client component which creates a tunnel using Pinggy (https://pinggy.io)',
+  summary:
+    'Opens a Pinggy TCP tunnel to the component, so a remote device can connect to it, and reads and writes its bytes.',
   tags: ['tcp', 'client', 'socket', 'connection', 'pinggy', 'tunnel'],
 })
 export class PinggyTcpClientComponent<

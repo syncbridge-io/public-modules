@@ -27,6 +27,8 @@ import { KafkaConsumerVariables } from './kafka-consumer.variables.js';
   className: 'KafkaConsumer',
   displayName: 'Kafka Consumer',
   description: 'Kafka consumer component',
+  summary:
+    'Reads messages from Kafka topics as a member of a consumer group, with SASL and TLS.',
   tags: ['consumer'],
 })
 export class KafkaConsumerComponent<

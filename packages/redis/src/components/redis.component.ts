@@ -6,6 +6,8 @@ import { CommonRedisVariables } from './common-redis.variables.js';
 @Component({
   displayName: 'Redis Client',
   description: 'Redis client component',
+  summary:
+    'Abstract base of the Redis components: the settings, events and communication log they share.',
   tags: ['redis', 'client'],
   abstract: true,
 })

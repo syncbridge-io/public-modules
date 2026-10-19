@@ -3,6 +3,8 @@ import { IoClientBaseComponent } from '../components.js';
 
 @App({
   description: 'Create a bridge between two IO peers',
+  summary:
+    'Connects two IO peers: what one reads, it writes to the other, for example a serial port to a TCP socket.',
   tags: ['io', 'bridge'],
 })
 export class IOBridgeApp extends AppBase {

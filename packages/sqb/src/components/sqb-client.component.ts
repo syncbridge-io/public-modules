@@ -22,6 +22,8 @@ import {
   className: 'SqbClient',
   displayName: 'SqbClient',
   description: 'Database Connection Client',
+  summary:
+    'Connects to a PostgreSQL or Oracle database through SQB, with a connection pool and a log of the SQL it runs.',
   tags: ['io', 'stream'],
 })
 export class SqbClientComponent<

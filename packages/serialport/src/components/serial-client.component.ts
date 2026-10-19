@@ -17,6 +17,8 @@ import {
   className: 'SerialPort',
   displayName: 'Serial Port',
   description: 'Serial port connection component',
+  summary:
+    'Opens a serial port, opens it again when the device returns, and reads and writes its bytes.',
   tags: ['serial', 'rs232', 'client', 'connection'],
   /* A worker runs as a user of its own: opening a port needs this */
   permissions: [WorkerPermission.SerialPorts],

@@ -8,6 +8,8 @@ import { RedisStandaloneVariables } from './redis-standalone.variables.js';
 @Component({
   displayName: 'Redis Standalone Client',
   description: 'Redis standalone client component',
+  summary:
+    'Connects to a single Redis server and gives apps its ioredis client.',
   tags: ['standalone'],
 })
 export class RedisStandaloneComponent<

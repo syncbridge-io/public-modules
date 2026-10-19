@@ -27,6 +27,8 @@ import { HL7ServerVariables } from './hl7-server.variables.js';
   className: 'HL7Server',
   displayName: 'HL7 Server',
   description: 'HL7 server component',
+  summary:
+    'Receives HL7 v2 messages over MLLP and acknowledges them, with TLS, address blocking and middleware for handlers.',
   tags: ['hl7', 'server'],
 })
 export class HL7ServerComponent<
