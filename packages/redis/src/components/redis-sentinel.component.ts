@@ -30,12 +30,15 @@ export class RedisSentinelComponent<
     await super._init();
     const options: CommonRedisOptions & SentinelConnectionOptions = omit(
       this.values,
-      ['sentinelTls', 'sentinelTls_enabled'],
+      ['sentinelTls', 'sentinelTls_enabled', 'tls', 'tls_enabled'],
     );
+    options.lazyConnect = true;
+    if (this.values.tls_enabled) options.tls = this.values.tls ?? {};
     options.enableTLSForSentinelMode = this.values.sentinelTls_enabled;
     if (options.enableTLSForSentinelMode)
       options.sentinelTLS = this.values.sentinelTls;
     this._client = new ioredis.Redis(options);
+    this._client.on('error', err => this.logger?.error(err));
     this._client.on('close', (err?: Error) => {
       if (!this._stopping) {
         this.setStatus(
@@ -56,10 +59,13 @@ export class RedisSentinelComponent<
 
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     await super._start(abortSignal);
+    this._stopping = false;
     await new Promise<void>((resolve, reject) => {
       this._client.connect(err => {
         if (err) {
           this.setStatus(ServiceStatus.unhealthy, err.message);
+          // Otherwise it keeps retrying in the background
+          this._client.disconnect();
           reject(err);
           return;
         }
@@ -78,6 +84,7 @@ export class RedisSentinelComponent<
     ) {
       this._client.disconnect();
     }
+    return super._stop();
   }
 }
 

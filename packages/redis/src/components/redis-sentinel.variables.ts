@@ -49,6 +49,7 @@ export class RedisSentinelVariables extends CommonRedisVariables {
     description:
       'If set, client will send AUTH command with the value of this option when connected.',
     index: 100,
+    type: VariableType.Secret,
   })
   declare password?: string;
 

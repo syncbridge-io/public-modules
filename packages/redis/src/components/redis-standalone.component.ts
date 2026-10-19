@@ -1,3 +1,4 @@
+import { omit } from '@jsopen/objects';
 import { Component, ServiceStatus } from '@syncbridge/common';
 import * as ioredis from 'ioredis';
 import { noOp } from '../constants.js';
@@ -26,10 +27,13 @@ export class RedisStandaloneComponent<
 
   protected async _init(): Promise<void> {
     await super._init();
-    this._client = new ioredis.Redis({
-      ...this.values,
-      lazyConnect: true,
-    });
+    const options: ioredis.RedisOptions = omit(this.values, [
+      'tls',
+      'tls_enabled',
+    ]);
+    if (this.values.tls_enabled) options.tls = this.values.tls ?? {};
+    this._client = new ioredis.Redis({ ...options, lazyConnect: true });
+    this._client.on('error', err => this.logger?.error(err));
     this._client.on('close', (err?: Error) => {
       if (!this._stopping) {
         this.setStatus(
@@ -50,11 +54,14 @@ export class RedisStandaloneComponent<
 
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     await super._start(abortSignal);
+    this._stopping = false;
     await new Promise<void>((resolve, reject) => {
       if (this._client.status === 'connect') return resolve();
       const onError = (err: any) => {
         this.setStatus(ServiceStatus.unhealthy, err.message);
         this._client.removeListener('ready', onReady);
+        // Otherwise it keeps retrying in the background
+        this._client.disconnect();
         reject(err);
       };
       const onReady = () => {
@@ -78,6 +85,7 @@ export class RedisStandaloneComponent<
     ) {
       this._client.disconnect();
     }
+    return super._stop();
   }
 }
 
