@@ -4,13 +4,13 @@ import {
   type Message,
   MessagesStream,
 } from '@platformatic/kafka';
+import { TcpClientComponent } from '@syncbridge/builtins';
 import {
   Component,
   ComponentBase,
   LogChannel,
   ServiceStatus,
 } from '@syncbridge/common';
-import { TcpClientComponent } from '@syncbridge/net';
 import { noOp } from '../constants.js';
 import {
   COMMUNICATION_CHANNEL,

@@ -8,9 +8,8 @@
     "rootDir": "src",
     "outDir": "./build",
     "paths": {
-      "@syncbridge/builtins": ["../builtins/src/index.js"],
-      "@syncbridge/net": ["../net/src/index.js"]
+      "@syncbridge/builtins": ["../builtins/src/index.js"]
     }
   },
-  "references": [{ "path": "../builtins" }, { "path": "../net" }]
+  "references": [{ "path": "../builtins" }]
 }

@@ -25,7 +25,6 @@
     "@jsopen/objects": ">=2.3.4 <3",
     "@syncbridge/builtins": ">=1.0.4 <3",
     "@syncbridge/common": "^2.0.0",
-    "@syncbridge/net": ">=1.0.4 <3",
     "ioredis": ">=6.0.0 <7"
   },
   "exports": {

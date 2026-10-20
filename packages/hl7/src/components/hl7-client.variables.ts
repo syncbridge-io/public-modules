@@ -1,5 +1,5 @@
+import { TcpClientComponent } from '@syncbridge/builtins';
 import { DefineVariable, EnumSource } from '@syncbridge/common';
-import { TcpClientComponent } from '@syncbridge/net';
 import {
   defineHL7ProtocolVariables,
   type HL7ProtocolVariables,

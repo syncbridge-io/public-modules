@@ -1,6 +1,6 @@
 import { Buffer } from 'node:buffer';
 import { type AddressInfo } from 'node:net';
-import { peerOf } from '@syncbridge/builtins';
+import { peerOf, TcpServerComponent } from '@syncbridge/builtins';
 import {
   Component,
   ComponentBase,
@@ -8,7 +8,6 @@ import {
   SbError,
   ServiceStatus,
 } from '@syncbridge/common';
-import { TcpServerComponent } from '@syncbridge/net';
 import colors from 'ansi-colors';
 import { HL7Message } from 'hl7v2';
 import {

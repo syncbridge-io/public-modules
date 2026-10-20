@@ -22,7 +22,7 @@ The module is also on npm:
 npm install @syncbridge/kafka
 ```
 
-Peer dependencies: `@syncbridge/common`, `@syncbridge/net` and
+Peer dependencies: `@syncbridge/common`, `@syncbridge/builtins` and
 `@platformatic/kafka`. The engine provides the `@syncbridge/*` packages. When
 you use the module outside the engine, install all three yourself.
 

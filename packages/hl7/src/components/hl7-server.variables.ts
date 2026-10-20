@@ -1,5 +1,5 @@
+import { TcpServerComponent } from '@syncbridge/builtins';
 import { DefineVariable } from '@syncbridge/common';
-import { TcpServerComponent } from '@syncbridge/net';
 import {
   defineHL7ProtocolVariables,
   type HL7ProtocolVariables,

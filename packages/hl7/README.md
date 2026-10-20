@@ -24,8 +24,8 @@ npm install @syncbridge/hl7
 ```
 
 Peer dependencies: `@syncbridge/common`, `@syncbridge/builtins`,
-`@syncbridge/net`, `ansi-colors`, `hl7v2` and `hl7v2-net`. The engine provides
-the `@syncbridge/*` packages. When you use the module outside the engine,
+`ansi-colors`, `hl7v2` and `hl7v2-net`. The engine provides the
+`@syncbridge/*` packages. When you use the module outside the engine,
 install all of them yourself, including `ansi-colors`, `hl7v2` and
 `hl7v2-net`.
 

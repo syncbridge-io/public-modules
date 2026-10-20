@@ -23,7 +23,7 @@ npm install @syncbridge/redis
 ```
 
 Peer dependencies: `@syncbridge/common`, `@syncbridge/builtins`,
-`@syncbridge/net`, `@jsopen/objects` and `ioredis`. The engine provides the
+`@jsopen/objects` and `ioredis`. The engine provides the
 `@syncbridge/*` packages. When you use the module outside the engine, install
 all of them yourself, including `@jsopen/objects` and `ioredis`.
 

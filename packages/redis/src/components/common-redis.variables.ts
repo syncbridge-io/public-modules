@@ -1,6 +1,8 @@
-import { IoClientBaseComponent } from '@syncbridge/builtins';
+import {
+  IoClientBaseComponent,
+  TcpClientComponent,
+} from '@syncbridge/builtins';
 import { DefineVariable } from '@syncbridge/common';
-import { TcpClientComponent } from '@syncbridge/net';
 import * as ioredis from 'ioredis';
 
 /**

@@ -1,5 +1,5 @@
+import { TcpClientComponent } from '@syncbridge/builtins';
 import { DefineVariable, VariableType } from '@syncbridge/common';
-import { TcpClientComponent } from '@syncbridge/net';
 
 /**
  * SASL variables
