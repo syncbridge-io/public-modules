@@ -11,7 +11,7 @@ worker runs, made of components), written in TypeScript against
 
 This repository does three things:
 
-1. **Develop** the modules in `packages/*`: `builtins`, `net`, `hl7`,
+1. **Develop** the modules in `packages/*`: `builtins`, `hl7`,
    `kafka`, `redis`, `sqb`, `serialport`, `ngrok`, `pinggy`.
 2. **Document** them, so a developer can use each one and learn from it
    how to build modules of their own. These are the reference examples of
@@ -38,7 +38,7 @@ Console, registry), `syncbridge-io/syncbridge-cloud`, at
   check, versions and changelogs; `tsconfig-base.json`,
   `tsconfig-build.json`, `tsconfig-test.json`, `.mocharc.cjs`.
 - Modules depend on each other as **npm peer dependencies**
-  (`@syncbridge/hl7` peers `@syncbridge/net` and `@syncbridge/builtins`),
+  (`@syncbridge/hl7` peers `@syncbridge/builtins`),
   and on `@syncbridge/common` as a peer: the engine provides it.
 
 ## The platform
@@ -107,7 +107,7 @@ Definition of done for a code change: `npm test`, `rman lint`,
 - **Commits:** commit each finished step. Message =
   `<type>(<scope>): <summary>` where type is one of `feat`, `fix`,
   `refactor`, `chore`, `dev`, `test`, `docs`, `style`, `perf`, and scope is
-  the module (`feat(net): ...`). The types decide the next versions: a
+  the module (`feat(hl7): ...`). The types decide the next versions: a
   `feat` is a minor release of that module, a `fix` a patch, `!` major.
 - **Push:** ask before every `git push`; push with `--follow-tags`.
 - **Secrets:** never print a token, key or password, never commit one.
@@ -175,7 +175,7 @@ install, a short example, link to its docs.
   variable `SB_REGISTRY_PUBLISH` is `true`: the registry's cloud is not
   deployed yet. A release that bumped nothing does not reach it; run the
   workflow by hand to finish a release whose registry step failed.
-- The first release bumps all nine modules: the published 1.0.x builds are
+- The first release bumps all eight modules: the published 1.0.x builds are
   stale against `@syncbridge/common` 2.
 
 ## State when this repository was started (2026-10-19)
@@ -186,8 +186,11 @@ install, a short example, link to its docs.
 - They needed an `@syncbridge/common` newer than npm's 1.1.4; the platform
   released 2.0.0, and the modules' peer ranges and the root devDependencies
   follow it.
+- `@syncbridge/net` was folded into `@syncbridge/builtins` (2026-10-20): its
+  components are `@syncbridge/builtins:TcpClient` and so on now. The package
+  is gone; its last npm version is to be deprecated by the user.
 - The platform's `@syncbridge/testing` tests of the virtual network and
-  serial port moved here: `packages/net/test/virtual-network.spec.ts` and
+  serial port moved here: `packages/builtins/test/virtual-network.spec.ts` and
   `packages/serialport/test/virtual-serial.spec.ts`, with their
   `_fixtures/echo-ext` / `serial-ext`. They are also the example of how to
   test a module with `@syncbridge/testing` (import it before the module

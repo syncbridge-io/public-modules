@@ -21,7 +21,6 @@ jobs:
       matrix:
         package:
           - builtins
-          - net
           - hl7
           - kafka
           - redis

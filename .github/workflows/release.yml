@@ -92,13 +92,12 @@ jobs:
       id-token: write
       contents: read
     strategy:
-      # In the order their peers need: builtins, net, then the rest
+      # In the order their peers need: builtins, then the rest
       max-parallel: 1
       fail-fast: false
       matrix:
         package:
           - builtins
-          - net
           - hl7
           - kafka
           - redis

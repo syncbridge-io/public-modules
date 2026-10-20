@@ -5,8 +5,7 @@ apps a SyncBridge server runs - and examples to build modules of your own.
 
 | Module                                          | What it brings                                                                          |
 | ----------------------------------------------- | --------------------------------------------------------------------------------------- |
-| [`@syncbridge/builtins`](packages/builtins)     | The IO bridge app, and the base classes of client and server components                |
-| [`@syncbridge/net`](packages/net)               | TCP clients and servers (TLS, SOCKS proxies), UDP clients and listeners, an HTTP server |
+| [`@syncbridge/builtins`](packages/builtins)     | The IO bridge app, the base classes of client and server components, TCP clients and servers (TLS, SOCKS proxies), UDP clients and listeners, an HTTP server |
 | [`@syncbridge/hl7`](packages/hl7)               | HL7 v2 clients and servers over MLLP                                                    |
 | [`@syncbridge/kafka`](packages/kafka)           | Kafka producers and consumers                                                           |
 | [`@syncbridge/redis`](packages/redis)           | Redis: standalone, sentinel and cluster                                                 |
@@ -24,14 +23,14 @@ against [`@syncbridge/common`](https://www.npmjs.com/package/@syncbridge/common)
 The modules here show how:
 
 - **A component** - a client, a server, a connection: see
-  [`packages/net/src/components`](packages/net/src/components). Its values
+  [`packages/builtins/src/components`](packages/builtins/src/components). Its values
   (settings) are a class of their own beside it (`*.variables.ts`).
 - **A component built on another module's**: [`@syncbridge/hl7`](packages/hl7)
-  builds on `@syncbridge/net`, taking it as a peer dependency.
+  builds on `@syncbridge/builtins`, taking it as a peer dependency.
 - **An app** - what a worker runs, made of components: see
   [`packages/builtins/src/apps`](packages/builtins/src/apps).
 - **Tests** that start a component and talk to it: see
-  [`packages/net/test`](packages/net/test) and [`packages/hl7/test`](packages/hl7/test).
+  [`packages/builtins/test`](packages/builtins/test) and [`packages/hl7/test`](packages/hl7/test).
 
 The developer guide is at [syncbridge.io/developers](https://syncbridge.io/developers/).
 
