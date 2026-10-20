@@ -1,8 +1,11 @@
 # @syncbridge/builtins
 
 The base module of SyncBridge. It holds the abstract IO components that
-other modules build on (the TCP, UDP, HL7, serial port and tunnel modules
-all extend them) and an app that bridges two IO peers.
+other modules build on (the HL7, serial port and tunnel modules extend them),
+the network components that need nothing outside Node.js - TCP and UDP clients
+and servers, and an HTTP server - and an app that bridges two IO peers. The
+network components write their traffic to the `communication` log channel
+and work with the `IOBridgeApp` app.
 
 ## What it brings
 
@@ -11,6 +14,11 @@ all extend them) and an app that bridges two IO peers.
 | `IoClient`    | abstract component  | Base of components that connect to a peer. Writes its traffic to the `communication` log channel.    |
 | `IoServer`    | abstract component  | Base of components that accept connections. Writes its traffic to the `communication` log channel.   |
 | `IOBridgeApp` | app                 | Passes what one IO peer reads to the other peer, in both directions.                                 |
+| `TcpClient`   | component           | Connects to a TCP server, with reconnection, TLS and a SOCKS proxy.                                  |
+| `TcpServer`   | component           | Listens for TCP connections, with TLS, socket options and an IP block list.                          |
+| `UdpClient`   | component           | Sends and receives UDP datagrams, to one host or to any.                                             |
+| `UdpListener` | component           | Listens on a UDP port, with broadcast and multicast groups.                                          |
+| `HttpServer`  | component           | Listens for HTTP or HTTPS requests. The app handles them on the Node.js server.                      |
 | `peerOf()`    | function            | Formats the other side of a connection (`address:port`) for a log record's `details`.                |
 
 The abstract components cannot be used in an app on their own. Extend them
@@ -25,10 +33,36 @@ The module is also on npm:
 npm install @syncbridge/builtins
 ```
 
-Peer dependency: `@syncbridge/common` (`>=1.1.3 <2`), which the engine
-provides.
+Peer dependency: `@syncbridge/common` (`^2.0.0`), which the engine
+provides. Its other dependencies (`backoff`, `socks`, `ansi-colors`,
+`@jsopen/objects`, `node-events-async`) come with it.
 
 ## Example
+
+An app that answers what a TCP client sends it, and listens to a device:
+
+```ts
+import { App, AppBase } from '@syncbridge/common';
+import { TcpClientComponent, TcpServerComponent } from '@syncbridge/builtins';
+
+@App({ displayName: 'Echo' })
+export class EchoApp extends AppBase {
+  @App.UseComponent({ required: true })
+  declare readonly listener: TcpServerComponent;
+
+  @App.UseComponent()
+  declare readonly device?: TcpClientComponent;
+
+  protected async _init(): Promise<void> {
+    await super._init();
+    this.listener.server.on('connection', socket =>
+      socket.on('data', data => socket.write(data)),
+    );
+    this.device?.on('connect', () => this.device!.write('hello'));
+    this.device?.on('data', data => console.log(String(data)));
+  }
+}
+```
 
 A component that extends `IoClientBaseComponent` and an app that uses it:
 
