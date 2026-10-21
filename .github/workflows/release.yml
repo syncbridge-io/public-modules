@@ -58,68 +58,13 @@ jobs:
       needs.verify.result == 'success' &&
       !contains(github.event.head_commit.message, 'no-release')
     uses: panates/github-actions/.github/workflows/node-release.yaml@v3
-    # The modules are published with provenance: each registered on npm with
-    # this repository as its Trusted Publisher
+    # Version, tags, build, then `rman publish`: to the SyncBridge registry with
+    # spm (the `spm` target of .rmanrc.yml), not to npm, and the GitHub Release.
+    # In Actions spm publishes as this job, with its OIDC token, so the job
+    # needs id-token: write; the registry's Console has to trust this
+    # repository and this workflow file ("CI may create packages" on for the
+    # first publish). A release that failed at publishing is finished by
+    # running the workflow again: rman asks the registry what is missing
     permissions:
       id-token: write
       contents: write
-    secrets:
-      # Until all nine are registered as Trusted Publishers
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-  # The same versions to the SyncBridge registry, where they appear in the
-  # Marketplace and can be installed on SyncBridge servers. After the npm
-  # publish. `--skip-existing` makes it safe to run again: a module whose
-  # version the registry has is left alone, so it also finishes a release whose
-  # registry step failed (run the workflow by hand: a push that released
-  # nothing does not come here).
-  # Only when the repository variable SB_REGISTRY_PUBLISH is 'true': the
-  # registry's cloud is not deployed yet.
-  # The organization's Trusted publishers in Console must trust this repository
-  # and this workflow file; the job's OIDC token is all it publishes with.
-  registry:
-    needs: [release]
-    if: >
-      vars.SB_REGISTRY_PUBLISH == 'true' &&
-      always() && !cancelled() &&
-      needs.release.result == 'success' &&
-      (needs.release.outputs.released == 'true' ||
-        github.event_name == 'workflow_dispatch')
-    name: Registry ${{ matrix.package }}
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    permissions:
-      id-token: write
-      contents: read
-    strategy:
-      # In the order their peers need: builtins, then the rest
-      max-parallel: 1
-      fail-fast: false
-      matrix:
-        package:
-          - builtins
-          - hl7
-          - kafka
-          - redis
-          - sqb
-          - serialport
-          - ngrok
-          - pinggy
-    steps:
-      # The branch as the release left it, with the versions it bumped: not the
-      # commit this run started from. A commit pushed meanwhile comes with it;
-      # the concurrency group keeps another release from starting before this
-      # one is done
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.ref_name }}
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-
-      - run: npm ci
-
-      - name: Publish
-        working-directory: packages/${{ matrix.package }}
-        run: npx spm publish --access public --skip-existing

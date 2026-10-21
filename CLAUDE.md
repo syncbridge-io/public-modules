@@ -24,8 +24,8 @@ The SyncBridge platform lives in two other repositories, both worked on by
 one Claude session named **`syncbridge`**: the **SDK** (`@syncbridge/common`,
 `runtime`, `syncbuild`, `testing`, `plugin-api`), public, `syncbridge-io/node-sdk`
 at `/Users/ehanoglu/dev/syncbridge/node-sdk`, and the private rest (engine,
-Console, registry), `syncbridge-io/syncbridge-cloud`, at
-`/Users/ehanoglu/dev/syncbridge/cloud`. See "The platform" below.
+Console, registry), `syncbridge-io/syncbridge`, at
+`/Users/ehanoglu/dev/syncbridge/syncbridge`. See "The platform" below.
 
 ## Layout
 
@@ -162,19 +162,20 @@ install, a short example, link to its docs.
 - `.github/workflows/release.yml`: `test`, then `verify` (`spm verify` of
   every module, before the version is bumped: a failure after `rman version
   --push` would leave a version that was never released), then the release
-  (`rman`: version, build, npm, GitHub Release), then `registry`.
-- **npm**: the engine's Docker image installs the modules from npm by
-  name (its `config.builtin.json`), so they are published to npm as well,
-  first. Each module is to be registered as an npm Trusted Publisher
-  (`NPM_TOKEN` until then) for this repository and `release.yml`.
-- The **SyncBridge registry**: the `registry` job runs
-  `spm publish --access public --skip-existing` for each module, with the
-  job's OIDC token, no secret. The `syncbridge` organization in Console
-  must trust this repository (organization settings, Trusted publishers);
-  a package then stays bound to it. It runs only when the repository
-  variable `SB_REGISTRY_PUBLISH` is `true`: the registry's cloud is not
-  deployed yet. A release that bumped nothing does not reach it; run the
-  workflow by hand to finish a release whose registry step failed.
+  (`rman`: version, build, publish, GitHub Release).
+- **The modules are published to the SyncBridge registry, not to npm**: its
+  `spm` publish target is set in `.rmanrc.yml` (`publish.target: [spm]`,
+  rman >= 2.32.0 and `@syncbridge/syncbuild` >= 2.2.0 as the root
+  devDependency). `rman publish` asks the registry (`spm view`) which version
+  a module lacks and publishes it with the repository's own `spm`; in GitHub
+  Actions spm publishes as the job with its OIDC token, no secret, so the job
+  needs `id-token: write`. The organization owning the `@syncbridge` scope
+  must trust this repository in Console (Trusted publishers), with "CI may
+  create packages" on for the first publish; a package then stays bound to
+  it. A release that failed at publishing is finished by running the workflow
+  again. The engine's image installs the builtins from the registry. The old
+  npm versions stay, deprecated, pointing at the registry; the SDK packages
+  (`@syncbridge/common` and the others) stay on npm.
 - The first release bumps all eight modules: the published 1.0.x builds are
   stale against `@syncbridge/common` 2.
 
@@ -195,10 +196,9 @@ install, a short example, link to its docs.
   `_fixtures/echo-ext` / `serial-ext`. They are also the example of how to
   test a module with `@syncbridge/testing` (import it before the module
   under test).
-- Not done yet: registering each module as an npm Trusted Publisher and
-  this repository as a SyncBridge Trusted publisher, setting the repository
-  variable `SB_REGISTRY_PUBLISH` once the registry is live, making the
-  GitHub repository public. The repository is at
+- Not done yet: this repository as a trusted publisher in Console (and the
+  organization owning the `@syncbridge` scope), deprecating the old npm
+  versions, making the GitHub repository public. The repository is at
   `github.com/syncbridge-io/public-modules`.
 
 ## graphify

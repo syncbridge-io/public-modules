@@ -27,7 +27,7 @@
     "@swc/core": "^1.16.18",
     "@swc/helpers": "^0.5.23",
     "@syncbridge/common": "^2.0.0",
-    "@syncbridge/syncbuild": "^2.0.0",
+    "@syncbridge/syncbuild": "^2.2.0",
     "@syncbridge/testing": "^2.0.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "^26.6.5",
@@ -35,6 +35,7 @@
     "expect": "^30.5.2",
     "globals": "^17.13.0",
     "mocha": "^12.0.3",
+    "rman": "^2.32.0",
     "ts-gems": "^4.0.4",
     "typescript": "6.0.3"
   }
