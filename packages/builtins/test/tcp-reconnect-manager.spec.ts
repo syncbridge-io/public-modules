@@ -4,7 +4,8 @@ import { TcpReconnectManager } from '../src/classes/tcp-reconnect-manager.js';
 
 describe('TcpReconnectManager', () => {
   it('should tell the error that dropped a connection, not a flag', async () => {
-    const server = net.createServer(socket => socket.resetAndDestroy());
+    const accepted: net.Socket[] = [];
+    const server = net.createServer(socket => accepted.push(socket));
     await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve));
     const { port } = server.address() as net.AddressInfo;
     const manager = new TcpReconnectManager(
@@ -20,6 +21,12 @@ describe('TcpReconnectManager', () => {
     try {
       const error = await new Promise<unknown>(resolve => {
         manager.once('disconnect', resolve);
+        /* Reset once connected: a reset that comes first is a failed connect
+         * on Linux, not a lost connection */
+        manager.once('connect', async () => {
+          while (!accepted.length) await new Promise(r => setTimeout(r, 10));
+          accepted[0].resetAndDestroy();
+        });
         manager.connect({ host: '127.0.0.1', port });
       });
       expect(error).toBeInstanceOf(Error);
