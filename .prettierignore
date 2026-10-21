@@ -6,6 +6,9 @@
 /.nyc_output
 /.github
 **/*.md
+.claude
+graphify-out
+
 
 node_modules
 build

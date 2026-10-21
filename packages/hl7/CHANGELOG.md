@@ -1,6 +1,5 @@
 # Changelog
 
-<!-- rman:documented-up-to 4dd87fc9836db035bd4f4c577229cfdb8d63d4af -->
 
 ## @syncbridge/hl7@1.2.0 (2026-10-12)
 

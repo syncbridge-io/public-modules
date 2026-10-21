@@ -15,15 +15,15 @@
   "license": "Apache-2.0",
   "private": true,
   "scripts": {
-    "test": "mocha",
-    "cover": "c8 mocha"
+    "test": "mocha --config ../../.mocharc.cjs",
+    "cover": "c8 mocha --config ../../.mocharc.cjs"
   },
   "dependencies": {
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
     "@syncbridge/builtins": ">=1.0.4 <3",
-    "@syncbridge/common": "^2.0.0",
+    "@syncbridge/common": "^2.0.1",
     "ansi-colors": ">=4.1.0 <5",
     "hl7v2": ">=2.2.0 <3",
     "hl7v2-net": ">=2.2.0 <3"

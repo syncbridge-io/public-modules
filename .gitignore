@@ -11,6 +11,8 @@ packages/*/coverage
 *.log
 junit.xml
 .DS_Store
+.claude
+graphify-out
 
 # IDEs and editors
 .idea

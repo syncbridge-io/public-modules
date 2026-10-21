@@ -32,7 +32,7 @@ jobs:
         !contains(github.event.head_commit.message, 'no-test')
       )
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
     steps:
       - name: Setup Environment
         uses: panates/gh-setup-node@v2
@@ -41,23 +41,13 @@ jobs:
           rman-version: '2'
           install: 'ci'
 
+      # Each module's tests, and before them `spm verify` (.rmanrc.yml
+      # run.test.before): packed, installed as the engine does and its classes
+      # loaded. spm compiles a module against the others' build output
       - name: Apply tests
         run: |
           rman check
           rman lint
           npx tsc -b tsconfig-test.json --noEmit
-          npm run citest
-
-  # Not on main: a release runs it itself, before the version is bumped. In a
-  # called workflow github.event_name is the caller's, so the branch tells
-  verify:
-    if: >
-      github.ref_name != 'main' &&
-      (
-        github.event_name == 'workflow_dispatch' ||
-        (
-          github.event_name == 'push' &&
-          !contains(github.event.head_commit.message, 'no-test')
-        )
-      )
-    uses: ./.github/workflows/verify.yml
+          rman build
+          rman run test

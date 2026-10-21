@@ -87,6 +87,7 @@ its build is missing or stale:
 npm install
 node support/use-platform-builds.mjs
 npm test          # tsc -b tsconfig-test.json, then mocha (all modules)
+rman run test     # each module: spm verify, then its tests (CI runs this)
 npm run build     # rman build: each module into packages/<name>/build
 rman lint
 rman check        # circular dependencies, package sanity
@@ -159,10 +160,15 @@ install, a short example, link to its docs.
 
 - Versions: `rman` from Conventional Commits; a merge to `main` releases
   the modules changed since (see `.github/workflows/release.yml`).
-- `.github/workflows/release.yml`: `test`, then `verify` (`spm verify` of
-  every module, before the version is bumped: a failure after `rman version
-  --push` would leave a version that was never released), then the release
-  (`rman`: version, build, publish, GitHub Release).
+- `.github/workflows/release.yml`: `test`, then the release (`rman`:
+  version, build, publish, GitHub Release).
+- `spm verify` (a module packed, installed as the engine does and its
+  classes loaded in a worker) is a hook of rman in `.rmanrc.yml`, so it
+  follows the packages by itself: `run.test.before` runs it before each
+  module's tests (`rman run test`, as CI does), and `publish.spm.before`
+  right before spm publishes a module - only the modules being released. A
+  module that fails it is not published; as the version is bumped by then,
+  the fix goes out as the next version.
 - **The modules are published to the SyncBridge registry, not to npm**: its
   `spm` publish target is set in `.rmanrc.yml` (`publish.target: [spm]`,
   rman >= 2.32.0 and `@syncbridge/syncbuild` >= 2.2.0 as the root
