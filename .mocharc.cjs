@@ -7,7 +7,12 @@ process.env.NODE_ENV = 'test';
 module.exports = {
   require: ['@swc-node/register/esm-register'],
   extension: ['ts'],
-  spec: './packages/*/test/**/*.*spec.ts',
+  /* Every module's tests from the root; a module's own from its directory,
+   * where its test script names this file */
+  spec:
+    process.cwd() === __dirname
+      ? './packages/*/test/**/*.*spec.ts'
+      : './test/**/*.*spec.ts',
   ignore: ['**/node_modules/**'],
   timeout: 30000,
   rootHooks: {
