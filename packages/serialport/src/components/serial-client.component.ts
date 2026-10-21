@@ -2,7 +2,7 @@ import { Buffer } from 'node:buffer';
 import EventEmitter from 'node:events';
 import type { PortInfo } from '@serialport/bindings-interface';
 import { IoClientBaseComponent } from '@syncbridge/builtins';
-import { Component, ServiceStatus } from '@syncbridge/common';
+import { Component, ServiceStatus, WorkerPermission } from '@syncbridge/common';
 import colors from 'ansi-colors';
 import { toIntDef } from 'putil-varhelpers';
 import reconnectCore from 'reconnect-core';
@@ -17,7 +17,12 @@ import {
   className: 'SerialPort',
   displayName: 'Serial Port',
   description: 'Serial port connection component',
+  summary:
+    'Opens a serial port, opens it again when the device returns, and reads and writes its bytes.',
   tags: ['serial', 'rs232', 'client', 'connection'],
+  /* A worker runs as a user of its own: opening a port needs the first,
+   * and the serialport package is a native addon */
+  permissions: [WorkerPermission.SerialPorts, WorkerPermission.NativeCode],
 })
 export class SerialClientComponent<
   TEvents extends SerialClientComponent.Events = SerialClientComponent.Events,
@@ -40,15 +45,11 @@ export class SerialClientComponent<
 
   protected async _init(): Promise<void> {
     await super._init();
-    this.on('values-updated', async () => {
-      const isStopped = this.stopped;
-      await this._stop();
-      if (!isStopped) {
-        await this._start(new AbortController().signal).catch(err => {
-          this.setStatus(ServiceStatus.unhealthy, err.message);
-        });
-      }
-    });
+    this.on('values-updated', () =>
+      this._restart().catch(err =>
+        this.setStatus(ServiceStatus.unhealthy, err.message),
+      ),
+    );
   }
 
   protected async _start(abortSignal: AbortSignal): Promise<void> {
@@ -77,6 +78,7 @@ export class SerialClientComponent<
       })
       .on('reconnect', (n, delay) => {
         if (n === 0 && delay === 0) return;
+        reconnecting = true;
         this.logger?.warn(
           `Connection failed (${colors.cyan(String(n + 1))}). Will be retried after ${colors.cyan(delay + 'ms')}`,
         );
@@ -86,6 +88,8 @@ export class SerialClientComponent<
         this._serialPort = undefined;
         if (this._stopping) this.emit('disconnect');
         else {
+          // A device that goes away is written to the communication channel
+          this.emit('disconnect', err);
           this.logger?.info(
             `Serial port "${colors.cyan(this.values.port!)}" disconnected`,
           );

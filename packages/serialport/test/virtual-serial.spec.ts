@@ -49,12 +49,16 @@ describe('virtual serial port', () => {
   it('should show a device that goes away as a disconnect, and reconnect', async () => {
     const device = env.serialPort(PORT);
     const app = await start();
+    const events: string[] = [];
+    app.line.on('disconnect', () => events.push('disconnect'));
+    app.line.on('reconnect', () => events.push('reconnect'));
     const first = await device.connection();
     await first.close();
     await env.waitFor(app.line, ServiceStatus.unhealthy);
     /* The component opens the port again */
     await env.waitFor(app.line, ServiceStatus.started);
     expect(device.connections).toHaveLength(2);
+    expect(events).toEqual(['disconnect', 'reconnect']);
     const second = device.connections[1];
     expect((await second.request('again')).toString()).toBe('AGAIN');
   });

@@ -1,12 +1,15 @@
+import { omit } from '@jsopen/objects';
 import { Component, ServiceStatus } from '@syncbridge/common';
 import * as ioredis from 'ioredis';
-import { noOp } from '../constants.js';
+import { stopClient } from '../utils/stop-client.js';
 import { RedisComponent } from './redis.component.js';
 import { RedisStandaloneVariables } from './redis-standalone.variables.js';
 
 @Component({
   displayName: 'Redis Standalone Client',
   description: 'Redis standalone client component',
+  summary:
+    'Connects to a single Redis server and gives apps its ioredis client.',
   tags: ['standalone'],
 })
 export class RedisStandaloneComponent<
@@ -26,10 +29,13 @@ export class RedisStandaloneComponent<
 
   protected async _init(): Promise<void> {
     await super._init();
-    this._client = new ioredis.Redis({
-      ...this.values,
-      lazyConnect: true,
-    });
+    const options: ioredis.RedisOptions = omit(this.values, [
+      'tls',
+      'tls_enabled',
+    ]);
+    if (this.values.tls_enabled) options.tls = this.values.tls ?? {};
+    this._client = new ioredis.Redis({ ...options, lazyConnect: true });
+    this._client.on('error', err => this.logger?.error(err));
     this._client.on('close', (err?: Error) => {
       if (!this._stopping) {
         this.setStatus(
@@ -50,11 +56,14 @@ export class RedisStandaloneComponent<
 
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     await super._start(abortSignal);
+    this._stopping = false;
     await new Promise<void>((resolve, reject) => {
-      if (this._client.status === 'connect') return resolve();
+      if (this._client.status === 'ready') return resolve();
       const onError = (err: any) => {
         this.setStatus(ServiceStatus.unhealthy, err.message);
         this._client.removeListener('ready', onReady);
+        // Otherwise it keeps retrying in the background
+        this._client.disconnect();
         reject(err);
       };
       const onReady = () => {
@@ -63,26 +72,24 @@ export class RedisStandaloneComponent<
       };
       this._client.once('error', onError);
       this._client.once('ready', onReady);
-      if (this._client.status === 'close' || this._client.status === 'wait')
+      // 'end' is where stop() leaves it: it connects again from there
+      if (
+        this._client.status === 'close' ||
+        this._client.status === 'wait' ||
+        this._client.status === 'end'
+      )
         this._client.connect();
     });
   }
 
   protected async _stop(): Promise<void> {
     this._stopping = true;
-    if (this._client.status === 'ready') {
-      await this._client.quit().catch(noOp);
-    } else if (
-      this._client.status !== 'end' &&
-      this._client.status !== 'close'
-    ) {
-      this._client.disconnect();
-    }
+    await stopClient(this._client);
+    return super._stop();
   }
 }
 
 /**
- /**
  * @namespace
  */
 export namespace RedisStandaloneComponent {

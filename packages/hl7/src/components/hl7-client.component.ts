@@ -21,6 +21,8 @@ import { hl7ProtocolOptions } from './hl7-protocol.variables.js';
   className: 'HL7Client',
   displayName: 'HL7 Client',
   description: 'HL7 Client component',
+  summary:
+    'Connects to an HL7 v2 server over MLLP, sends messages and waits for their acknowledgements, with TLS and reconnection.',
   tags: ['hl7', 'client'],
 })
 export class HL7ClientComponent<
@@ -74,118 +76,107 @@ export class HL7ClientComponent<
         details: peerOf(info),
       });
     });
-    this.on('values-updated', () => this._configureClient());
-    await this._configureClient();
+    this.on('values-updated', () =>
+      this._restart().catch(err =>
+        this.setStatus(ServiceStatus.unhealthy, err.message),
+      ),
+    );
+    this._createClient();
   }
 
-  protected async _configureClient() {
-    try {
-      const isStopped = this.stopped;
-      if (!isStopped) await this._stop();
-      if (this.client) await this.client.close();
-      if (this.values.tls) {
-        this.client = Hl7Client.createTlsClient({
-          host: this.values.host,
-          port: this.values.port,
-          connectTimeout: this.values.connectTimeout,
-          responseTimeout: this.values.responseTimeout,
-          keepAlive: this.values.keepAlive,
-          reconnect: this.values.reconnect,
-          ...hl7ProtocolOptions(this.values),
-          ...this.values.tls,
-        });
-      } else {
-        this.client = Hl7Client.createClient({
-          host: this.values.host,
-          port: this.values.port,
-          localAddress: this.values.bindInterface,
-          connectTimeout: this.values.connectTimeout,
-          responseTimeout: this.values.responseTimeout,
-          keepAlive: this.values.keepAlive,
-          ...hl7ProtocolOptions(this.values),
-          reconnect: {
-            // @ts-ignore
-            strategy: 'exponential',
-            ...this.values.reconnect,
-          },
-        });
-      }
-      for (const m of this._middlewares) this.client.use(m.handler, m.priority);
-      for (const hook of this._responseHooks) this.client.beforeResponse(hook);
-      this.client.on('connect', () => {
-        this._address = {
-          address: this.values.host || '127.0.0.1',
-          port: this.client.remotePort,
-        };
-        this._address.toString = function (this: any): string {
-          return `${this.address}:${this.port}`;
-        }.bind(this._address);
-        this.communicationLog?.write({
-          direction: 'info',
-          event: 'connect',
-          message: 'Connected',
-          details: peerOf(this._address),
-        });
-        this.logger?.trace(`Connected to ${colors.blueBright(this._address)}`);
-        /* Unhealthy while it was connecting (_start); healthy once connected */
-        this.setStatus(ServiceStatus.started);
-        this.emit('connect', this._address);
+  /** A client of the current values, for the next start */
+  protected _createClient() {
+    const options = {
+      host: this.values.host,
+      port: this.values.port,
+      localAddress: this.values.bindInterface,
+      connectTimeout: this.values.connectTimeout,
+      responseTimeout: this.values.responseTimeout,
+      keepAlive: this.values.keepAlive,
+      ...hl7ProtocolOptions(this.values),
+      reconnect: {
+        // @ts-ignore
+        strategy: 'exponential',
+        ...this.values.reconnect,
+      },
+    };
+    this.client =
+      this.values.tls_enabled && this.values.tls
+        ? Hl7Client.createTlsClient({ ...options, ...this.values.tls })
+        : Hl7Client.createClient(options);
+    for (const m of this._middlewares) this.client.use(m.handler, m.priority);
+    for (const hook of this._responseHooks) this.client.beforeResponse(hook);
+    this.client.on('connect', () => {
+      this._address = {
+        address: this.values.host || '127.0.0.1',
+        port: this.client.remotePort,
+      };
+      this._address.toString = function (this: any): string {
+        return `${this.address}:${this.port}`;
+      }.bind(this._address);
+      this.communicationLog?.write({
+        direction: 'info',
+        event: 'connect',
+        message: 'Connected',
+        details: peerOf(this._address),
       });
-      this.client.on('ready', () => this.emit('ready', this._address));
-      this.client.on('close', () => {
-        this.communicationLog?.write({
-          direction: 'info',
-          event: 'disconnect',
-          message: 'Disconnected',
-          details: peerOf(this._address),
-        });
-        this.logger?.trace(
-          `Disconnected from ${colors.blueBright(this._address)}`,
-        );
-        this.emit('close', this._address);
+      this.logger?.trace(`Connected to ${colors.blueBright(this._address)}`);
+      /* Unhealthy while it was connecting (_start); healthy once connected */
+      this.setStatus(ServiceStatus.started);
+      this.emit('connect', this._address);
+    });
+    this.client.on('ready', () => this.emit('ready', this._address));
+    this.client.on('close', () => {
+      this.communicationLog?.write({
+        direction: 'info',
+        event: 'disconnect',
+        message: 'Disconnected',
+        details: peerOf(this._address),
       });
-      /* A connection lost while running: unhealthy until it reconnects */
-      this.client.on('disconnect', (err?: Error) => {
-        if (this._stopping) return;
-        this.setStatus(
-          ServiceStatus.unhealthy,
-          err?.message || `Disconnected from ${this._address}`,
-        );
-      });
-      this.client.on('error', error => {
-        error = error instanceof AggregateError ? error.errors[0] : error;
-        if (error.code === 'ECONNREFUSED')
-          error.message = `Connection refused to ${error.address}:${error.port}`;
-        this.logger?.error(error);
-        this.emit('error', error, this._address);
-      });
-      this.client.on('message', message => {
-        this.logger?.trace(
-          `HL7 message (${message.messageType}) received from ${this.client.uri}`,
-        );
-        this.emit('message', message, this._address);
-      });
-      this.client.on('send', message => {
-        this.logger?.trace(
-          `HL7 message (${message.messageType}) sent to ${this.client.uri}`,
-        );
-        this.emit('send', message, this._address);
-      });
-      this.client.on('data', data => {
-        this.emit('data', data, this._address);
-      });
-      if (!isStopped) {
-        await this._start(new AbortController().signal);
-      }
-    } catch (err: any) {
-      this.logger?.error(err);
-      this.setStatus(ServiceStatus.unhealthy, err.message);
-    }
+      this.logger?.trace(
+        `Disconnected from ${colors.blueBright(this._address)}`,
+      );
+      this.emit('close', this._address);
+    });
+    /* A connection lost while running: unhealthy until it reconnects */
+    this.client.on('disconnect', (err?: Error) => {
+      if (this._stopping) return;
+      this.setStatus(
+        ServiceStatus.unhealthy,
+        err?.message || `Disconnected from ${this._address}`,
+      );
+    });
+    this.client.on('error', error => {
+      error = error instanceof AggregateError ? error.errors[0] : error;
+      if (error.code === 'ECONNREFUSED')
+        error.message = `Connection refused to ${error.address}:${error.port}`;
+      this.logger?.error(error);
+      this.emit('error', error, this._address);
+    });
+    this.client.on('message', message => {
+      this.logger?.trace(
+        `HL7 message (${message.messageType}) received from ${this.client.uri}`,
+      );
+      this.emit('message', message, this._address);
+    });
+    this.client.on('send', message => {
+      this.logger?.trace(
+        `HL7 message (${message.messageType}) sent to ${this.client.uri}`,
+      );
+      this.emit('send', message, this._address);
+    });
+    this.client.on('data', data => {
+      this.emit('data', data, this._address);
+    });
+    this.client.on('write', data => {
+      this.emit('transmit', data, this._address);
+    });
   }
 
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     await super._start(abortSignal);
     this._stopping = false;
+    this._createClient();
     this.client.connect().catch(noOp);
     if (!this.client.connected) this.setStatus(ServiceStatus.unhealthy);
   }
@@ -228,6 +219,7 @@ export namespace HL7ClientComponent {
     close: [info: AddressInfo];
     error: [error: Error, info: AddressInfo];
     message: [message: HL7Message, info: AddressInfo];
+    send: [message: HL7Message, info: AddressInfo];
     data: [data: Buffer, info: AddressInfo];
     transmit: [data: Buffer, info: AddressInfo];
   }

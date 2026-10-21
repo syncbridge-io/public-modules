@@ -1,4 +1,4 @@
-import { DefineVariable } from '@syncbridge/common';
+import { DefineVariable, VariableType } from '@syncbridge/common';
 import { CommonRedisVariables } from './common-redis.variables.js';
 
 export class RedisStandaloneVariables extends CommonRedisVariables {
@@ -33,6 +33,7 @@ export class RedisStandaloneVariables extends CommonRedisVariables {
     description:
       'If set, client will send AUTH command with the value of this option when connected.',
     index: 100,
+    type: VariableType.Secret,
   })
   declare password?: string;
 }

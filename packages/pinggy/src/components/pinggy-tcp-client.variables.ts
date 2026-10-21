@@ -6,9 +6,9 @@ import { DefineVariable, VariableType } from '@syncbridge/common';
  */
 export class PinggyTcpClientVariables extends IoClientBaseComponent.Variables {
   @DefineVariable({
-    label: 'Pingy Auth Token',
+    label: 'Pinggy Auth Token',
     type: VariableType.Secret,
-    description: 'Pingy auth token. https://dashboard.pinggy.io/managetokens',
+    description: 'Pinggy auth token. https://dashboard.pinggy.io/managetokens',
     required: true,
     hotPlug: true,
   })

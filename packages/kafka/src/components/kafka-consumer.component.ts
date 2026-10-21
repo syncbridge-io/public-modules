@@ -4,13 +4,13 @@ import {
   type Message,
   MessagesStream,
 } from '@platformatic/kafka';
+import { TcpClientComponent } from '@syncbridge/builtins';
 import {
   Component,
   ComponentBase,
   LogChannel,
   ServiceStatus,
 } from '@syncbridge/common';
-import { TcpClientComponent } from '@syncbridge/net';
 import { noOp } from '../constants.js';
 import {
   COMMUNICATION_CHANNEL,
@@ -27,6 +27,8 @@ import { KafkaConsumerVariables } from './kafka-consumer.variables.js';
   className: 'KafkaConsumer',
   displayName: 'Kafka Consumer',
   description: 'Kafka consumer component',
+  summary:
+    'Reads messages from Kafka topics as a member of a consumer group, with SASL and TLS.',
   tags: ['consumer'],
 })
 export class KafkaConsumerComponent<
@@ -52,24 +54,31 @@ export class KafkaConsumerComponent<
 
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     await super._start(abortSignal);
+    this._stopping = false;
     await this._startConsumer();
   }
 
   protected async _stop(): Promise<void> {
     this._stopping = true;
-    await this.consumer.close();
+    await this.stream?.close().catch(noOp);
+    await this.consumer?.close();
     return super._stop();
   }
 
   protected async _terminate(): Promise<void> {
-    this.consumer.close(true);
+    this._stopping = true;
+    await this.consumer?.close(true).catch(noOp);
   }
 
   protected async _configureConsumer() {
     const isStopped = this.stopped;
-    this.setStatus(ServiceStatus.starting);
-    await this.consumer?.close();
+    if (!isStopped) this.setStatus(ServiceStatus.starting);
     try {
+      // The old client's disconnect is expected, not a failure
+      this._stopping = true;
+      await this.stream?.close().catch(noOp);
+      await this.consumer?.close();
+      this._stopping = isStopped;
       this.consumer = new Consumer({
         // Client options
         clientId: this.values.connection.clientId || this._context.path,
@@ -85,10 +94,10 @@ export class KafkaConsumerComponent<
         requestTimeout: this.values.connection.requestTimeout * 1000,
         maxInflights: this.values.connection.maxInflights,
         ssl: this.values.connection.tls_enabled
-          ? this.values.connection.tsl
+          ? this.values.connection.tls
           : undefined,
         tlsServerName: this.values.connection.tls_enabled
-          ? this.values.connection.tsl?.servername
+          ? this.values.connection.tls?.servername
           : undefined,
         sasl: this.values.connection.sasl_enabled
           ? this.values.connection.sasl
@@ -113,7 +122,7 @@ export class KafkaConsumerComponent<
       });
 
       this.consumer.on('client:broker:connect', () => {
-        this.emit('status-change', ServiceStatus.started);
+        this.setStatus(ServiceStatus.started);
         this.communicationLog?.write({
           direction: 'info',
           event: 'connect',
@@ -122,18 +131,18 @@ export class KafkaConsumerComponent<
         this.emit('connect');
       });
       this.consumer.on('client:broker:failed', () => {
-        this.emit(
-          'status-change',
-          ServiceStatus.unhealthy,
-          'Kafka broker failed',
-        );
+        this.setStatus(ServiceStatus.unhealthy, 'Kafka broker failed');
+        this.communicationLog?.write({
+          direction: 'info',
+          event: 'error',
+          message: 'Kafka broker failed',
+        });
       });
       this.consumer.on('client:broker:disconnect', () => {
         if (!this._stopping) {
-          this.emit(
-            'status-change',
+          this.setStatus(
             ServiceStatus.unhealthy,
-            new Error('Kafka broker disconnected unexpectedly'),
+            'Kafka broker disconnected unexpectedly',
           );
         }
         this.communicationLog?.write({
@@ -162,12 +171,17 @@ export class KafkaConsumerComponent<
           maxFetches: this.values.maxFetches,
         });
         this.stream.on('data', message => {
-          this._onMessage(message).catch(noOp);
+          this._onMessage(message).catch(e => this.emit('error', e));
+        });
+        this.stream.on('error', e => {
+          if (this._stopping) return;
+          this.emit('error', e);
+          this.setStatus(ServiceStatus.unhealthy, e.message);
         });
       })
       .catch(async e => {
         this.emit('error', e);
-        this.emit('status-change', ServiceStatus.unhealthy, e);
+        this.setStatus(ServiceStatus.unhealthy, e.message);
       });
   }
 
@@ -187,6 +201,8 @@ export class KafkaConsumerComponent<
 export namespace KafkaConsumerComponent {
   export interface Events extends ComponentBase.Events {
     message: [msg: Message<any, any, any, any>];
+    connect: [];
+    disconnect: [];
   }
 
   export const Variables = KafkaConsumerVariables;

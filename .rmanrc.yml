@@ -10,3 +10,14 @@ version:
 
 changelog:
   groupBy: package
+
+# The modules are not published to npm: their home is the SyncBridge registry.
+# rman asks it (`spm view`) which version a module lacks and publishes it with
+# the repository's own spm (@syncbridge/syncbuild); in GitHub Actions as the
+# job, with its OIDC token. rman still bumps the versions, tags them and writes
+# the GitHub Release
+'[*]':
+  publish:
+    target: [spm]
+    spm:
+      access: public

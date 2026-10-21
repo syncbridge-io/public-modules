@@ -1,1 +1,0 @@
-# SyncBridge ICU Connectors

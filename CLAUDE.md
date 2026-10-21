@@ -11,7 +11,7 @@ worker runs, made of components), written in TypeScript against
 
 This repository does three things:
 
-1. **Develop** the modules in `packages/*`: `builtins`, `net`, `hl7`,
+1. **Develop** the modules in `packages/*`: `builtins`, `hl7`,
    `kafka`, `redis`, `sqb`, `serialport`, `ngrok`, `pinggy`.
 2. **Document** them, so a developer can use each one and learn from it
    how to build modules of their own. These are the reference examples of
@@ -20,10 +20,12 @@ This repository does three things:
    registry with `spm` (`@syncbridge/syncbuild`), so they appear in the
    Marketplace and can be installed on SyncBridge servers.
 
-The SyncBridge platform itself (engine, Console, registry,
-`@syncbridge/common`, `syncbuild`, `testing`) lives in another, private
-repository: `/Users/ehanoglu/dev/panates/syncbridge`, worked on by its own
-Claude session named **`syncbridge`**. See "The platform" below.
+The SyncBridge platform lives in two other repositories, both worked on by
+one Claude session named **`syncbridge`**: the **SDK** (`@syncbridge/common`,
+`runtime`, `syncbuild`, `testing`, `plugin-api`), public, `syncbridge-io/node-sdk`
+at `/Users/ehanoglu/dev/syncbridge/node-sdk`, and the private rest (engine,
+Console, registry), `syncbridge-io/syncbridge`, at
+`/Users/ehanoglu/dev/syncbridge/syncbridge`. See "The platform" below.
 
 ## Layout
 
@@ -36,29 +38,31 @@ Claude session named **`syncbridge`**. See "The platform" below.
   check, versions and changelogs; `tsconfig-base.json`,
   `tsconfig-build.json`, `tsconfig-test.json`, `.mocharc.cjs`.
 - Modules depend on each other as **npm peer dependencies**
-  (`@syncbridge/hl7` peers `@syncbridge/net` and `@syncbridge/builtins`),
+  (`@syncbridge/hl7` peers `@syncbridge/builtins`),
   and on `@syncbridge/common` as a peer: the engine provides it.
 
 ## The platform
 
-**Its packages are taken from its local builds, not npm.** The modules
-need platform code that is not released yet, and the platform's builds are
-newer than npm's. After every `npm install`, run:
+**Its packages come from npm**: `@syncbridge/common` (a peer of every
+module), and `@syncbridge/syncbuild` (`spm`) and `@syncbridge/testing` as root
+devDependencies, all `^2.0.0`. When a change needs platform code that is not
+released yet, take the platform's local builds for as long as it takes:
 
 ```bash
 node support/use-platform-builds.mjs
 ```
 
 It packs `@syncbridge/common`, `runtime`, `testing` and `syncbuild` from
-the platform repository's `packages/public/<name>/build` and installs them
+the SDK repository's `packages/<name>/build` and installs them
 here as tarballs (copied, so there is one `@syncbridge/common`), leaving
-`package.json` and the lockfile untouched. It prints each build's version
-and time. `SB_PLATFORM_DIR` points it elsewhere.
+`package.json` and the lockfile untouched; run it after every `npm install`.
+`SB_PLATFORM_DIR` points it elsewhere than `../node-sdk`. Never commit a change that needs
+an unreleased version to install.
 
 The other way round, the platform's engine runs these modules in
 development from this repository's sources (its `tsconfig.json` maps
-`@syncbridge/*` to `../syncbridge-public-modules/packages/*/src`): keep
-this repository beside the platform's, and keep `main`'s modules working,
+`@syncbridge/*` to `../../../../public-modules/packages/*/src`, a sibling): keep
+this directory named `public-modules`, beside `cloud` and `node-sdk`, and keep `main`'s modules working,
 as the engine's development uses them.
 
 **A problem or a gap on the platform's side is reported, never worked
@@ -103,7 +107,7 @@ Definition of done for a code change: `npm test`, `rman lint`,
 - **Commits:** commit each finished step. Message =
   `<type>(<scope>): <summary>` where type is one of `feat`, `fix`,
   `refactor`, `chore`, `dev`, `test`, `docs`, `style`, `perf`, and scope is
-  the module (`feat(net): ...`). The types decide the next versions: a
+  the module (`feat(hl7): ...`). The types decide the next versions: a
   `feat` is a minor release of that module, a `fix` a patch, `!` major.
 - **Push:** ask before every `git push`; push with `--follow-tags`.
 - **Secrets:** never print a token, key or password, never commit one.
@@ -155,34 +159,54 @@ install, a short example, link to its docs.
 
 - Versions: `rman` from Conventional Commits; a merge to `main` releases
   the modules changed since (see `.github/workflows/release.yml`).
-- The **SyncBridge registry**: `spm publish` from GitHub Actions publishes
-  with the job's OIDC token, no secret. The `syncbridge` organization in
-  Console must trust this repository (organization settings, Trusted
-  publishers); a package then stays bound to it. `spm verify` before
-  publishing; `--access public`, as these are public.
-- **npm**: the engine's Docker image installs the modules from npm by
-  name (its `config.builtin.json`), so they are published to npm as well
-  today. Whether that stays, and how the two publishes fit together in
-  `release.yml`, is to be agreed with the user before changing it.
+- `.github/workflows/release.yml`: `test`, then `verify` (`spm verify` of
+  every module, before the version is bumped: a failure after `rman version
+  --push` would leave a version that was never released), then the release
+  (`rman`: version, build, publish, GitHub Release).
+- **The modules are published to the SyncBridge registry, not to npm**: its
+  `spm` publish target is set in `.rmanrc.yml` (`publish.target: [spm]`,
+  rman >= 2.32.0 and `@syncbridge/syncbuild` >= 2.2.0 as the root
+  devDependency). `rman publish` asks the registry (`spm view`) which version
+  a module lacks and publishes it with the repository's own `spm`; in GitHub
+  Actions spm publishes as the job with its OIDC token, no secret, so the job
+  needs `id-token: write`. The organization owning the `@syncbridge` scope
+  must trust this repository in Console (Trusted publishers), with "CI may
+  create packages" on for the first publish; a package then stays bound to
+  it. A release that failed at publishing is finished by running the workflow
+  again. The engine's image installs the builtins from the registry. The old
+  npm versions stay, deprecated, pointing at the registry; the SDK packages
+  (`@syncbridge/common` and the others) stay on npm.
+- The first release bumps all eight modules: the published 1.0.x builds are
+  stale against `@syncbridge/common` 2.
 
 ## State when this repository was started (2026-10-19)
 
 - The modules were moved here from the platform repository's
   `packages/extensions`, without history. They are already on npm
   (`@syncbridge/builtins` 1.0.4, ...), then licensed UNLICENSED.
-- **They need an `@syncbridge/common` newer than npm's 1.1.4** (`App`,
-  `AppBase`, `LogChannel`): with npm's alone `npm test` fails to compile,
-  so the platform's builds are used (see "The platform"). Once the
-  platform releases it, set the modules' peer ranges and the root
-  devDependency to that version.
+- They needed an `@syncbridge/common` newer than npm's 1.1.4; the platform
+  released 2.0.0, and the modules' peer ranges and the root devDependencies
+  follow it.
+- `@syncbridge/net` was folded into `@syncbridge/builtins` (2026-10-20): its
+  components are `@syncbridge/builtins:TcpClient` and so on now. The package
+  is gone; its last npm version is to be deprecated by the user.
 - The platform's `@syncbridge/testing` tests of the virtual network and
-  serial port moved here: `packages/net/test/virtual-network.spec.ts` and
+  serial port moved here: `packages/builtins/test/virtual-network.spec.ts` and
   `packages/serialport/test/virtual-serial.spec.ts`, with their
   `_fixtures/echo-ext` / `serial-ext`. They are also the example of how to
   test a module with `@syncbridge/testing` (import it before the module
   under test).
-- `HL7ClientComponent handlers / should keep its handlers when its values
-  change` failed once in seven runs: flaky, not looked into yet.
-- Not done yet: `docs/` for the modules, the spm publish in `release.yml`,
-  registering this repository as npm Trusted Publisher and SyncBridge
-  Trusted publisher, making the GitHub repository public.
+- Not done yet: this repository as a trusted publisher in Console (and the
+  organization owning the `@syncbridge` scope), deprecating the old npm
+  versions, making the GitHub repository public. The repository is at
+  `github.com/syncbridge-io/public-modules`.
+
+## graphify
+
+This project has a knowledge graph at graphify-out/ with god nodes, community structure, and cross-file relationships.
+
+Rules:
+- For codebase questions, first run `graphify query "<question>"` when graphify-out/graph.json exists. Use `graphify path "<A>" "<B>"` for relationships and `graphify explain "<concept>"` for focused concepts. These return a scoped subgraph, usually much smaller than GRAPH_REPORT.md or raw grep output.
+- If graphify-out/wiki/index.md exists, use it for broad navigation instead of raw source browsing.
+- Read graphify-out/GRAPH_REPORT.md only for broad architecture review or when query/path/explain do not surface enough context.
+- After modifying code, run `graphify update .` to keep the graph current (AST-only, no API cost).

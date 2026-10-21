@@ -1,4 +1,3 @@
-import { AdapterRegistry } from '@sqb/connect';
 import { DefineVariable, VariableType } from '@syncbridge/common';
 
 /**
@@ -32,15 +31,6 @@ export class SqbClientPoolVariables {
   declare acquireTimeoutMillis: number;
 
   @DefineVariable({
-    label: 'Fifo',
-    description:
-      'If true resources will be allocated first-in-first-out order. resources will be allocated last-in-first-out order',
-    default: true,
-    hotPlug: true,
-  })
-  declare fifo: boolean;
-
-  @DefineVariable({
     label: 'Idle timeout',
     description:
       'The minimum amount of time in millis that an resource may sit idle in the Pool',
@@ -48,14 +38,6 @@ export class SqbClientPoolVariables {
     hotPlug: true,
   })
   declare idleTimeoutMillis: number;
-
-  @DefineVariable({
-    label: 'House keep interval',
-    description: 'Time period in millis that Pool will make a cleanup',
-    default: 1000,
-    hotPlug: true,
-  })
-  declare houseKeepInterval: number;
 
   @DefineVariable({
     label: 'Min',
@@ -99,7 +81,8 @@ export class SqbClientVariables {
     type: VariableType.Enum,
     label: 'Dialect',
     description: 'Database dialect',
-    enumValues: Array.from(AdapterRegistry.items()).map(x => x.dialect),
+    enumValues: ['postgres', 'oracle'],
+    required: true,
     hotPlug: true,
   })
   declare dialect: string;
@@ -107,6 +90,7 @@ export class SqbClientVariables {
   @DefineVariable({
     label: 'Host',
     description: 'Database server address or url',
+    hotPlug: true,
   })
   declare host?: string;
 

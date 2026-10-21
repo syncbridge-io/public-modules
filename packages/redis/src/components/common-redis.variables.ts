@@ -1,6 +1,8 @@
-import { IoClientBaseComponent } from '@syncbridge/builtins';
+import {
+  IoClientBaseComponent,
+  TcpClientComponent,
+} from '@syncbridge/builtins';
 import { DefineVariable } from '@syncbridge/common';
-import { TcpClientComponent } from '@syncbridge/net';
 import * as ioredis from 'ioredis';
 
 /**
@@ -35,7 +37,8 @@ export class CommonRedisVariables
 
   @DefineVariable({
     label: 'Keep alive',
-    description: 'Enables keep-alive on the TCP socket',
+    description:
+      'Initial delay in milliseconds before the first keep-alive probe on the TCP socket',
     index: 200,
   })
   declare keepAlive?: number;

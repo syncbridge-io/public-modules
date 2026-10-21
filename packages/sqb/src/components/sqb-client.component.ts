@@ -7,8 +7,10 @@ import {
   ComponentBase,
   LogChannel,
   ServiceStatus,
+  WorkerPermission,
 } from '@syncbridge/common';
 import colors from 'ansi-colors';
+import { noOp } from '../constants.js';
 import {
   SqbClientPoolVariables,
   SqbClientVariables,
@@ -21,6 +23,10 @@ import {
   className: 'SqbClient',
   displayName: 'SqbClient',
   description: 'Database Connection Client',
+  /* A worker may load native code only when told: oracledb is a native addon */
+  permissions: [WorkerPermission.NativeCode],
+  summary:
+    'Connects to a PostgreSQL or Oracle database through SQB, with a connection pool and a log of the SQL it runs.',
   tags: ['io', 'stream'],
 })
 export class SqbClientComponent<
@@ -47,7 +53,17 @@ export class SqbClientComponent<
 
   protected async _init(): Promise<void> {
     await super._init();
-    this.client = new SqbClient({
+    this._createClient();
+    this.on('values-updated', () =>
+      this._restart().catch(err =>
+        this.setStatus(ServiceStatus.unhealthy, err.message),
+      ),
+    );
+  }
+
+  /** A client of the current values, for the next start; the old one is closed */
+  protected _createClient() {
+    const client = new SqbClient({
       dialect: this.values.dialect,
       host: this.values.host,
       port: this.values.port,
@@ -58,7 +74,8 @@ export class SqbClientComponent<
       name: this.values.applicationName,
       pool: this.values.pool,
     });
-    this.client.on('error', (err: Error) => {
+    this.client = client;
+    client.on('error', (err: Error) => {
       if (err instanceof SQBError && this.logger?.level === 'debug') {
         const query = err.request?.sql || String(err.query);
         this.logger.debug(
@@ -82,7 +99,7 @@ export class SqbClientComponent<
         );
       }
     });
-    this.client.on('execute', request =>
+    client.on('execute', request =>
       this.queriesLog?.write({
         level: 'info',
         event: 'execute',
@@ -90,7 +107,7 @@ export class SqbClientComponent<
         fields: request.params ? { params: request.params } : undefined,
       }),
     );
-    this.client.on('error', (err: Error) =>
+    client.on('error', (err: Error) =>
       this.queriesLog?.write({
         level: 'error',
         event: 'error',
@@ -104,31 +121,27 @@ export class SqbClientComponent<
             : undefined,
       }),
     );
-    this.client.on('acquire', () => {
+    client.on('acquire', () => {
       this._resetLiveness();
-    });
-    this.on('values-updated', async () => {
-      const isStopped = this.stopped;
-      await this._stop();
-      if (!isStopped) {
-        await this._start(new AbortController().signal).catch(err => {
-          this.setStatus(ServiceStatus.unhealthy, err.message);
-        });
-      }
     });
   }
 
   protected async _start(abortSignal: AbortSignal): Promise<void> {
     await super._start(abortSignal);
+    // The values are the client's: it is built again to take them
+    await this.client?.close().catch(noOp);
+    this._createClient();
     await this._testConnection(abortSignal);
   }
 
   protected async _stop(): Promise<void> {
     clearTimeout(this._livenessTimer);
     await this.client.close();
+    return super._stop();
   }
 
   protected async _terminate(): Promise<void> {
+    clearTimeout(this._livenessTimer);
     await this.client.close(0);
   }
 
@@ -164,13 +177,16 @@ export class SqbClientComponent<
    * @protected
    */
   protected _liveness() {
-    this._testConnection().finally(() => {
-      this._resetLiveness();
-    });
+    this._testConnection()
+      .catch(noOp)
+      .finally(() => {
+        this._resetLiveness();
+      });
   }
 
   protected _resetLiveness() {
     clearTimeout(this._livenessTimer);
+    if (this.stopped) return;
     this._livenessTimer = setTimeout(() => {
       this._liveness();
     }, 5000).unref();

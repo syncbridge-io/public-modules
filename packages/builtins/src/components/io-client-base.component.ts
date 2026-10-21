@@ -11,6 +11,8 @@ import { IoClientComponentVariables } from './io-client-base.variables.js';
   className: 'IoClient',
   displayName: 'IO Client',
   description: 'Abstract component for IO operations',
+  summary:
+    'Abstract base of the components that connect to one peer: it defines their data events, write() and communication log.',
   tags: ['io', 'stream'],
 })
 export class IoClientBaseComponent<

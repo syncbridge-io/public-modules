@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 /*
- * Installs the SyncBridge platform's packages from the platform
- * repository's builds, in place of npm's: while the modules need what the
- * platform has not released yet. Each build is packed and installed as a
+ * Installs the SyncBridge SDK's packages from the SDK repository's builds
+ * (syncbridge-io/node-sdk), in place of npm's: while the modules need what
+ * the SDK has not released yet. Each build is packed and installed as a
  * tarball - copied, not linked - so this repository has one
  * @syncbridge/common, as SyncBridge has. package.json and the lockfile are
  * left as they are; `npm install` brings npm's versions back.
  *
  *   node support/use-platform-builds.mjs
  *
- * The platform repository: SB_PLATFORM_DIR, else ../syncbridge.
+ * The SDK repository: SB_PLATFORM_DIR, else ../node-sdk.
  */
 import { execFileSync } from 'node:child_process';
 import fs from 'node:fs';
@@ -18,7 +18,7 @@ import path from 'node:path';
 const ROOT = path.resolve(import.meta.dirname, '..');
 const PLATFORM = path.resolve(
   ROOT,
-  process.env.SB_PLATFORM_DIR || '../syncbridge',
+  process.env.SB_PLATFORM_DIR || '../node-sdk',
 );
 /* In the order they depend on each other */
 const PACKAGES = ['common', 'runtime', 'testing', 'syncbuild'];
@@ -28,11 +28,11 @@ fs.rmSync(OUT, { recursive: true, force: true });
 fs.mkdirSync(OUT);
 const tarballs = [];
 for (const name of PACKAGES) {
-  const build = path.join(PLATFORM, 'packages/public', name, 'build');
+  const build = path.join(PLATFORM, 'packages', name, 'build');
   const manifest = path.join(build, 'package.json');
   if (!fs.existsSync(manifest)) {
     console.error(
-      `No build of @syncbridge/${name} in ${build}: ask the platform's session to build it.`,
+      `No build of @syncbridge/${name} in ${build}: ask the platform's session to build it (npx rman build there).`,
     );
     process.exit(1);
   }
@@ -50,4 +50,4 @@ execFileSync('npm', ['install', '--no-save', ...tarballs], {
   cwd: ROOT,
   stdio: 'inherit',
 });
-console.log('The platform packages are installed from its builds.');
+console.log('The SDK packages are installed from its builds.');

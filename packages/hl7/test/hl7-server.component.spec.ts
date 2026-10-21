@@ -1,4 +1,4 @@
-import type net from 'node:net';
+import net from 'node:net';
 import type { LogChannel } from '@syncbridge/common';
 import { expect } from 'expect';
 import { HL7Message } from 'hl7v2';
@@ -188,5 +188,56 @@ describe('HL7ServerComponent', () => {
       );
       expect(ack.get('MSA-1')).toBe('AA');
     });
+  });
+});
+
+describe('HL7ServerComponent socket settings', () => {
+  it('should refuse the addresses it is told to block', async () => {
+    const server = new HL7ServerComponent({
+      app: {} as any,
+      parent: {} as any,
+      name: 'hl7Server',
+      path: 'hl7Server',
+      values: {
+        port: 0,
+        bindInterface: '127.0.0.1',
+        socket: { blockedIps: ['127.0.0.1'] },
+      },
+    });
+    await server.init();
+    await server.start();
+    const connections: unknown[] = [];
+    server.on('connection', info => connections.push(info));
+    try {
+      const { port } = server.server.address() as net.AddressInfo;
+      const socket = net.connect(port, '127.0.0.1');
+      socket.on('error', () => undefined);
+      await new Promise(resolve => socket.once('close', resolve));
+      expect(connections).toEqual([]);
+    } finally {
+      await server.stop();
+    }
+  });
+
+  it('should fail to start, not swallow it, when its port is taken', async () => {
+    const taken = net.createServer();
+    await new Promise<void>(resolve => taken.listen(0, '127.0.0.1', resolve));
+    const server = new HL7ServerComponent({
+      app: {} as any,
+      parent: {} as any,
+      name: 'hl7Server',
+      path: 'hl7Server',
+      values: {
+        port: (taken.address() as net.AddressInfo).port,
+        bindInterface: '127.0.0.1',
+      },
+    });
+    try {
+      await server.init();
+      await expect(server.start()).rejects.toThrow(/EADDRINUSE/);
+    } finally {
+      await server.stop();
+      await new Promise(resolve => taken.close(resolve));
+    }
   });
 });

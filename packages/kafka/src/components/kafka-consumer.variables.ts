@@ -18,6 +18,7 @@ export class KafkaConsumerVariables {
     description: 'Topics to subscribe to',
     index: 101,
     type: VariableType.String,
+    isArray: true,
     required: true,
     hotPlug: true,
   })
@@ -43,7 +44,7 @@ export class KafkaConsumerVariables {
   @DefineVariable({
     label: 'Auto Create Topics',
     description:
-      'Whether to ask brokers to auto-create missing topics during produce requests.',
+      'Whether to ask brokers to auto-create missing topics when the topics are looked up.',
     index: 103,
     hotPlug: true,
   })
@@ -62,7 +63,8 @@ export class KafkaConsumerVariables {
 
   @DefineVariable({
     label: 'Fallback Mode',
-    description: 'Where to start fetching new messages.',
+    description:
+      'Where to start fetching when the mode is `committed` and a partition has no committed offset. `fail` raises an error.',
     index: 101,
     type: VariableType.String,
     enumValues: ['latest', 'earliest', 'fail'],
@@ -86,11 +88,9 @@ export class KafkaConsumerVariables {
   @DefineVariable({
     label: 'Autocommit',
     description:
-      'Whether to autocommit consumed messages. If it is `true`, then messages are committed immediately. ' +
-      'If it is a number, it specifies how often offsets will be committed. ' +
-      'Only the last offset for a topic-partition is committed. If set to `false`, ' +
-      'then each message read from the stream will have a `commit` method which ' +
-      'should be used to manually commit offsets.',
+      'Whether to autocommit consumed messages. If it is `true`, messages are committed immediately. ' +
+      'If it is `false`, each message handed to the app has a `commit` method which ' +
+      'the app calls to commit its offset.',
     index: 101,
     default: true,
     hotPlug: true,
@@ -122,7 +122,7 @@ export class KafkaConsumerVariables {
   @DefineVariable({
     label: 'Max Wait Time',
     description:
-      'Maximum amount of time in milliseconds the broker will wait before sending a response to a fetch request.',
+      'Maximum amount of time in seconds the broker will wait before sending a response to a fetch request.',
     index: 102,
     default: 5, // 5 secs
     minValue: 0,

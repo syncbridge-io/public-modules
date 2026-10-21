@@ -1,5 +1,5 @@
+import { TcpClientComponent } from '@syncbridge/builtins';
 import { DefineVariable, VariableType } from '@syncbridge/common';
-import { TcpClientComponent } from '@syncbridge/net';
 import { CommonRedisVariables } from './common-redis.variables.js';
 
 /**
@@ -49,6 +49,7 @@ export class RedisSentinelVariables extends CommonRedisVariables {
     description:
       'If set, client will send AUTH command with the value of this option when connected.',
     index: 100,
+    type: VariableType.Secret,
   })
   declare password?: string;
 

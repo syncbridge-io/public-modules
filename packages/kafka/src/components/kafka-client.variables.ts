@@ -1,5 +1,5 @@
+import { TcpClientComponent } from '@syncbridge/builtins';
 import { DefineVariable, VariableType } from '@syncbridge/common';
-import { TcpClientComponent } from '@syncbridge/net';
 
 /**
  * SASL variables
@@ -17,7 +17,7 @@ export class KafkaSaslVariables {
       'GSSAPI',
     ],
     required: true,
-    default: 'plain',
+    default: 'PLAIN',
     hotPlug: true,
   })
   declare mechanism:
@@ -34,7 +34,7 @@ export class KafkaSaslVariables {
   @DefineVariable({
     label: 'Password',
     description:
-      'Username. Available for "plain", "scram-sha-256" and "scram-sha-512" mechanisms"',
+      'Password. Available for "plain", "scram-sha-256" and "scram-sha-512" mechanisms"',
     type: VariableType.Secret,
     hotPlug: true,
   })
@@ -170,9 +170,9 @@ export class KafkaConnectionVariables {
   declare tls_enabled: boolean;
 
   @DefineVariable({
-    label: 'TSL',
-    description: 'TSL options',
+    label: 'TLS',
+    description: 'TLS options',
     hotPlug: true,
   })
-  declare tsl: TcpClientComponent.TlsVariables;
+  declare tls: TcpClientComponent.TlsVariables;
 }

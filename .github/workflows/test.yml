@@ -47,3 +47,17 @@ jobs:
           rman lint
           npx tsc -b tsconfig-test.json --noEmit
           npm run citest
+
+  # Not on main: a release runs it itself, before the version is bumped. In a
+  # called workflow github.event_name is the caller's, so the branch tells
+  verify:
+    if: >
+      github.ref_name != 'main' &&
+      (
+        github.event_name == 'workflow_dispatch' ||
+        (
+          github.event_name == 'push' &&
+          !contains(github.event.head_commit.message, 'no-test')
+        )
+      )
+    uses: ./.github/workflows/verify.yml
