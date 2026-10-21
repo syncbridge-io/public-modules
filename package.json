@@ -19,14 +19,14 @@
     "check": "rman check"
   },
   "devDependencies": {
-    "@panates/eslint-config": "^2.3.2",
-    "@panates/eslint-config-ts": "^2.3.2",
-    "@panates/rman-preset": "^1.12.0",
+    "@panates/eslint-config": "^2.3.3",
+    "@panates/eslint-config-ts": "^2.3.3",
+    "@panates/rman-preset": "^1.12.1",
     "@panates/tsconfig": "^2.1.8",
     "@swc-node/register": "^1.12.1",
     "@swc/core": "^1.16.18",
     "@swc/helpers": "^0.5.23",
-    "@syncbridge/common": "^2.0.0",
+    "@syncbridge/common": "^2.0.1",
     "@syncbridge/syncbuild": "^2.2.0",
     "@syncbridge/testing": "^2.0.0",
     "@types/mocha": "^10.0.10",
@@ -37,5 +37,6 @@
     "mocha": "^12.0.3",
     "ts-gems": "^4.0.4",
     "typescript": "6.0.3"
-  }
+  },
+  "version": "0.0.0"
 }
