@@ -111,6 +111,10 @@ Definition of done for a code change: `npm test`, `rman lint`,
   the module (`feat(hl7): ...`). The types decide the next versions: a
   `feat` is a minor release of that module, a `fix` a patch, `!` major.
 - **Push:** ask before every `git push`; push with `--follow-tags`.
+  Before pushing, run `rman deps`. When it lists newer versions, upgrade
+  the manifests with `rman deps -u`, run `npm install`, and run the
+  definition of done again (`npm test`, `rman lint`, `rman check`,
+  prettier); commit the upgrade as `chore: ...` before the push.
 - **Secrets:** never print a token, key or password, never commit one.
   This repository is public.
 - **Found a bug or something odd in passing?** Tell the user; don't fix it
