@@ -24,7 +24,7 @@
   "peerDependencies": {
     "@jsopen/objects": ">=2.3.4 <3",
     "@syncbridge/builtins": ">=2.0.0 <3",
-    "@syncbridge/common": "^2.0.1",
+    "@syncbridge/common": "^2.1.0",
     "ioredis": ">=6.0.0 <7"
   },
   "exports": {
