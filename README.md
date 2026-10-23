@@ -14,7 +14,8 @@ apps a SyncBridge server runs - and examples to build modules of your own.
 | [`@syncbridge/ngrok`](packages/ngrok)           | TCP tunnels through ngrok                                                               |
 | [`@syncbridge/pinggy`](packages/pinggy)         | TCP tunnels through Pinggy                                                              |
 
-Each is published to npm, and comes with the SyncBridge server.
+Each is published to the SyncBridge registry - installable from the
+Marketplace - and comes with the SyncBridge server.
 
 ## Building your own module
 
