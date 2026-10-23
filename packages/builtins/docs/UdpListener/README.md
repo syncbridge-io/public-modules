@@ -7,7 +7,7 @@ broadcasts and multicast feeds. To send to a fixed target, use
 [`UdpClient`](../UdpClient/README.md).
 
 It extends
-[`IoClient`](../IoClient/README.md)
+[`IoClient`](../guides/io-client.md)
 of `@syncbridge/builtins`. Its class is `UdpListenerComponent`, its
 protocol is `udp`.
 

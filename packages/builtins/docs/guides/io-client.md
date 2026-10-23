@@ -1,3 +1,8 @@
+---
+title: IoClient, the base of client components
+order: 2
+---
+
 # IoClient
 
 `IoClient` is an abstract component: the base of every component that

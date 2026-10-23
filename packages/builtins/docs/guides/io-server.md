@@ -1,3 +1,8 @@
+---
+title: IoServer, the base of server components
+order: 3
+---
+
 # IoServer
 
 `IoServer` is an abstract component: the base of components that accept
@@ -9,7 +14,7 @@ app by itself.
 The class is `IoServerBaseComponent`. Its registered class name is
 `IoServer`, and it is declared `abstract`.
 
-It differs from [`IoClient`](../IoClient/README.md) in two ways. It has no
+It differs from [`IoClient`](io-client.md) in two ways. It has no
 `connect` and `disconnect` events and no `peerAddress`, because it has many
 peers. Each event carries the peer it is about instead.
 

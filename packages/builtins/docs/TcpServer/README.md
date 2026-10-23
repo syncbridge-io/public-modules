@@ -8,7 +8,7 @@ TLS and socket options, an IP block list, and a record of each connection's
 traffic in the communication log.
 
 It extends
-[`IoServer`](../IoServer/README.md)
+[`IoServer`](../guides/io-server.md)
 of `@syncbridge/builtins`. Its class is `TcpServerComponent`.
 
 ## Settings
