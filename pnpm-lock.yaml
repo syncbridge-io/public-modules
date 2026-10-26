@@ -229,6 +229,12 @@ importers:
       c8:
         specifier: ^12.0.0
         version: 12.0.0
+      dpdm:
+        specifier: ^4.3.0
+        version: 4.3.0
+      eslint:
+        specifier: ^10.13.0
+        version: 10.13.0(supports-color@8.1.1)
       expect:
         specifier: ^30.5.2
         version: 30.5.2
@@ -238,6 +244,9 @@ importers:
       mocha:
         specifier: ^12.0.3
         version: 12.0.3
+      prettier:
+        specifier: ^3.9.10
+        version: 3.9.10
       ts-gems:
         specifier: ^4.0.4
         version: 4.0.4
