@@ -218,8 +218,8 @@ importers:
         specifier: workspace:*
         version: link:packages/sqb
       '@syncbridge/syncbuild':
-        specifier: ^2.5.1
-        version: 2.5.1(@syncbridge/common@2.3.1(@opra/common@1.33.0))(supports-color@8.1.1)
+        specifier: ^2.6.0
+        version: 2.6.0(@syncbridge/common@2.3.1(@opra/common@1.33.0))(supports-color@8.1.1)
       '@syncbridge/testing':
         specifier: ^2.0.0
         version: 2.0.0(@syncbridge/common@2.3.1(@opra/common@1.33.0))
@@ -366,11 +366,11 @@ importers:
   packages/oracle-client:
     dependencies:
       '@syncbridge/common':
-        specifier: ^2.1.0
+        specifier: ^2.3.1
         version: 2.3.1(@opra/common@1.33.0)
       '@syncbridge/plugin-api':
-        specifier: ^2.0.0
-        version: 2.0.0(@syncbridge/common@2.3.1(@opra/common@1.33.0))
+        specifier: ^2.1.0
+        version: 2.1.0(@syncbridge/common@2.3.1(@opra/common@1.33.0))
       adm-zip:
         specifier: ^0.6.1
         version: 0.6.1
@@ -379,7 +379,7 @@ importers:
         version: 2.8.1
     devDependencies:
       '@types/adm-zip':
-        specifier: ^0.5.7
+        specifier: ^0.5.8
         version: 0.5.8
       expect:
         specifier: ^30.5.2
@@ -1446,20 +1446,20 @@ packages:
     peerDependencies:
       '@opra/common': '>=1.17.1 <2'
 
-  '@syncbridge/plugin-api@2.0.0':
-    resolution: {integrity: sha512-s5bGE3kS6XW7Wnae54l3qHL0jHkIrM2pu2+XlnuIpKPW++XZ5nGiI1n5Tvcvru1tmVVc+40xu7gwrFY4K3CMgg==}
+  '@syncbridge/plugin-api@2.1.0':
+    resolution: {integrity: sha512-h+arXqUzeFmJMOYGyF924nNYAvzp7MzKM1wlrPySwB/H3YdMEw8oUQ2/o28DqAFzefwKcbk7F8uK1yA9IoJ20g==}
     engines: {node: '>=22.12.0'}
     peerDependencies:
-      '@syncbridge/common': ^2.0.0
+      '@syncbridge/common': ^2.3.1
 
-  '@syncbridge/runtime@2.0.2':
-    resolution: {integrity: sha512-HaPDWSxgSXDRngCMMx7pZANL8yWZjvvech4/9MdR7G7BiGalEwyeiJDF62apMmbTK9icaMJGcfDgjWtDdbKiJg==}
+  '@syncbridge/runtime@2.1.0':
+    resolution: {integrity: sha512-NLXyudHlf9TGmZQCYVGMyTzPbVWpW9Zx9u8+Nq/uQ7ie3zXW14KuFVAV3C+gX5EXeN00CaGlNSWez1ZmyZK4FQ==}
     engines: {node: '>=22.15'}
     peerDependencies:
-      '@syncbridge/common': ^2.0.1
+      '@syncbridge/common': ^2.3.1
 
-  '@syncbridge/syncbuild@2.5.1':
-    resolution: {integrity: sha512-3vl3ZxTA2hGdlH+BImQlcYflAREV4ecL1n3MbocJo7Ti7EFTzuUiCLq18uH++7ADX5TD7SIa26rqa4e6+AXTxA==}
+  '@syncbridge/syncbuild@2.6.0':
+    resolution: {integrity: sha512-87VzSdyP4JZQcLCeG/ls3rN97W/1rP9zrh14+zkAuHW7VO4tOeEYTxK8tGE8BpNZT58S0cOR+AMxq2QABrnnJw==}
     engines: {node: '>=22.15'}
     hasBin: true
     peerDependencies:
@@ -3958,13 +3958,13 @@ snapshots:
       ts-gems: 4.0.4
       valgen: 7.0.5
 
-  '@syncbridge/plugin-api@2.0.0(@syncbridge/common@2.3.1(@opra/common@1.33.0))':
+  '@syncbridge/plugin-api@2.1.0(@syncbridge/common@2.3.1(@opra/common@1.33.0))':
     dependencies:
       '@syncbridge/common': 2.3.1(@opra/common@1.33.0)
       reflect-metadata: 0.2.2
       ts-gems: 4.0.4
 
-  '@syncbridge/runtime@2.0.2(@syncbridge/common@2.3.1(@opra/common@1.33.0))':
+  '@syncbridge/runtime@2.1.0(@syncbridge/common@2.3.1(@opra/common@1.33.0))':
     dependencies:
       '@jsopen/objects': 2.3.4
       '@syncbridge/common': 2.3.1(@opra/common@1.33.0)
@@ -3972,11 +3972,11 @@ snapshots:
       jsonc-parser: 3.3.1
       semver: 7.8.5
 
-  '@syncbridge/syncbuild@2.5.1(@syncbridge/common@2.3.1(@opra/common@1.33.0))(supports-color@8.1.1)':
+  '@syncbridge/syncbuild@2.6.0(@syncbridge/common@2.3.1(@opra/common@1.33.0))(supports-color@8.1.1)':
     dependencies:
       '@jsopen/objects': 2.3.4
       '@syncbridge/common': 2.3.1(@opra/common@1.33.0)
-      '@syncbridge/runtime': 2.0.2(@syncbridge/common@2.3.1(@opra/common@1.33.0))
+      '@syncbridge/runtime': 2.1.0(@syncbridge/common@2.3.1(@opra/common@1.33.0))
       adm-zip: 0.6.1
       ansi-colors: 4.1.3
       commander: 15.0.0
