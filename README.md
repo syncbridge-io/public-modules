@@ -17,6 +17,17 @@ apps a SyncBridge server runs - and examples to build modules of your own.
 Each is published to the SyncBridge registry - installable from the
 Marketplace - and comes with the SyncBridge server.
 
+## Plugins
+
+A plugin is a package of another kind: it does not run in a worker, it
+extends the server itself. The repository has one, and the Marketplace does
+not list plugins - they are installed from Console and turned on under
+Settings → Plugins.
+
+| Plugin                                                | What it brings                                                                     |
+| ----------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| [`@syncbridge/oracle-client`](packages/oracle-client) | Installs Oracle Instant Client, once an admin has accepted Oracle's license, and gives it to the workers |
+
 ## Building your own module
 
 A module is an npm package of components and apps, written in TypeScript
