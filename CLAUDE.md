@@ -34,9 +34,8 @@ Console, registry), `syncbridge-io/syncbridge`, at
   settings shown in the UI) in `<name>.variables.ts` beside them; apps in
   `src/apps`.
 - `packages/<name>/test`: mocha tests (`*.spec.ts`).
-- Root: pnpm workspaces (`pnpm-workspace.yaml`; the `workspaces` field of
-  `package.json` stays because that is where rman reads the packages from),
-  `rman` (`@panates/rman-preset`) for build, lint,
+- Root: pnpm workspaces (`pnpm-workspace.yaml`), `rman`
+  (`@panates/rman-preset`) for build, lint,
   check, versions and changelogs; `tsconfig-base.json`,
   `tsconfig-build.json`, `tsconfig-test.json`, `.mocharc.cjs`.
 - Modules depend on each other as **npm peer dependencies**

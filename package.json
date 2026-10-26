@@ -9,9 +9,6 @@
     "type": "git",
     "url": "git+https://github.com/syncbridge-io/public-modules.git"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
     "build": "rman build",
     "test": "tsc -b tsconfig-test.json --noEmit && mocha",
