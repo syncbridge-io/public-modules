@@ -4,7 +4,7 @@ import path from 'node:path';
 import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import { DefineVariable } from '@syncbridge/common';
-import { Plugin, PluginBase } from '@syncbridge/plugin-api';
+import { Plugin, PluginBase, type PluginHost } from '@syncbridge/plugin-api';
 import { CLIENT_DIR, INSTALL_RECORD } from '../constants.js';
 import { downloadUrlOf } from '../utils/download-url.js';
 import { hasLibaio, LIBAIO_MISSING } from '../utils/libaio.js';
@@ -55,6 +55,7 @@ export class OracleClientPlugin extends PluginBase<OracleClientSettings> {
   }
 
   async activate(): Promise<void> {
+    this._needsPluginApi21();
     this._registerActions();
     /* The engine waits for activate, and the license is answered by a person:
      * the question and the download are told through the status instead */
@@ -66,6 +67,28 @@ export class OracleClientPlugin extends PluginBase<OracleClientSettings> {
      * left to finish into a directory nothing reads any more */
     this._removeActions.splice(0);
     this._removeEnvironment = undefined;
+  }
+
+  /**
+   * The engine tells a plugin the plugin-api version it has itself, and
+   * refuses a plugin whose peer range it does not satisfy - but an engine
+   * built on 2.0 that reaches here anyway has none of what this plugin
+   * talks through. Said plainly, on its card, rather than failing at the
+   * first call.
+   */
+  protected _needsPluginApi21(): void {
+    /* The types promise all of it; an engine built on 2.0 does not */
+    const host = this.host as Partial<PluginHost>;
+    if (
+      host.status &&
+      host.ui &&
+      typeof host.workers?.addEnvironment === 'function'
+    )
+      return;
+    throw new Error(
+      'This plugin needs a SyncBridge built on @syncbridge/plugin-api 2.1 or newer: ' +
+        `this one provides ${host.engine?.apiVersion || 'an older API'}, which has no status, questions or workers' environment. Update SyncBridge.`,
+    );
   }
 
   /** The license, then the client: installed already, or downloaded */

@@ -48,6 +48,15 @@ describe('OracleClientPlugin', () => {
     fs.rmSync(dataDirectory, { recursive: true, force: true });
   });
 
+  it('should refuse an engine that is older than plugin-api 2.1', async () => {
+    const p = plugin();
+    /* The engine of 2.0: no status, no questions, no workers' environment */
+    const old = { engine: { version: '1.10.0', apiVersion: '2.0.4' } };
+    Object.defineProperty(p, 'host', { value: old });
+    await expect(p.activate()).rejects.toThrow('plugin-api 2.1 or newer');
+    await expect(p.activate()).rejects.toThrow('2.0.4');
+  });
+
   it('should ask the license, unpack the client and give it to the workers', async () => {
     const p = plugin();
     await p.activate();
