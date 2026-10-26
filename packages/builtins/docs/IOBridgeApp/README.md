@@ -11,8 +11,8 @@ The app is registered under its class name, `IOBridgeApp`.
 
 | Component | Type                                | Required | Description                         |
 | --------- | ----------------------------------- | -------- | ----------------------------------- |
-| `peer1`   | any [`IoClient`](../IoClient/README.md) | yes      | The first peer.                     |
-| `peer2`   | any [`IoClient`](../IoClient/README.md) | yes      | The second peer.                    |
+| `peer1`   | any [`IoClient`](../guides/io-client.md) | yes      | The first peer.                     |
+| `peer2`   | any [`IoClient`](../guides/io-client.md) | yes      | The second peer.                    |
 
 Choose each peer's component in the profile: any component built on
 `IoClient` fits, for example `TcpClient`, `UdpClient`, `UdpListener` or a

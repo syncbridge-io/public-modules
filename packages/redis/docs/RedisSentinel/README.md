@@ -8,7 +8,7 @@ when the connection is lost. The app runs commands on the
 single server, use [RedisStandalone](../RedisStandalone/README.md).
 
 The settings, events and communication log common to both Redis components
-come from an abstract base component, [Redis](../Redis/README.md). It is not used
+come from an abstract base component, [Redis](../guides/redis.md). It is not used
 on its own.
 
 ## Settings

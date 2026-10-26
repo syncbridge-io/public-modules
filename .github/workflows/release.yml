@@ -54,6 +54,10 @@ jobs:
     # repository and this workflow file ("CI may create packages" on for the
     # first publish). A release that failed at publishing is finished by
     # running the workflow again: rman asks the registry what is missing
+    with:
+      # The lockfile says pnpm as well, but the release's own steps - the
+      # lockfile it syncs after the version bump - follow this
+      package-manager: pnpm
     permissions:
       id-token: write
       contents: write

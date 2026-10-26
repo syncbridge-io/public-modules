@@ -2,6 +2,11 @@ extends: '@panates/rman-preset'
 
 group: false
 
+# The repository installs with pnpm. rman reads it from the lockfile as well,
+# but a lockfile is a result, not the decision
+packageManager:
+  node: pnpm
+
 version:
   cascade: group
   # A dependent is not released, nor its range rewritten, while a sibling's

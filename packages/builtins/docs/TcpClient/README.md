@@ -6,7 +6,7 @@ the component is stopped. It can wrap the connection in TLS and reach the
 server through a SOCKS proxy. Use it for devices and services that expect
 your app to connect to them.
 
-It extends [`IoClient`](../IoClient/README.md)
+It extends [`IoClient`](../guides/io-client.md)
 of `@syncbridge/builtins`.
 
 The class is `TcpClientComponent`. Its protocol is `tcp`.

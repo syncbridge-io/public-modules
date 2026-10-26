@@ -1,3 +1,8 @@
+---
+title: Redis, the base of the Redis components
+order: 1
+---
+
 # Redis
 
 The abstract base of the Redis components. It is not used on its own: an app

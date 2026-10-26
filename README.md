@@ -14,7 +14,8 @@ apps a SyncBridge server runs - and examples to build modules of your own.
 | [`@syncbridge/ngrok`](packages/ngrok)           | TCP tunnels through ngrok                                                               |
 | [`@syncbridge/pinggy`](packages/pinggy)         | TCP tunnels through Pinggy                                                              |
 
-Each is published to npm, and comes with the SyncBridge server.
+Each is published to the SyncBridge registry - installable from the
+Marketplace - and comes with the SyncBridge server.
 
 ## Building your own module
 
@@ -36,15 +37,17 @@ The developer guide is at [syncbridge.io/developers](https://syncbridge.io/devel
 
 ## Development
 
-Node.js 22.12 or newer.
+Node.js 22.12 or newer, and pnpm - the version `package.json`'s
+`packageManager` field names, which pnpm and Corepack both install on their
+own.
 
 ```bash
-npm install
-npm test
-npm run build
+pnpm install
+pnpm test
+pnpm build
 ```
 
-`npm test` checks the types and runs every module's tests; `npm run lint`
+`pnpm test` checks the types and runs every module's tests; `pnpm lint`
 lints them. Versions and releases are made with rman from
 [Conventional Commits](https://www.conventionalcommits.org): a merge to `main`
 releases the modules changed since.

@@ -6,7 +6,7 @@ and a `port` and it sends to that target and receives only from it
 port you pass to `write()` and receives from any sender.
 
 It extends
-[`IoClient`](../IoClient/README.md)
+[`IoClient`](../guides/io-client.md)
 of `@syncbridge/builtins`. Its class is `UdpClientComponent`, its protocol
 is `udp`. To only listen on a port, use
 [`UdpListener`](../UdpListener/README.md).

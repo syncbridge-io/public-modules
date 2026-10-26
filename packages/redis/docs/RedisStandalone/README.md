@@ -8,7 +8,7 @@ exposes. To reach Redis through Sentinel, use
 [RedisSentinel](../RedisSentinel/README.md).
 
 The settings, events and communication log common to both Redis components
-come from an abstract base component, [Redis](../Redis/README.md). It is not used
+come from an abstract base component, [Redis](../guides/redis.md). It is not used
 on its own.
 
 ## Settings

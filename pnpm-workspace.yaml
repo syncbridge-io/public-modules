@@ -1,0 +1,27 @@
+packages:
+  - packages/*
+
+# A module takes its sibling modules as peer dependencies with plain ranges
+# (`@syncbridge/builtins: '>=2.0.0 <3'`), not `workspace:*`: that is what the
+# engine installs from the registry. pnpm would fetch them from a registry here
+# too - and these are not on npm
+linkWorkspacePackages: true
+
+# A module's peers are what the engine provides at run time; here they are what
+# its tests run against, so they are installed
+autoInstallPeers: true
+
+# pnpm runs an install script only for a package named here: the native addons,
+# and the compilers the build and the tests run on. spm runs the pnpm it
+# depends on through its Node.js entry, not the binary its script sets up
+allowBuilds:
+  '@pinggy/pinggy': true
+  '@serialport/bindings-cpp': true
+  '@swc/core': true
+  oracledb: true
+  unrs-resolver: true
+  pnpm: false
+
+minimumReleaseAgeExclude:
+  - '@syncbridge/common@2.3.1'
+  - '@syncbridge/syncbuild@2.5.1'
