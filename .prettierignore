@@ -8,6 +8,8 @@
 **/*.md
 .claude
 graphify-out
+# pnpm writes it
+pnpm-lock.yaml
 
 
 node_modules

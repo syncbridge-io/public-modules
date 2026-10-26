@@ -34,7 +34,9 @@ Console, registry), `syncbridge-io/syncbridge`, at
   settings shown in the UI) in `<name>.variables.ts` beside them; apps in
   `src/apps`.
 - `packages/<name>/test`: mocha tests (`*.spec.ts`).
-- Root: npm workspaces, `rman` (`@panates/rman-preset`) for build, lint,
+- Root: pnpm workspaces (`pnpm-workspace.yaml`; the `workspaces` field of
+  `package.json` stays because that is where rman reads the packages from),
+  `rman` (`@panates/rman-preset`) for build, lint,
   check, versions and changelogs; `tsconfig-base.json`,
   `tsconfig-build.json`, `tsconfig-test.json`, `.mocharc.cjs`.
 - Modules depend on each other as **npm peer dependencies**
@@ -53,9 +55,11 @@ node support/use-platform-builds.mjs
 ```
 
 It packs `@syncbridge/common`, `runtime`, `testing` and `syncbuild` from
-the SDK repository's `packages/<name>/build` and installs them
-here as tarballs (copied, so there is one `@syncbridge/common`), leaving
-`package.json` and the lockfile untouched; run it after every `npm install`.
+the SDK repository's `packages/<name>/build` and unpacks each over the copy
+pnpm materialized in `node_modules/.pnpm`, so every link into it sees the
+build and there is one `@syncbridge/common`, leaving `package.json` and the
+lockfile untouched; run it after every `pnpm install`, and
+`pnpm install --force` brings the registry's versions back.
 `SB_PLATFORM_DIR` points it elsewhere than `../node-sdk`. Never commit a change that needs
 an unreleased version to install.
 
@@ -84,17 +88,17 @@ its build is missing or stale:
 ## Commands
 
 ```bash
-npm install
+pnpm install
 node support/use-platform-builds.mjs
-npm test          # tsc -b tsconfig-test.json, then mocha (all modules)
+pnpm test         # tsc -b tsconfig-test.json, then mocha (all modules)
 rman run test     # each module: spm verify, then its tests (CI runs this)
-npm run build     # rman build: each module into packages/<name>/build
+pnpm build        # rman build: each module into packages/<name>/build
 rman lint
 rman check        # circular dependencies, package sanity
-npx prettier --check .
+pnpm exec prettier --check .
 ```
 
-Definition of done for a code change: `npm test`, `rman lint`,
+Definition of done for a code change: `pnpm test`, `rman lint`,
 `rman check` and prettier all pass.
 
 ## How to work here
@@ -112,8 +116,8 @@ Definition of done for a code change: `npm test`, `rman lint`,
   `feat` is a minor release of that module, a `fix` a patch, `!` major.
 - **Push:** ask before every `git push`; push with `--follow-tags`.
   Before pushing, run `rman deps`. When it lists newer versions, upgrade
-  the manifests with `rman deps -u`, run `npm install`, and run the
-  definition of done again (`npm test`, `rman lint`, `rman check`,
+  the manifests with `rman deps -u`, run `pnpm install`, and run the
+  definition of done again (`pnpm test`, `rman lint`, `rman check`,
   prettier); commit the upgrade as `chore: ...` before the push.
 - **Secrets:** never print a token, key or password, never commit one.
   This repository is public.

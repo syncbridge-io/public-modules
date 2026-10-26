@@ -15,7 +15,8 @@ on:
       - '**/tsconfig*.json'
       - '**/.mocharc.*'
       - '.c8rc.json'
-      - 'package-lock.json'
+      - 'pnpm-lock.yaml'
+      - 'pnpm-workspace.yaml'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}

@@ -4,6 +4,7 @@
   "private": true,
   "license": "Apache-2.0",
   "type": "module",
+  "packageManager": "pnpm@12.10.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/syncbridge-io/public-modules.git"
@@ -26,7 +27,15 @@
     "@swc-node/register": "^1.12.1",
     "@swc/core": "^1.16.20",
     "@swc/helpers": "^0.5.23",
+    "@syncbridge/builtins": "workspace:*",
     "@syncbridge/common": "^2.3.1",
+    "@syncbridge/hl7": "workspace:*",
+    "@syncbridge/kafka": "workspace:*",
+    "@syncbridge/ngrok": "workspace:*",
+    "@syncbridge/pinggy": "workspace:*",
+    "@syncbridge/redis": "workspace:*",
+    "@syncbridge/serialport": "workspace:*",
+    "@syncbridge/sqb": "workspace:*",
     "@syncbridge/syncbuild": "^2.5.1",
     "@syncbridge/testing": "^2.0.0",
     "@types/mocha": "^10.0.10",
