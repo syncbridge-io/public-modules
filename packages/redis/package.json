@@ -1,6 +1,6 @@
 {
   "name": "@syncbridge/redis",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "SyncBridge Redis component",
   "author": "Panates Technology AS <info@panates.com> (https://www.panates.com)",
   "homepage": "https://github.com/syncbridge-io/public-modules/tree/main/packages/redis#readme",
@@ -23,7 +23,7 @@
   },
   "peerDependencies": {
     "@jsopen/objects": ">=2.3.4 <3",
-    "@syncbridge/builtins": ">=2.0.0 <3",
+    "@syncbridge/builtins": ">=2.0.1 <3",
     "@syncbridge/common": "^2.3.1",
     "ioredis": ">=6.0.0 <7"
   },

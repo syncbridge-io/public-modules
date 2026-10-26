@@ -1,6 +1,26 @@
 # Changelog
 
-<!-- rman:documented-up-to c2091de8418c3e6f28aebd2708433d3dba3645c8 -->
+<!-- rman:documented-up-to bd6b4bdc6e706421f7248c0751266d4a62e789cf -->
+
+## v2026.10.26-1439 (2026-10-26)
+
+### 📚 Documentation
+
+- check dependencies with rman deps before every push (7b1b649)
+- the modules are published to the SyncBridge registry, not to npm (b30b93c)
+
+### 🧹 Chores
+
+- sync lockfile to the versions of the release (815d6da)
+- take @syncbridge/runtime 2.0.2: spm verify no longer fetches a module's own peers from npm (1798991)
+- take @syncbridge/common 2.1.0 and syncbuild 2.4.2 (e3f0202)
+- take @syncbridge/syncbuild 2.4.3 (49623fe)
+- take @syncbridge/common 2.3.1 and syncbuild 2.5.1 (da4ccbb)
+- install with pnpm (2bf0a0c)
+- declare the tools @panates/rman-preset takes as peers - dpdm, eslint, prettier (59c28ca)
+- the packages come from pnpm-workspace.yaml alone (2f2c181)
+
+---
 
 ## v2026.10.21-1522 (2026-10-21)
 
