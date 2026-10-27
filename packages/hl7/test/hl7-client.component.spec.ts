@@ -140,6 +140,9 @@ describe('HL7ClientComponent handlers', () => {
     });
     await client.start();
     await statusOf(client, 'started');
+    /* The server may accept the connection a moment after the client sees
+     * it; counted before that, the old connection would pass for the new one */
+    while (!sockets.length) await new Promise(r => setTimeout(r, 10));
 
     const before = client.client;
     const known = sockets.length;
