@@ -1,17 +1,13 @@
 import { Buffer } from 'node:buffer';
 import type { AddressInfo } from 'node:net';
 import { peerOf } from '@syncbridge/builtins';
-import {
-  Component,
-  ComponentBase,
-  LogChannel,
-  ServiceStatus,
-} from '@syncbridge/common';
+import { Component, ServiceStatus } from '@syncbridge/common';
 import colors from 'ansi-colors';
 import { HL7Message } from 'hl7v2';
-import { Hl7Client, type HL7Middleware, type HL7ResponseHook } from 'hl7v2-net';
+import { Hl7Client } from 'hl7v2-net';
 import { noOp } from '../constants.js';
 import { HL7ClientVariables } from './hl7-client.variables.js';
+import { HL7EndpointComponent } from './hl7-endpoint.component.js';
 import { hl7ProtocolOptions } from './hl7-protocol.variables.js';
 
 /**
@@ -27,34 +23,9 @@ import { hl7ProtocolOptions } from './hl7-protocol.variables.js';
 })
 export class HL7ClientComponent<
   TEvents extends HL7ClientComponent.Events = HL7ClientComponent.Events,
-> extends ComponentBase<TEvents> {
-  protected _stopping?: boolean;
+> extends HL7EndpointComponent<TEvents> {
   protected _address?: any;
-  /**
-   * Handlers added with use(), kept by the component: the client is created
-   * again whenever the values change, and each new one gets them all
-   */
-  protected readonly _middlewares: {
-    handler: HL7Middleware;
-    priority?: number;
-  }[] = [];
-  /** beforeResponse() hooks, kept for the same reason */
-  protected readonly _responseHooks: HL7ResponseHook[] = [];
   declare client: Hl7Client;
-
-  /** What the component receives and transmits */
-  @LogChannel({
-    name: 'communication',
-    title: 'Communication',
-    description: 'What the component receives and transmits',
-    kind: 'transmit',
-    retentionDays: 14,
-    /* Off unless turned on: traffic grows the logs fast, and the devices
-     * on the other side often keep it themselves */
-    enabled: false,
-    events: ['connect', 'disconnect', 'read', 'write'],
-  })
-  declare readonly communicationLog: LogChannel;
 
   @Component.UseVariables()
   declare values: HL7ClientVariables;
@@ -62,26 +33,15 @@ export class HL7ClientComponent<
   protected async _init(): Promise<void> {
     await super._init();
     this.values.reconnect = this.values.reconnect || {};
-    this.on('data', (data, info) => {
-      this.communicationLog?.write({
-        direction: 'in',
-        data,
-        details: peerOf(info),
-      });
-    });
-    this.on('transmit', (data, info) => {
-      this.communicationLog?.write({
-        direction: 'out',
-        data,
-        details: peerOf(info),
-      });
-    });
-    this.on('values-updated', () =>
-      this._restart().catch(err =>
-        this.setStatus(ServiceStatus.unhealthy, err.message),
-      ),
-    );
     this._createClient();
+  }
+
+  get connected(): boolean {
+    return !!this.client?.connected;
+  }
+
+  protected get _router() {
+    return this.client;
   }
 
   /** A client of the current values, for the next start */
@@ -104,8 +64,7 @@ export class HL7ClientComponent<
       this.values.tls_enabled && this.values.tls
         ? Hl7Client.createTlsClient({ ...options, ...this.values.tls })
         : Hl7Client.createClient(options);
-    for (const m of this._middlewares) this.client.use(m.handler, m.priority);
-    for (const hook of this._responseHooks) this.client.beforeResponse(hook);
+    this._attachHandlers();
     this.client.on('connect', () => {
       this._address = {
         address: this.values.host || '127.0.0.1',
@@ -186,34 +145,13 @@ export class HL7ClientComponent<
     await this.client?.close(30000);
     return super._stop();
   }
-
-  /**
-   * Adds a handler for received messages. It stays when the client is
-   * created again for new values.
-   */
-  use(handler: HL7Middleware, priority?: number): void {
-    this._middlewares.push({ handler, priority });
-    this.client?.use(handler, priority);
-  }
-
-  /**
-   * Adds a hook that sees every answer to a received message before it is
-   * sent, and may change it, replace it (return another message) or drop
-   * it (return null) - for a device that expects other acknowledgments
-   * than the standard ones. It stays when the client is created again for
-   * new values. See hl7v2-net's beforeResponse.
-   */
-  beforeResponse(hook: HL7ResponseHook): void {
-    this._responseHooks.push(hook);
-    this.client?.beforeResponse(hook);
-  }
 }
 
 /**
  * @namespace
  */
 export namespace HL7ClientComponent {
-  export interface Events extends ComponentBase.Events {
+  export interface Events extends HL7EndpointComponent.Events {
     connect: [info: AddressInfo];
     ready: [info: AddressInfo];
     close: [info: AddressInfo];

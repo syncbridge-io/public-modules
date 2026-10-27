@@ -5,6 +5,9 @@ messages it sends. Use it when the engine must push messages to a HIS, a lab
 system or a device. The connection is opened when the component starts and
 opened again when it is lost.
 
+It extends [HL7Endpoint](../HL7Endpoint/README.md), as HL7Server does: an app
+that declares a slot of that type takes either of the two.
+
 ## Settings
 
 | Setting                | Key                    | Description                                                                                                                                                    | Default     | Required |

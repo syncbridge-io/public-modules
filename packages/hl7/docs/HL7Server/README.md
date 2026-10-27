@@ -5,6 +5,9 @@ when a device or system (a monitor, a HIS, a lab system) sends messages to the
 engine. The app adds handlers with `use()`; the component sends the
 acknowledgments.
 
+It extends [HL7Endpoint](../HL7Endpoint/README.md), as HL7Client does: an app
+that declares a slot of that type takes either of the two.
+
 ## Settings
 
 | Setting                  | Key                    | Description                                                                                                                                                                  | Default | Required |

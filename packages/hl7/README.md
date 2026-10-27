@@ -8,10 +8,11 @@ HL7 server and exchanges messages with it. Parsing and framing are done by
 
 ## Components
 
-| Component  | Description                                                        |
-| ---------- | ------------------------------------------------------------------ |
-| HL7Server  | Listens on a TCP port (optionally TLS) and acknowledges messages.  |
-| HL7Client  | Connects to an HL7 server, reconnects when the connection is lost. |
+| Component   | Description                                                        |
+| ----------- | ------------------------------------------------------------------ |
+| HL7Server   | Listens on a TCP port (optionally TLS) and acknowledges messages.  |
+| HL7Client   | Connects to an HL7 server, reconnects when the connection is lost. |
+| HL7Endpoint | Abstract base of the two: an app slot of this type takes either.   |
 
 ## Install
 
