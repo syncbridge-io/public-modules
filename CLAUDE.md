@@ -36,7 +36,9 @@ Console, registry), `syncbridge-io/syncbridge`, at
 - `packages/<name>/test`: mocha tests (`*.spec.ts`).
 - Root: pnpm workspaces (`pnpm-workspace.yaml`), `rman`
   (`@panates/rman-preset`) for build, lint,
-  check, versions and changelogs; `tsconfig-base.json`,
+  check, versions and changelogs - a root devDependency, `>= 2.39`: an older
+  rman does not read `pnpm-workspace.yaml`, finds no packages and succeeds
+  over none, and `pnpm build` then runs itself without end; `tsconfig-base.json`,
   `tsconfig-build.json`, `tsconfig-test.json`, `.mocharc.cjs`.
 - Modules depend on each other as **npm peer dependencies**
   (`@syncbridge/hl7` peers `@syncbridge/builtins`),
