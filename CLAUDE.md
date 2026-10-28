@@ -66,9 +66,9 @@ an unreleased version to install.
 
 The other way round, the platform's engine runs these modules in
 development from this repository's sources (its `tsconfig.json` maps
-`@syncbridge/*` to `../../../../public-modules/packages/*/src`, a sibling): keep
-this directory named `public-modules`, beside `cloud` and `node-sdk`, and keep `main`'s modules working,
-as the engine's development uses them.
+`@syncbridge/*` to `../../../../extensions/packages/*/src`, a sibling): keep
+this directory named `extensions`, beside `syncbridge` and `node-sdk`, and keep
+`main`'s modules working, as the engine's development uses them.
 
 **A problem or a gap on the platform's side is reported, never worked
 around.** When `@syncbridge/common`, `spm`, `@syncbridge/testing`, the
@@ -212,8 +212,8 @@ install, a short example, link to its docs.
   test a module with `@syncbridge/testing` (import it before the module
   under test).
 - The repository is public, at `github.com/syncbridge-io/syncbridge-extensions`
-  (renamed from `public-modules` on 2026-10-28; this directory keeps the old
-  name, see "The platform"). The registry's trusted publisher matches the
+  (renamed from `public-modules` on 2026-10-28, and this directory from
+  `public-modules` to `extensions`). The registry's trusted publisher matches the
   repository by its GitHub id, not its name, so a rename needs nothing there.
   Not done yet: deprecating the old npm versions.
 
