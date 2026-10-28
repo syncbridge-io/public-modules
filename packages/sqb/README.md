@@ -14,20 +14,16 @@ and reports its health.
 
 ## Install
 
-On a SyncBridge server, install the module from the Marketplace or from
-Console. It is also on npm:
+SyncBridge servers install modules from the SyncBridge registry, through
+the Marketplace or Console. The module is published there, not on npm:
+the 1.0.x versions on npm are old and no longer updated.
 
-```bash
-npm install @syncbridge/sqb
-```
-
-Peer dependencies: `@syncbridge/common` (provided by the engine),
-`@sqb/builder`, `@sqb/connect`, `@sqb/oracle`, `@sqb/postgres`,
-`oracledb` and `ansi-colors`. The component imports both database
+It needs `@syncbridge/common`, which the engine provides. `@sqb/builder`,
+`@sqb/connect`, `@sqb/oracle`, `@sqb/postgres`, `oracledb` and
+`ansi-colors` are installed with it. The component imports both database
 drivers when it loads, so `oracledb` is needed even for a PostgreSQL-only
-setup. With npm 7 or later the peers are installed with the package; with
-another package manager, install them yourself. Oracle's native client is
-optional, see [Database drivers](SqbClient/drivers.md).
+setup. Oracle's native client is optional, see
+[Database drivers](https://github.com/syncbridge-io/public-modules/blob/main/packages/sqb/docs/SqbClient/drivers.md).
 
 ## Example
 

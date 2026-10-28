@@ -26,16 +26,13 @@ to write a component, or use a module that does.
 
 ## Install
 
-SyncBridge servers install modules from the Marketplace or from Console.
-The module is also on npm:
+SyncBridge servers install modules from the SyncBridge registry, through
+the Marketplace or Console. The module is published there, not on npm:
+the 1.0.x versions on npm are old and no longer updated.
 
-```bash
-npm install @syncbridge/builtins
-```
-
-Peer dependency: `@syncbridge/common` (`^2.0.0`), which the engine
-provides. Its other dependencies (`backoff`, `socks`, `ansi-colors`,
-`@jsopen/objects`, `node-events-async`) come with it.
+It needs `@syncbridge/common`, which the engine provides. Its other
+dependencies (`backoff`, `socks`, `ansi-colors`, `@jsopen/objects`,
+`node-events-async`) come with it.
 
 ## Example
 

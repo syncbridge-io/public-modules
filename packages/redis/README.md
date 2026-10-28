@@ -14,18 +14,13 @@ client to run commands with.
 
 ## Install
 
-SyncBridge servers install modules from the Marketplace or from Console.
+SyncBridge servers install modules from the SyncBridge registry, through
+the Marketplace or Console. The module is published there, not on npm:
+the 1.0.x versions on npm are old and no longer updated.
 
-The module is also on npm:
-
-```bash
-npm install @syncbridge/redis
-```
-
-Peer dependencies: `@syncbridge/common`, `@syncbridge/builtins`,
-`@jsopen/objects` and `ioredis`. The engine provides the
-`@syncbridge/*` packages. When you use the module outside the engine, install
-all of them yourself, including `@jsopen/objects` and `ioredis`.
+It needs `@syncbridge/common`, which the engine provides, and
+`@syncbridge/builtins`. `@jsopen/objects` and `ioredis` are installed with
+it.
 
 ## Example
 

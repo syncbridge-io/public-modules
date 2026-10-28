@@ -13,20 +13,16 @@ away and comes back.
 
 ## Install
 
-On a SyncBridge server, install the module from the Marketplace or from
-Console. It is also on npm:
+SyncBridge servers install modules from the SyncBridge registry, through
+the Marketplace or Console. The module is published there, not on npm:
+the 1.0.x versions on npm are old and no longer updated.
 
-```bash
-npm install @syncbridge/serialport
-```
-
-Peer dependencies: `@syncbridge/common` (provided by the engine),
-`@syncbridge/builtins`, `serialport` (13.x, with native bindings),
-`@serialport/bindings-interface`, `reconnect-core`, `putil-varhelpers`
-and `ansi-colors`. With npm 7 or later the peers are installed with the
-package; with another package manager, install them yourself. `serialport`
-needs a prebuilt binary for the platform or a build toolchain; see
-[Device setup](SerialPort/device-setup.md).
+It needs `@syncbridge/common`, which the engine provides, and
+`@syncbridge/builtins`. `serialport` (13.x, with native bindings),
+`@serialport/bindings-interface`, `reconnect-core`, `putil-varhelpers` and
+`ansi-colors` are installed with it. `serialport` needs a prebuilt binary
+for the platform or a build toolchain; see
+[Device setup](https://github.com/syncbridge-io/public-modules/blob/main/packages/serialport/docs/SerialPort/device-setup.md).
 
 ## Example
 

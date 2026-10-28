@@ -13,19 +13,14 @@ firewall or a NAT. The app reads what the remote side sends and writes back.
 
 ## Install
 
-On a SyncBridge server, install the module from the Marketplace or from
-Console. It is also on npm:
+SyncBridge servers install modules from the SyncBridge registry, through
+the Marketplace or Console. The module is published there, not on npm:
+the 1.0.x versions on npm are old and no longer updated.
 
-```bash
-npm install @syncbridge/pinggy
-```
-
-Peer dependencies: `@syncbridge/common` (provided by the engine),
-`@syncbridge/builtins`, `@pinggy/pinggy` (the Pinggy SDK, 0.5.x),
-`@jsopen/objects` and `ansi-colors`. With npm 7 or later the peers are
-installed with the package; with another package manager, install them
-yourself. You also need a Pinggy auth token, see the
-[component page](PinggyTcpClient/README.md).
+It needs `@syncbridge/common`, which the engine provides, and
+`@syncbridge/builtins`. `@pinggy/pinggy` (the Pinggy SDK, 0.5.x),
+`@jsopen/objects` and `ansi-colors` are installed with it. You also need a
+Pinggy auth token, see the [component page](https://github.com/syncbridge-io/public-modules/blob/main/packages/pinggy/docs/PinggyTcpClient/README.md).
 
 ## Example
 

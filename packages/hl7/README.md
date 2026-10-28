@@ -16,19 +16,13 @@ HL7 server and exchanges messages with it. Parsing and framing are done by
 
 ## Install
 
-SyncBridge servers install modules from the Marketplace or from Console.
+SyncBridge servers install modules from the SyncBridge registry, through
+the Marketplace or Console. The module is published there, not on npm:
+the 1.0.x versions on npm are old and no longer updated.
 
-The module is also on npm:
-
-```bash
-npm install @syncbridge/hl7
-```
-
-Peer dependencies: `@syncbridge/common`, `@syncbridge/builtins`,
-`ansi-colors`, `hl7v2` and `hl7v2-net`. The engine provides the
-`@syncbridge/*` packages. When you use the module outside the engine,
-install all of them yourself, including `ansi-colors`, `hl7v2` and
-`hl7v2-net`.
+It needs `@syncbridge/common`, which the engine provides, and
+`@syncbridge/builtins`. `ansi-colors`, `hl7v2` and `hl7v2-net` are installed
+with it.
 
 ## Example
 
