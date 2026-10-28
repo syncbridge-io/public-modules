@@ -1,5 +1,3 @@
-import '@sqb/oracle';
-import '@sqb/postgres';
 import { clearTimeout } from 'node:timers';
 import { SqbClient, SQBError } from '@sqb/connect';
 import {
@@ -16,6 +14,17 @@ import {
   SqbClientVariables,
 } from './sqb-client.variables.js';
 
+/* Each dialect's adapter registers itself with SQB when imported. It is
+ * imported only when chosen, so a worker loads one driver, not all */
+const adapters: Record<string, () => Promise<unknown>> = {
+  postgres: () => import('@sqb/postgres'),
+  oracle: () => import('@sqb/oracle'),
+  mssql: () => import('@sqb/mssql'),
+  mysql: () => import('@sqb/mysql'),
+  mariadb: () => import('@sqb/mariadb'),
+  sqlite: () => import('@sqb/sqlite'),
+};
+
 /**
  * SqbClient component
  */
@@ -26,7 +35,7 @@ import {
   /* A worker may load native code only when told: oracledb is a native addon */
   permissions: [WorkerPermission.NativeCode],
   summary:
-    'Connects to a PostgreSQL or Oracle database through SQB, with a connection pool and a log of the SQL it runs.',
+    'Connects to a PostgreSQL, Oracle, SQL Server, MySQL, MariaDB or SQLite database through SQB, with a connection pool and a log of the SQL it runs.',
   tags: ['io', 'stream'],
 })
 export class SqbClientComponent<
@@ -53,7 +62,7 @@ export class SqbClientComponent<
 
   protected async _init(): Promise<void> {
     await super._init();
-    this._createClient();
+    await this._createClient();
     this.on('values-updated', () =>
       this._restart().catch(err =>
         this.setStatus(ServiceStatus.unhealthy, err.message),
@@ -62,7 +71,11 @@ export class SqbClientComponent<
   }
 
   /** A client of the current values, for the next start; the old one is closed */
-  protected _createClient() {
+  protected async _createClient() {
+    const loadAdapter = adapters[this.values.dialect];
+    if (!loadAdapter)
+      throw new Error(`Unknown database dialect "${this.values.dialect}"`);
+    await loadAdapter();
     const client = new SqbClient({
       dialect: this.values.dialect,
       host: this.values.host,
@@ -130,7 +143,7 @@ export class SqbClientComponent<
     await super._start(abortSignal);
     // The values are the client's: it is built again to take them
     await this.client?.close().catch(noOp);
-    this._createClient();
+    await this._createClient();
     await this._testConnection(abortSignal);
   }
 

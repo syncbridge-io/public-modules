@@ -2,7 +2,8 @@
 
 Database access for SyncBridge apps, built on
 [SQB](https://github.com/panates/sqb). The module has one component, a
-pooled SQL client for PostgreSQL and Oracle. An app gets the client from
+pooled SQL client for PostgreSQL, Oracle, SQL Server, MySQL, MariaDB and
+SQLite. An app gets the client from
 the component and runs its queries; the component tests the connection
 and reports its health.
 
@@ -10,7 +11,7 @@ and reports its health.
 
 | Component   | Description                                                      |
 | ----------- | ---------------------------------------------------------------- |
-| `SqbClient` | Connection pool to a PostgreSQL or Oracle database, with a `queries` log channel |
+| `SqbClient` | Connection pool to a PostgreSQL, Oracle, SQL Server, MySQL, MariaDB or SQLite database, with a `queries` log channel |
 
 ## Install
 
@@ -18,11 +19,11 @@ SyncBridge servers install modules from the SyncBridge registry, through
 the Marketplace or Console. The module is published there, not on npm:
 the 1.0.x versions on npm are old and no longer updated.
 
-It needs `@syncbridge/common`, which the engine provides. `@sqb/builder`,
-`@sqb/connect`, `@sqb/oracle`, `@sqb/postgres`, `oracledb` and
-`ansi-colors` are installed with it. The component imports both database
-drivers when it loads, so `oracledb` is needed even for a PostgreSQL-only
-setup. Oracle's native client is optional, see
+It needs `@syncbridge/common`, which the engine provides. The SQB packages
+of every database, their drivers (`postgrejs`, `oracledb`, `mssql`,
+`mysql2`, `mariadb`) and `ansi-colors` are installed with it. The component
+loads only the driver of the database it is set to. Oracle's native client
+is optional, see
 [Database drivers](https://github.com/syncbridge-io/syncbridge-extensions/blob/main/packages/sqb/docs/SqbClient/drivers.md).
 
 ## Example

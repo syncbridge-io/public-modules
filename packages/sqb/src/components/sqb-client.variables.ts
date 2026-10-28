@@ -81,7 +81,7 @@ export class SqbClientVariables {
     type: VariableType.Enum,
     label: 'Dialect',
     description: 'Database dialect',
-    enumValues: ['postgres', 'oracle'],
+    enumValues: ['postgres', 'oracle', 'mssql', 'mysql', 'mariadb', 'sqlite'],
     required: true,
     hotPlug: true,
   })
@@ -120,7 +120,8 @@ export class SqbClientVariables {
 
   @DefineVariable({
     label: 'Database name',
-    description: 'Database name to be connected to',
+    description:
+      'Database name to be connected to; for SQLite, the database file path or :memory:',
     hotPlug: true,
   })
   declare database?: string;

@@ -1,49 +1,20 @@
 # SqbClient
 
-`SqbClient` keeps a connection pool to a PostgreSQL or Oracle database and
+`SqbClient` keeps a connection pool to a PostgreSQL, Oracle, SQL Server,
+MySQL, MariaDB or SQLite database and
 gives an app its [SQB](https://github.com/panates/sqb) client. Use it when
 an app reads or writes a relational database. The component checks the
 connection when it starts and every 5 seconds after that, so the app's
 status shows a database that goes away.
 
-The databases need drivers on the server: see
+Each database has its driver and its own use of the settings: see
 [Database drivers](drivers.md).
 
-## Settings
+## Changing settings
 
-Settings marked "hot plug" can be changed while the component runs. Any
-change to the values restarts the component: it closes its client and
-builds a new one from the new values.
-
-| Setting          | Label               | What it does                                                                                           | Default      | Required |
-| ---------------- | ------------------- | ------------------------------------------------------------------------------------------------------ | ------------ | -------- |
-| `dialect`        | Dialect             | Database dialect: `postgres` or `oracle`                                                               |              | yes      |
-| `host`           | Host                | Database server address or URL                                                                         |              | no       |
-| `port`           | Port                | Database listener port, 1 to 65535                                                                     |              | no       |
-| `username`       | Username            | Database username                                                                                      |              | no       |
-| `password`       | Password (secret)   | Database password                                                                                      |              | no       |
-| `database`       | Database name       | Database to connect to                                                                                 |              | no       |
-| `schema`         | Database schema     | Schema to connect to                                                                                   |              | no       |
-| `applicationName`| Application Name    | Name passed to the client as the connection name, for debugging                                        | `syncbridge` | no       |
-| `pool`           | Pooling             | Pool options, below                                                                                    |              | no       |
-
-All settings are hot plug. `dialect` is the only required setting.
-`password` is a secret.
-
-### Pool
-
-| Setting               | Label                  | What it does                                                          | Default |
-| --------------------- | ---------------------- | --------------------------------------------------------------------- | ------- |
-| `acquireMaxRetries`   | Acquire max retries    | How many times the pool tries to create a connection before it returns the error | 0       |
-| `acquireRetryWait`    | Acquire retry wait     | Milliseconds the pool waits between tries                             | 2000    |
-| `acquireTimeoutMillis`| Acquire timeout millis | Milliseconds an acquire call waits for a connection before it times out | 0       |
-| `idleTimeoutMillis`   | Idle timeout           | Minimum milliseconds a connection may sit idle in the pool            | 30000   |
-| `min`                 | Min                    | Minimum number of connections the pool keeps                          | 0       |
-| `minIdle`             | Min idle               | Minimum number of idle connections the pool keeps                     | 0       |
-| `max`                 | Max                    | Maximum number of connections the pool creates                        | 30      |
-| `maxQueue`            | Max queue              | Maximum number of requests the pool accepts                           | 1000    |
-
-All pool settings are hot plug. The pool belongs to `@sqb/connect`.
+All settings can be changed while the component runs. A change restarts
+the component: it closes its client and builds a new one from the new
+values.
 
 ## Events
 
@@ -115,10 +86,9 @@ export class OrdersApp extends AppBase {
 
 ## Notes
 
-- Both dialects are registered when the module loads, so a worker that
-  loads the component needs the PostgreSQL and the Oracle drivers
-  installed.
+- The driver of the chosen dialect is loaded when the component first
+  builds its client, not when the module loads. An unknown dialect fails
+  the start with `Unknown database dialect "<dialect>"`.
 - The `applicationName` setting is passed to SQB as the connection
-  `name`. The PostgreSQL and Oracle adapters in `@sqb/postgres` and
-  `@sqb/oracle` 6.2.1 do not use it, so it does not appear in the
-  database's session list.
+  `name`. The SQB 6.3.1 adapters do not use it, so it does not appear in
+  the database's session list.
