@@ -17,9 +17,9 @@ The class is `IoClientBaseComponent`. Its registered class name is
 [`IOBridgeApp`](../IOBridgeApp/README.md) types its peers as
 `IoClientBaseComponent`, so any component built on it can be bridged.
 
-## Settings
+## Variables
 
-None. `IoClientBaseComponent.Variables` is an empty class
+None of its own. `IoClientBaseComponent.Variables` is an empty class
 (`IoClientComponentVariables`). A component adds its own variables by
 extending it:
 

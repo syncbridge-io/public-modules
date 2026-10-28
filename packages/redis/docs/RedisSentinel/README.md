@@ -11,49 +11,6 @@ The settings, events and communication log common to both Redis components
 come from an abstract base component, [Redis](../guides/redis.md). It is not used
 on its own.
 
-## Settings
-
-| Setting                          | Key                             | Description                                                                                                                                | Default | Required |
-| -------------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ | ------- | -------- |
-| Name                             | `name`                          | Master group name of the Sentinel.                                                                                                         |         | Yes      |
-| Sentinels                        | `sentinels`                     | The sentinels to connect to: a list of host and port. See below.                                                                           |         | Yes      |
-| Username                         | `username`                      | If set, the client sends `AUTH` with it as the first argument when connected. Supported since Redis 6.                                     |         | No       |
-| Password (secret)                | `password`                      | If set, the client sends `AUTH` with it when connected.                                                                                    |         | No       |
-| Sentinel TLS Enabled             | `sentinelTls_enabled`           | Use TLS for the connections to the sentinels.                                                                                              | false   | No       |
-| Sentinel TLS                     | `sentinelTls`                   | Sentinel TLS options, used when Sentinel TLS is enabled. Same fields as TLS below.                                                         |         | No       |
-| Database                         | `db`                            | Database index to use.                                                                                                                     |         | No       |
-| Auto Resubscribe                 | `autoResubscribe`               | When the client reconnects, channels subscribed in the previous connection are subscribed again.                                            |         | No       |
-| Auto Resend Unfulfilled Commands | `autoResendUnfulfilledCommands` | Resend unfulfilled commands on reconnect. They are most likely blocking commands such as `brpop` or `blpop`.                               |         | No       |
-| Keep alive                       | `keepAlive`                     | Initial delay in milliseconds before the first keep-alive probe on the TCP socket.                                        |         | No       |
-| No Delay                         | `noDelay`                       | Enable or disable Nagle's algorithm.                                                                                                       |         | No       |
-| Connection Name                  | `connectionName`                | Name of the connection, to find it in the client list of Redis.                                                                            |         | No       |
-| Max Retries Per Request          | `maxRetriesPerRequest`          | Reconnection attempts allowed before commands that got no reply are flushed with a `MaxRetriesPerRequestError`. `-1` waits without limit.   |         | No       |
-| Command Timeout                  | `commandTimeout`                | Milliseconds to wait for a reply before a `Command timed out` error is thrown.                                                             |         | No       |
-| Disconnect Timeout               | `disconnectTimeout`             | Maximum time in milliseconds to wait for the connection to close.                                                                          |         | No       |
-| TLS Enabled                      | `tls_enabled`                   | Use TLS for the connection to the master.                                                                                                  | false   | No       |
-| TLS                              | `tls`                           | TLS options for the master, used when TLS is enabled. See below.                                                                           |         | No       |
-
-Where no default is shown, the setting is not passed unless set and ioredis
-applies its own default.
-
-### Sentinels
-
-| Setting | Key    | Description                           | Default | Required |
-| ------- | ------ | ------------------------------------- | ------- | -------- |
-| Host    | `host` | Hostname or IP address of the sentinel. |       | Yes      |
-| Port    | `port` | Port number of the sentinel (1-65535). |        | Yes      |
-
-### TLS and Sentinel TLS
-
-| Setting              | Key                  | Description                                                                                          | Default | Required |
-| -------------------- | -------------------- | ---------------------------------------------------------------------------------------------------- | ------- | -------- |
-| SNI                  | `servername`         | Server Name Indication.                                                                              |         | No       |
-| Key                  | `key`                | Private key in PEM format.                                                                           |         | No       |
-| Cert                 | `cert`               | Certificate chain in PEM format.                                                                     |         | No       |
-| CA certificates      | `ca`                 | Overrides the trusted CA certificates. Mozilla's well-known CAs are replaced when it is set.         |         | No       |
-| Passphrase (secret)  | `passphrase`         | Passphrase to decrypt the private key.                                                               |         | No       |
-| Reject unauthorized  | `rejectUnauthorized` | Reject a connection to a server not authorized by the supplied CAs.                                  | true    | No       |
-
 ## Events
 
 | Event          | Arguments | Emitted when                                                  |
@@ -115,5 +72,7 @@ export class EventsApp extends AppBase {
 
 - The client is created once, when the component is initialized, from the
   settings of that moment. A change made later does not reach the open client.
+- A setting left empty is not passed to the client: ioredis applies its own
+  default.
 - The Password and Username settings are sent to the master. The settings for
   authenticating to the sentinels themselves are not exposed.

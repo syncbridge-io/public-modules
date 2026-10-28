@@ -4,22 +4,12 @@ Sends messages to Kafka topics. Use it when an app must write messages to a
 Kafka cluster. The app calls `send()`; the component keeps the client and the
 connection.
 
-## Settings
+## Changing settings
 
-The Connection group (brokers, timeouts, SASL, TLS) is described in
-[Connection settings](../connection-settings.md).
-
-| Setting                 | Key                     | Description                                                                                                                                        | Default | Required |
-| ----------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | -------- |
-| Connection              | `connection`            | Connection settings.                                                                                                                               |         | No       |
-| Producer id             | `producerId`            | Producer ID (a big integer).                                                                                                                       |         | No       |
-| Producer Epoch          | `producerEpoch`         | Producer epoch.                                                                                                                                    |         | No       |
-| Auto Create Topics      | `autocreateTopics`      | Ask the brokers to create missing topics during produce requests.                                                                                  |         | No       |
-| Idempotent              | `idempotent`            | Idempotency of the producer. Required for transactions.                                                                                            |         | No       |
-| Transactional ID        | `transactionalId`       | Transactional ID of the producer. Without it, a random UUID is generated. Required when you use transactions, so the same ID is used across restarts. |       | No       |
-| ACKs                    | `acks`                  | Acknowledgment to wait for before `send()` returns: `all`, `leader` or `no-response`. Without a value, the client's default applies.               |         | No       |
-| Compression             | `compression`           | Compression of messages sent to the broker: `snappy`, `lz4`, `gzip` or `zstd`.                                                                     |         | No       |
-| Repeat OnStale Metadata | `repeatOnStaleMetadata` | Retry a produce operation when the client detects outdated topic or broker information.                                                            | true    | No       |
+All connection settings can change while the component runs. The component
+then closes its client and creates a new one; if it was running, it starts
+again, with the status `starting` while it does. A component that is
+stopped stays stopped.
 
 ## Events
 

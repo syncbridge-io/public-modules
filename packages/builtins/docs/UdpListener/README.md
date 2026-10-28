@@ -11,15 +11,7 @@ It extends
 of `@syncbridge/builtins`. Its class is `UdpListenerComponent`, its
 protocol is `udp`.
 
-## Settings
-
-| Variable             | Label              | Description                                                                                                         | Default | Required | Live |
-| -------------------- | ------------------ | ------------------------------------------------------------------------------------------------------------------- | ------- | -------- | ---- |
-| `port`               | Port               | Port number to bind. The description reads "of target listener". From 1 to 65535.                                   |         | yes      | yes  |
-| `broadcast`          | Broadcast          | Sets the SO_BROADCAST socket option. When true, packets may be sent to a local interface's broadcast address.       |         | no       | yes  |
-| `multicastGroups`    | Multicast Groups   | Multicast groups to be joined (a list).                                                                             |         | no       | yes  |
-| `bindInterface`      | Bind Interface     | Interface address to bind to. If not specified, binds to `0.0.0.0`.                                                  |         | no       | yes  |
-| `multicastInterface` | Multicast Interface| Interface address to bind for multicast packages.                                                                   |         | no       | yes  |
+## Changing settings
 
 A change of any setting restarts the component.
 

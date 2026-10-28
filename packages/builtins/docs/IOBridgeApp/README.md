@@ -19,11 +19,6 @@ Choose each peer's component in the profile: any component built on
 serial port. The peers are typed `IoClient`: an `IoServer` component is not
 meant for them, as its `write()` always throws.
 
-## Settings
-
-The app has no settings of its own. Each peer has its own, described on its
-component's page.
-
 ## Behavior
 
 The app listens to the `data` event of both peers:

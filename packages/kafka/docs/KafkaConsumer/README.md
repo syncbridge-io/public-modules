@@ -6,32 +6,12 @@ an app must react to messages in a Kafka cluster. The app listens to the
 connection. See [Consumer groups](consumer-groups.md) for how the group
 settings work.
 
-## Settings
+## Changing settings
 
-The Connection group (brokers, timeouts, SASL, TLS) is described in
-[Connection settings](../connection-settings.md). Times are in seconds unless
-noted.
-
-| Setting             | Key                  | Description                                                                                                                                      | Default             | Required |
-| ------------------- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------- | -------- |
-| Connection          | `connection`         | Connection settings.                                                                                                                             |                     | No       |
-| Topics              | `topics`             | Topics to subscribe to (a list).                                                                                                                          |                     | Yes      |
-| Group id            | `groupId`            | Consumer group ID.                                                                                                                               |                     | Yes      |
-| Group Instance Id   | `groupInstanceId`    | Consumer group instance ID.                                                                                                                      |                     | No       |
-| Mode                | `mode`               | Where to start fetching messages: `latest`, `earliest`, `committed` or `manual`.                                                                 | `latest`            | No       |
-| Fallback Mode       | `fallbackMode`       | Where to start when `mode` is `committed` and a partition has no committed offset: `latest`, `earliest` or `fail` (raises an error). | `latest`            | No       |
-| Max Fetches         | `maxFetches`         | Maximum number of fetches on each partition before the stream closes by itself. `0` disables it.                                                 | 0                   | No       |
-| Autocommit          | `autocommit`         | `true` commits each message at once. `false` gives each message a `commit` method that the app calls.                                            | true                | No       |
-| Auto Create Topics  | `autocreateTopics`   | Ask the brokers to create missing topics when the topics are looked up.                                                                          |                     | No       |
-| Min Bytes           | `minBytes`           | Minimum amount of data the brokers should return. Brokers may not respect it.                                                                    | 1                   | No       |
-| Max Bytes           | `maxBytes`           | Maximum amount of data the brokers should return. Brokers may not respect it.                                                                    | 52428800 (50 MB)    | No       |
-| Max Wait Time       | `maxWaitTime`        | Maximum time in seconds the broker waits before it answers a fetch request.                                                                      | 5                   | No       |
-| Isolation Level     | `isolationLevel`     | `read-committed` reads only committed messages of producers. Any other value, or none, reads uncommitted messages too.                           |                     | No       |
-| Session timeout    | `sessionTimeout`     | Seconds to wait for a heartbeat before the consumer is considered down.                                                                          | 60                  | No       |
-| Rebalance timeout   | `rebalanceTimeout`   | Seconds to wait for a consumer to confirm a rebalance before it is considered down.                                                              | 120                 | No       |
-| Heartbeat Interval  | `heartbeatInterval`  | Seconds between heartbeats. Not supported with the `consumer` group protocol.                                                                    | 3                   | No       |
-| Group Protocol      | `groupProtocol`      | `classic` for the original consumer group protocol, `consumer` for the protocol of KIP-848 (server-side assignment, incremental rebalancing).    | `classic`           | No       |
-| High Watermark      | `highWaterMark`      | Maximum number of messages kept in memory before fetch requests are delayed. A high value costs memory.                                          | 1024                | No       |
+All connection settings can change while the component runs. The component
+then closes its client and creates a new one; if it was running, it starts
+again, with the status `starting` while it does. A component that is
+stopped stays stopped.
 
 ## Events
 

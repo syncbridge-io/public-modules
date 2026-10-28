@@ -8,44 +8,6 @@ opened again when it is lost.
 It extends [HL7Endpoint](../HL7Endpoint/README.md), as HL7Server does: an app
 that declares a slot of that type takes either of the two.
 
-## Settings
-
-| Setting                | Key                    | Description                                                                                                                                                    | Default     | Required |
-| ---------------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | -------- |
-| Host                   | `host`                 | Hostname or IP address to connect to.                                                                                                                          |             | Yes      |
-| Port                   | `port`                 | Port number of the target listener (1-65535).                                                                                                                  |             | Yes      |
-| Bind Interface         | `bindInterface`        | Interface address to bind to. If empty, binds to all available addresses.                                                                                      |             | No       |
-| Keep alive             | `keepAlive`            | Enables keep-alive on the TCP socket.                                                                                                                          | false       | No       |
-| Connect timeout        | `connectTimeout`       | Connection timeout in milliseconds.                                                                                                                            | 10000       | No       |
-| Response timeout       | `responseTimeout`      | Response timeout in milliseconds.                                                                                                                              | 30000       | No       |
-| Reconnect              | `reconnect`            | Reconnection options. See below.                                                                                                                               |             | No       |
-| Accept acknowledgment  | `acceptAcknowledgment` | `processed` or `receipt`: when the accept acknowledgment (MSH-15) of a received message is sent. Same as in [HL7Server](../HL7Server/acknowledgement-modes.md). | `processed` | No       |
-| Validate messages      | `validate`             | Validate received messages against the definitions of their HL7 version. A message that fails is answered with a NAK and is not handled.                       | false       | No       |
-| Default character set  | `defaultCharset`       | Character set of a message whose MSH-18 is empty or unknown, for example `windows-1254`. Without it, UTF-8.                                                    |             | No       |
-| Batch acknowledgment   | `batchAcknowledgment`  | Which acknowledgments a received batch is answered with: `all`, `errors` or `none`.                                                                            | `all`       | No       |
-| TLS Enabled            | `tls_enabled`          | Use TLS for the connection.                                                                                                                                    |             | No       |
-| TLS                    | `tls`                  | TLS options. TLS is on only when `tls_enabled` is true and `tls` is set. See below.                                                                                                              |             | No       |
-| Proxy Enabled, Proxy   | `proxy_enabled`, `proxy` | SOCKS proxy options inherited from the TCP client settings. They do nothing: see Notes.                                                                      |             | No       |
-
-### Reconnect
-
-| Setting             | Key            | Description                                           | Default       | Required |
-| ------------------- | -------------- | ----------------------------------------------------- | ------------- | -------- |
-| Reconnection strategy | `strategy`   | `exponential` or `fibonacci`.                         | `exponential` | No       |
-| Initial delay       | `initialDelay` | Initial delay in milliseconds.                        | 2000          | No       |
-| Maximum delay       | `maxDelay`     | Maximum delay in milliseconds.                        | 10000         | No       |
-
-### TLS
-
-| Setting              | Key                  | Description                                                                                          | Default | Required |
-| -------------------- | -------------------- | ---------------------------------------------------------------------------------------------------- | ------- | -------- |
-| SNI                  | `servername`         | Server Name Indication.                                                                              |         | No       |
-| Key                  | `key`                | Private key in PEM format.                                                                           |         | No       |
-| Cert                 | `cert`               | Certificate chain in PEM format.                                                                     |         | No       |
-| CA certificates      | `ca`                 | Overrides the trusted CA certificates. Mozilla's well-known CAs are replaced when it is set.         |         | No       |
-| Passphrase (secret)  | `passphrase`         | Passphrase to decrypt the private key.                                                               |         | No       |
-| Reject unauthorized  | `rejectUnauthorized` | Reject a connection to a server not authorized by the supplied CAs.                                  | true    | No       |
-
 ## Events
 
 Listen with `component.on(name, listener)`. `info` is `{ address, port }` of

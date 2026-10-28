@@ -8,51 +8,19 @@ acknowledgments.
 It extends [HL7Endpoint](../HL7Endpoint/README.md), as HL7Client does: an app
 that declares a slot of that type takes either of the two.
 
-## Settings
-
-| Setting                  | Key                    | Description                                                                                                                                                                  | Default | Required |
-| ------------------------ | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | -------- |
-| Port                     | `port`                 | Port number to listen on (1-65535).                                                                                                                                          |         | Yes      |
-| Bind Interface           | `bindInterface`        | Interface address to bind to. If empty, binds to all available addresses.                                                                                                    |         | No       |
-| Response timeout         | `responseTimeout`      | How long a message may take to be handled, in milliseconds. Past it, the sender is answered with an error acknowledgment.                                                    | 30000   | No       |
-| Accept acknowledgment    | `acceptAcknowledgment` | `processed` or `receipt`. When the accept acknowledgment a message asks for (MSH-15) is sent. See [Acknowledgment modes](acknowledgement-modes.md).                          | `processed` | No   |
-| Validate messages        | `validate`             | Validate received messages against the definitions of their HL7 version. A message that fails is answered with a NAK that lists its errors and is not handled.              | false   | No       |
-| Default character set    | `defaultCharset`       | Character set of a message whose MSH-18 is empty or unknown, for example `windows-1254`. Without it, UTF-8.                                                                  |         | No       |
-| Batch acknowledgment     | `batchAcknowledgment`  | Which acknowledgments a received batch is answered with: `all`, `errors` (only those of messages that failed) or `none`.                                                     | `all`   | No       |
-| TLS Enabled              | `tls_enabled`          | Use TLS for connections.                                                                                                                                                     |         | No       |
-| TLS                      | `tls`                  | TLS options. TLS is on only when `tls_enabled` is true and `tls` is set. See below.                                                                                                                            |         | No       |
-| Socket                   | `socket`               | Socket options (keep-alive, blocked addresses). See the note below.                                                                                                          |         | No       |
-
-### TLS
-
-| Setting                              | Key                      | Description                                                                                              | Default | Required |
-| ------------------------------------ | ------------------------ | -------------------------------------------------------------------------------------------------------- | ------- | -------- |
-| Cert                                 | `cert`                   | Certificate chain in PEM format, followed by the intermediate certificates, without the root CA.         |         | Yes      |
-| Key                                  | `key`                    | Private key in PEM format.                                                                               |         | Yes      |
-| Passphrase (secret)                  | `passphrase`             | Passphrase of the private key.                                                                           |         | No       |
-| CA certificates                      | `ca`                     | Overrides the trusted CA certificates. Mozilla's well-known CAs are replaced when it is set.             |         | Yes      |
-| CRL (Certificate Revocation Lists)   | `crl`                    | PEM formatted CRLs.                                                                                      |         | No       |
-| Reject unauthorized                  | `rejectUnauthorized`     | Reject connections not authorized by the supplied CAs. Has an effect only if Request cert is on.         | true    | No       |
-| Handshake Timeout                    | `handshakeTimeout`       | Abort the connection if the TLS handshake does not finish in this many milliseconds.                     | 120000  | No       |
-| Request cert                         | `requestCert`            | Request a certificate from clients and verify it.                                                        | false   | No       |
-| Session Timeout                      | `sessionTimeout`         | Seconds after which a TLS session can no longer be resumed.                                              |         | No       |
-| Allow Partial Trust Chain            | `allowPartialTrustChain` | Treat intermediate certificates in the trusted CA list as trusted.                                       |         | No       |
-| Sigalgs                              | `sigalgs`                | Colon-separated list of supported signature algorithms.                                                  |         | No       |
-
-### Socket
-
-The Socket group (Allow Half Open, Keep Alive, Keep Alive Initial Delay, No
-Delay, Blocked Ips, Blocked Subnets) is inherited from the TCP server
-settings. The component passes it, and the TLS settings, to the server with
-`variablesToNodeOptions()` of the
-[TcpServer](https://github.com/syncbridge-io/syncbridge-extensions/tree/main/packages/builtins/docs/TcpServer) component, so they work:
-a connection from a blocked address or subnet is refused. Both block lists
-apply; the default prefix of a subnet is 32 for IPv4 and 128 for IPv6.
+## Changing settings
 
 Only `responseTimeout` and the four protocol settings (Accept
 acknowledgment, Validate messages, Default character set, Batch
 acknowledgment) are live. A change of any other setting restarts the
 worker.
+
+The Socket group is inherited from the TCP server settings. The component
+passes it, and the TLS settings, to the server with
+`variablesToNodeOptions()` of the
+[TcpServer](https://github.com/syncbridge-io/syncbridge-extensions/tree/main/packages/builtins/docs/TcpServer) component, so they work:
+a connection from a blocked address or subnet is refused. Both block lists
+apply; the default prefix of a subnet is 32 for IPv4 and 128 for IPv6.
 
 ## Events
 

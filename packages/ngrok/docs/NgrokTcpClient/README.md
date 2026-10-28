@@ -31,15 +31,10 @@ the auth token from its "Your Authtoken" page, and put it in the
 control and out of logs. TCP endpoints are not available on every ngrok
 plan; the ngrok documentation lists the requirements.
 
-## Settings
+## Changing settings
 
-Both settings can be changed while the component runs (hot plug). A change
-restarts the component, which opens a new tunnel.
-
-| Setting      | Label            | What it does                                                                                      | Default | Required |
-| ------------ | ---------------- | ------------------------------------------------------------------------------------------------- | ------- | -------- |
-| `authToken`  | Ngrok Auth Token (secret) | Ngrok auth token                                                                  |         | yes      |
-| `localPort`  | Local Port       | Local port the ngrok agent connects to. If not set, a free port is selected automatically        | `0`     | no       |
+Both settings can be changed while the component runs. A change restarts
+the component, which opens a new tunnel.
 
 ## Events
 

@@ -11,67 +11,21 @@ of `@syncbridge/builtins`.
 
 The class is `TcpClientComponent`. Its protocol is `tcp`.
 
-## Settings
+## Changing settings
 
-Every setting below can change while the worker runs ("Live" = yes). A
-change restarts the connection: the component stops, builds a new client
-from the new values and starts again. If that fails, its status becomes
-`unhealthy` with the error text.
-
-| Variable         | Label          | Description                                                                          | Default | Required | Live |
-| ---------------- | -------------- | ------------------------------------------------------------------------------------ | ------- | -------- | ---- |
-| `host`           | Host           | Hostname or IP address to be connected to.                                           |         | yes      | yes  |
-| `port`           | Port           | Port number of target listener. From 1 to 65535.                                     |         | yes      | yes  |
-| `bindInterface`  | Bind Interface | Interface address to bind to. If not specified, binds to all available addresses.    |         | no       | yes  |
-| `keepAlive`      | Keep alive     | Enables keep-alive on the TCP socket.                                                | `false` | no       | yes  |
-| `connectTimeout` | Connect timeout| Connection timeout in milliseconds.                                                  | `10000` | no       | yes  |
-| `reconnect`      | Reconnect      | Reconnect options. See below.                                                        |         | no       | yes  |
-| `tls_enabled`    | TLS Enabled    | Wraps the connection in TLS.                                                         |         | no       | yes  |
-| `tls`            | TLS            | TLS options. Used when `tls_enabled` is on. See below.                               |         | no       | yes  |
-| `proxy_enabled`  | Proxy Enabled  | Connects through a SOCKS proxy.                                                      |         | no       | yes  |
-| `proxy`          | Proxy          | Proxy options. Used when `proxy_enabled` is on. See below.                           |         | no       | yes  |
+Every setting can change while the worker runs. A change restarts the
+connection: the component stops, builds a new client from the new values
+and starts again. If that fails, its status becomes `unhealthy` with the
+error text.
 
 If `host` is empty the component uses `127.0.0.1`. If `port` is empty it
 uses `0`.
 
-### Reconnect (`reconnect`)
-
-| Variable       | Label                 | Description                  | Default       | Required | Live |
-| -------------- | --------------------- | ---------------------------- | ------------- | -------- | ---- |
-| `strategy`     | Reconnection strategy | `exponential` or `fibonacci`. | `exponential` | no       | yes  |
-| `initialDelay` | Initial delay         | Initial delay in milliseconds. | `2000`      | no       | yes  |
-| `maxDelay`     | Maximum delay         | Maximum delay in milliseconds. | `10000`     | no       | yes  |
-
-The delay of each retry grows from `initialDelay` by the strategy
+The delay of each reconnect retry grows from `initialDelay` by the strategy
 (doubling, or the Fibonacci sequence) and stops growing at `maxDelay`. A
 successful connection resets it. There is no limit on the number of
-retries.
-
-### TLS (`tls`)
-
-Values are PEM text. They are passed to Node's `tls.connect()`. See
+retries. TLS values are PEM text, passed to Node's `tls.connect()`; see
 [TLS and proxies](tls-and-proxies.md).
-
-| Variable             | Label              | Description                                                                                       | Default | Required | Live |
-| -------------------- | ------------------ | ------------------------------------------------------------------------------------------------- | ------- | -------- | ---- |
-| `servername`         | SNI                | SNI (Server Name Indication).                                                                     |         | no       | yes  |
-| `key`                | Key                | Private keys in PEM format.                                                                       |         | no       | yes  |
-| `cert`               | Cert               | Cert chains in PEM format.                                                                        |         | no       | yes  |
-| `ca`                 | CA certificates    | Overrides the trusted CA certificates. By default the well-known CAs are trusted; giving this replaces them. |  | no       | yes  |
-| `passphrase`         | Passphrase         | Passphrase to decrypt the private key. A secret.                                                  |         | no       | yes  |
-| `rejectUnauthorized` | Reject unauthorized| Rejects a connection that is not authorized with the supplied CAs.                                | `true`  | no       | yes  |
-
-### Proxy (`proxy`)
-
-A SOCKS proxy.
-
-| Variable    | Label    | Description                                                    | Default | Required | Live |
-| ----------- | -------- | -------------------------------------------------------------- | ------- | -------- | ---- |
-| `host`      | Host     | Hostname or IP address of proxy server.                        |         | yes      | yes  |
-| `port`      | Port     | Port number of proxy listener. From 1 to 65535.                |         | yes      | yes  |
-| `proxyType` | Proxy type | SOCKS protocol version of the proxy: `v4` or `v5`.           | `v5`    | no       | yes  |
-| `username`  | Username | Username to be used for authentication.                        |         | no       | yes  |
-| `password`  | Password | Password to be used for authentication. A secret.              |         | no       | yes  |
 
 ## Events
 

@@ -11,13 +11,7 @@ of `@syncbridge/builtins`. Its class is `UdpClientComponent`, its protocol
 is `udp`. To only listen on a port, use
 [`UdpListener`](../UdpListener/README.md).
 
-## Settings
-
-| Variable        | Label          | Description                                                                       | Default | Required | Live |
-| --------------- | -------------- | --------------------------------------------------------------------------------- | ------- | -------- | ---- |
-| `host`          | Host           | Hostname or IP address which udp messages will send to.                           |         | no       | yes  |
-| `port`          | Port           | Port number of target listener. From 1 to 65535.                                  |         | no       | yes  |
-| `bindInterface` | Bind Interface | Interface address to bind to. If not specified, binds to all available addresses. |         | no       | yes  |
+## Changing settings
 
 A change of any setting restarts the component: the socket is closed and a
 new one is opened.

@@ -18,9 +18,9 @@ It differs from [`IoClient`](io-client.md) in two ways. It has no
 `connect` and `disconnect` events and no `peerAddress`, because it has many
 peers. Each event carries the peer it is about instead.
 
-## Settings
+## Variables
 
-None. `IoServerBaseComponent.Variables` is an empty class
+None of its own. `IoServerBaseComponent.Variables` is an empty class
 (`IoServerComponentVariables`). A component adds its own variables by
 extending it.
 

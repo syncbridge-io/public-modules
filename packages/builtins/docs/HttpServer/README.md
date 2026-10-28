@@ -12,36 +12,18 @@ It extends
 of `@syncbridge/builtins`, and its settings extend those of
 [`TcpServer`](../TcpServer/README.md). Its class is `HttpServerComponent`.
 
-## Settings
+## Changing settings
 
-It has the settings of `TcpServer`: `port`, `bindInterface`, `tls_enabled`,
-`tls` and `socket`, with the same labels, defaults and rules. See
-[TcpServer](../TcpServer/README.md#settings). It adds `http`.
+It has the settings of [TcpServer](../TcpServer/README.md), with the same
+rules, and adds the HTTP protocol options (`http`). None of them is live: a
+change restarts the worker.
 
-### HTTP protocol options (`http`)
-
-Label of `http`: "Http Protocol Options". The values are merged into the
-options of `http.createServer()` / `https.createServer()`.
-
-| Variable                      | Label                           | Description                                                                                                              | Default  | Required | Live |
-| ----------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------ | -------- | -------- | ---- |
-| `timeout`                     | Socket timeout                  | Milliseconds of inactivity before a socket is presumed to have timed out. 0 disables it.                                 | `0`      | no       | no   |
-| `requestTimeout`              | Request timeout                 | Milliseconds allowed for receiving the entire request. When it expires the server answers 408 and closes the connection. | `300000` | no       | no   |
-| `headersTimeout`              | Headers Timeout                 | Milliseconds the parser waits for the complete headers. When it expires the server answers 408 and closes the connection. | `60000` | no       | no   |
-| `keepAliveTimeout`            | Keep Alive Timeout              | Milliseconds of inactivity the server waits for more data after the last response, before it destroys the socket.        | `5000`   | no       | no   |
-| `keepAliveTimeoutBuffer`      | Keep Alive Timeout Buffer       | An additional buffer time added to `keepAliveTimeout` for the internal socket timeout.                                   | `1000`   | no       | no   |
-| `maxHeadersCount`             | Max Headers Count               | Maximum incoming headers count. 0 means no limit.                                                                        | `2000`   | no       | no   |
-| `maxHeaderSize`               | Max Header Size                 | Maximum size of request headers in bytes.                                                                                | `16384`  | no       | no   |
-| `connectionsCheckingInterval` | Connections Checking Interval   | Interval in milliseconds at which the server checks for requests that passed the request or headers timeout.             | `30000`  | no       | no   |
-
-None of these settings is live: a change restarts the worker.
-
-The `http` object is merged into the server's creation options. Node.js
-reads `requestTimeout`, `headersTimeout`, `keepAliveTimeout`,
-`keepAliveTimeoutBuffer`, `maxHeaderSize` and `connectionsCheckingInterval`
-from them. `timeout` and `maxHeadersCount` are properties of a server, not
-creation options, so the component sets them on the server after it creates
-it.
+The `http` object is merged into the options of `http.createServer()` /
+`https.createServer()`. Node.js reads `requestTimeout`, `headersTimeout`,
+`keepAliveTimeout`, `keepAliveTimeoutBuffer`, `maxHeaderSize` and
+`connectionsCheckingInterval` from them. `timeout` and `maxHeadersCount`
+are properties of a server, not creation options, so the component sets
+them on the server after it creates it.
 
 ## Events
 

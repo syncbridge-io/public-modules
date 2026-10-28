@@ -9,37 +9,14 @@ delay until it is stopped.
 For port names and permissions see [Device setup](device-setup.md). For
 testing an app that uses it without hardware see [Testing](testing.md).
 
-## Settings
+## Changing settings
 
-All settings can be changed while the component runs (hot plug). A change
-restarts the component: it closes the port and opens it again with the new
-values.
-
-| Setting      | Label                  | What it does                                                                 | Default | Required |
-| ------------ | ---------------------- | ---------------------------------------------------------------------------- | ------- | -------- |
-| `port`       | Port                   | The system path of the serial port: `/dev/tty.XXX` on macOS and Linux, `COM1` on Windows | | yes |
-| `baudRate`   | Baud rate              | Baud rate of the port. Common values: 110, 300, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 57600, 115200. Other rates work best effort per platform. The device may not support the rate the port does | `9600` | yes |
-| `dataBits`   | Data bits              | `5`, `6`, `7` or `8`                                                         | `8`     | yes      |
-| `stopBits`   | Stop bits              | `1`, `1.5` or `2`                                                            | `1`     | no       |
-| `parity`     | Parity flow control    | `none`, `even`, `mark`, `odd` or `space`                                     | `none`  | no       |
-| `rtscts`     | RTS/CTS                | RTS/CTS flow control                                                         | false   | no       |
-| `xon`        | XON                    | XON flow control                                                             | false   | no       |
-| `xoff`       | XOFF                   | XOFF flow control                                                            | false   | no       |
-| `xany`       | XANY                   | XANY flow control                                                            | false   | no       |
-| `hupcl`      | HUPCL                  | Drop DTR on close                                                            | true    | no       |
-| `reconnect`  | Reconnect Options      | How the connection is retried when it fails or is lost, below                |         | no       |
+All settings can be changed while the component runs. A change restarts
+the component: it closes the port and opens it again with the new values.
 
 The engine fills in the list of ports for `port` from the serial ports of
 the server. The list is a suggestion: any path can be typed, including one
 whose device is not plugged in yet.
-
-### Reconnect
-
-| Setting        | Label                   | What it does                       | Default     | Required |
-| -------------- | ----------------------- | ---------------------------------- | ----------- | -------- |
-| `strategy`     | Reconnection strategy   | `fibonacci` or `exponential` growth of the delay | `fibonacci` | no |
-| `initialDelay` | Initial delay           | Initial delay in milliseconds      | `2000`      | no       |
-| `maxDelay`     | Maximum delay           | Maximum delay in milliseconds      | `10000`     | no       |
 
 ## Events
 

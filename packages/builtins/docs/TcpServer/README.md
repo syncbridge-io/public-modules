@@ -11,29 +11,11 @@ It extends
 [`IoServer`](../guides/io-server.md)
 of `@syncbridge/builtins`. Its class is `TcpServerComponent`.
 
-## Settings
+## Changing settings
 
-| Variable        | Label          | Description                                                                       | Default | Required | Live |
-| --------------- | -------------- | --------------------------------------------------------------------------------- | ------- | -------- | ---- |
-| `port`          | Port           | Port number to be listen. From 1 to 65535.                                        |         | yes      | no   |
-| `bindInterface` | Bind Interface | Interface address to bind to. If not specified, binds to all available addresses. |         | no       | no   |
-| `tls_enabled`   | TLS Enabled    | Whether to use TLS for the connection.                                            |         | no       | no   |
-| `tls`           | TLS            | TLS options. Used when `tls_enabled` is on. See below.                            |         | no       | no   |
-| `socket`        | Socket         | Socket options. See below.                                                        |         | no       | no   |
+No setting is live: a change of any of them restarts the worker.
 
-"Live" means the engine applies a change to a running worker. No setting of
-the component is live: a change of any of them restarts the worker.
-
-### Socket (`socket`)
-
-| Variable                | Label                    | Description                                                                                                  | Default | Required | Live |
-| ----------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------ | ------- | -------- | ---- |
-| `allowHalfOpen`         | Allow Half Open          | Indicates whether half-opened TCP connections are allowed.                                                   | `false` | no       | no   |
-| `keepAlive`             | Keep Alive               | Enables keep-alive on the socket of each new incoming connection.                                            | `false` | no       | no   |
-| `keepAliveInitialDelay` | Keep Alive Initial Delay | If a positive number, the initial delay before the first keep-alive probe on an idle socket (milliseconds).  | `0`     | no       | no   |
-| `noDelay`               | No Delay                 | Disables Nagle's algorithm on the socket of each new incoming connection.                                    | `true`  | no       | no   |
-| `blockedIps`            | Blocked Ips              | A list of blocked IP addresses.                                                                              |         | no       | no   |
-| `blockedSubnets`        | Blocked Subnets          | A list of blocked subnet addresses.                                                                          |         | no       | no   |
+## Blocked addresses
 
 The block lists compare against the address the server sees. Behind a
 reverse proxy or NAT this is the address of the proxy, not the client's.
@@ -45,25 +27,7 @@ subnet and 128 for an IPv6 one when it is missing. The type is `ipv4` unless
 it says `ipv6`. Both lists apply: an address is refused when it is in
 `blockedIps` or in a subnet of `blockedSubnets`.
 
-### TLS (`tls`)
-
-The values are passed to Node's `tls.createServer()`. They are PEM text.
-
-| Variable                 | Label                                | Description                                                                                          | Default  | Required |
-| ------------------------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------- | -------- | -------- |
-| `cert`                   | Cert                                 | Cert chains in PEM format: one chain per private key, with intermediate certificates, without the root CA. | | yes      |
-| `key`                    | Key                                  | Private keys in PEM format. Encrypted keys are decrypted with `passphrase`.                          |          | yes      |
-| `passphrase`             | Passphrase                           | Shared passphrase for a single private key and/or a PFX. A secret.                                   |          | no       |
-| `ca`                     | CA certificates                      | Overrides the trusted CA certificates. By default the well-known CAs are trusted. (\*)               |          | yes (\*) |
-| `crl`                    | CRL (Certificate Revocation Lists)   | PEM formatted CRLs.                                                                                  |          | no       |
-| `rejectUnauthorized`     | Reject unauthorized                  | Rejects a connection that is not authorized with the supplied CAs. Only has an effect when `requestCert` is true. | `true` | no  |
-| `handshakeTimeout`       | Handshake Timeout                    | Aborts the connection if the TLS handshake does not finish in this many milliseconds.                | `120000` | no       |
-| `requestCert`            | Request cert                         | Requests a certificate from connecting clients and verifies it.                                      | `false`  | no       |
-| `sessionTimeout`         | Session Timeout                      | Seconds after which a TLS session created by the server is no longer resumable.                      |          | no       |
-| `allowPartialTrustChain` | Allow Partial Trust Chain            | Treats intermediate (non-self-signed) certificates in the trusted CA list as trusted.                |          | no       |
-| `sigalgs`                | Sigalgs                              | Colon-separated list of supported signature algorithms.                                              |          | no       |
-
-(\*) Defined as required, although its description calls it optional.
+The TLS values are PEM text, passed to Node's `tls.createServer()`.
 
 ## Events
 
