@@ -1,0 +1,124 @@
+{
+  "KafkaConsumer": {
+    "displayName": "Consommateur Kafka",
+    "description": "Composant consommateur Kafka",
+    "summary": "Lit des messages depuis des topics Kafka en tant que membre d'un groupe de consommateurs, avec SASL et TLS.",
+    "variables": {
+      "connection": {
+        "label": "Connexion",
+        "description": "Paramètres de connexion"
+      },
+      "topics": {
+        "label": "Topics",
+        "description": "Topics auxquels s'abonner"
+      },
+      "groupId": {
+        "label": "ID de groupe",
+        "description": "ID du groupe de consommateurs."
+      },
+      "groupInstanceId": {
+        "label": "ID d'instance de groupe",
+        "description": "ID d'instance dans le groupe de consommateurs."
+      },
+      "autocreateTopics": {
+        "label": "Création automatique des topics",
+        "description": "Indique s'il faut demander aux brokers de créer automatiquement les topics manquants lors de leur recherche."
+      },
+      "mode": {
+        "label": "Mode",
+        "description": "Point de départ de la récupération des nouveaux messages."
+      },
+      "fallbackMode": {
+        "label": "Mode de repli",
+        "description": "Point de départ de la récupération lorsque le mode est `committed` et qu'une partition n'a pas d'offset validé. `fail` déclenche une erreur."
+      },
+      "maxFetches": {
+        "label": "Nombre maximal de récupérations",
+        "description": "Nombre maximal de récupérations effectuées sur chaque partition avant la fermeture automatique du flux. La valeur 0 désactive la fermeture automatique."
+      },
+      "autocommit": {
+        "label": "Validation automatique",
+        "description": "Indique si les messages consommés sont validés automatiquement. Si la valeur est `true`, ils sont validés immédiatement. Si elle est `false`, chaque message transmis à l'app dispose d'une méthode `commit` que l'app appelle pour valider son offset."
+      },
+      "minBytes": {
+        "label": "Octets minimum",
+        "description": "Quantité minimale de données que les brokers doivent renvoyer. Kafka peut ne pas respecter cette valeur."
+      },
+      "maxBytes": {
+        "label": "Octets maximum",
+        "description": "Quantité maximale de données que les brokers doivent renvoyer. Kafka peut ne pas respecter cette valeur."
+      },
+      "maxWaitTime": {
+        "label": "Temps d'attente maximal",
+        "description": "Durée maximale, en secondes, pendant laquelle le broker attend avant de répondre à une requête de récupération."
+      },
+      "isolationLevel": {
+        "label": "Niveau d'isolation",
+        "description": "Type d'isolation appliqué aux requêtes de récupération. Permet par exemple de ne lire que les messages validés par les producteurs."
+      },
+      "sessionTimeout": {
+        "label": "Délai d'expiration de session",
+        "description": "Durée en secondes pendant laquelle on attend le heartbeat d'un consommateur avant de le considérer comme hors service."
+      },
+      "rebalanceTimeout": {
+        "label": "Délai de rééquilibrage",
+        "description": "Durée en secondes pendant laquelle on attend qu'un consommateur confirme le rééquilibrage avant de le considérer comme hors service."
+      },
+      "heartbeatInterval": {
+        "label": "Intervalle de heartbeat",
+        "description": "Intervalle en secondes entre deux heartbeats. Non pris en charge avec `groupProtocol=consumer`."
+      },
+      "groupProtocol": {
+        "label": "Protocole de groupe",
+        "description": "Protocole de groupe à utiliser : `'classic'` pour le protocole de groupe de consommateurs d'origine, `'consumer'` pour le nouveau protocole introduit par [KIP-848](https://cwiki.apache.org/confluence/display/KAFKA/KIP-848%3A+The+Next+Generation+of+the+Consumer+Rebalance+Protocol). Le protocole `'consumer'` assure l'attribution des partitions côté serveur et un rééquilibrage incrémental."
+      },
+      "highWaterMark": {
+        "label": "Seuil haut (high watermark)",
+        "description": "Nombre maximal de messages conservés en mémoire avant de différer les requêtes de récupération. Ce réglage influe fortement sur les performances et sur l'utilisation de la mémoire."
+      }
+    }
+  },
+  "KafkaProducer": {
+    "displayName": "Producteur Kafka",
+    "description": "Composant producteur Kafka",
+    "summary": "Envoie des messages vers des topics Kafka, avec réglages d'accusé de réception et de compression, SASL et TLS.",
+    "variables": {
+      "connection": {
+        "label": "Connexion",
+        "description": "Paramètres de connexion"
+      },
+      "producerId": {
+        "label": "ID de producteur",
+        "description": "ID du producteur."
+      },
+      "producerEpoch": {
+        "label": "Époque du producteur",
+        "description": "Époque du producteur."
+      },
+      "autocreateTopics": {
+        "label": "Création automatique des topics",
+        "description": "Indique s'il faut demander aux brokers de créer automatiquement les topics manquants lors des requêtes de production."
+      },
+      "idempotent": {
+        "label": "Idempotent",
+        "description": "Idempotence du producteur. Requise pour les transactions."
+      },
+      "transactionalId": {
+        "label": "ID transactionnel",
+        "description": "ID transactionnel du producteur. S'il n'est pas renseigné, un UUID aléatoire est généré. Requis avec les transactions pour garantir l'utilisation du même ID d'un redémarrage à l'autre."
+      },
+      "acks": {
+        "label": "ACKs",
+        "description": "Accusé de réception à attendre avant de rendre la main"
+      },
+      "compression": {
+        "label": "Compression",
+        "description": "Algorithme de compression appliqué avant l'envoi des messages au broker."
+      },
+      "repeatOnStaleMetadata": {
+        "label": "Réessayer si métadonnées obsolètes",
+        "description": "Indique s'il faut réessayer une opération de production lorsque des informations obsolètes sur les topics ou les brokers sont détectées."
+      }
+    }
+  }
+}

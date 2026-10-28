@@ -1,0 +1,124 @@
+{
+  "KafkaConsumer": {
+    "displayName": "Consumidor Kafka",
+    "description": "Componente de consumidor Kafka",
+    "summary": "Lê mensagens de tópicos Kafka como membro de um grupo de consumidores, com SASL e TLS.",
+    "variables": {
+      "connection": {
+        "label": "Conexão",
+        "description": "Configurações de conexão"
+      },
+      "topics": {
+        "label": "Tópicos",
+        "description": "Tópicos a assinar"
+      },
+      "groupId": {
+        "label": "ID do grupo",
+        "description": "ID do grupo de consumidores."
+      },
+      "groupInstanceId": {
+        "label": "ID da instância do grupo",
+        "description": "ID da instância no grupo de consumidores."
+      },
+      "autocreateTopics": {
+        "label": "Criar tópicos automaticamente",
+        "description": "Define se os brokers devem criar automaticamente os tópicos inexistentes quando eles forem consultados."
+      },
+      "mode": {
+        "label": "Modo",
+        "description": "Ponto a partir do qual buscar novas mensagens."
+      },
+      "fallbackMode": {
+        "label": "Modo alternativo",
+        "description": "Ponto a partir do qual buscar quando o modo é `committed` e uma partição não tem offset com commit. `fail` gera um erro."
+      },
+      "maxFetches": {
+        "label": "Máximo de buscas",
+        "description": "Número máximo de buscas em cada partição antes de fechar o stream automaticamente. Zero desativa o fechamento automático."
+      },
+      "autocommit": {
+        "label": "Commit automático",
+        "description": "Define se é feito commit automático das mensagens consumidas. Se `true`, o commit é feito imediatamente. Se `false`, cada mensagem entregue ao app tem um método `commit`, que o app chama para fazer o commit do seu offset."
+      },
+      "minBytes": {
+        "label": "Mínimo de bytes",
+        "description": "Quantidade mínima de dados que os brokers devem retornar. O Kafka pode não respeitar este valor."
+      },
+      "maxBytes": {
+        "label": "Máximo de bytes",
+        "description": "Quantidade máxima de dados que os brokers devem retornar. O Kafka pode não respeitar este valor."
+      },
+      "maxWaitTime": {
+        "label": "Tempo máximo de espera",
+        "description": "Tempo máximo, em segundos, que o broker aguarda antes de responder a uma requisição de busca."
+      },
+      "isolationLevel": {
+        "label": "Nível de isolamento",
+        "description": "Tipo de isolamento aplicado às requisições de busca. Permite ler apenas as mensagens cujo commit foi feito pelos produtores."
+      },
+      "sessionTimeout": {
+        "label": "Tempo limite da sessão",
+        "description": "Tempo, em segundos, a aguardar o heartbeat de um consumidor antes de considerá-lo inativo."
+      },
+      "rebalanceTimeout": {
+        "label": "Tempo limite de rebalanceamento",
+        "description": "Tempo, em segundos, a aguardar que um consumidor confirme o rebalanceamento antes de considerá-lo inativo."
+      },
+      "heartbeatInterval": {
+        "label": "Intervalo de heartbeat",
+        "description": "Intervalo, em segundos, entre heartbeats. Não suportado com `groupProtocol=consumer`."
+      },
+      "groupProtocol": {
+        "label": "Protocolo do grupo",
+        "description": "Protocolo de grupo a usar. Use `'classic'` para o protocolo original de grupo de consumidores e `'consumer'` para o novo protocolo introduzido no [KIP-848](https://cwiki.apache.org/confluence/display/KAFKA/KIP-848%3A+The+Next+Generation+of+the+Consumer+Rebalance+Protocol). O protocolo `'consumer'` oferece atribuição de partições no servidor e rebalanceamento incremental."
+      },
+      "highWaterMark": {
+        "label": "High watermark",
+        "description": "Número máximo de mensagens mantidas em memória antes de adiar as requisições de busca. Este valor afeta bastante o desempenho e o uso de memória."
+      }
+    }
+  },
+  "KafkaProducer": {
+    "displayName": "Produtor Kafka",
+    "description": "Componente de produtor Kafka",
+    "summary": "Envia mensagens para tópicos Kafka, com configurações de confirmação e compressão, SASL e TLS.",
+    "variables": {
+      "connection": {
+        "label": "Conexão",
+        "description": "Configurações de conexão"
+      },
+      "producerId": {
+        "label": "ID do produtor",
+        "description": "ID do produtor."
+      },
+      "producerEpoch": {
+        "label": "Época do produtor",
+        "description": "Época do produtor."
+      },
+      "autocreateTopics": {
+        "label": "Criar tópicos automaticamente",
+        "description": "Define se os brokers devem criar automaticamente os tópicos inexistentes durante as requisições de produção."
+      },
+      "idempotent": {
+        "label": "Idempotente",
+        "description": "Torna o produtor idempotente. Obrigatório para transações."
+      },
+      "transactionalId": {
+        "label": "ID transacional",
+        "description": "ID transacional do produtor. Se não for informado, um UUID aleatório é gerado. Obrigatório ao usar transações, para garantir que o mesmo ID seja usado entre reinicializações."
+      },
+      "acks": {
+        "label": "ACKs",
+        "description": "Confirmações a aguardar antes de retornar"
+      },
+      "compression": {
+        "label": "Compressão",
+        "description": "Algoritmo de compressão aplicado antes de enviar as mensagens ao broker."
+      },
+      "repeatOnStaleMetadata": {
+        "label": "Repetir com metadados desatualizados",
+        "description": "Define se uma operação de produção é repetida quando são detectadas informações desatualizadas de tópico ou broker."
+      }
+    }
+  }
+}

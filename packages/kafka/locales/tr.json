@@ -1,0 +1,124 @@
+{
+  "KafkaConsumer": {
+    "displayName": "Kafka Tüketicisi",
+    "description": "Kafka tüketici bileşeni",
+    "summary": "Bir tüketici grubunun üyesi olarak Kafka topic'lerinden mesaj okur; SASL ve TLS ile.",
+    "variables": {
+      "connection": {
+        "label": "Bağlantı",
+        "description": "Bağlantı ayarları"
+      },
+      "topics": {
+        "label": "Topic'ler",
+        "description": "Abone olunacak topic'ler"
+      },
+      "groupId": {
+        "label": "Grup kimliği",
+        "description": "Tüketici grubu kimliği."
+      },
+      "groupInstanceId": {
+        "label": "Grup örneği kimliği",
+        "description": "Tüketici grubu örneği kimliği."
+      },
+      "autocreateTopics": {
+        "label": "Topic'leri otomatik oluştur",
+        "description": "Topic'ler sorgulanırken eksik olanların broker'lar tarafından otomatik oluşturulmasının istenip istenmeyeceği."
+      },
+      "mode": {
+        "label": "Mod",
+        "description": "Yeni mesajları getirmeye nereden başlanacağı."
+      },
+      "fallbackMode": {
+        "label": "Yedek mod",
+        "description": "Mod `committed` olduğunda ve bir partition'ın commit edilmiş offset'i yoksa getirmeye nereden başlanacağı. `fail` hata verir."
+      },
+      "maxFetches": {
+        "label": "En fazla getirme sayısı",
+        "description": "Akış otomatik olarak kapatılmadan önce her partition'da yapılacak en fazla getirme sayısı. Sıfır, otomatik kapatmayı devre dışı bırakır."
+      },
+      "autocommit": {
+        "label": "Otomatik commit",
+        "description": "Tüketilen mesajların otomatik olarak commit edilip edilmeyeceği. `true` ise mesajlar hemen commit edilir. `false` ise uygulamaya verilen her mesajın, uygulamanın offset'ini commit etmek için çağırdığı bir `commit` metodu olur."
+      },
+      "minBytes": {
+        "label": "En az bayt",
+        "description": "Broker'ların döndürmesi gereken en az veri miktarı. Kafka bu değere uymayabilir."
+      },
+      "maxBytes": {
+        "label": "En fazla bayt",
+        "description": "Broker'ların döndürmesi gereken en fazla veri miktarı. Kafka bu değere uymayabilir."
+      },
+      "maxWaitTime": {
+        "label": "En fazla bekleme süresi",
+        "description": "Broker'ın bir getirme isteğine yanıt göndermeden önce bekleyeceği en uzun süre (saniye)."
+      },
+      "isolationLevel": {
+        "label": "Yalıtım düzeyi",
+        "description": "Getirme isteklerine uygulanan yalıtım türü. Yalnızca üreticilerin commit ettiği mesajları okumak için kullanılabilir."
+      },
+      "sessionTimeout": {
+        "label": "Oturum zaman aşımı",
+        "description": "Bir tüketicinin heartbeat göndermesi için beklenecek süre (saniye); süre aşılırsa tüketici erişilemez kabul edilir."
+      },
+      "rebalanceTimeout": {
+        "label": "Yeniden dengeleme zaman aşımı",
+        "description": "Bir tüketicinin yeniden dengelemeyi onaylaması için beklenecek süre (saniye); süre aşılırsa tüketici erişilemez kabul edilir."
+      },
+      "heartbeatInterval": {
+        "label": "Heartbeat aralığı",
+        "description": "Heartbeat'ler arasındaki süre (saniye). `groupProtocol=consumer` için desteklenmez."
+      },
+      "groupProtocol": {
+        "label": "Grup protokolü",
+        "description": "Kullanılacak grup protokolü. Özgün tüketici grubu protokolü için `'classic'`, [KIP-848](https://cwiki.apache.org/confluence/display/KAFKA/KIP-848%3A+The+Next+Generation+of+the+Consumer+Rebalance+Protocol) ile gelen yeni protokol için `'consumer'` kullanın. `'consumer'` protokolü, partition atamasını sunucu tarafında yapar ve artımlı yeniden dengeleme sağlar."
+      },
+      "highWaterMark": {
+        "label": "High watermark",
+        "description": "Getirme istekleri geciktirilmeden önce bellekte tutulacak en fazla mesaj sayısı. Bu değer performansı ve bellek kullanımını önemli ölçüde etkiler."
+      }
+    }
+  },
+  "KafkaProducer": {
+    "displayName": "Kafka Üreticisi",
+    "description": "Kafka üretici bileşeni",
+    "summary": "Kafka topic'lerine mesaj gönderir; onay ve sıkıştırma ayarları, SASL ve TLS ile.",
+    "variables": {
+      "connection": {
+        "label": "Bağlantı",
+        "description": "Bağlantı ayarları"
+      },
+      "producerId": {
+        "label": "Üretici kimliği",
+        "description": "Üretici kimliği."
+      },
+      "producerEpoch": {
+        "label": "Üretici epoch'u",
+        "description": "Üretici epoch değeri."
+      },
+      "autocreateTopics": {
+        "label": "Topic'leri otomatik oluştur",
+        "description": "Üretim istekleri sırasında eksik topic'lerin broker'lar tarafından otomatik oluşturulmasının istenip istenmeyeceği."
+      },
+      "idempotent": {
+        "label": "Idempotent",
+        "description": "Üreticinin idempotent olup olmadığı. Transaction'lar için gereklidir."
+      },
+      "transactionalId": {
+        "label": "Transactional ID",
+        "description": "Üreticinin transactional ID'si. Belirtilmezse rastgele bir UUID üretilir. Transaction kullanılırken, yeniden başlatmalarda aynı ID'nin kullanılması için gereklidir."
+      },
+      "acks": {
+        "label": "ACK",
+        "description": "Yanıt dönmeden önce beklenecek onay (ACK) düzeyi"
+      },
+      "compression": {
+        "label": "Sıkıştırma",
+        "description": "Mesajlar broker'a gönderilmeden önce kullanılacak sıkıştırma algoritması."
+      },
+      "repeatOnStaleMetadata": {
+        "label": "Eski meta veride yeniden dene",
+        "description": "Sistem güncel olmayan topic veya broker bilgisi algıladığında üretim işleminin yeniden denenip denenmeyeceği."
+      }
+    }
+  }
+}
