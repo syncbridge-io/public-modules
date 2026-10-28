@@ -1,0 +1,359 @@
+{
+  "HttpServer": {
+    "displayName": "Server HTTP",
+    "description": "Componente server HTTP",
+    "summary": "Esegue un server HTTP o HTTPS con cui un'app risponde alle richieste, con TLS e limiti sui socket.",
+    "variables": {
+      "port": {
+        "label": "Porta",
+        "description": "Numero di porta su cui restare in ascolto"
+      },
+      "bindInterface": {
+        "label": "Interfaccia di bind",
+        "description": "Indirizzo dell'interfaccia a cui associarsi; se non specificato, vengono usati tutti gli indirizzi disponibili"
+      },
+      "tls_enabled": {
+        "label": "TLS abilitato",
+        "description": "Indica se usare TLS per la connessione"
+      },
+      "tls": {
+        "label": "TLS",
+        "description": "Opzioni TLS"
+      },
+      "tls.cert": {
+        "label": "Certificato",
+        "description": "Catene di certificati in formato PEM, una per ogni chiave privata. Ogni catena è composta dal certificato PEM della chiave privata corrispondente, seguito nell'ordine dagli eventuali certificati intermedi in formato PEM, esclusa la CA radice (che il peer deve già conoscere, vedere ca). Se si forniscono più catene, non è necessario che seguano l'ordine delle chiavi private in key. Senza i certificati intermedi il peer non può convalidare il certificato e l'handshake non riesce."
+      },
+      "tls.key": {
+        "label": "Chiave",
+        "description": "Chiavi private in formato PEM. PEM consente di cifrare le chiavi private; le chiavi cifrate vengono decifrate con options.passphrase."
+      },
+      "tls.passphrase": {
+        "label": "Passphrase",
+        "description": "Passphrase condivisa usata per una singola chiave privata e/o un file PFX."
+      },
+      "tls.ca": {
+        "label": "Certificati CA",
+        "description": "Sostituisce, se impostato, i certificati CA attendibili. Per impostazione predefinita sono considerate attendibili le CA note gestite da Mozilla, che vengono interamente sostituite quando si specificano delle CA con questa opzione."
+      },
+      "tls.crl": {
+        "label": "CRL (elenchi di revoca dei certificati)",
+        "description": "CRL in formato PEM"
+      },
+      "tls.rejectUnauthorized": {
+        "label": "Rifiuta non autorizzati",
+        "description": "Se non è false, il server rifiuta qualsiasi connessione non autorizzata dall'elenco di CA fornito. Ha effetto solo se requestCert è true"
+      },
+      "tls.handshakeTimeout": {
+        "label": "Timeout dell'handshake",
+        "description": "Interrompe la connessione se l'handshake SSL/TLS non si completa entro il numero di millisecondi specificato."
+      },
+      "tls.requestCert": {
+        "label": "Richiedi certificato",
+        "description": "Se è true, il server richiede un certificato ai client che si connettono e tenta di verificarlo."
+      },
+      "tls.sessionTimeout": {
+        "label": "Timeout della sessione",
+        "description": "Numero di secondi dopo i quali una sessione TLS creata dal server non può più essere ripresa"
+      },
+      "tls.allowPartialTrustChain": {
+        "label": "Consenti catena di attendibilità parziale",
+        "description": "Considera attendibili i certificati intermedi (non autofirmati) presenti nell'elenco dei certificati CA attendibili."
+      },
+      "tls.sigalgs": {
+        "label": "Algoritmi di firma",
+        "description": "Elenco, separato da due punti, degli algoritmi di firma supportati. Può contenere algoritmi di digest (SHA256, MD5 ecc.), algoritmi a chiave pubblica (RSA-PSS, ECDSA ecc.), loro combinazioni (ad es. 'RSA+SHA384') o nomi di schemi TLS v1.3 (ad es. rsa_pss_pss_sha512). Per maggiori informazioni vedere le [pagine man di OpenSSL](https://docs.openssl.org/1.1.1/man3/SSL_CTX_set1_sigalgs)."
+      },
+      "socket": {
+        "label": "Socket",
+        "description": "Opzioni del socket"
+      },
+      "socket.allowHalfOpen": {
+        "label": "Consenti connessioni semiaperte",
+        "description": "Indica se sono consentite le connessioni TCP semiaperte."
+      },
+      "socket.keepAlive": {
+        "label": "Keep-alive",
+        "description": "Se è true, abilita il keep-alive sul socket non appena viene ricevuta una nuova connessione in ingresso"
+      },
+      "socket.keepAliveInitialDelay": {
+        "label": "Ritardo iniziale del keep-alive",
+        "description": "Se è un numero positivo, imposta il ritardo prima dell'invio della prima sonda keep-alive su un socket inattivo."
+      },
+      "socket.noDelay": {
+        "label": "Nessun ritardo",
+        "description": "Se è true, disattiva l'algoritmo di Nagle non appena viene ricevuta una nuova connessione in ingresso."
+      },
+      "socket.blockedIps": {
+        "label": "IP bloccati",
+        "description": "Elenco degli indirizzi IP bloccati. Non funziona se il server si trova dietro un reverse proxy, un NAT o simili, perché l'indirizzo confrontato con l'elenco è quello del proxy o quello assegnato dal NAT."
+      },
+      "socket.blockedSubnets": {
+        "label": "Subnet bloccate",
+        "description": "Elenco degli indirizzi di subnet bloccati. Non funziona se il server si trova dietro un reverse proxy, un NAT o simili, perché l'indirizzo confrontato con l'elenco è quello del proxy o quello assegnato dal NAT."
+      },
+      "http": {
+        "label": "Opzioni del protocollo HTTP",
+        "description": "Opzioni del protocollo HTTP"
+      },
+      "http.timeout": {
+        "label": "Timeout del socket",
+        "description": "Millisecondi di inattività dopo i quali si considera scaduto il timeout di un socket.\nIl valore 0 disattiva il timeout sulle connessioni in ingresso.\nIl timeout viene configurato all'apertura della connessione, quindi la modifica di questo valore interessa solo le nuove connessioni al server, non quelle esistenti."
+      },
+      "http.requestTimeout": {
+        "label": "Timeout della richiesta",
+        "description": "Timeout in millisecondi per ricevere l'intera richiesta dal client.\nAllo scadere del timeout il server risponde con lo stato 408 senza inoltrare la richiesta al listener e chiude la connessione.\nDeve essere diverso da zero (ad es. 120 secondi) per proteggersi da possibili attacchi Denial-of-Service quando il server non è preceduto da un reverse proxy."
+      },
+      "http.headersTimeout": {
+        "label": "Timeout delle intestazioni",
+        "description": "Limita il tempo di attesa del parser per ricevere le intestazioni HTTP complete.\nAllo scadere del timeout il server risponde con lo stato 408 senza inoltrare la richiesta al listener e chiude la connessione.\nDeve essere diverso da zero (ad es. 120 secondi) per proteggersi da possibili attacchi Denial-of-Service quando il server non è preceduto da un reverse proxy."
+      },
+      "http.keepAliveTimeout": {
+        "label": "Timeout del keep-alive",
+        "description": "Millisecondi di inattività che il server attende per ulteriori dati in ingresso, dopo aver scritto l'ultima risposta, prima di chiudere il socket."
+      },
+      "http.keepAliveTimeoutBuffer": {
+        "label": "Margine del timeout keep-alive",
+        "description": "Tempo aggiuntivo sommato a \"keepAliveTimeout\" per estendere il timeout interno del socket."
+      },
+      "http.maxHeadersCount": {
+        "label": "Numero massimo di intestazioni",
+        "description": "Limita il numero di intestazioni in ingresso; con 0 non viene applicato alcun limite."
+      },
+      "http.maxHeaderSize": {
+        "label": "Dimensione massima delle intestazioni",
+        "description": "Dimensione massima, in byte, delle intestazioni delle richieste ricevute da questo server."
+      },
+      "http.connectionsCheckingInterval": {
+        "label": "Intervallo di controllo delle connessioni",
+        "description": "Intervallo in millisecondi con cui il server verifica le richieste che hanno superato il timeout della richiesta o delle intestazioni."
+      }
+    }
+  },
+  "TcpClient": {
+    "displayName": "Client TCP",
+    "description": "Componente client TCP",
+    "summary": "Si connette a un server TCP e ne legge e scrive i byte, con TLS, proxy SOCKS e riconnessione automatica.",
+    "variables": {
+      "host": {
+        "label": "Host",
+        "description": "Nome host o indirizzo IP a cui connettersi"
+      },
+      "port": {
+        "label": "Porta",
+        "description": "Numero di porta del servizio di destinazione in ascolto"
+      },
+      "bindInterface": {
+        "label": "Interfaccia di bind",
+        "description": "Indirizzo dell'interfaccia a cui associarsi; se non specificato, vengono usati tutti gli indirizzi disponibili"
+      },
+      "keepAlive": {
+        "label": "Keep-alive",
+        "description": "Abilita il keep-alive sul socket TCP"
+      },
+      "connectTimeout": {
+        "label": "Timeout di connessione",
+        "description": "Timeout di connessione in millisecondi"
+      },
+      "reconnect": {
+        "label": "Riconnessione",
+        "description": "Opzioni di riconnessione"
+      },
+      "reconnect.strategy": {
+        "label": "Strategia di riconnessione"
+      },
+      "reconnect.initialDelay": {
+        "label": "Ritardo iniziale",
+        "description": "Ritardo iniziale in millisecondi"
+      },
+      "reconnect.maxDelay": {
+        "label": "Ritardo massimo",
+        "description": "Ritardo massimo in millisecondi"
+      },
+      "tls_enabled": {
+        "label": "TLS abilitato"
+      },
+      "tls": {
+        "label": "TLS",
+        "description": "Opzioni TLS"
+      },
+      "tls.servername": {
+        "label": "SNI",
+        "description": "SNI (Server Name Indication)"
+      },
+      "tls.key": {
+        "label": "Chiave",
+        "description": "Chiavi private in formato PEM"
+      },
+      "tls.cert": {
+        "label": "Certificato",
+        "description": "Catene di certificati in formato PEM"
+      },
+      "tls.ca": {
+        "label": "Certificati CA",
+        "description": "Sostituisce, se impostato, i certificati CA attendibili. Per impostazione predefinita sono considerate attendibili le CA note gestite da Mozilla, che vengono interamente sostituite quando si specificano delle CA con questa opzione."
+      },
+      "tls.passphrase": {
+        "label": "Passphrase",
+        "description": "Passphrase per decifrare la chiave privata"
+      },
+      "tls.rejectUnauthorized": {
+        "label": "Rifiuta non autorizzati",
+        "description": "Se è true, viene rifiutata qualsiasi connessione non autorizzata dall'elenco di CA fornito"
+      },
+      "proxy_enabled": {
+        "label": "Proxy abilitato"
+      },
+      "proxy": {
+        "label": "Proxy",
+        "description": "Opzioni del proxy"
+      }
+    }
+  },
+  "TcpServer": {
+    "displayName": "Server TCP",
+    "description": "Componente server TCP",
+    "summary": "Accetta connessioni TCP e ne legge e scrive i byte, con TLS opzionale ed elenchi di blocco.",
+    "variables": {
+      "port": {
+        "label": "Porta",
+        "description": "Numero di porta su cui restare in ascolto"
+      },
+      "bindInterface": {
+        "label": "Interfaccia di bind",
+        "description": "Indirizzo dell'interfaccia a cui associarsi; se non specificato, vengono usati tutti gli indirizzi disponibili"
+      },
+      "tls_enabled": {
+        "label": "TLS abilitato",
+        "description": "Indica se usare TLS per la connessione"
+      },
+      "tls": {
+        "label": "TLS",
+        "description": "Opzioni TLS"
+      },
+      "tls.cert": {
+        "label": "Certificato",
+        "description": "Catene di certificati in formato PEM, una per ogni chiave privata. Ogni catena è composta dal certificato PEM della chiave privata corrispondente, seguito nell'ordine dagli eventuali certificati intermedi in formato PEM, esclusa la CA radice (che il peer deve già conoscere, vedere ca). Se si forniscono più catene, non è necessario che seguano l'ordine delle chiavi private in key. Senza i certificati intermedi il peer non può convalidare il certificato e l'handshake non riesce."
+      },
+      "tls.key": {
+        "label": "Chiave",
+        "description": "Chiavi private in formato PEM. PEM consente di cifrare le chiavi private; le chiavi cifrate vengono decifrate con options.passphrase."
+      },
+      "tls.passphrase": {
+        "label": "Passphrase",
+        "description": "Passphrase condivisa usata per una singola chiave privata e/o un file PFX."
+      },
+      "tls.ca": {
+        "label": "Certificati CA",
+        "description": "Sostituisce, se impostato, i certificati CA attendibili. Per impostazione predefinita sono considerate attendibili le CA note gestite da Mozilla, che vengono interamente sostituite quando si specificano delle CA con questa opzione."
+      },
+      "tls.crl": {
+        "label": "CRL (elenchi di revoca dei certificati)",
+        "description": "CRL in formato PEM"
+      },
+      "tls.rejectUnauthorized": {
+        "label": "Rifiuta non autorizzati",
+        "description": "Se non è false, il server rifiuta qualsiasi connessione non autorizzata dall'elenco di CA fornito. Ha effetto solo se requestCert è true"
+      },
+      "tls.handshakeTimeout": {
+        "label": "Timeout dell'handshake",
+        "description": "Interrompe la connessione se l'handshake SSL/TLS non si completa entro il numero di millisecondi specificato."
+      },
+      "tls.requestCert": {
+        "label": "Richiedi certificato",
+        "description": "Se è true, il server richiede un certificato ai client che si connettono e tenta di verificarlo."
+      },
+      "tls.sessionTimeout": {
+        "label": "Timeout della sessione",
+        "description": "Numero di secondi dopo i quali una sessione TLS creata dal server non può più essere ripresa"
+      },
+      "tls.allowPartialTrustChain": {
+        "label": "Consenti catena di attendibilità parziale",
+        "description": "Considera attendibili i certificati intermedi (non autofirmati) presenti nell'elenco dei certificati CA attendibili."
+      },
+      "tls.sigalgs": {
+        "label": "Algoritmi di firma",
+        "description": "Elenco, separato da due punti, degli algoritmi di firma supportati. Può contenere algoritmi di digest (SHA256, MD5 ecc.), algoritmi a chiave pubblica (RSA-PSS, ECDSA ecc.), loro combinazioni (ad es. 'RSA+SHA384') o nomi di schemi TLS v1.3 (ad es. rsa_pss_pss_sha512). Per maggiori informazioni vedere le [pagine man di OpenSSL](https://docs.openssl.org/1.1.1/man3/SSL_CTX_set1_sigalgs)."
+      },
+      "socket": {
+        "label": "Socket",
+        "description": "Opzioni del socket"
+      },
+      "socket.allowHalfOpen": {
+        "label": "Consenti connessioni semiaperte",
+        "description": "Indica se sono consentite le connessioni TCP semiaperte."
+      },
+      "socket.keepAlive": {
+        "label": "Keep-alive",
+        "description": "Se è true, abilita il keep-alive sul socket non appena viene ricevuta una nuova connessione in ingresso"
+      },
+      "socket.keepAliveInitialDelay": {
+        "label": "Ritardo iniziale del keep-alive",
+        "description": "Se è un numero positivo, imposta il ritardo prima dell'invio della prima sonda keep-alive su un socket inattivo."
+      },
+      "socket.noDelay": {
+        "label": "Nessun ritardo",
+        "description": "Se è true, disattiva l'algoritmo di Nagle non appena viene ricevuta una nuova connessione in ingresso."
+      },
+      "socket.blockedIps": {
+        "label": "IP bloccati",
+        "description": "Elenco degli indirizzi IP bloccati. Non funziona se il server si trova dietro un reverse proxy, un NAT o simili, perché l'indirizzo confrontato con l'elenco è quello del proxy o quello assegnato dal NAT."
+      },
+      "socket.blockedSubnets": {
+        "label": "Subnet bloccate",
+        "description": "Elenco degli indirizzi di subnet bloccati. Non funziona se il server si trova dietro un reverse proxy, un NAT o simili, perché l'indirizzo confrontato con l'elenco è quello del proxy o quello assegnato dal NAT."
+      }
+    }
+  },
+  "UdpClient": {
+    "displayName": "Client UDP",
+    "description": "Componente client UDP",
+    "summary": "Invia datagrammi UDP e ne legge le risposte, facoltativamente vincolato a una sola interfaccia di rete.",
+    "variables": {
+      "host": {
+        "label": "Host",
+        "description": "Nome host o indirizzo IP a cui inviare i messaggi UDP"
+      },
+      "port": {
+        "label": "Porta",
+        "description": "Numero di porta del servizio di destinazione in ascolto"
+      },
+      "bindInterface": {
+        "label": "Interfaccia di bind",
+        "description": "Indirizzo dell'interfaccia a cui associarsi; se non specificato, vengono usati tutti gli indirizzi disponibili"
+      }
+    }
+  },
+  "UdpListener": {
+    "displayName": "Listener UDP",
+    "description": "Componente listener UDP",
+    "summary": "Resta in ascolto su una porta UDP, gruppi broadcast e multicast compresi, e legge i datagrammi inviati.",
+    "variables": {
+      "port": {
+        "label": "Porta",
+        "description": "Numero di porta del servizio di destinazione in ascolto"
+      },
+      "broadcast": {
+        "label": "Broadcast",
+        "description": "Imposta l'opzione SO_BROADCAST del socket. Se è true, i pacchetti UDP possono essere inviati all'indirizzo di broadcast di un'interfaccia locale."
+      },
+      "multicastGroups": {
+        "label": "Gruppi multicast",
+        "description": "Gruppi multicast a cui aderire"
+      },
+      "bindInterface": {
+        "label": "Interfaccia di bind",
+        "description": "Indirizzo dell'interfaccia a cui associarsi; se non specificato, vengono usati tutti gli indirizzi disponibili"
+      },
+      "multicastInterface": {
+        "label": "Interfaccia multicast",
+        "description": "Indirizzo dell'interfaccia da usare per i pacchetti multicast"
+      }
+    }
+  },
+  "IOBridgeApp": {
+    "displayName": "IOBridgeApp",
+    "description": "Crea un ponte tra due peer di I/O",
+    "summary": "Collega due peer IO: ciò che uno legge viene scritto sull'altro, ad esempio una porta seriale verso un socket TCP."
+  }
+}
