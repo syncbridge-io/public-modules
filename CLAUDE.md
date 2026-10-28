@@ -214,8 +214,8 @@ install, a short example, link to its docs.
 - The repository is public, at `github.com/syncbridge-io/syncbridge-extensions`
   (renamed from `public-modules` on 2026-10-28; this directory keeps the old
   name, see "The platform"). The registry's trusted publisher matches the
-  repository by name: it has to name `syncbridge-extensions` for a release to
-  publish. Not done yet: deprecating the old npm versions.
+  repository by its GitHub id, not its name, so a rename needs nothing there.
+  Not done yet: deprecating the old npm versions.
 
 ## graphify
 
