@@ -1,0 +1,17 @@
+{
+  "PinggyTcpClient": {
+    "displayName": "Pinggy-TCP-Tunnel-Client",
+    "description": "TCP-Client-Komponente, die einen Tunnel über Pinggy (https://pinggy.io) aufbaut",
+    "summary": "Öffnet einen Pinggy-TCP-Tunnel zur Komponente, damit sich ein entferntes Gerät verbinden kann, und liest und schreibt dessen Bytes.",
+    "variables": {
+      "authToken": {
+        "label": "Pinggy-Auth-Token",
+        "description": "Auth-Token für Pinggy. https://dashboard.pinggy.io/managetokens"
+      },
+      "localPort": {
+        "label": "Lokaler Port",
+        "description": "Lokale Portnummer, über die die Verbindung des Pinggy-Prozesses bereitgestellt wird. Ohne Angabe wird automatisch ein Port gewählt."
+      }
+    }
+  }
+}

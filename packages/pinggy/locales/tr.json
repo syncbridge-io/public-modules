@@ -1,0 +1,17 @@
+{
+  "PinggyTcpClient": {
+    "displayName": "Pinggy TCP Tünel İstemcisi",
+    "description": "Pinggy (https://pinggy.io) ile tünel oluşturan bir TCP istemci bileşeni",
+    "summary": "Bileşene bir Pinggy TCP tüneli açar; böylece uzaktaki bir cihaz ona bağlanabilir. Baytlarını okuyup yazar.",
+    "variables": {
+      "authToken": {
+        "label": "Pinggy kimlik doğrulama token'ı",
+        "description": "Pinggy hesabının kimlik doğrulama token'ı. https://dashboard.pinggy.io/managetokens"
+      },
+      "localPort": {
+        "label": "Yerel port",
+        "description": "Pinggy sürecinin bağlantıyı yönlendireceği yerel port numarası. Belirtilmezse otomatik olarak bir port seçilir."
+      }
+    }
+  }
+}
