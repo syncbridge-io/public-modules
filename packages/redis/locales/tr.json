@@ -1,0 +1,221 @@
+{
+  "RedisSentinel": {
+    "displayName": "Redis Sentinel İstemcisi",
+    "description": "Redis Sentinel istemci bileşeni",
+    "summary": "Bir Redis Sentinel grubunun master sunucusuna bağlanır ve uygulamalara ioredis istemcisini verir.",
+    "variables": {
+      "db": {
+        "label": "Veritabanı",
+        "description": "Kullanılacak veritabanı indeksi."
+      },
+      "autoResubscribe": {
+        "label": "Otomatik yeniden abone ol",
+        "description": "İstemci yeniden bağlandığında, önceki bağlantıda abone olunan kanallara otomatik olarak yeniden abone olunur."
+      },
+      "autoResendUnfulfilledCommands": {
+        "label": "Karşılanmamış komutları otomatik yeniden gönder",
+        "description": "Yeniden bağlanıldığında karşılanmamış komutların yeniden gönderilip gönderilmeyeceği. Karşılanmamış komutlar çoğunlukla brpop veya blpop gibi engelleyici komutlardır."
+      },
+      "keepAlive": {
+        "label": "Keep-alive",
+        "description": "TCP soketinde ilk keep-alive yoklamasından önceki gecikme (milisaniye)"
+      },
+      "noDelay": {
+        "label": "Gecikmesiz gönderim",
+        "description": "Etkinse Nagle algoritması devre dışı bırakılır"
+      },
+      "connectionName": {
+        "label": "Bağlantı adı",
+        "description": "Bağlantının istemci listesinde kolayca tanınması için verilecek ad."
+      },
+      "maxRetriesPerRequest": {
+        "label": "İstek başına en fazla yeniden deneme",
+        "description": "Sunucu bağlantısı koptuğu için yanıt alamayan komutlar kuyruğa alınır ve yeniden bağlanıldığında (retryStrategy seçeneği izin veriyorsa) yeniden gönderilir. Bu seçenek, kuyruk MaxRetriesPerRequestError hatasıyla boşaltılmadan önce kaç yeniden bağlanma denemesine izin verileceğini belirler. Komutların bağlantı yeniden kurulana kadar süresiz beklemesi için -1 girin."
+      },
+      "commandTimeout": {
+        "label": "Komut zaman aşımı",
+        "description": "Bir komut belirtilen milisaniye içinde yanıt döndürmezse \"Command timed out\" hatası verilir."
+      },
+      "disconnectTimeout": {
+        "label": "Bağlantı kapatma zaman aşımı",
+        "description": "Bağlantının kapanması için beklenecek en uzun süre (milisaniye)."
+      },
+      "tls_enabled": {
+        "label": "TLS etkin"
+      },
+      "tls": {
+        "label": "TLS",
+        "description": "TLS seçenekleri"
+      },
+      "tls.servername": {
+        "label": "SNI",
+        "description": "SNI (Server Name Indication)"
+      },
+      "tls.key": {
+        "label": "Anahtar",
+        "description": "PEM biçiminde özel anahtarlar"
+      },
+      "tls.cert": {
+        "label": "Sertifika",
+        "description": "PEM biçiminde sertifika zincirleri"
+      },
+      "tls.ca": {
+        "label": "CA sertifikaları",
+        "description": "Güvenilen CA sertifikalarını isteğe bağlı olarak değiştirir. Varsayılan olarak Mozilla'nın derlediği bilinen CA'lara güvenilir. Bu seçenekle CA'lar açıkça belirtildiğinde Mozilla'nın CA'ları tamamen bunlarla değiştirilir."
+      },
+      "tls.passphrase": {
+        "label": "Parola",
+        "description": "Özel anahtarın şifresini çözmek için kullanılan parola"
+      },
+      "tls.rejectUnauthorized": {
+        "label": "Yetkisiz bağlantıları reddet",
+        "description": "true ise verilen CA listesiyle yetkilendirilmemiş tüm bağlantılar reddedilir."
+      },
+      "name": {
+        "label": "Ad",
+        "description": "Sentinel'deki master grubunun adı"
+      },
+      "username": {
+        "label": "Kullanıcı adı",
+        "description": "Belirtilirse istemci bağlandığında AUTH komutunu, ilk argüman olarak bu değerle gönderir. Redis 6'dan itibaren desteklenir."
+      },
+      "password": {
+        "label": "Şifre",
+        "description": "Belirtilirse istemci bağlandığında AUTH komutunu bu değerle gönderir."
+      },
+      "sentinels": {
+        "label": "Sentinel'ler",
+        "description": "Bağlanılacak Sentinel'ler"
+      },
+      "sentinels.host": {
+        "label": "Sunucu adresi",
+        "description": "Bağlanılacak ana makine adı veya IP adresi"
+      },
+      "sentinels.port": {
+        "label": "Port",
+        "description": "Hedef port numarası"
+      },
+      "sentinelTls_enabled": {
+        "label": "Sentinel TLS etkin"
+      },
+      "sentinelTls": {
+        "label": "Sentinel TLS",
+        "description": "Sentinel TLS seçenekleri"
+      },
+      "sentinelTls.servername": {
+        "label": "SNI",
+        "description": "SNI (Server Name Indication)"
+      },
+      "sentinelTls.key": {
+        "label": "Anahtar",
+        "description": "PEM biçiminde özel anahtarlar"
+      },
+      "sentinelTls.cert": {
+        "label": "Sertifika",
+        "description": "PEM biçiminde sertifika zincirleri"
+      },
+      "sentinelTls.ca": {
+        "label": "CA sertifikaları",
+        "description": "Güvenilen CA sertifikalarını isteğe bağlı olarak değiştirir. Varsayılan olarak Mozilla'nın derlediği bilinen CA'lara güvenilir. Bu seçenekle CA'lar açıkça belirtildiğinde Mozilla'nın CA'ları tamamen bunlarla değiştirilir."
+      },
+      "sentinelTls.passphrase": {
+        "label": "Parola",
+        "description": "Özel anahtarın şifresini çözmek için kullanılan parola"
+      },
+      "sentinelTls.rejectUnauthorized": {
+        "label": "Yetkisiz bağlantıları reddet",
+        "description": "true ise verilen CA listesiyle yetkilendirilmemiş tüm bağlantılar reddedilir."
+      }
+    }
+  },
+  "RedisStandalone": {
+    "displayName": "Redis Tek Sunucu İstemcisi",
+    "description": "Redis tek sunucu istemci bileşeni",
+    "summary": "Tek bir Redis sunucusuna bağlanır ve uygulamalara ioredis istemcisini verir.",
+    "variables": {
+      "db": {
+        "label": "Veritabanı",
+        "description": "Kullanılacak veritabanı indeksi."
+      },
+      "autoResubscribe": {
+        "label": "Otomatik yeniden abone ol",
+        "description": "İstemci yeniden bağlandığında, önceki bağlantıda abone olunan kanallara otomatik olarak yeniden abone olunur."
+      },
+      "autoResendUnfulfilledCommands": {
+        "label": "Karşılanmamış komutları otomatik yeniden gönder",
+        "description": "Yeniden bağlanıldığında karşılanmamış komutların yeniden gönderilip gönderilmeyeceği. Karşılanmamış komutlar çoğunlukla brpop veya blpop gibi engelleyici komutlardır."
+      },
+      "keepAlive": {
+        "label": "Keep-alive",
+        "description": "TCP soketinde ilk keep-alive yoklamasından önceki gecikme (milisaniye)"
+      },
+      "noDelay": {
+        "label": "Gecikmesiz gönderim",
+        "description": "Etkinse Nagle algoritması devre dışı bırakılır"
+      },
+      "connectionName": {
+        "label": "Bağlantı adı",
+        "description": "Bağlantının istemci listesinde kolayca tanınması için verilecek ad."
+      },
+      "maxRetriesPerRequest": {
+        "label": "İstek başına en fazla yeniden deneme",
+        "description": "Sunucu bağlantısı koptuğu için yanıt alamayan komutlar kuyruğa alınır ve yeniden bağlanıldığında (retryStrategy seçeneği izin veriyorsa) yeniden gönderilir. Bu seçenek, kuyruk MaxRetriesPerRequestError hatasıyla boşaltılmadan önce kaç yeniden bağlanma denemesine izin verileceğini belirler. Komutların bağlantı yeniden kurulana kadar süresiz beklemesi için -1 girin."
+      },
+      "commandTimeout": {
+        "label": "Komut zaman aşımı",
+        "description": "Bir komut belirtilen milisaniye içinde yanıt döndürmezse \"Command timed out\" hatası verilir."
+      },
+      "disconnectTimeout": {
+        "label": "Bağlantı kapatma zaman aşımı",
+        "description": "Bağlantının kapanması için beklenecek en uzun süre (milisaniye)."
+      },
+      "tls_enabled": {
+        "label": "TLS etkin"
+      },
+      "tls": {
+        "label": "TLS",
+        "description": "TLS seçenekleri"
+      },
+      "tls.servername": {
+        "label": "SNI",
+        "description": "SNI (Server Name Indication)"
+      },
+      "tls.key": {
+        "label": "Anahtar",
+        "description": "PEM biçiminde özel anahtarlar"
+      },
+      "tls.cert": {
+        "label": "Sertifika",
+        "description": "PEM biçiminde sertifika zincirleri"
+      },
+      "tls.ca": {
+        "label": "CA sertifikaları",
+        "description": "Güvenilen CA sertifikalarını isteğe bağlı olarak değiştirir. Varsayılan olarak Mozilla'nın derlediği bilinen CA'lara güvenilir. Bu seçenekle CA'lar açıkça belirtildiğinde Mozilla'nın CA'ları tamamen bunlarla değiştirilir."
+      },
+      "tls.passphrase": {
+        "label": "Parola",
+        "description": "Özel anahtarın şifresini çözmek için kullanılan parola"
+      },
+      "tls.rejectUnauthorized": {
+        "label": "Yetkisiz bağlantıları reddet",
+        "description": "true ise verilen CA listesiyle yetkilendirilmemiş tüm bağlantılar reddedilir."
+      },
+      "host": {
+        "label": "Sunucu adresi",
+        "description": "Bağlanılacak ana makine adı veya IP adresi"
+      },
+      "port": {
+        "label": "Port",
+        "description": "Hedef port numarası"
+      },
+      "username": {
+        "label": "Kullanıcı adı",
+        "description": "Belirtilirse istemci bağlandığında AUTH komutunu, ilk argüman olarak bu değerle gönderir. Redis 6'dan itibaren desteklenir."
+      },
+      "password": {
+        "label": "Şifre",
+        "description": "Belirtilirse istemci bağlandığında AUTH komutunu bu değerle gönderir."
+      }
+    }
+  }
+}

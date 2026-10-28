@@ -1,0 +1,221 @@
+{
+  "RedisSentinel": {
+    "displayName": "Redis-Sentinel-Client",
+    "description": "Redis-Sentinel-Client-Komponente",
+    "summary": "Verbindet sich mit dem Master einer Redis-Sentinel-Gruppe und stellt Apps dessen ioredis-Client bereit.",
+    "variables": {
+      "db": {
+        "label": "Datenbank",
+        "description": "Zu verwendender Datenbankindex."
+      },
+      "autoResubscribe": {
+        "label": "Automatisch neu abonnieren",
+        "description": "Bei einer Wiederverbindung werden die in der vorherigen Verbindung abonnierten Kanäle automatisch erneut abonniert."
+      },
+      "autoResendUnfulfilledCommands": {
+        "label": "Unerledigte Befehle automatisch erneut senden",
+        "description": "Gibt an, ob unerledigte Befehle bei einer Wiederverbindung erneut gesendet werden. Unerledigte Befehle sind meist blockierende Befehle wie brpop oder blpop."
+      },
+      "keepAlive": {
+        "label": "Keep-Alive",
+        "description": "Anfangsverzögerung in Millisekunden vor der ersten Keep-Alive-Probe auf dem TCP-Socket"
+      },
+      "noDelay": {
+        "label": "Keine Verzögerung",
+        "description": "Aktiviert/deaktiviert den Nagle-Algorithmus"
+      },
+      "connectionName": {
+        "label": "Verbindungsname",
+        "description": "Legt den Namen der Verbindung fest, damit sie in der Client-Liste leichter zu erkennen ist."
+      },
+      "maxRetriesPerRequest": {
+        "label": "Max. Wiederholungen pro Anfrage",
+        "description": "Befehle, die wegen einer unterbrochenen Serververbindung keine Antwort erhalten, werden in eine Warteschlange gestellt und bei der Wiederverbindung erneut gesendet (sofern die Option retryStrategy dies erlaubt). Diese Option legt fest, wie viele Wiederverbindungsversuche zulässig sind, bevor die Warteschlange mit einem Fehler MaxRetriesPerRequestError geleert wird. Mit -1 statt einer Zahl warten Befehle unbegrenzt, bis die Verbindung wiederhergestellt ist."
+      },
+      "commandTimeout": {
+        "label": "Befehls-Timeout",
+        "description": "Liefert ein Befehl nicht innerhalb der angegebenen Anzahl von Millisekunden eine Antwort, wird der Fehler \"Command timed out\" ausgelöst."
+      },
+      "disconnectTimeout": {
+        "label": "Trennungs-Timeout",
+        "description": "Maximale Wartezeit in Millisekunden, bis die Verbindung geschlossen ist."
+      },
+      "tls_enabled": {
+        "label": "TLS aktiviert"
+      },
+      "tls": {
+        "label": "TLS",
+        "description": "TLS-Optionen"
+      },
+      "tls.servername": {
+        "label": "SNI",
+        "description": "SNI (Server Name Indication)"
+      },
+      "tls.key": {
+        "label": "Schlüssel",
+        "description": "Private Schlüssel im PEM-Format"
+      },
+      "tls.cert": {
+        "label": "Zertifikat",
+        "description": "Zertifikatsketten im PEM-Format"
+      },
+      "tls.ca": {
+        "label": "CA-Zertifikate",
+        "description": "Ersetzt optional die vertrauenswürdigen CA-Zertifikate. Standardmäßig wird den bekannten, von Mozilla gepflegten CAs vertraut. Werden hier CAs angegeben, ersetzen sie die Mozilla-CAs vollständig."
+      },
+      "tls.passphrase": {
+        "label": "Passphrase",
+        "description": "Passphrase zum Entschlüsseln des privaten Schlüssels"
+      },
+      "tls.rejectUnauthorized": {
+        "label": "Nicht autorisierte ablehnen",
+        "description": "Wenn true, wird jede Verbindung abgelehnt, die nicht durch die angegebenen CAs autorisiert ist"
+      },
+      "name": {
+        "label": "Name",
+        "description": "Name der Master-Gruppe des Sentinels"
+      },
+      "username": {
+        "label": "Benutzername",
+        "description": "Wenn gesetzt, sendet der Client nach dem Verbindungsaufbau den Befehl AUTH mit diesem Wert als erstem Argument. Wird ab Redis 6 unterstützt."
+      },
+      "password": {
+        "label": "Passwort",
+        "description": "Wenn gesetzt, sendet der Client nach dem Verbindungsaufbau den Befehl AUTH mit diesem Wert."
+      },
+      "sentinels": {
+        "label": "Sentinels",
+        "description": "Sentinels, zu denen die Verbindung hergestellt wird"
+      },
+      "sentinels.host": {
+        "label": "Host",
+        "description": "Hostname oder IP-Adresse, zu der die Verbindung hergestellt wird"
+      },
+      "sentinels.port": {
+        "label": "Port",
+        "description": "Portnummer des Ziel-Listeners"
+      },
+      "sentinelTls_enabled": {
+        "label": "Sentinel-TLS aktiviert"
+      },
+      "sentinelTls": {
+        "label": "Sentinel-TLS",
+        "description": "Sentinel-TLS-Optionen"
+      },
+      "sentinelTls.servername": {
+        "label": "SNI",
+        "description": "SNI (Server Name Indication)"
+      },
+      "sentinelTls.key": {
+        "label": "Schlüssel",
+        "description": "Private Schlüssel im PEM-Format"
+      },
+      "sentinelTls.cert": {
+        "label": "Zertifikat",
+        "description": "Zertifikatsketten im PEM-Format"
+      },
+      "sentinelTls.ca": {
+        "label": "CA-Zertifikate",
+        "description": "Ersetzt optional die vertrauenswürdigen CA-Zertifikate. Standardmäßig wird den bekannten, von Mozilla gepflegten CAs vertraut. Werden hier CAs angegeben, ersetzen sie die Mozilla-CAs vollständig."
+      },
+      "sentinelTls.passphrase": {
+        "label": "Passphrase",
+        "description": "Passphrase zum Entschlüsseln des privaten Schlüssels"
+      },
+      "sentinelTls.rejectUnauthorized": {
+        "label": "Nicht autorisierte ablehnen",
+        "description": "Wenn true, wird jede Verbindung abgelehnt, die nicht durch die angegebenen CAs autorisiert ist"
+      }
+    }
+  },
+  "RedisStandalone": {
+    "displayName": "Redis-Standalone-Client",
+    "description": "Redis-Standalone-Client-Komponente",
+    "summary": "Verbindet sich mit einem einzelnen Redis-Server und stellt Apps dessen ioredis-Client bereit.",
+    "variables": {
+      "db": {
+        "label": "Datenbank",
+        "description": "Zu verwendender Datenbankindex."
+      },
+      "autoResubscribe": {
+        "label": "Automatisch neu abonnieren",
+        "description": "Bei einer Wiederverbindung werden die in der vorherigen Verbindung abonnierten Kanäle automatisch erneut abonniert."
+      },
+      "autoResendUnfulfilledCommands": {
+        "label": "Unerledigte Befehle automatisch erneut senden",
+        "description": "Gibt an, ob unerledigte Befehle bei einer Wiederverbindung erneut gesendet werden. Unerledigte Befehle sind meist blockierende Befehle wie brpop oder blpop."
+      },
+      "keepAlive": {
+        "label": "Keep-Alive",
+        "description": "Anfangsverzögerung in Millisekunden vor der ersten Keep-Alive-Probe auf dem TCP-Socket"
+      },
+      "noDelay": {
+        "label": "Keine Verzögerung",
+        "description": "Aktiviert/deaktiviert den Nagle-Algorithmus"
+      },
+      "connectionName": {
+        "label": "Verbindungsname",
+        "description": "Legt den Namen der Verbindung fest, damit sie in der Client-Liste leichter zu erkennen ist."
+      },
+      "maxRetriesPerRequest": {
+        "label": "Max. Wiederholungen pro Anfrage",
+        "description": "Befehle, die wegen einer unterbrochenen Serververbindung keine Antwort erhalten, werden in eine Warteschlange gestellt und bei der Wiederverbindung erneut gesendet (sofern die Option retryStrategy dies erlaubt). Diese Option legt fest, wie viele Wiederverbindungsversuche zulässig sind, bevor die Warteschlange mit einem Fehler MaxRetriesPerRequestError geleert wird. Mit -1 statt einer Zahl warten Befehle unbegrenzt, bis die Verbindung wiederhergestellt ist."
+      },
+      "commandTimeout": {
+        "label": "Befehls-Timeout",
+        "description": "Liefert ein Befehl nicht innerhalb der angegebenen Anzahl von Millisekunden eine Antwort, wird der Fehler \"Command timed out\" ausgelöst."
+      },
+      "disconnectTimeout": {
+        "label": "Trennungs-Timeout",
+        "description": "Maximale Wartezeit in Millisekunden, bis die Verbindung geschlossen ist."
+      },
+      "tls_enabled": {
+        "label": "TLS aktiviert"
+      },
+      "tls": {
+        "label": "TLS",
+        "description": "TLS-Optionen"
+      },
+      "tls.servername": {
+        "label": "SNI",
+        "description": "SNI (Server Name Indication)"
+      },
+      "tls.key": {
+        "label": "Schlüssel",
+        "description": "Private Schlüssel im PEM-Format"
+      },
+      "tls.cert": {
+        "label": "Zertifikat",
+        "description": "Zertifikatsketten im PEM-Format"
+      },
+      "tls.ca": {
+        "label": "CA-Zertifikate",
+        "description": "Ersetzt optional die vertrauenswürdigen CA-Zertifikate. Standardmäßig wird den bekannten, von Mozilla gepflegten CAs vertraut. Werden hier CAs angegeben, ersetzen sie die Mozilla-CAs vollständig."
+      },
+      "tls.passphrase": {
+        "label": "Passphrase",
+        "description": "Passphrase zum Entschlüsseln des privaten Schlüssels"
+      },
+      "tls.rejectUnauthorized": {
+        "label": "Nicht autorisierte ablehnen",
+        "description": "Wenn true, wird jede Verbindung abgelehnt, die nicht durch die angegebenen CAs autorisiert ist"
+      },
+      "host": {
+        "label": "Host",
+        "description": "Hostname oder IP-Adresse, zu der die Verbindung hergestellt wird"
+      },
+      "port": {
+        "label": "Port",
+        "description": "Portnummer des Ziel-Listeners"
+      },
+      "username": {
+        "label": "Benutzername",
+        "description": "Wenn gesetzt, sendet der Client nach dem Verbindungsaufbau den Befehl AUTH mit diesem Wert als erstem Argument. Wird ab Redis 6 unterstützt."
+      },
+      "password": {
+        "label": "Passwort",
+        "description": "Wenn gesetzt, sendet der Client nach dem Verbindungsaufbau den Befehl AUTH mit diesem Wert."
+      }
+    }
+  }
+}

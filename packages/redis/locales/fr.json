@@ -1,0 +1,221 @@
+{
+  "RedisSentinel": {
+    "displayName": "Client Redis Sentinel",
+    "description": "Composant client Redis Sentinel",
+    "summary": "Se connecte au maître d'un groupe Redis Sentinel et fournit aux applications son client ioredis.",
+    "variables": {
+      "db": {
+        "label": "Base de données",
+        "description": "Index de la base de données à utiliser."
+      },
+      "autoResubscribe": {
+        "label": "Réabonnement automatique",
+        "description": "À la reconnexion du client, les canaux auxquels il était abonné lors de la connexion précédente sont automatiquement réabonnés"
+      },
+      "autoResendUnfulfilledCommands": {
+        "label": "Renvoi automatique des commandes en attente",
+        "description": "Indique si les commandes restées sans réponse sont renvoyées à la reconnexion. Il s'agit le plus souvent de commandes bloquantes comme brpop ou blpop."
+      },
+      "keepAlive": {
+        "label": "Keep-alive",
+        "description": "Délai initial, en millisecondes, avant la première sonde keep-alive sur le socket TCP"
+      },
+      "noDelay": {
+        "label": "Sans délai (No Delay)",
+        "description": "Active ou désactive l'algorithme de Nagle"
+      },
+      "connectionName": {
+        "label": "Nom de la connexion",
+        "description": "Nom donné à la connexion pour l'identifier plus facilement dans la liste des clients."
+      },
+      "maxRetriesPerRequest": {
+        "label": "Nombre maximal de tentatives par requête",
+        "description": "Les commandes restées sans réponse suite à la perte de connexion au serveur sont mises en file d'attente et renvoyées à la reconnexion (si l'option retryStrategy le permet). Cette option définit le nombre de tentatives de reconnexion autorisées avant que la file ne soit vidée avec une erreur MaxRetriesPerRequestError. Indiquez -1 pour que les commandes attendent indéfiniment le rétablissement de la connexion."
+      },
+      "commandTimeout": {
+        "label": "Délai d'expiration des commandes",
+        "description": "Si une commande ne reçoit pas de réponse dans le nombre de millisecondes indiqué, une erreur \"Command timed out\" est levée."
+      },
+      "disconnectTimeout": {
+        "label": "Délai de déconnexion",
+        "description": "Durée maximale, en millisecondes, d'attente de la fermeture de la connexion."
+      },
+      "tls_enabled": {
+        "label": "TLS activé"
+      },
+      "tls": {
+        "label": "TLS",
+        "description": "Options TLS"
+      },
+      "tls.servername": {
+        "label": "SNI",
+        "description": "SNI (Server Name Indication)"
+      },
+      "tls.key": {
+        "label": "Clé",
+        "description": "Clés privées au format PEM"
+      },
+      "tls.cert": {
+        "label": "Certificat",
+        "description": "Chaînes de certificats au format PEM"
+      },
+      "tls.ca": {
+        "label": "Certificats CA",
+        "description": "Remplace, si besoin, les certificats CA de confiance. Par défaut, les CA reconnus sélectionnés par Mozilla sont approuvés ; ils sont entièrement remplacés lorsque des CA sont indiqués ici."
+      },
+      "tls.passphrase": {
+        "label": "Phrase secrète",
+        "description": "Phrase secrète pour déchiffrer la clé privée"
+      },
+      "tls.rejectUnauthorized": {
+        "label": "Rejeter les connexions non autorisées",
+        "description": "Si la valeur est true, rejette toute connexion non autorisée par la liste des CA fournis"
+      },
+      "name": {
+        "label": "Nom",
+        "description": "Nom du groupe maître Sentinel"
+      },
+      "username": {
+        "label": "Nom d'utilisateur",
+        "description": "S'il est renseigné, le client envoie à la connexion la commande AUTH avec cette valeur comme premier argument. Pris en charge depuis Redis 6."
+      },
+      "password": {
+        "label": "Mot de passe",
+        "description": "S'il est renseigné, le client envoie à la connexion la commande AUTH avec cette valeur."
+      },
+      "sentinels": {
+        "label": "Sentinels",
+        "description": "Sentinels auxquels se connecter"
+      },
+      "sentinels.host": {
+        "label": "Hôte",
+        "description": "Nom d'hôte ou adresse IP auquel se connecter"
+      },
+      "sentinels.port": {
+        "label": "Port",
+        "description": "Numéro de port de l'écouteur cible"
+      },
+      "sentinelTls_enabled": {
+        "label": "TLS Sentinel activé"
+      },
+      "sentinelTls": {
+        "label": "TLS Sentinel",
+        "description": "Options TLS Sentinel"
+      },
+      "sentinelTls.servername": {
+        "label": "SNI",
+        "description": "SNI (Server Name Indication)"
+      },
+      "sentinelTls.key": {
+        "label": "Clé",
+        "description": "Clés privées au format PEM"
+      },
+      "sentinelTls.cert": {
+        "label": "Certificat",
+        "description": "Chaînes de certificats au format PEM"
+      },
+      "sentinelTls.ca": {
+        "label": "Certificats CA",
+        "description": "Remplace, si besoin, les certificats CA de confiance. Par défaut, les CA reconnus sélectionnés par Mozilla sont approuvés ; ils sont entièrement remplacés lorsque des CA sont indiqués ici."
+      },
+      "sentinelTls.passphrase": {
+        "label": "Phrase secrète",
+        "description": "Phrase secrète pour déchiffrer la clé privée"
+      },
+      "sentinelTls.rejectUnauthorized": {
+        "label": "Rejeter les connexions non autorisées",
+        "description": "Si la valeur est true, rejette toute connexion non autorisée par la liste des CA fournis"
+      }
+    }
+  },
+  "RedisStandalone": {
+    "displayName": "Client Redis autonome",
+    "description": "Composant client Redis autonome",
+    "summary": "Se connecte à un serveur Redis unique et fournit aux applications son client ioredis.",
+    "variables": {
+      "db": {
+        "label": "Base de données",
+        "description": "Index de la base de données à utiliser."
+      },
+      "autoResubscribe": {
+        "label": "Réabonnement automatique",
+        "description": "À la reconnexion du client, les canaux auxquels il était abonné lors de la connexion précédente sont automatiquement réabonnés"
+      },
+      "autoResendUnfulfilledCommands": {
+        "label": "Renvoi automatique des commandes en attente",
+        "description": "Indique si les commandes restées sans réponse sont renvoyées à la reconnexion. Il s'agit le plus souvent de commandes bloquantes comme brpop ou blpop."
+      },
+      "keepAlive": {
+        "label": "Keep-alive",
+        "description": "Délai initial, en millisecondes, avant la première sonde keep-alive sur le socket TCP"
+      },
+      "noDelay": {
+        "label": "Sans délai (No Delay)",
+        "description": "Active ou désactive l'algorithme de Nagle"
+      },
+      "connectionName": {
+        "label": "Nom de la connexion",
+        "description": "Nom donné à la connexion pour l'identifier plus facilement dans la liste des clients."
+      },
+      "maxRetriesPerRequest": {
+        "label": "Nombre maximal de tentatives par requête",
+        "description": "Les commandes restées sans réponse suite à la perte de connexion au serveur sont mises en file d'attente et renvoyées à la reconnexion (si l'option retryStrategy le permet). Cette option définit le nombre de tentatives de reconnexion autorisées avant que la file ne soit vidée avec une erreur MaxRetriesPerRequestError. Indiquez -1 pour que les commandes attendent indéfiniment le rétablissement de la connexion."
+      },
+      "commandTimeout": {
+        "label": "Délai d'expiration des commandes",
+        "description": "Si une commande ne reçoit pas de réponse dans le nombre de millisecondes indiqué, une erreur \"Command timed out\" est levée."
+      },
+      "disconnectTimeout": {
+        "label": "Délai de déconnexion",
+        "description": "Durée maximale, en millisecondes, d'attente de la fermeture de la connexion."
+      },
+      "tls_enabled": {
+        "label": "TLS activé"
+      },
+      "tls": {
+        "label": "TLS",
+        "description": "Options TLS"
+      },
+      "tls.servername": {
+        "label": "SNI",
+        "description": "SNI (Server Name Indication)"
+      },
+      "tls.key": {
+        "label": "Clé",
+        "description": "Clés privées au format PEM"
+      },
+      "tls.cert": {
+        "label": "Certificat",
+        "description": "Chaînes de certificats au format PEM"
+      },
+      "tls.ca": {
+        "label": "Certificats CA",
+        "description": "Remplace, si besoin, les certificats CA de confiance. Par défaut, les CA reconnus sélectionnés par Mozilla sont approuvés ; ils sont entièrement remplacés lorsque des CA sont indiqués ici."
+      },
+      "tls.passphrase": {
+        "label": "Phrase secrète",
+        "description": "Phrase secrète pour déchiffrer la clé privée"
+      },
+      "tls.rejectUnauthorized": {
+        "label": "Rejeter les connexions non autorisées",
+        "description": "Si la valeur est true, rejette toute connexion non autorisée par la liste des CA fournis"
+      },
+      "host": {
+        "label": "Hôte",
+        "description": "Nom d'hôte ou adresse IP auquel se connecter"
+      },
+      "port": {
+        "label": "Port",
+        "description": "Numéro de port de l'écouteur cible"
+      },
+      "username": {
+        "label": "Nom d'utilisateur",
+        "description": "S'il est renseigné, le client envoie à la connexion la commande AUTH avec cette valeur comme premier argument. Pris en charge depuis Redis 6."
+      },
+      "password": {
+        "label": "Mot de passe",
+        "description": "S'il est renseigné, le client envoie à la connexion la commande AUTH avec cette valeur."
+      }
+    }
+  }
+}
