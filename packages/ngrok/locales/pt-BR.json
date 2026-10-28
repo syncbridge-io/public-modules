@@ -1,0 +1,17 @@
+{
+  "NgrokTcpClient": {
+    "displayName": "Túnel de cliente TCP ngrok",
+    "description": "Túnel de cliente TCP para o ngrok (https://ngrok.com)",
+    "summary": "Abre um túnel TCP ngrok para o componente, para que um dispositivo remoto possa se conectar, e lê e escreve seus bytes.",
+    "variables": {
+      "authToken": {
+        "label": "Token de autenticação do ngrok",
+        "description": "Token de autenticação do ngrok"
+      },
+      "localPort": {
+        "label": "Porta local",
+        "description": "Número da porta local em que a conexão do processo ngrok é servida. Se não for definido, uma porta é selecionada automaticamente"
+      }
+    }
+  }
+}

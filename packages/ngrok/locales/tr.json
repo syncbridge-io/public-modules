@@ -1,0 +1,17 @@
+{
+  "NgrokTcpClient": {
+    "displayName": "ngrok TCP İstemci Tüneli",
+    "description": "ngrok için TCP istemci tüneli (https://ngrok.com)",
+    "summary": "Bileşene bir ngrok TCP tüneli açar; böylece uzaktaki bir cihaz ona bağlanabilir. Baytlarını okuyup yazar.",
+    "variables": {
+      "authToken": {
+        "label": "ngrok kimlik doğrulama token'ı",
+        "description": "ngrok hesabının kimlik doğrulama token'ı"
+      },
+      "localPort": {
+        "label": "Yerel port",
+        "description": "ngrok sürecinin bağlantıyı yönlendireceği yerel port numarası. Belirtilmezse otomatik olarak bir port seçilir."
+      }
+    }
+  }
+}

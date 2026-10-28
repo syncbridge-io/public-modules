@@ -1,0 +1,17 @@
+{
+  "NgrokTcpClient": {
+    "displayName": "Tunnel client TCP ngrok",
+    "description": "Tunnel client TCP pour ngrok (https://ngrok.com)",
+    "summary": "Ouvre un tunnel TCP ngrok vers le composant, pour qu'un appareil distant puisse s'y connecter, et en lit et écrit les octets.",
+    "variables": {
+      "authToken": {
+        "label": "Jeton d'authentification ngrok",
+        "description": "Jeton d'authentification ngrok"
+      },
+      "localPort": {
+        "label": "Port local",
+        "description": "Numéro du port local desservi par le processus ngrok. S'il n'est pas renseigné, un port est choisi automatiquement."
+      }
+    }
+  }
+}
