@@ -1,0 +1,77 @@
+{
+  "SqbClient": {
+    "displayName": "SqbClient",
+    "description": "Client di connessione al database",
+    "summary": "Si connette a un database PostgreSQL, Oracle, SQL Server, MySQL, MariaDB o SQLite tramite SQB, con un pool di connessioni e un log dell'SQL eseguito.",
+    "variables": {
+      "dialect": {
+        "label": "Dialetto",
+        "description": "Dialetto del database"
+      },
+      "host": {
+        "label": "Host",
+        "description": "Indirizzo o URL del server del database"
+      },
+      "port": {
+        "label": "Porta",
+        "description": "Numero di porta del server del database"
+      },
+      "username": {
+        "label": "Nome utente",
+        "description": "Nome utente del database"
+      },
+      "password": {
+        "label": "Password",
+        "description": "Password del database"
+      },
+      "database": {
+        "label": "Nome del database",
+        "description": "Nome del database a cui connettersi; per SQLite, il percorso del file del database o :memory:"
+      },
+      "schema": {
+        "label": "Schema del database",
+        "description": "Schema del database a cui connettersi"
+      },
+      "applicationName": {
+        "label": "Nome dell'applicazione",
+        "description": "Nome dell'applicazione assegnato alle sessioni del database, utile per il debug"
+      },
+      "pool": {
+        "label": "Pool di connessioni",
+        "description": "Opzioni del pool di connessioni"
+      },
+      "pool.acquireMaxRetries": {
+        "label": "Tentativi massimi di acquisizione",
+        "description": "Numero massimo di tentativi di creazione di una risorsa da parte del pool prima di restituire l'errore"
+      },
+      "pool.acquireRetryWait": {
+        "label": "Attesa tra i tentativi di acquisizione",
+        "description": "Tempo in millisecondi che il pool attende dopo ogni tentativo"
+      },
+      "pool.acquireTimeoutMillis": {
+        "label": "Timeout di acquisizione",
+        "description": "Tempo in millisecondi che una richiesta di acquisizione attende una risorsa prima che scada il timeout"
+      },
+      "pool.idleTimeoutMillis": {
+        "label": "Timeout di inattività",
+        "description": "Tempo minimo in millisecondi per cui una risorsa può restare inattiva nel pool"
+      },
+      "pool.min": {
+        "label": "Minimo",
+        "description": "Numero minimo di risorse mantenute dal pool"
+      },
+      "pool.minIdle": {
+        "label": "Minimo inattive",
+        "description": "Numero minimo di risorse inattive mantenute dal pool"
+      },
+      "pool.max": {
+        "label": "Massimo",
+        "description": "Numero massimo di risorse che il pool crea"
+      },
+      "pool.maxQueue": {
+        "label": "Coda massima",
+        "description": "Numero massimo di richieste accettate dal pool"
+      }
+    }
+  }
+}

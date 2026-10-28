@@ -1,0 +1,77 @@
+{
+  "SqbClient": {
+    "displayName": "SqbClient",
+    "description": "Cliente de conexión a bases de datos",
+    "summary": "Se conecta a una base de datos PostgreSQL, Oracle, SQL Server, MySQL, MariaDB o SQLite mediante SQB, con un pool de conexiones y un registro del SQL que ejecuta.",
+    "variables": {
+      "dialect": {
+        "label": "Dialecto",
+        "description": "Dialecto de la base de datos"
+      },
+      "host": {
+        "label": "Host",
+        "description": "Dirección o URL del servidor de base de datos"
+      },
+      "port": {
+        "label": "Puerto",
+        "description": "Número de puerto del servidor de base de datos"
+      },
+      "username": {
+        "label": "Usuario",
+        "description": "Usuario de la base de datos"
+      },
+      "password": {
+        "label": "Contraseña",
+        "description": "Contraseña de la base de datos"
+      },
+      "database": {
+        "label": "Nombre de la base de datos",
+        "description": "Nombre de la base de datos a la que se conecta; en SQLite, la ruta del archivo de base de datos o :memory:"
+      },
+      "schema": {
+        "label": "Esquema de la base de datos",
+        "description": "Esquema de la base de datos que se usa"
+      },
+      "applicationName": {
+        "label": "Nombre de la aplicación",
+        "description": "Nombre de aplicación que se asigna a las sesiones de la base de datos, útil para la depuración."
+      },
+      "pool": {
+        "label": "Pool de conexiones",
+        "description": "Opciones del pool de conexiones"
+      },
+      "pool.acquireMaxRetries": {
+        "label": "Reintentos máximos de obtención",
+        "description": "Número máximo de intentos del pool para crear un recurso antes de devolver el error"
+      },
+      "pool.acquireRetryWait": {
+        "label": "Espera entre reintentos de obtención",
+        "description": "Tiempo en milisegundos que el pool espera tras cada intento"
+      },
+      "pool.acquireTimeoutMillis": {
+        "label": "Tiempo de espera de obtención (ms)",
+        "description": "Tiempo en milisegundos que una solicitud de obtención espera un recurso antes de agotarse"
+      },
+      "pool.idleTimeoutMillis": {
+        "label": "Tiempo de inactividad",
+        "description": "Tiempo mínimo en milisegundos que un recurso puede permanecer inactivo en el pool"
+      },
+      "pool.min": {
+        "label": "Mínimo",
+        "description": "Número mínimo de recursos que mantiene el pool"
+      },
+      "pool.minIdle": {
+        "label": "Mínimo inactivos",
+        "description": "Número mínimo de recursos inactivos que mantiene el pool"
+      },
+      "pool.max": {
+        "label": "Máximo",
+        "description": "Número máximo de recursos que crea el pool"
+      },
+      "pool.maxQueue": {
+        "label": "Cola máxima",
+        "description": "Número máximo de solicitudes que acepta el pool en cola"
+      }
+    }
+  }
+}

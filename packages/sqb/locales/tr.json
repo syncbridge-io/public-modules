@@ -1,0 +1,77 @@
+{
+  "SqbClient": {
+    "displayName": "SqbClient",
+    "description": "Veritabanı bağlantı istemcisi",
+    "summary": "SQB üzerinden PostgreSQL, Oracle, SQL Server, MySQL, MariaDB veya SQLite veritabanına bağlanır; bağlantı havuzu ve çalıştırdığı SQL'in günlüğüyle.",
+    "variables": {
+      "dialect": {
+        "label": "Diyalekt",
+        "description": "Veritabanı diyalekti"
+      },
+      "host": {
+        "label": "Sunucu adresi",
+        "description": "Veritabanı sunucusunun adresi veya URL'si"
+      },
+      "port": {
+        "label": "Port",
+        "description": "Veritabanı sunucusunun port numarası"
+      },
+      "username": {
+        "label": "Kullanıcı adı",
+        "description": "Veritabanı kullanıcı adı"
+      },
+      "password": {
+        "label": "Şifre",
+        "description": "Veritabanı şifresi"
+      },
+      "database": {
+        "label": "Veritabanı adı",
+        "description": "Bağlanılacak veritabanının adı; SQLite için veritabanı dosyasının yolu veya :memory:"
+      },
+      "schema": {
+        "label": "Veritabanı şeması",
+        "description": "Bağlanılacak veritabanı şeması"
+      },
+      "applicationName": {
+        "label": "Uygulama adı",
+        "description": "Veritabanı oturumlarına atanacak uygulama adı. Hata ayıklamada kullanılır."
+      },
+      "pool": {
+        "label": "Bağlantı havuzu",
+        "description": "Bağlantı havuzu seçenekleri"
+      },
+      "pool.acquireMaxRetries": {
+        "label": "Kaynak alma deneme sınırı",
+        "description": "Havuzun hata döndürmeden önce bir kaynak oluşturmayı en fazla kaç kez deneyeceği"
+      },
+      "pool.acquireRetryWait": {
+        "label": "Kaynak alma deneme aralığı",
+        "description": "Havuzun her denemeden sonra bekleyeceği süre (milisaniye)"
+      },
+      "pool.acquireTimeoutMillis": {
+        "label": "Kaynak alma zaman aşımı",
+        "description": "Bir kaynak alma isteğinin zaman aşımına uğramadan önce bekleyeceği süre (milisaniye)"
+      },
+      "pool.idleTimeoutMillis": {
+        "label": "Boşta kalma zaman aşımı",
+        "description": "Bir kaynağın havuzda boşta kalabileceği en kısa süre (milisaniye)"
+      },
+      "pool.min": {
+        "label": "En az",
+        "description": "Havuzun tutacağı en az kaynak sayısı"
+      },
+      "pool.minIdle": {
+        "label": "En az boşta",
+        "description": "Havuzun boşta tutacağı en az kaynak sayısı"
+      },
+      "pool.max": {
+        "label": "En fazla",
+        "description": "Havuzun oluşturacağı en fazla kaynak sayısı"
+      },
+      "pool.maxQueue": {
+        "label": "En fazla kuyruk",
+        "description": "Havuzun kabul edeceği en fazla istek sayısı"
+      }
+    }
+  }
+}

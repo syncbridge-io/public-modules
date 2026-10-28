@@ -1,0 +1,77 @@
+{
+  "SqbClient": {
+    "displayName": "SqbClient",
+    "description": "Cliente de conexão com banco de dados",
+    "summary": "Conecta-se a um banco de dados PostgreSQL, Oracle, SQL Server, MySQL, MariaDB ou SQLite via SQB, com um pool de conexões e um log do SQL executado.",
+    "variables": {
+      "dialect": {
+        "label": "Dialeto",
+        "description": "Dialeto do banco de dados"
+      },
+      "host": {
+        "label": "Host",
+        "description": "Endereço ou URL do servidor de banco de dados"
+      },
+      "port": {
+        "label": "Porta",
+        "description": "Número da porta do servidor de banco de dados"
+      },
+      "username": {
+        "label": "Nome de usuário",
+        "description": "Nome de usuário do banco de dados"
+      },
+      "password": {
+        "label": "Senha",
+        "description": "Senha do banco de dados"
+      },
+      "database": {
+        "label": "Nome do banco de dados",
+        "description": "Nome do banco de dados ao qual se conectar; no SQLite, o caminho do arquivo do banco de dados ou :memory:"
+      },
+      "schema": {
+        "label": "Esquema do banco de dados",
+        "description": "Esquema do banco de dados a usar"
+      },
+      "applicationName": {
+        "label": "Nome da aplicação",
+        "description": "Nome da aplicação atribuído às sessões do banco de dados, para fins de depuração"
+      },
+      "pool": {
+        "label": "Pool de conexões",
+        "description": "Opções do pool de conexões"
+      },
+      "pool.acquireMaxRetries": {
+        "label": "Máximo de tentativas de obtenção",
+        "description": "Número máximo de tentativas do pool de criar um recurso antes de retornar o erro"
+      },
+      "pool.acquireRetryWait": {
+        "label": "Espera entre tentativas de obtenção",
+        "description": "Tempo, em milissegundos, que o pool aguarda após cada tentativa"
+      },
+      "pool.acquireTimeoutMillis": {
+        "label": "Tempo limite de obtenção",
+        "description": "Tempo, em milissegundos, que uma chamada de obtenção aguarda por um recurso antes de o tempo limite expirar"
+      },
+      "pool.idleTimeoutMillis": {
+        "label": "Tempo limite de ociosidade",
+        "description": "Tempo mínimo, em milissegundos, que um recurso pode permanecer ocioso no pool"
+      },
+      "pool.min": {
+        "label": "Mínimo",
+        "description": "Número mínimo de recursos mantidos pelo pool"
+      },
+      "pool.minIdle": {
+        "label": "Mínimo de ociosos",
+        "description": "Número mínimo de recursos ociosos mantidos pelo pool"
+      },
+      "pool.max": {
+        "label": "Máximo",
+        "description": "Número máximo de recursos criados pelo pool"
+      },
+      "pool.maxQueue": {
+        "label": "Fila máxima",
+        "description": "Número máximo de requisições aceitas pelo pool"
+      }
+    }
+  }
+}

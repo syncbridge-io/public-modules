@@ -1,0 +1,77 @@
+{
+  "SqbClient": {
+    "displayName": "SqbClient",
+    "description": "Datenbankverbindungs-Client",
+    "summary": "Verbindet sich über SQB mit einer PostgreSQL-, Oracle-, SQL Server-, MySQL-, MariaDB- oder SQLite-Datenbank, mit Verbindungspool und einem Protokoll des ausgeführten SQL.",
+    "variables": {
+      "dialect": {
+        "label": "Dialekt",
+        "description": "Datenbankdialekt"
+      },
+      "host": {
+        "label": "Host",
+        "description": "Adresse oder URL des Datenbankservers"
+      },
+      "port": {
+        "label": "Port",
+        "description": "Portnummer des Datenbank-Listeners"
+      },
+      "username": {
+        "label": "Benutzername",
+        "description": "Datenbank-Benutzername"
+      },
+      "password": {
+        "label": "Passwort",
+        "description": "Datenbank-Passwort"
+      },
+      "database": {
+        "label": "Datenbankname",
+        "description": "Name der Datenbank, zu der die Verbindung hergestellt wird; bei SQLite der Pfad der Datenbankdatei oder :memory:"
+      },
+      "schema": {
+        "label": "Datenbankschema",
+        "description": "Datenbankschema, zu dem die Verbindung hergestellt wird"
+      },
+      "applicationName": {
+        "label": "Anwendungsname",
+        "description": "Name der Anwendung, der für Datenbanksitzungen gesetzt wird. Dient zur Fehlersuche."
+      },
+      "pool": {
+        "label": "Pooling",
+        "description": "Pooling-Optionen"
+      },
+      "pool.acquireMaxRetries": {
+        "label": "Max. Versuche beim Anfordern",
+        "description": "Maximale Anzahl von Versuchen des Pools, eine Ressource zu erstellen, bevor ein Fehler zurückgegeben wird"
+      },
+      "pool.acquireRetryWait": {
+        "label": "Wartezeit zwischen Anforderungsversuchen",
+        "description": "Zeit in Millisekunden, die der Pool nach jedem Versuch wartet"
+      },
+      "pool.acquireTimeoutMillis": {
+        "label": "Anforderungs-Timeout (ms)",
+        "description": "Zeit in Millisekunden, die eine Anforderung auf eine Ressource wartet, bevor ein Timeout eintritt"
+      },
+      "pool.idleTimeoutMillis": {
+        "label": "Leerlauf-Timeout",
+        "description": "Minimale Zeit in Millisekunden, die eine Ressource ungenutzt im Pool verbleiben darf"
+      },
+      "pool.min": {
+        "label": "Min.",
+        "description": "Minimale Anzahl von Ressourcen, die der Pool vorhält"
+      },
+      "pool.minIdle": {
+        "label": "Min. im Leerlauf",
+        "description": "Minimale Anzahl ungenutzter Ressourcen, die der Pool vorhält"
+      },
+      "pool.max": {
+        "label": "Max.",
+        "description": "Maximale Anzahl von Ressourcen, die der Pool erstellt"
+      },
+      "pool.maxQueue": {
+        "label": "Max. Warteschlange",
+        "description": "Maximale Anzahl von Anforderungen, die der Pool annimmt"
+      }
+    }
+  }
+}
