@@ -1,0 +1,217 @@
+{
+  "HL7Client": {
+    "displayName": "HL7 İstemcisi",
+    "description": "HL7 istemci bileşeni",
+    "summary": "MLLP üzerinden bir HL7 v2 sunucusuna bağlanır, mesaj gönderir ve onaylarını bekler; TLS ve yeniden bağlanmayla.",
+    "variables": {
+      "host": {
+        "label": "Sunucu adresi",
+        "description": "Bağlanılacak ana makine adı veya IP adresi"
+      },
+      "port": {
+        "label": "Port",
+        "description": "Hedef port numarası"
+      },
+      "bindInterface": {
+        "label": "Yerel arayüz",
+        "description": "Kullanılacak yerel arayüz adresi. Belirtilmezse tüm kullanılabilir adresler kullanılır."
+      },
+      "keepAlive": {
+        "label": "Keep-alive",
+        "description": "TCP soketinde keep-alive özelliğini etkinleştirir"
+      },
+      "connectTimeout": {
+        "label": "Bağlantı zaman aşımı",
+        "description": "Bağlantı zaman aşımı (milisaniye)"
+      },
+      "reconnect": {
+        "label": "Yeniden bağlanma",
+        "description": "Yeniden bağlanma seçenekleri"
+      },
+      "reconnect.strategy": {
+        "label": "Yeniden bağlanma stratejisi"
+      },
+      "reconnect.initialDelay": {
+        "label": "İlk gecikme",
+        "description": "İlk gecikme (milisaniye)"
+      },
+      "reconnect.maxDelay": {
+        "label": "En fazla gecikme",
+        "description": "En fazla gecikme (milisaniye)"
+      },
+      "tls_enabled": {
+        "label": "TLS etkin"
+      },
+      "tls": {
+        "label": "TLS",
+        "description": "TLS seçenekleri"
+      },
+      "tls.servername": {
+        "label": "SNI",
+        "description": "SNI (Server Name Indication)"
+      },
+      "tls.key": {
+        "label": "Anahtar",
+        "description": "PEM biçiminde özel anahtarlar"
+      },
+      "tls.cert": {
+        "label": "Sertifika",
+        "description": "PEM biçiminde sertifika zincirleri"
+      },
+      "tls.ca": {
+        "label": "CA sertifikaları",
+        "description": "Güvenilen CA sertifikalarını isteğe bağlı olarak değiştirir. Varsayılan olarak Mozilla'nın derlediği bilinen CA'lara güvenilir. Bu seçenekle CA'lar açıkça belirtildiğinde Mozilla'nın CA'ları tamamen bunlarla değiştirilir."
+      },
+      "tls.passphrase": {
+        "label": "Parola",
+        "description": "Özel anahtarın şifresini çözmek için kullanılan parola"
+      },
+      "tls.rejectUnauthorized": {
+        "label": "Yetkisiz bağlantıları reddet",
+        "description": "true ise verilen CA listesiyle yetkilendirilmemiş tüm bağlantılar reddedilir."
+      },
+      "proxy_enabled": {
+        "label": "Proxy etkin"
+      },
+      "proxy": {
+        "label": "Proxy",
+        "description": "Proxy seçenekleri"
+      },
+      "responseTimeout": {
+        "label": "Yanıt zaman aşımı",
+        "description": "Yanıt zaman aşımı (milisaniye)"
+      },
+      "acceptAcknowledgment": {
+        "label": "Kabul onayı",
+        "description": "Mesajın istediği (MSH-15) kabul onayının ne zaman gönderileceği. \"processed\": mesaj işlendikten sonra; başarılıysa CA, başarısız olur veya zaman aşımına uğrarsa CE gönderilir. Böylece gönderici, verisinin kaydedildiğini ancak gerçekten kaydedildiğinde öğrenir. \"receipt\": mesaj ulaşır ulaşmaz, işlenmeden önce."
+      },
+      "validate": {
+        "label": "Mesajları doğrula",
+        "description": "Alınan mesajları HL7 sürümlerinin tanımlarına göre doğrular; doğrulamadan geçemeyen mesaj işlenmez ve hatalarını listeleyen bir NAK ile yanıtlanır."
+      },
+      "defaultCharset": {
+        "label": "Varsayılan karakter seti",
+        "description": "MSH-18 alanı boş veya bilinmeyen bir mesajın karakter seti, ör. \"windows-1254\"; varsayılan UTF-8"
+      },
+      "batchAcknowledgment": {
+        "label": "Toplu mesaj onayı",
+        "description": "Alınan bir toplu mesajın (batch) hangi onaylarla yanıtlanacağı: tümü, yalnızca başarısız mesajlarınkiler veya hiçbiri"
+      }
+    }
+  },
+  "HL7Server": {
+    "displayName": "HL7 Sunucusu",
+    "description": "HL7 sunucu bileşeni",
+    "summary": "MLLP üzerinden HL7 v2 mesajlarını alır ve onaylar; TLS, adres engelleme ve işleyiciler için middleware ile.",
+    "variables": {
+      "port": {
+        "label": "Port",
+        "description": "Dinlenecek port numarası"
+      },
+      "bindInterface": {
+        "label": "Yerel arayüz",
+        "description": "Kullanılacak yerel arayüz adresi. Belirtilmezse tüm kullanılabilir adresler kullanılır."
+      },
+      "tls_enabled": {
+        "label": "TLS etkin",
+        "description": "Bağlantıda TLS kullanılıp kullanılmayacağı"
+      },
+      "tls": {
+        "label": "TLS",
+        "description": "TLS seçenekleri"
+      },
+      "tls.cert": {
+        "label": "Sertifika",
+        "description": "PEM biçiminde sertifika zincirleri. Her özel anahtar için bir sertifika zinciri verilmelidir. Her zincir, ilgili özel anahtarın PEM biçimli sertifikasıyla başlamalı, ardından (varsa) PEM biçimli ara sertifikalar sırasıyla gelmelidir; kök CA zincire eklenmez (kök CA karşı tarafça önceden bilinmelidir, bkz. ca). Birden fazla zincir verildiğinde, zincirlerin key içindeki özel anahtarlarla aynı sırada olması gerekmez. Ara sertifikalar verilmezse karşı taraf sertifikayı doğrulayamaz ve el sıkışma başarısız olur."
+      },
+      "tls.key": {
+        "label": "Anahtar",
+        "description": "PEM biçiminde özel anahtarlar. PEM, özel anahtarların şifrelenmesine olanak tanır; şifreli anahtarlar options.passphrase ile çözülür."
+      },
+      "tls.passphrase": {
+        "label": "Parola",
+        "description": "Tek bir özel anahtar ve/veya PFX için kullanılan ortak parola."
+      },
+      "tls.ca": {
+        "label": "CA sertifikaları",
+        "description": "Güvenilen CA sertifikalarını isteğe bağlı olarak değiştirir. Varsayılan olarak Mozilla'nın derlediği bilinen CA'lara güvenilir. Bu seçenekle CA'lar açıkça belirtildiğinde Mozilla'nın CA'ları tamamen bunlarla değiştirilir."
+      },
+      "tls.crl": {
+        "label": "CRL (sertifika iptal listeleri)",
+        "description": "PEM biçiminde CRL'ler"
+      },
+      "tls.rejectUnauthorized": {
+        "label": "Yetkisiz bağlantıları reddet",
+        "description": "false değilse sunucu, verilen CA listesiyle yetkilendirilmemiş tüm bağlantıları reddeder. Bu seçenek yalnızca requestCert true olduğunda etkilidir."
+      },
+      "tls.handshakeTimeout": {
+        "label": "El sıkışma zaman aşımı",
+        "description": "SSL/TLS el sıkışması belirtilen milisaniye içinde tamamlanmazsa bağlantı sonlandırılır."
+      },
+      "tls.requestCert": {
+        "label": "Sertifika iste",
+        "description": "true ise sunucu, bağlanan istemcilerden sertifika ister ve bu sertifikayı doğrulamaya çalışır."
+      },
+      "tls.sessionTimeout": {
+        "label": "Oturum zaman aşımı",
+        "description": "Sunucunun oluşturduğu bir TLS oturumunun artık sürdürülemeyeceği süre (saniye)"
+      },
+      "tls.allowPartialTrustChain": {
+        "label": "Kısmi güven zincirine izin ver",
+        "description": "Güvenilen CA sertifikaları listesindeki ara (kendinden imzalı olmayan) sertifikaları güvenilir kabul eder."
+      },
+      "tls.sigalgs": {
+        "label": "İmza algoritmaları",
+        "description": "Desteklenen imza algoritmalarının iki nokta üst üste ile ayrılmış listesi. Liste özet algoritmalarını (SHA256, MD5 vb.), açık anahtar algoritmalarını (RSA-PSS, ECDSA vb.), ikisinin birleşimini (ör. 'RSA+SHA384') veya TLS v1.3 şema adlarını (ör. rsa_pss_pss_sha512) içerebilir. Ayrıntılar için [OpenSSL man sayfalarına](https://docs.openssl.org/1.1.1/man3/SSL_CTX_set1_sigalgs) bakın."
+      },
+      "socket": {
+        "label": "Soket",
+        "description": "Soket seçenekleri"
+      },
+      "socket.allowHalfOpen": {
+        "label": "Yarı açık bağlantılara izin ver",
+        "description": "Yarı açık TCP bağlantılarına izin verilip verilmeyeceği."
+      },
+      "socket.keepAlive": {
+        "label": "Keep-alive",
+        "description": "true ise yeni bir gelen bağlantı alınır alınmaz sokette keep-alive etkinleştirilir."
+      },
+      "socket.keepAliveInitialDelay": {
+        "label": "Keep-alive ilk gecikmesi",
+        "description": "Pozitif bir sayıya ayarlanırsa, boştaki bir sokette ilk keep-alive yoklaması gönderilmeden önceki gecikmeyi belirler."
+      },
+      "socket.noDelay": {
+        "label": "Gecikmesiz gönderim",
+        "description": "true ise yeni bir gelen bağlantı alınır alınmaz Nagle algoritması devre dışı bırakılır."
+      },
+      "socket.blockedIps": {
+        "label": "Engellenen IP'ler",
+        "description": "Engellenen IP adreslerinin listesi. Sunucu bir ters proxy, NAT vb. arkasındaysa çalışmaz; çünkü engelleme listesiyle karşılaştırılan adres, proxy'nin adresi veya NAT'ın belirlediği adrestir."
+      },
+      "socket.blockedSubnets": {
+        "label": "Engellenen alt ağlar",
+        "description": "Engellenen alt ağ adreslerinin listesi. Sunucu bir ters proxy, NAT vb. arkasındaysa çalışmaz; çünkü engelleme listesiyle karşılaştırılan adres, proxy'nin adresi veya NAT'ın belirlediği adrestir."
+      },
+      "responseTimeout": {
+        "label": "Yanıt zaman aşımı",
+        "description": "Bir mesajın işlenmesi için tanınan süre (milisaniye); süre aşılırsa göndericiye hata onayıyla yanıt verilir"
+      },
+      "acceptAcknowledgment": {
+        "label": "Kabul onayı",
+        "description": "Mesajın istediği (MSH-15) kabul onayının ne zaman gönderileceği. \"processed\": mesaj işlendikten sonra; başarılıysa CA, başarısız olur veya zaman aşımına uğrarsa CE gönderilir. Böylece gönderici, verisinin kaydedildiğini ancak gerçekten kaydedildiğinde öğrenir. \"receipt\": mesaj ulaşır ulaşmaz, işlenmeden önce."
+      },
+      "validate": {
+        "label": "Mesajları doğrula",
+        "description": "Alınan mesajları HL7 sürümlerinin tanımlarına göre doğrular; doğrulamadan geçemeyen mesaj işlenmez ve hatalarını listeleyen bir NAK ile yanıtlanır."
+      },
+      "defaultCharset": {
+        "label": "Varsayılan karakter seti",
+        "description": "MSH-18 alanı boş veya bilinmeyen bir mesajın karakter seti, ör. \"windows-1254\"; varsayılan UTF-8"
+      },
+      "batchAcknowledgment": {
+        "label": "Toplu mesaj onayı",
+        "description": "Alınan bir toplu mesajın (batch) hangi onaylarla yanıtlanacağı: tümü, yalnızca başarısız mesajlarınkiler veya hiçbiri"
+      }
+    }
+  }
+}

@@ -1,0 +1,217 @@
+{
+  "HL7Client": {
+    "displayName": "Cliente HL7",
+    "description": "Componente de cliente HL7",
+    "summary": "Se conecta a un servidor HL7 v2 mediante MLLP, envía mensajes y espera sus confirmaciones, con TLS y reconexión.",
+    "variables": {
+      "host": {
+        "label": "Host",
+        "description": "Nombre de host o dirección IP al que se conecta"
+      },
+      "port": {
+        "label": "Puerto",
+        "description": "Número de puerto del destino"
+      },
+      "bindInterface": {
+        "label": "Interfaz de enlace",
+        "description": "Dirección de la interfaz a la que se enlaza. Si no se especifica, se enlaza a todas las direcciones disponibles."
+      },
+      "keepAlive": {
+        "label": "Keep-alive",
+        "description": "Activa keep-alive en el socket TCP"
+      },
+      "connectTimeout": {
+        "label": "Tiempo de espera de conexión",
+        "description": "Tiempo de espera de conexión en milisegundos"
+      },
+      "reconnect": {
+        "label": "Reconexión",
+        "description": "Opciones de reconexión"
+      },
+      "reconnect.strategy": {
+        "label": "Estrategia de reconexión"
+      },
+      "reconnect.initialDelay": {
+        "label": "Retardo inicial",
+        "description": "Retardo inicial en milisegundos"
+      },
+      "reconnect.maxDelay": {
+        "label": "Retardo máximo",
+        "description": "Retardo máximo en milisegundos"
+      },
+      "tls_enabled": {
+        "label": "TLS habilitado"
+      },
+      "tls": {
+        "label": "TLS",
+        "description": "Opciones de TLS"
+      },
+      "tls.servername": {
+        "label": "SNI",
+        "description": "SNI (indicación del nombre del servidor)"
+      },
+      "tls.key": {
+        "label": "Clave",
+        "description": "Claves privadas en formato PEM"
+      },
+      "tls.cert": {
+        "label": "Certificado",
+        "description": "Cadenas de certificados en formato PEM"
+      },
+      "tls.ca": {
+        "label": "Certificados de CA",
+        "description": "Reemplaza, de forma opcional, los certificados de CA de confianza. De forma predeterminada se confía en las CA conocidas que mantiene Mozilla; si se especifican CA con esta opción, estas sustituyen por completo a las de Mozilla."
+      },
+      "tls.passphrase": {
+        "label": "Frase de contraseña",
+        "description": "Frase de contraseña para descifrar la clave privada"
+      },
+      "tls.rejectUnauthorized": {
+        "label": "Rechazar no autorizadas",
+        "description": "Si es true, rechaza toda conexión que no esté autorizada por la lista de CA proporcionada"
+      },
+      "proxy_enabled": {
+        "label": "Proxy habilitado"
+      },
+      "proxy": {
+        "label": "Proxy",
+        "description": "Opciones de proxy"
+      },
+      "responseTimeout": {
+        "label": "Tiempo de espera de respuesta",
+        "description": "Tiempo de espera de respuesta en milisegundos"
+      },
+      "acceptAcknowledgment": {
+        "label": "Confirmación de aceptación",
+        "description": "Cuándo se envía la confirmación de aceptación que solicita un mensaje (MSH-15). \"processed\": después de procesar el mensaje (CA si tiene éxito, CE si falla o se agota el tiempo de espera), de modo que el remitente solo sabe que sus datos están guardados cuando realmente lo están. \"receipt\": en cuanto llega el mensaje, antes de procesarlo."
+      },
+      "validate": {
+        "label": "Validar mensajes",
+        "description": "Valida los mensajes recibidos según las definiciones de su versión de HL7; un mensaje que no la supera se responde con un NAK que enumera sus errores y no se procesa."
+      },
+      "defaultCharset": {
+        "label": "Juego de caracteres predeterminado",
+        "description": "Juego de caracteres de un mensaje cuyo MSH-18 está vacío o es desconocido, p. ej., \"windows-1254\"; de forma predeterminada, UTF-8."
+      },
+      "batchAcknowledgment": {
+        "label": "Confirmación de lotes",
+        "description": "Qué confirmaciones se envían como respuesta a un lote recibido: todas, solo las de los mensajes que fallaron o ninguna."
+      }
+    }
+  },
+  "HL7Server": {
+    "displayName": "Servidor HL7",
+    "description": "Componente de servidor HL7",
+    "summary": "Recibe mensajes HL7 v2 mediante MLLP y los confirma, con TLS, bloqueo de direcciones y middleware para los manejadores.",
+    "variables": {
+      "port": {
+        "label": "Puerto",
+        "description": "Número de puerto en el que se escucha"
+      },
+      "bindInterface": {
+        "label": "Interfaz de enlace",
+        "description": "Dirección de la interfaz a la que se enlaza. Si no se especifica, se enlaza a todas las direcciones disponibles."
+      },
+      "tls_enabled": {
+        "label": "TLS habilitado",
+        "description": "Indica si se usa TLS para la conexión"
+      },
+      "tls": {
+        "label": "TLS",
+        "description": "Opciones de TLS"
+      },
+      "tls.cert": {
+        "label": "Certificado",
+        "description": "Cadenas de certificados en formato PEM, una por cada clave privada. Cada cadena contiene el certificado en formato PEM de la clave privada correspondiente, seguido de los certificados intermedios en formato PEM (si los hay), en orden y sin incluir la CA raíz (el par remoto ya debe conocer la CA raíz; consulte ca). Si se proporcionan varias cadenas, no es necesario que sigan el mismo orden que sus claves privadas en key. Si no se proporcionan los certificados intermedios, el par remoto no podrá validar el certificado y la negociación TLS fallará."
+      },
+      "tls.key": {
+        "label": "Clave",
+        "description": "Claves privadas en formato PEM. PEM permite que las claves privadas estén cifradas; las claves cifradas se descifran con options.passphrase."
+      },
+      "tls.passphrase": {
+        "label": "Frase de contraseña",
+        "description": "Frase de contraseña compartida para una única clave privada o un PFX."
+      },
+      "tls.ca": {
+        "label": "Certificados de CA",
+        "description": "Reemplaza, de forma opcional, los certificados de CA de confianza. De forma predeterminada se confía en las CA conocidas que mantiene Mozilla; si se especifican CA con esta opción, estas sustituyen por completo a las de Mozilla."
+      },
+      "tls.crl": {
+        "label": "CRL (listas de revocación de certificados)",
+        "description": "CRL en formato PEM"
+      },
+      "tls.rejectUnauthorized": {
+        "label": "Rechazar no autorizadas",
+        "description": "Si no es false, el servidor rechaza toda conexión que no esté autorizada por la lista de CA proporcionada. Solo tiene efecto si requestCert es true."
+      },
+      "tls.handshakeTimeout": {
+        "label": "Tiempo de espera de negociación",
+        "description": "Cancela la conexión si la negociación SSL/TLS no termina en el número de milisegundos especificado."
+      },
+      "tls.requestCert": {
+        "label": "Solicitar certificado",
+        "description": "Si es true, el servidor solicita un certificado a los clientes que se conectan e intenta verificarlo."
+      },
+      "tls.sessionTimeout": {
+        "label": "Tiempo de espera de sesión",
+        "description": "Número de segundos tras los cuales una sesión TLS creada por el servidor ya no se puede reanudar."
+      },
+      "tls.allowPartialTrustChain": {
+        "label": "Permitir cadena de confianza parcial",
+        "description": "Considera de confianza los certificados intermedios (no autofirmados) incluidos en la lista de certificados de CA de confianza."
+      },
+      "tls.sigalgs": {
+        "label": "Algoritmos de firma",
+        "description": "Lista de algoritmos de firma admitidos, separados por dos puntos. Puede contener algoritmos de resumen (SHA256, MD5, etc.), algoritmos de clave pública (RSA-PSS, ECDSA, etc.), combinaciones de ambos (p. ej., 'RSA+SHA384') o nombres de esquemas de TLS v1.3 (p. ej., rsa_pss_pss_sha512). Consulte las [páginas de manual de OpenSSL](https://docs.openssl.org/1.1.1/man3/SSL_CTX_set1_sigalgs) para más información."
+      },
+      "socket": {
+        "label": "Socket",
+        "description": "Opciones de socket"
+      },
+      "socket.allowHalfOpen": {
+        "label": "Permitir semiabiertas",
+        "description": "Indica si se permiten conexiones TCP semiabiertas."
+      },
+      "socket.keepAlive": {
+        "label": "Keep-alive",
+        "description": "Si es true, activa keep-alive en el socket en cuanto se recibe una nueva conexión entrante."
+      },
+      "socket.keepAliveInitialDelay": {
+        "label": "Retardo inicial de keep-alive",
+        "description": "Si es un número positivo, establece el retardo antes de enviar la primera sonda keep-alive en un socket inactivo."
+      },
+      "socket.noDelay": {
+        "label": "Sin retardo",
+        "description": "Si es true, desactiva el algoritmo de Nagle en cuanto se recibe una nueva conexión entrante."
+      },
+      "socket.blockedIps": {
+        "label": "IP bloqueadas",
+        "description": "Lista de direcciones IP bloqueadas. No funciona si el servidor está detrás de un proxy inverso, NAT, etc., porque la dirección que se compara con la lista es la del proxy o la que asigna el NAT."
+      },
+      "socket.blockedSubnets": {
+        "label": "Subredes bloqueadas",
+        "description": "Lista de subredes bloqueadas. No funciona si el servidor está detrás de un proxy inverso, NAT, etc., porque la dirección que se compara con la lista es la del proxy o la que asigna el NAT."
+      },
+      "responseTimeout": {
+        "label": "Tiempo de espera de respuesta",
+        "description": "Tiempo máximo, en milisegundos, para procesar un mensaje; si se supera, se responde al remitente con una confirmación de error."
+      },
+      "acceptAcknowledgment": {
+        "label": "Confirmación de aceptación",
+        "description": "Cuándo se envía la confirmación de aceptación que solicita un mensaje (MSH-15). \"processed\": después de procesar el mensaje (CA si tiene éxito, CE si falla o se agota el tiempo de espera), de modo que el remitente solo sabe que sus datos están guardados cuando realmente lo están. \"receipt\": en cuanto llega el mensaje, antes de procesarlo."
+      },
+      "validate": {
+        "label": "Validar mensajes",
+        "description": "Valida los mensajes recibidos según las definiciones de su versión de HL7; un mensaje que no la supera se responde con un NAK que enumera sus errores y no se procesa."
+      },
+      "defaultCharset": {
+        "label": "Juego de caracteres predeterminado",
+        "description": "Juego de caracteres de un mensaje cuyo MSH-18 está vacío o es desconocido, p. ej., \"windows-1254\"; de forma predeterminada, UTF-8."
+      },
+      "batchAcknowledgment": {
+        "label": "Confirmación de lotes",
+        "description": "Qué confirmaciones se envían como respuesta a un lote recibido: todas, solo las de los mensajes que fallaron o ninguna."
+      }
+    }
+  }
+}

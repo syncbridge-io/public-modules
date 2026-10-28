@@ -1,0 +1,217 @@
+{
+  "HL7Client": {
+    "displayName": "Client HL7",
+    "description": "Componente client HL7",
+    "summary": "Si connette a un server HL7 v2 tramite MLLP, invia messaggi e ne attende le conferme, con TLS e riconnessione.",
+    "variables": {
+      "host": {
+        "label": "Host",
+        "description": "Nome host o indirizzo IP a cui connettersi"
+      },
+      "port": {
+        "label": "Porta",
+        "description": "Numero di porta del servizio di destinazione in ascolto"
+      },
+      "bindInterface": {
+        "label": "Interfaccia di bind",
+        "description": "Indirizzo dell'interfaccia a cui associarsi; se non specificato, vengono usati tutti gli indirizzi disponibili"
+      },
+      "keepAlive": {
+        "label": "Keep-alive",
+        "description": "Abilita il keep-alive sul socket TCP"
+      },
+      "connectTimeout": {
+        "label": "Timeout di connessione",
+        "description": "Timeout di connessione in millisecondi"
+      },
+      "reconnect": {
+        "label": "Riconnessione",
+        "description": "Opzioni di riconnessione"
+      },
+      "reconnect.strategy": {
+        "label": "Strategia di riconnessione"
+      },
+      "reconnect.initialDelay": {
+        "label": "Ritardo iniziale",
+        "description": "Ritardo iniziale in millisecondi"
+      },
+      "reconnect.maxDelay": {
+        "label": "Ritardo massimo",
+        "description": "Ritardo massimo in millisecondi"
+      },
+      "tls_enabled": {
+        "label": "TLS abilitato"
+      },
+      "tls": {
+        "label": "TLS",
+        "description": "Opzioni TLS"
+      },
+      "tls.servername": {
+        "label": "SNI",
+        "description": "SNI (Server Name Indication)"
+      },
+      "tls.key": {
+        "label": "Chiave",
+        "description": "Chiavi private in formato PEM"
+      },
+      "tls.cert": {
+        "label": "Certificato",
+        "description": "Catene di certificati in formato PEM"
+      },
+      "tls.ca": {
+        "label": "Certificati CA",
+        "description": "Sostituisce, se impostato, i certificati CA attendibili. Per impostazione predefinita sono considerate attendibili le CA note gestite da Mozilla, che vengono interamente sostituite quando si specificano delle CA con questa opzione."
+      },
+      "tls.passphrase": {
+        "label": "Passphrase",
+        "description": "Passphrase per decifrare la chiave privata"
+      },
+      "tls.rejectUnauthorized": {
+        "label": "Rifiuta non autorizzati",
+        "description": "Se è true, viene rifiutata qualsiasi connessione non autorizzata dall'elenco di CA fornito"
+      },
+      "proxy_enabled": {
+        "label": "Proxy abilitato"
+      },
+      "proxy": {
+        "label": "Proxy",
+        "description": "Opzioni del proxy"
+      },
+      "responseTimeout": {
+        "label": "Timeout della risposta",
+        "description": "Timeout della risposta in millisecondi"
+      },
+      "acceptAcknowledgment": {
+        "label": "Conferma di accettazione",
+        "description": "Quando inviare la conferma di accettazione richiesta dal messaggio (MSH-15). \"processed\": dopo l'elaborazione del messaggio (CA se riesce, CE se non riesce o scade il timeout), così il mittente sa che i dati sono stati salvati solo quando lo sono davvero. \"receipt\": appena il messaggio arriva, prima dell'elaborazione"
+      },
+      "validate": {
+        "label": "Convalida messaggi",
+        "description": "Convalida i messaggi ricevuti rispetto alle definizioni della loro versione HL7; un messaggio non valido riceve un NAK con l'elenco degli errori e non viene elaborato"
+      },
+      "defaultCharset": {
+        "label": "Set di caratteri predefinito",
+        "description": "Set di caratteri dei messaggi con MSH-18 vuoto o non riconosciuto, ad es. \"windows-1254\"; predefinito UTF-8"
+      },
+      "batchAcknowledgment": {
+        "label": "Conferma del batch",
+        "description": "Quali conferme inviare in risposta a un batch ricevuto: tutte, solo quelle dei messaggi non riusciti o nessuna"
+      }
+    }
+  },
+  "HL7Server": {
+    "displayName": "Server HL7",
+    "description": "Componente server HL7",
+    "summary": "Riceve messaggi HL7 v2 tramite MLLP e ne invia la conferma, con TLS, blocco degli indirizzi e middleware per gli handler.",
+    "variables": {
+      "port": {
+        "label": "Porta",
+        "description": "Numero di porta su cui restare in ascolto"
+      },
+      "bindInterface": {
+        "label": "Interfaccia di bind",
+        "description": "Indirizzo dell'interfaccia a cui associarsi; se non specificato, vengono usati tutti gli indirizzi disponibili"
+      },
+      "tls_enabled": {
+        "label": "TLS abilitato",
+        "description": "Indica se usare TLS per la connessione"
+      },
+      "tls": {
+        "label": "TLS",
+        "description": "Opzioni TLS"
+      },
+      "tls.cert": {
+        "label": "Certificato",
+        "description": "Catene di certificati in formato PEM, una per ogni chiave privata. Ogni catena è composta dal certificato PEM della chiave privata corrispondente, seguito nell'ordine dagli eventuali certificati intermedi in formato PEM, esclusa la CA radice (che il peer deve già conoscere, vedere ca). Se si forniscono più catene, non è necessario che seguano l'ordine delle chiavi private in key. Senza i certificati intermedi il peer non può convalidare il certificato e l'handshake non riesce."
+      },
+      "tls.key": {
+        "label": "Chiave",
+        "description": "Chiavi private in formato PEM. PEM consente di cifrare le chiavi private; le chiavi cifrate vengono decifrate con options.passphrase."
+      },
+      "tls.passphrase": {
+        "label": "Passphrase",
+        "description": "Passphrase condivisa usata per una singola chiave privata e/o un file PFX."
+      },
+      "tls.ca": {
+        "label": "Certificati CA",
+        "description": "Sostituisce, se impostato, i certificati CA attendibili. Per impostazione predefinita sono considerate attendibili le CA note gestite da Mozilla, che vengono interamente sostituite quando si specificano delle CA con questa opzione."
+      },
+      "tls.crl": {
+        "label": "CRL (elenchi di revoca dei certificati)",
+        "description": "CRL in formato PEM"
+      },
+      "tls.rejectUnauthorized": {
+        "label": "Rifiuta non autorizzati",
+        "description": "Se non è false, il server rifiuta qualsiasi connessione non autorizzata dall'elenco di CA fornito. Ha effetto solo se requestCert è true"
+      },
+      "tls.handshakeTimeout": {
+        "label": "Timeout dell'handshake",
+        "description": "Interrompe la connessione se l'handshake SSL/TLS non si completa entro il numero di millisecondi specificato."
+      },
+      "tls.requestCert": {
+        "label": "Richiedi certificato",
+        "description": "Se è true, il server richiede un certificato ai client che si connettono e tenta di verificarlo."
+      },
+      "tls.sessionTimeout": {
+        "label": "Timeout della sessione",
+        "description": "Numero di secondi dopo i quali una sessione TLS creata dal server non può più essere ripresa"
+      },
+      "tls.allowPartialTrustChain": {
+        "label": "Consenti catena di attendibilità parziale",
+        "description": "Considera attendibili i certificati intermedi (non autofirmati) presenti nell'elenco dei certificati CA attendibili."
+      },
+      "tls.sigalgs": {
+        "label": "Algoritmi di firma",
+        "description": "Elenco, separato da due punti, degli algoritmi di firma supportati. Può contenere algoritmi di digest (SHA256, MD5 ecc.), algoritmi a chiave pubblica (RSA-PSS, ECDSA ecc.), loro combinazioni (ad es. 'RSA+SHA384') o nomi di schemi TLS v1.3 (ad es. rsa_pss_pss_sha512). Per maggiori informazioni vedere le [pagine man di OpenSSL](https://docs.openssl.org/1.1.1/man3/SSL_CTX_set1_sigalgs)."
+      },
+      "socket": {
+        "label": "Socket",
+        "description": "Opzioni del socket"
+      },
+      "socket.allowHalfOpen": {
+        "label": "Consenti connessioni semiaperte",
+        "description": "Indica se sono consentite le connessioni TCP semiaperte."
+      },
+      "socket.keepAlive": {
+        "label": "Keep-alive",
+        "description": "Se è true, abilita il keep-alive sul socket non appena viene ricevuta una nuova connessione in ingresso"
+      },
+      "socket.keepAliveInitialDelay": {
+        "label": "Ritardo iniziale del keep-alive",
+        "description": "Se è un numero positivo, imposta il ritardo prima dell'invio della prima sonda keep-alive su un socket inattivo."
+      },
+      "socket.noDelay": {
+        "label": "Nessun ritardo",
+        "description": "Se è true, disattiva l'algoritmo di Nagle non appena viene ricevuta una nuova connessione in ingresso."
+      },
+      "socket.blockedIps": {
+        "label": "IP bloccati",
+        "description": "Elenco degli indirizzi IP bloccati. Non funziona se il server si trova dietro un reverse proxy, un NAT o simili, perché l'indirizzo confrontato con l'elenco è quello del proxy o quello assegnato dal NAT."
+      },
+      "socket.blockedSubnets": {
+        "label": "Subnet bloccate",
+        "description": "Elenco degli indirizzi di subnet bloccati. Non funziona se il server si trova dietro un reverse proxy, un NAT o simili, perché l'indirizzo confrontato con l'elenco è quello del proxy o quello assegnato dal NAT."
+      },
+      "responseTimeout": {
+        "label": "Timeout della risposta",
+        "description": "Tempo massimo, in millisecondi, per l'elaborazione di un messaggio; oltre questo limite il mittente riceve una conferma di errore"
+      },
+      "acceptAcknowledgment": {
+        "label": "Conferma di accettazione",
+        "description": "Quando inviare la conferma di accettazione richiesta dal messaggio (MSH-15). \"processed\": dopo l'elaborazione del messaggio (CA se riesce, CE se non riesce o scade il timeout), così il mittente sa che i dati sono stati salvati solo quando lo sono davvero. \"receipt\": appena il messaggio arriva, prima dell'elaborazione"
+      },
+      "validate": {
+        "label": "Convalida messaggi",
+        "description": "Convalida i messaggi ricevuti rispetto alle definizioni della loro versione HL7; un messaggio non valido riceve un NAK con l'elenco degli errori e non viene elaborato"
+      },
+      "defaultCharset": {
+        "label": "Set di caratteri predefinito",
+        "description": "Set di caratteri dei messaggi con MSH-18 vuoto o non riconosciuto, ad es. \"windows-1254\"; predefinito UTF-8"
+      },
+      "batchAcknowledgment": {
+        "label": "Conferma del batch",
+        "description": "Quali conferme inviare in risposta a un batch ricevuto: tutte, solo quelle dei messaggi non riusciti o nessuna"
+      }
+    }
+  }
+}
