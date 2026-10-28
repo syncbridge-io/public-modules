@@ -1,0 +1,61 @@
+{
+  "SerialPort": {
+    "displayName": "Puerto serie",
+    "description": "Componente de conexión por puerto serie",
+    "summary": "Abre un puerto serie, lo vuelve a abrir cuando el dispositivo regresa, y lee y escribe sus bytes.",
+    "variables": {
+      "port": {
+        "label": "Puerto",
+        "description": "Puerto o ruta del sistema del puerto serie que se abre. Por ejemplo, `/dev/tty.XXX` en Mac/Linux o `COM1` en Windows."
+      },
+      "baudRate": {
+        "label": "Velocidad en baudios",
+        "description": "Velocidad en baudios del puerto que se abre. Debe ser una de las habituales, como 110, 300, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 57600 o 115200. Las velocidades personalizadas se admiten en la medida en que lo permita cada plataforma. No se garantiza que el dispositivo conectado admita la velocidad solicitada, aunque el puerto sí la admita."
+      },
+      "dataBits": {
+        "label": "Bits de datos"
+      },
+      "stopBits": {
+        "label": "Bits de parada"
+      },
+      "parity": {
+        "label": "Paridad"
+      },
+      "rtscts": {
+        "label": "RTS/CTS",
+        "description": "Control de flujo RTS/CTS"
+      },
+      "xon": {
+        "label": "XON",
+        "description": "Control de flujo XON"
+      },
+      "xoff": {
+        "label": "XOFF",
+        "description": "Control de flujo XOFF"
+      },
+      "xany": {
+        "label": "XANY",
+        "description": "Control de flujo XANY"
+      },
+      "hupcl": {
+        "label": "HUPCL",
+        "description": "Si está activado, desactiva DTR al cerrar el puerto"
+      },
+      "reconnect": {
+        "label": "Opciones de reconexión",
+        "description": "Cómo se reintenta la conexión cuando falla o se pierde"
+      },
+      "reconnect.strategy": {
+        "label": "Estrategia de reconexión"
+      },
+      "reconnect.initialDelay": {
+        "label": "Retardo inicial",
+        "description": "Retardo inicial en milisegundos"
+      },
+      "reconnect.maxDelay": {
+        "label": "Retardo máximo",
+        "description": "Retardo máximo en milisegundos"
+      }
+    }
+  }
+}

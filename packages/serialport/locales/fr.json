@@ -1,0 +1,61 @@
+{
+  "SerialPort": {
+    "displayName": "Port série",
+    "description": "Composant de connexion par port série",
+    "summary": "Ouvre un port série, le rouvre lorsque l'appareil revient, et en lit et écrit les octets.",
+    "variables": {
+      "port": {
+        "label": "Port",
+        "description": "Port ou chemin système du port série à ouvrir. Par exemple `/dev/tty.XXX` sous Mac/Linux, ou `COM1` sous Windows"
+      },
+      "baudRate": {
+        "label": "Débit en bauds",
+        "description": "Débit en bauds du port à ouvrir. Il doit correspondre à l'un des débits courants, comme 110, 300, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 57600 ou 115200. Les débits personnalisés sont pris en charge au mieux selon la plateforme. Même si le port prend en charge le débit demandé, rien ne garantit que l'appareil connecté le prenne aussi en charge."
+      },
+      "dataBits": {
+        "label": "Bits de données"
+      },
+      "stopBits": {
+        "label": "Bits d'arrêt"
+      },
+      "parity": {
+        "label": "Contrôle de parité"
+      },
+      "rtscts": {
+        "label": "RTS/CTS",
+        "description": "Contrôle de flux RTS/CTS"
+      },
+      "xon": {
+        "label": "XON",
+        "description": "Contrôle de flux XON"
+      },
+      "xoff": {
+        "label": "XOFF",
+        "description": "Contrôle de flux XOFF"
+      },
+      "xany": {
+        "label": "XANY",
+        "description": "Contrôle de flux XANY"
+      },
+      "hupcl": {
+        "label": "HUPCL",
+        "description": "Abaisse le signal DTR à la fermeture si activé"
+      },
+      "reconnect": {
+        "label": "Options de reconnexion",
+        "description": "Manière dont la connexion est rétablie en cas d'échec ou de perte"
+      },
+      "reconnect.strategy": {
+        "label": "Stratégie de reconnexion"
+      },
+      "reconnect.initialDelay": {
+        "label": "Délai initial",
+        "description": "Délai initial, en millisecondes"
+      },
+      "reconnect.maxDelay": {
+        "label": "Délai maximal",
+        "description": "Délai maximal, en millisecondes"
+      }
+    }
+  }
+}

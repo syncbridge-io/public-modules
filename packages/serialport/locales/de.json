@@ -1,0 +1,61 @@
+{
+  "SerialPort": {
+    "displayName": "Serielle Schnittstelle",
+    "description": "Komponente für Verbindungen über die serielle Schnittstelle",
+    "summary": "Öffnet eine serielle Schnittstelle, öffnet sie erneut, wenn das Gerät zurückkehrt, und liest und schreibt ihre Bytes.",
+    "variables": {
+      "port": {
+        "label": "Port",
+        "description": "Port oder Systempfad der zu öffnenden seriellen Schnittstelle, z. B. `/dev/tty.XXX` unter Mac/Linux oder `COM1` unter Windows"
+      },
+      "baudRate": {
+        "label": "Baudrate",
+        "description": "Baudrate des zu öffnenden Ports. Sie sollte einer der gängigen Baudraten entsprechen, etwa 110, 300, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 57600 oder 115200. Benutzerdefinierte Raten werden je nach Plattform nach Möglichkeit unterstützt. Auch wenn der Port selbst die gewünschte Baudrate unterstützt, ist nicht garantiert, dass das angeschlossene Gerät sie ebenfalls unterstützt."
+      },
+      "dataBits": {
+        "label": "Datenbits"
+      },
+      "stopBits": {
+        "label": "Stoppbits"
+      },
+      "parity": {
+        "label": "Parität"
+      },
+      "rtscts": {
+        "label": "RTS/CTS",
+        "description": "RTS/CTS-Flusssteuerung"
+      },
+      "xon": {
+        "label": "XON",
+        "description": "XON-Flusssteuerung"
+      },
+      "xoff": {
+        "label": "XOFF",
+        "description": "XOFF-Flusssteuerung"
+      },
+      "xany": {
+        "label": "XANY",
+        "description": "XANY-Flusssteuerung"
+      },
+      "hupcl": {
+        "label": "HUPCL",
+        "description": "Wenn aktiviert, wird DTR beim Schließen zurückgesetzt"
+      },
+      "reconnect": {
+        "label": "Wiederverbindungsoptionen",
+        "description": "Wie die Verbindung bei einem Fehler oder Verbindungsverlust erneut aufgebaut wird"
+      },
+      "reconnect.strategy": {
+        "label": "Wiederverbindungsstrategie"
+      },
+      "reconnect.initialDelay": {
+        "label": "Anfangsverzögerung",
+        "description": "Anfangsverzögerung in Millisekunden"
+      },
+      "reconnect.maxDelay": {
+        "label": "Maximale Verzögerung",
+        "description": "Maximale Verzögerung in Millisekunden"
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "SerialPort": {
+    "displayName": "Porta seriale",
+    "description": "Componente di connessione su porta seriale",
+    "summary": "Apre una porta seriale, la riapre quando il dispositivo torna disponibile, e ne legge e scrive i byte.",
+    "variables": {
+      "port": {
+        "label": "Porta",
+        "description": "Porta o percorso di sistema della porta seriale da aprire, ad esempio `/dev/tty.XXX` su Mac/Linux o `COM1` su Windows"
+      },
+      "baudRate": {
+        "label": "Baud rate",
+        "description": "Baud rate della porta da aprire. Dovrebbe corrispondere a uno dei valori più comuni, come 110, 300, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 57600 o 115200. I valori personalizzati sono supportati nei limiti di ciascuna piattaforma. Non è garantito che il dispositivo collegato supporti il baud rate richiesto, anche se la porta lo supporta."
+      },
+      "dataBits": {
+        "label": "Bit di dati"
+      },
+      "stopBits": {
+        "label": "Bit di stop"
+      },
+      "parity": {
+        "label": "Parità"
+      },
+      "rtscts": {
+        "label": "RTS/CTS",
+        "description": "Controllo di flusso RTS/CTS"
+      },
+      "xon": {
+        "label": "XON",
+        "description": "Controllo di flusso XON"
+      },
+      "xoff": {
+        "label": "XOFF",
+        "description": "Controllo di flusso XOFF"
+      },
+      "xany": {
+        "label": "XANY",
+        "description": "Controllo di flusso XANY"
+      },
+      "hupcl": {
+        "label": "HUPCL",
+        "description": "Se abilitato, disattiva il segnale DTR alla chiusura"
+      },
+      "reconnect": {
+        "label": "Opzioni di riconnessione",
+        "description": "Come viene ritentata la connessione quando non riesce o si interrompe"
+      },
+      "reconnect.strategy": {
+        "label": "Strategia di riconnessione"
+      },
+      "reconnect.initialDelay": {
+        "label": "Ritardo iniziale",
+        "description": "Ritardo iniziale in millisecondi"
+      },
+      "reconnect.maxDelay": {
+        "label": "Ritardo massimo",
+        "description": "Ritardo massimo in millisecondi"
+      }
+    }
+  }
+}

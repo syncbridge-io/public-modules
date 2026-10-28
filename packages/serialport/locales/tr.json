@@ -1,0 +1,61 @@
+{
+  "SerialPort": {
+    "displayName": "Seri Port",
+    "description": "Seri port bağlantı bileşeni",
+    "summary": "Bir seri portu açar, cihaz geri geldiğinde yeniden açar ve baytlarını okuyup yazar.",
+    "variables": {
+      "port": {
+        "label": "Port",
+        "description": "Açılacak seri portun adı veya sistem yolu. Örneğin Mac/Linux'ta `/dev/tty.XXX`, Windows'ta `COM1`"
+      },
+      "baudRate": {
+        "label": "Baud hızı",
+        "description": "Açılacak portun baud hızı. 110, 300, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 57600 veya 115200 gibi yaygın baud hızlarından biri olmalıdır. Özel hızlar, platformun olanakları ölçüsünde desteklenir. Port istenen baud hızını desteklese bile seri porta bağlı cihazın bu hızı desteklediği garanti edilmez."
+      },
+      "dataBits": {
+        "label": "Veri bitleri"
+      },
+      "stopBits": {
+        "label": "Durdurma bitleri"
+      },
+      "parity": {
+        "label": "Eşlik (parity)"
+      },
+      "rtscts": {
+        "label": "RTS/CTS",
+        "description": "RTS/CTS akış kontrolü"
+      },
+      "xon": {
+        "label": "XON",
+        "description": "XON akış kontrolü"
+      },
+      "xoff": {
+        "label": "XOFF",
+        "description": "XOFF akış kontrolü"
+      },
+      "xany": {
+        "label": "XANY",
+        "description": "XANY akış kontrolü"
+      },
+      "hupcl": {
+        "label": "HUPCL",
+        "description": "Etkinse port kapatılırken DTR sinyali düşürülür"
+      },
+      "reconnect": {
+        "label": "Yeniden bağlanma seçenekleri",
+        "description": "Bağlantı kurulamadığında veya koptuğunda nasıl yeniden deneneceği"
+      },
+      "reconnect.strategy": {
+        "label": "Yeniden bağlanma stratejisi"
+      },
+      "reconnect.initialDelay": {
+        "label": "İlk gecikme",
+        "description": "İlk gecikme (milisaniye)"
+      },
+      "reconnect.maxDelay": {
+        "label": "En fazla gecikme",
+        "description": "En fazla gecikme (milisaniye)"
+      }
+    }
+  }
+}

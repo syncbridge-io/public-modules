@@ -1,0 +1,61 @@
+{
+  "SerialPort": {
+    "displayName": "Porta serial",
+    "description": "Componente de conexão por porta serial",
+    "summary": "Abre uma porta serial, reabre-a quando o dispositivo volta e lê e escreve seus bytes.",
+    "variables": {
+      "port": {
+        "label": "Porta",
+        "description": "A porta ou o caminho no sistema da porta serial a abrir. Por exemplo, `/dev/tty.XXX` no Mac/Linux ou `COM1` no Windows"
+      },
+      "baudRate": {
+        "label": "Taxa de baud",
+        "description": "Taxa de baud da porta a abrir. Deve corresponder a uma das taxas mais comuns, como 110, 300, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 57600 ou 115200. Taxas personalizadas são suportadas na medida do possível, conforme a plataforma. Não há garantia de que o dispositivo conectado à porta serial suporte a taxa solicitada, mesmo que a própria porta a suporte."
+      },
+      "dataBits": {
+        "label": "Bits de dados"
+      },
+      "stopBits": {
+        "label": "Bits de parada"
+      },
+      "parity": {
+        "label": "Paridade"
+      },
+      "rtscts": {
+        "label": "RTS/CTS",
+        "description": "Controle de fluxo RTS/CTS"
+      },
+      "xon": {
+        "label": "XON",
+        "description": "Controle de fluxo XON"
+      },
+      "xoff": {
+        "label": "XOFF",
+        "description": "Controle de fluxo XOFF"
+      },
+      "xany": {
+        "label": "XANY",
+        "description": "Controle de fluxo XANY"
+      },
+      "hupcl": {
+        "label": "HUPCL",
+        "description": "Se ativado, desativa o sinal DTR ao fechar a porta"
+      },
+      "reconnect": {
+        "label": "Opções de reconexão",
+        "description": "Como a conexão é restabelecida quando falha ou é perdida"
+      },
+      "reconnect.strategy": {
+        "label": "Estratégia de reconexão"
+      },
+      "reconnect.initialDelay": {
+        "label": "Atraso inicial",
+        "description": "Atraso inicial, em milissegundos"
+      },
+      "reconnect.maxDelay": {
+        "label": "Atraso máximo",
+        "description": "Atraso máximo, em milissegundos"
+      }
+    }
+  }
+}
