@@ -49,6 +49,6 @@ jobs:
         run: |
           rman check
           rman lint
-          npx tsc -b tsconfig-test.json --noEmit
+          pnpm exec tsc -b tsconfig-test.json --noEmit
           rman build
           rman run test

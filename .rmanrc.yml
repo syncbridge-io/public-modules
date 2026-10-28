@@ -27,10 +27,10 @@ changelog:
       # Packed, installed as the engine does and its classes loaded in a worker:
       # what a test in the project cannot catch (an undeclared dependency, a
       # missing worker permission)
-      before: npx spm verify
+      before: pnpm exec spm verify
   publish:
     target: [spm]
     spm:
       access: public
       # The same, right before spm publishes it, for the modules being released
-      before: npx spm verify
+      before: pnpm exec spm verify
