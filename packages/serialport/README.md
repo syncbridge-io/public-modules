@@ -22,7 +22,7 @@ It needs `@syncbridge/common`, which the engine provides, and
 `@serialport/bindings-interface`, `reconnect-core`, `putil-varhelpers` and
 `ansi-colors` are installed with it. `serialport` needs a prebuilt binary
 for the platform or a build toolchain; see
-[Device setup](https://github.com/syncbridge-io/public-modules/blob/main/packages/serialport/docs/SerialPort/device-setup.md).
+[Device setup](https://github.com/syncbridge-io/syncbridge-extensions/blob/main/packages/serialport/docs/SerialPort/device-setup.md).
 
 ## Example
 
@@ -46,4 +46,4 @@ export class SerialEchoApp extends AppBase {
 
 ## Documentation
 
-[docs](https://github.com/syncbridge-io/public-modules/tree/main/packages/serialport/docs)
+[docs](https://github.com/syncbridge-io/syncbridge-extensions/tree/main/packages/serialport/docs)

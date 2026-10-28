@@ -21,7 +21,7 @@ It needs `@syncbridge/common`, which the engine provides, and
 `@syncbridge/builtins`. `@ngrok/ngrok` (the ngrok agent SDK, 1.x, with
 native bindings), `@jsopen/objects`, `fast-tokenizer` and `ansi-colors` are
 installed with it. You also need an ngrok account and an auth token, see
-the [component page](https://github.com/syncbridge-io/public-modules/blob/main/packages/ngrok/docs/NgrokTcpClient/README.md).
+the [component page](https://github.com/syncbridge-io/syncbridge-extensions/blob/main/packages/ngrok/docs/NgrokTcpClient/README.md).
 
 ## Example
 
@@ -43,4 +43,4 @@ export class TunnelEchoApp extends AppBase {
 
 ## Documentation
 
-[docs](https://github.com/syncbridge-io/public-modules/tree/main/packages/ngrok/docs)
+[docs](https://github.com/syncbridge-io/syncbridge-extensions/tree/main/packages/ngrok/docs)

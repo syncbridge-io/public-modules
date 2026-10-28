@@ -3,14 +3,14 @@
   "version": "2.0.1",
   "description": "SyncBridge Pinggy component",
   "author": "Panates Technology AS <info@panates.com> (https://www.panates.com)",
-  "homepage": "https://github.com/syncbridge-io/public-modules/tree/main/packages/pinggy#readme",
+  "homepage": "https://github.com/syncbridge-io/syncbridge-extensions/tree/main/packages/pinggy#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/syncbridge-io/public-modules.git",
+    "url": "git+https://github.com/syncbridge-io/syncbridge-extensions.git",
     "directory": "packages/pinggy"
   },
   "bugs": {
-    "url": "https://github.com/syncbridge-io/public-modules/issues"
+    "url": "https://github.com/syncbridge-io/syncbridge-extensions/issues"
   },
   "license": "Apache-2.0",
   "private": true,

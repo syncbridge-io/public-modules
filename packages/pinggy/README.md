@@ -20,7 +20,7 @@ the 1.0.x versions on npm are old and no longer updated.
 It needs `@syncbridge/common`, which the engine provides, and
 `@syncbridge/builtins`. `@pinggy/pinggy` (the Pinggy SDK, 0.5.x),
 `@jsopen/objects` and `ansi-colors` are installed with it. You also need a
-Pinggy auth token, see the [component page](https://github.com/syncbridge-io/public-modules/blob/main/packages/pinggy/docs/PinggyTcpClient/README.md).
+Pinggy auth token, see the [component page](https://github.com/syncbridge-io/syncbridge-extensions/blob/main/packages/pinggy/docs/PinggyTcpClient/README.md).
 
 ## Example
 
@@ -42,4 +42,4 @@ export class TunnelEchoApp extends AppBase {
 
 ## Documentation
 
-[docs](https://github.com/syncbridge-io/public-modules/tree/main/packages/pinggy/docs)
+[docs](https://github.com/syncbridge-io/syncbridge-extensions/tree/main/packages/pinggy/docs)

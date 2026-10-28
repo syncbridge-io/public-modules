@@ -7,7 +7,7 @@
   "packageManager": "pnpm@12.10.1",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/syncbridge-io/public-modules.git"
+    "url": "git+https://github.com/syncbridge-io/syncbridge-extensions.git"
   },
   "scripts": {
     "build": "rman build",

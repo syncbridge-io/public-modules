@@ -23,7 +23,7 @@ It needs `@syncbridge/common`, which the engine provides. `@sqb/builder`,
 `ansi-colors` are installed with it. The component imports both database
 drivers when it loads, so `oracledb` is needed even for a PostgreSQL-only
 setup. Oracle's native client is optional, see
-[Database drivers](https://github.com/syncbridge-io/public-modules/blob/main/packages/sqb/docs/SqbClient/drivers.md).
+[Database drivers](https://github.com/syncbridge-io/syncbridge-extensions/blob/main/packages/sqb/docs/SqbClient/drivers.md).
 
 ## Example
 
@@ -45,4 +45,4 @@ export class OrdersApp extends AppBase {
 
 ## Documentation
 
-[docs](https://github.com/syncbridge-io/public-modules/tree/main/packages/sqb/docs)
+[docs](https://github.com/syncbridge-io/syncbridge-extensions/tree/main/packages/sqb/docs)

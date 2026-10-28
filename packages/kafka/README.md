@@ -48,4 +48,4 @@ export class OrderCopyApp extends AppBase {
 
 ## Documentation
 
-https://github.com/syncbridge-io/public-modules/tree/main/packages/kafka/docs
+https://github.com/syncbridge-io/syncbridge-extensions/tree/main/packages/kafka/docs

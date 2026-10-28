@@ -211,10 +211,11 @@ install, a short example, link to its docs.
   `_fixtures/echo-ext` / `serial-ext`. They are also the example of how to
   test a module with `@syncbridge/testing` (import it before the module
   under test).
-- Not done yet: this repository as a trusted publisher in Console (and the
-  organization owning the `@syncbridge` scope), deprecating the old npm
-  versions, making the GitHub repository public. The repository is at
-  `github.com/syncbridge-io/public-modules`.
+- The repository is public, at `github.com/syncbridge-io/syncbridge-extensions`
+  (renamed from `public-modules` on 2026-10-28; this directory keeps the old
+  name, see "The platform"). The registry's trusted publisher matches the
+  repository by name: it has to name `syncbridge-extensions` for a release to
+  publish. Not done yet: deprecating the old npm versions.
 
 ## graphify
 
