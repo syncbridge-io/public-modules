@@ -14,7 +14,7 @@ channel. It has no settings and cannot be added to an app by itself.
 The class is `IoClientBaseComponent`. Its registered class name is
 `IoClient`, and it is declared `abstract`.
 
-[`IOBridgeApp`](../IOBridgeApp/README.md) types its peers as
+[`IOBridge`](../IOBridge/README.md) types its peers as
 `IoClientBaseComponent`, so any component built on it can be bridged.
 
 ## Variables

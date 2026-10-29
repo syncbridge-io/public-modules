@@ -351,8 +351,8 @@
       }
     }
   },
-  "IOBridgeApp": {
-    "displayName": "IOBridgeApp",
+  "IOBridge": {
+    "displayName": "IO Bridge",
     "description": "İki IO ucu arasında köprü kurar",
     "summary": "İki IO ucunu birbirine bağlar: birinden okunanı diğerine yazar, örneğin bir seri portu bir TCP soketine."
   }

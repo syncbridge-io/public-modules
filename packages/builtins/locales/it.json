@@ -351,8 +351,8 @@
       }
     }
   },
-  "IOBridgeApp": {
-    "displayName": "IOBridgeApp",
+  "IOBridge": {
+    "displayName": "IO Bridge",
     "description": "Crea un ponte tra due peer di I/O",
     "summary": "Collega due peer IO: ciò che uno legge viene scritto sull'altro, ad esempio una porta seriale verso un socket TCP."
   }

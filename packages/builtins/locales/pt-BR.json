@@ -351,8 +351,8 @@
       }
     }
   },
-  "IOBridgeApp": {
-    "displayName": "IOBridgeApp",
+  "IOBridge": {
+    "displayName": "IO Bridge",
     "description": "Cria uma ponte entre dois pares de E/S",
     "summary": "Conecta dois pares de E/S: o que um lê é escrito no outro, por exemplo uma porta serial a um socket TCP."
   }

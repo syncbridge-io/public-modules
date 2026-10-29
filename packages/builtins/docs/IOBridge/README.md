@@ -1,11 +1,13 @@
-# IOBridgeApp
+# IOBridge
 
-`IOBridgeApp` connects two IO peers: what one peer reads, it writes to the
+`IOBridge` connects two IO peers: what one peer reads, it writes to the
 other. Use it to join two devices or two networks that speak the same
 bytes, for example a serial port and a TCP socket, or a TCP client and a UDP
 client.
 
-The app is registered under its class name, `IOBridgeApp`.
+The app is registered as `IOBridge`; its class in code is `IOBridgeApp`.
+Versions before 2.1 registered it as `IOBridgeApp`: workers set up with that
+name are carried over to the new one.
 
 ## Components
 

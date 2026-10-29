@@ -351,8 +351,8 @@
       }
     }
   },
-  "IOBridgeApp": {
-    "displayName": "IOBridgeApp",
+  "IOBridge": {
+    "displayName": "IO Bridge",
     "description": "Crée un pont entre deux pairs d'E/S",
     "summary": "Relie deux pairs IO : ce que l'un lit est écrit vers l'autre, par exemple un port série vers un socket TCP."
   }

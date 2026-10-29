@@ -5,7 +5,7 @@ other modules build on (the HL7, serial port and tunnel modules extend them),
 the network components that need nothing outside Node.js - TCP and UDP clients
 and servers, and an HTTP server - and an app that bridges two IO peers. The
 network components write their traffic to the `communication` log channel
-and work with the `IOBridgeApp` app.
+and work with the `IOBridge` app.
 
 ## What it brings
 
@@ -13,7 +13,7 @@ and work with the `IOBridgeApp` app.
 | ------------- | ------------------- | ---------------------------------------------------------------------------------------------------- |
 | `IoClient`    | abstract component  | Base of components that connect to a peer. Writes its traffic to the `communication` log channel.    |
 | `IoServer`    | abstract component  | Base of components that accept connections. Writes its traffic to the `communication` log channel.   |
-| `IOBridgeApp` | app                 | Passes what one IO peer reads to the other peer, in both directions.                                 |
+| `IOBridge`    | app                 | Passes what one IO peer reads to the other peer, in both directions.                                 |
 | `TcpClient`   | component           | Connects to a TCP server, with reconnection, TLS and a SOCKS proxy.                                  |
 | `TcpServer`   | component           | Listens for TCP connections, with TLS, socket options and an IP block list.                          |
 | `UdpClient`   | component           | Sends and receives UDP datagrams, to one host or to any.                                             |

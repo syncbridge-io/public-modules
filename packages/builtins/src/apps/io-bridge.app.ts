@@ -2,6 +2,9 @@ import { App, AppBase } from '@syncbridge/common';
 import { IoClientBaseComponent } from '../components.js';
 
 @App({
+  className: 'IOBridge',
+  formerly: 'IOBridgeApp',
+  displayName: 'IO Bridge',
   description: 'Create a bridge between two IO peers',
   summary:
     'Connects two IO peers: what one reads, it writes to the other, for example a serial port to a TCP socket.',

@@ -351,8 +351,8 @@
       }
     }
   },
-  "IOBridgeApp": {
-    "displayName": "IOBridgeApp",
+  "IOBridge": {
+    "displayName": "IO Bridge",
     "description": "Erstellt eine Brücke zwischen zwei IO-Gegenstellen",
     "summary": "Verbindet zwei IO-Gegenstellen: Was die eine liest, schreibt sie in die andere, zum Beispiel eine serielle Schnittstelle in einen TCP-Socket."
   }
