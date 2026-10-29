@@ -6,6 +6,9 @@ describe('downloadUrlOf', () => {
     expect(downloadUrlOf('23.9.0.25.07', 'x64')).toBe(
       'https://download.oracle.com/otn_software/linux/instantclient/2390000/instantclient-basic-linux.x64-23.9.0.25.07.zip',
     );
+    expect(downloadUrlOf('23.26.4.0.0', 'x64')).toBe(
+      'https://download.oracle.com/otn_software/linux/instantclient/2326400/instantclient-basic-linux.x64-23.26.4.0.0.zip',
+    );
     expect(downloadUrlOf('23.9.0.25.07', 'arm64')).toBe(
       'https://download.oracle.com/otn_software/linux/instantclient/2390000/instantclient-basic-linux.arm64-23.9.0.25.07.zip',
     );
@@ -14,6 +17,9 @@ describe('downloadUrlOf', () => {
   it('should keep the dbru suffix of 21 and earlier', () => {
     expect(downloadUrlOf('21.13.0.0.0', 'x64')).toBe(
       'https://download.oracle.com/otn_software/linux/instantclient/2113000/instantclient-basic-linux.x64-21.13.0.0.0dbru.zip',
+    );
+    expect(downloadUrlOf('19.33.0.0.0', 'x64')).toBe(
+      'https://download.oracle.com/otn_software/linux/instantclient/1933000/instantclient-basic-linux.x64-19.33.0.0.0dbru.zip',
     );
   });
 
