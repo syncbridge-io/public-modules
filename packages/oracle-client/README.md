@@ -48,4 +48,4 @@ does not reach Oracle, and **Remove**.
 
 ## Documentation
 
-[docs](https://github.com/syncbridge-io/public-modules/tree/main/packages/oracle-client/docs)
+[docs](https://github.com/syncbridge-io/syncbridge-extensions/tree/main/packages/oracle-client/docs)
