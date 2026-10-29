@@ -57,24 +57,20 @@ client, and the engine keeps the record of who accepted it.
 To answer it again - a new license version, or a decline you want to take
 back - run **Install now**, which asks it anew.
 
-## Settings
-
-| Setting       | Label            | What it does                                                                                                                            | Default         |
-| ------------- | ---------------- | --------------------------------------------------------------------------------------------------------------------------------------- | --------------- |
-| `version`     | Version          | The version to install, as Oracle names its download. It is what the status tells and what the default address is built from            | `23.9.0.25.07`  |
-| `downloadUrl` | Download address | Where the Basic package is downloaded from. Empty, Oracle's own address for the server's architecture; `{version}` and `{arch}` are replaced in one that is given | Oracle's        |
-| `sha256`      | SHA-256          | The checksum Oracle publishes beside the download. Given, a download that does not match it is refused                                  | none            |
+## Download address
 
 Oracle moves its download addresses between versions. A server that fails to
 download takes the current address from Oracle's download page and puts it in
-`downloadUrl`.
+the Download address setting, with `{version}` and `{arch}` (`x64` or
+`arm64`) where they belong. The plugin is granted the network to
+`download.oracle.com` only, so an address on another host is refused.
 
 ## Actions
 
 | Action              | What it does                                                                                          |
 | ------------------- | ----------------------------------------------------------------------------------------------------- |
 | `install`           | Downloads the client again from the address in the settings, and asks Oracle's license again first     |
-| `from-file`         | Installs a zip that is already on the server, by its path, or from another address - see [installing without reaching Oracle](installing-without-oracle.md) |
+| `from-file`         | Installs a zip that is already on the server, by its path - see [installing without reaching Oracle](installing-without-oracle.md) |
 | `remove`            | Deletes the client and takes it back from the workers' environment. They keep it until they restart    |
 
 Only an admin with the settings permission runs them, and the engine's log
@@ -94,4 +90,4 @@ Alma, Rocky) and restart the server.
 The plugin never reads or writes a worker's data, and nothing of it runs in
 the browser: its card, its question and its buttons are drawn by SyncBridge.
 Uploading the zip through the browser is not available yet; `from-file` takes
-a path on the server or an address.
+a path on the server.

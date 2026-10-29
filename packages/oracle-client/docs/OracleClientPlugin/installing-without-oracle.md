@@ -22,15 +22,13 @@ takes the package from somewhere you can reach.
 The plugin checks the zip, unpacks it and gives it to the workers as it does
 with its own download. Nothing leaves the server.
 
-## From another address
+## Not from another address
 
-Give **Install from file** an `http(s)` address instead of a path - an
-internal artifact store, say. The plugin downloads from there and reports its
-progress as it does for Oracle's address.
-
-When every server takes the package from that address, put it in the
-`downloadUrl` setting instead: the plugin then uses it on its own, and
-**Install now** works unattended.
+**Install from file** also takes an `http(s)` address, and the Download
+address setting can name one, but the plugin is granted the network to
+`download.oracle.com` alone: the engine refuses a download from any other
+host, an internal artifact store included. Copy the zip to the server
+instead.
 
 ## The license still has to be accepted
 

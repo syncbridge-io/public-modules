@@ -21,24 +21,14 @@ who accepts that license.
 ## Install
 
 On a SyncBridge server, install the package from Console, then turn the
-plugin on under Settings → Plugins and restart the server. The Marketplace
-does not list plugins.
+plugin on under Settings → Plugins, restart the server and approve the
+plugin's permissions on its card. The package is published to the SyncBridge
+registry, not to npm. The Marketplace does not list plugins.
 
-```bash
-npm install @syncbridge/oracle-client
-```
-
-Peer dependencies: `@syncbridge/common` and `@syncbridge/plugin-api`, both
-provided by the engine. `libaio` belongs to the server - the Docker image
-carries it, the Linux package depends on it - and the plugin says so when it
-is missing.
-
-## Settings
-
-Under `plugins.oracle-client.settings`: the `version` to install, the
-`downloadUrl` to take it from (left empty, Oracle's own address for the
-server's architecture) and an optional `sha256` to check the download
-against.
+It needs a SyncBridge built on `@syncbridge/plugin-api` 2.2 or newer; that
+and `@syncbridge/common` are peer dependencies, provided by the engine.
+`libaio` belongs to the server - the Docker image carries it, the Linux
+package depends on it - and the plugin says so when it is missing.
 
 ## Actions
 
