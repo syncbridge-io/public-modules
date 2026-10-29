@@ -87,6 +87,14 @@
         "label": "Sentinel'ler",
         "description": "Bağlanılacak Sentinel'ler"
       },
+      "sentinelUsername": {
+        "label": "Sentinel kullanıcı adı",
+        "description": "Belirtilirse istemci bir sentinel'e bağlandığında AUTH komutunu, ilk argüman olarak bu değerle gönderir. Redis 6'dan itibaren desteklenir."
+      },
+      "sentinelPassword": {
+        "label": "Sentinel şifresi",
+        "description": "Belirtilirse istemci bir sentinel'e bağlandığında AUTH komutunu bu değerle gönderir."
+      },
       "sentinels.host": {
         "label": "Sunucu adresi",
         "description": "Bağlanılacak ana makine adı veya IP adresi"

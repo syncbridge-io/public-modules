@@ -87,6 +87,14 @@
         "label": "Sentinel",
         "description": "Istanze Sentinel a cui connettersi"
       },
+      "sentinelUsername": {
+        "label": "Nome utente Sentinel",
+        "description": "Se impostato, il client invia il comando AUTH con questo valore come primo argomento dopo la connessione a un sentinel. Supportato da Redis 6."
+      },
+      "sentinelPassword": {
+        "label": "Password Sentinel",
+        "description": "Se impostata, il client invia il comando AUTH con questo valore dopo la connessione a un sentinel."
+      },
       "sentinels.host": {
         "label": "Host",
         "description": "Nome host o indirizzo IP a cui connettersi"

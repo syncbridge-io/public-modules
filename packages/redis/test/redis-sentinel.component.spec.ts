@@ -53,6 +53,31 @@ describe('RedisSentinelComponent', () => {
     expect(records.map(r => r.event)).toEqual(['connect']);
   });
 
+  it('should log in to the sentinel with its own user name and password', async () => {
+    await component.stop();
+    component = new RedisSentinelComponent({
+      app: {} as any,
+      parent: {} as any,
+      name: 'redis',
+      path: 'redis',
+      values: {
+        name: 'mymaster',
+        sentinels: [{ host: '127.0.0.1', port: sentinel.port }],
+        password: 'secret',
+        sentinelUsername: 'watcher',
+        sentinelPassword: 'sentinel-secret',
+      },
+    });
+    await component.init();
+    await component.start();
+    /* ioredis sends them with HELLO: HELLO 3 AUTH watcher sentinel-secret */
+    const login = sentinel.commands.find(c => c.includes('sentinel-secret'));
+    expect(login?.slice(-3)).toEqual(['AUTH', 'watcher', 'sentinel-secret']);
+    expect(master.commands.some(c => c.includes('sentinel-secret'))).toBe(
+      false,
+    );
+  });
+
   it('should quit when stopped', async () => {
     await component.start();
     await component.stop();

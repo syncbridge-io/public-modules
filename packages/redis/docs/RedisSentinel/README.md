@@ -74,5 +74,6 @@ export class EventsApp extends AppBase {
   settings of that moment. A change made later does not reach the open client.
 - A setting left empty is not passed to the client: ioredis applies its own
   default.
-- The Password and Username settings are sent to the master. The settings for
-  authenticating to the sentinels themselves are not exposed.
+- The Password and Username settings are sent to the master; Sentinel
+  Password and Sentinel Username to the sentinels, which may require their
+  own.

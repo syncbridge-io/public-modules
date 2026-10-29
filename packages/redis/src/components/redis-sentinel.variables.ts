@@ -41,6 +41,7 @@ export class RedisSentinelVariables extends CommonRedisVariables {
     label: 'Username',
     description:
       'If set, client will send AUTH command with the value of this option as the first argument when connected. This is supported since Redis 6.',
+    index: 100,
   })
   declare username?: string;
 
@@ -63,6 +64,23 @@ export class RedisSentinelVariables extends CommonRedisVariables {
     variables: Address,
   })
   declare sentinels: Address[];
+
+  @DefineVariable({
+    label: 'Sentinel Username',
+    description:
+      'If set, client will send AUTH command with the value of this option as the first argument when connected to a sentinel. This is supported since Redis 6.',
+    index: 100,
+  })
+  declare sentinelUsername?: string;
+
+  @DefineVariable({
+    label: 'Sentinel Password',
+    description:
+      'If set, client will send AUTH command with the value of this option when connected to a sentinel.',
+    index: 100,
+    type: VariableType.Secret,
+  })
+  declare sentinelPassword?: string;
 
   @DefineVariable({
     label: 'Sentinel TLS Enabled',

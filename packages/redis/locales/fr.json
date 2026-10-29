@@ -87,6 +87,14 @@
         "label": "Sentinels",
         "description": "Sentinels auxquels se connecter"
       },
+      "sentinelUsername": {
+        "label": "Nom d'utilisateur Sentinel",
+        "description": "Si défini, le client envoie la commande AUTH avec cette valeur comme premier argument une fois connecté à un sentinel. Pris en charge depuis Redis 6."
+      },
+      "sentinelPassword": {
+        "label": "Mot de passe Sentinel",
+        "description": "Si défini, le client envoie la commande AUTH avec cette valeur une fois connecté à un sentinel."
+      },
       "sentinels.host": {
         "label": "Hôte",
         "description": "Nom d'hôte ou adresse IP auquel se connecter"

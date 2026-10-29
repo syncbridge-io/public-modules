@@ -87,6 +87,14 @@
         "label": "Sentinels",
         "description": "Sentinels, zu denen die Verbindung hergestellt wird"
       },
+      "sentinelUsername": {
+        "label": "Sentinel-Benutzername",
+        "description": "Wenn gesetzt, sendet der Client nach dem Verbindungsaufbau zu einem Sentinel den Befehl AUTH mit diesem Wert als erstem Argument. Wird ab Redis 6 unterstützt."
+      },
+      "sentinelPassword": {
+        "label": "Sentinel-Passwort",
+        "description": "Wenn gesetzt, sendet der Client nach dem Verbindungsaufbau zu einem Sentinel den Befehl AUTH mit diesem Wert."
+      },
       "sentinels.host": {
         "label": "Host",
         "description": "Hostname oder IP-Adresse, zu der die Verbindung hergestellt wird"
