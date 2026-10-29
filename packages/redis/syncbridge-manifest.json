@@ -1,3 +1,6 @@
 {
-  "name": "@syncbridge/redis"
+  "name": "@syncbridge/redis",
+  "dependencies": {
+    "@syncbridge/builtins": "^2.0.1"
+  }
 }

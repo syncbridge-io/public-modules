@@ -1,3 +1,6 @@
 {
-  "name": "@syncbridge/pinggy"
+  "name": "@syncbridge/pinggy",
+  "dependencies": {
+    "@syncbridge/builtins": "^2.0.1"
+  }
 }

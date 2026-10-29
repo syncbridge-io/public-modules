@@ -40,9 +40,11 @@ Console, registry), `syncbridge-io/syncbridge`, at
   rman does not read `pnpm-workspace.yaml`, finds no packages and succeeds
   over none, and `pnpm build` then runs itself without end; `tsconfig-base.json`,
   `tsconfig-build.json`, `tsconfig-test.json`, `.mocharc.cjs`.
-- Modules depend on each other as **npm peer dependencies**
-  (`@syncbridge/hl7` peers `@syncbridge/builtins`),
-  and on `@syncbridge/common` as a peer: the engine provides it.
+- Modules depend on each other as **registry dependencies**, in the
+  manifest's `dependencies` (`syncbridge-manifest.json`, written by
+  `spm add @syncbridge/builtins@^2.0.1`), so a server installs from the
+  registry a newer version a module needs; and on `@syncbridge/common` as an
+  npm peer: the engine provides it.
 
 ## The platform
 
@@ -139,9 +141,9 @@ Definition of done for a code change: `pnpm test`, `rman lint`,
 - A worker loads only its app's and components' code: keep modules free of
   side effects at import time.
 - npm packages a module's code imports at run time go in
-  `peerDependencies` when the engine or another module provides them
-  (`@syncbridge/common`, another `@syncbridge/*` module), otherwise in
-  `dependencies`. `spm verify` catches an undeclared one.
+  `peerDependencies` when the engine provides them (`@syncbridge/common`,
+  `@syncbridge/plugin-api`), in the manifest's `dependencies` (`spm add`)
+  when another module does, otherwise in `dependencies`. `spm verify` catches an undeclared one.
 - Terminology: "app" (never "applet"), "module", "component"; SyncBridge
   itself is "the engine".
 

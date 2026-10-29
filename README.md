@@ -38,7 +38,8 @@ The modules here show how:
   [`packages/builtins/src/components`](packages/builtins/src/components). Its values
   (settings) are a class of their own beside it (`*.variables.ts`).
 - **A component built on another module's**: [`@syncbridge/hl7`](packages/hl7)
-  builds on `@syncbridge/builtins`, taking it as a peer dependency.
+  builds on `@syncbridge/builtins`, declared in its manifest's `dependencies`
+  (`spm add`), so a server installs the version it needs from the registry.
 - **An app** - what a worker runs, made of components: see
   [`packages/builtins/src/apps`](packages/builtins/src/apps).
 - **Tests** that start a component and talk to it: see
