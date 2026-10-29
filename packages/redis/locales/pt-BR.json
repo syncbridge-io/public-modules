@@ -22,7 +22,7 @@
       },
       "noDelay": {
         "label": "Sem atraso",
-        "description": "Ativa ou desativa o algoritmo de Nagle"
+        "description": "Se ativado, o algoritmo de Nagle é desativado e os dados são enviados sem atraso"
       },
       "connectionName": {
         "label": "Nome da conexão",
@@ -151,7 +151,7 @@
       },
       "noDelay": {
         "label": "Sem atraso",
-        "description": "Ativa ou desativa o algoritmo de Nagle"
+        "description": "Se ativado, o algoritmo de Nagle é desativado e os dados são enviados sem atraso"
       },
       "connectionName": {
         "label": "Nome da conexão",

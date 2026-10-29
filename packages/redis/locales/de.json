@@ -22,7 +22,7 @@
       },
       "noDelay": {
         "label": "Keine Verzögerung",
-        "description": "Aktiviert/deaktiviert den Nagle-Algorithmus"
+        "description": "Wenn aktiviert, wird der Nagle-Algorithmus deaktiviert, sodass Daten ohne Verzögerung gesendet werden"
       },
       "connectionName": {
         "label": "Verbindungsname",
@@ -151,7 +151,7 @@
       },
       "noDelay": {
         "label": "Keine Verzögerung",
-        "description": "Aktiviert/deaktiviert den Nagle-Algorithmus"
+        "description": "Wenn aktiviert, wird der Nagle-Algorithmus deaktiviert, sodass Daten ohne Verzögerung gesendet werden"
       },
       "connectionName": {
         "label": "Verbindungsname",

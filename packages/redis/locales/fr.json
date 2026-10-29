@@ -22,7 +22,7 @@
       },
       "noDelay": {
         "label": "Sans délai (No Delay)",
-        "description": "Active ou désactive l'algorithme de Nagle"
+        "description": "Si activé, l'algorithme de Nagle est désactivé et les données sont envoyées sans délai"
       },
       "connectionName": {
         "label": "Nom de la connexion",
@@ -151,7 +151,7 @@
       },
       "noDelay": {
         "label": "Sans délai (No Delay)",
-        "description": "Active ou désactive l'algorithme de Nagle"
+        "description": "Si activé, l'algorithme de Nagle est désactivé et les données sont envoyées sans délai"
       },
       "connectionName": {
         "label": "Nom de la connexion",

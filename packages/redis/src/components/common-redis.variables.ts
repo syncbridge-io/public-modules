@@ -45,7 +45,8 @@ export class CommonRedisVariables
 
   @DefineVariable({
     label: 'No Delay',
-    description: "Enable/disable the use of Nagle's algorithm",
+    description:
+      "If enabled, Nagle's algorithm is disabled, so data is sent without delay",
     index: 200,
   })
   declare noDelay?: boolean;
@@ -53,7 +54,7 @@ export class CommonRedisVariables
   @DefineVariable({
     label: 'Connection Name',
     description:
-      'Set the name of the connection to make it easier to identity the connection in client list.',
+      'Set the name of the connection to make it easier to identify the connection in the client list.',
     index: 200,
   })
   declare connectionName?: string;
