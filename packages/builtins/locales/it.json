@@ -331,7 +331,7 @@
     "variables": {
       "port": {
         "label": "Porta",
-        "description": "Numero di porta del servizio di destinazione in ascolto"
+        "description": "Numero di porta su cui restare in ascolto"
       },
       "broadcast": {
         "label": "Broadcast",

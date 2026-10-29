@@ -331,7 +331,7 @@
     "variables": {
       "port": {
         "label": "Port",
-        "description": "Portnummer des Ziel-Listeners"
+        "description": "Portnummer, auf der gelauscht wird"
       },
       "broadcast": {
         "label": "Broadcast",

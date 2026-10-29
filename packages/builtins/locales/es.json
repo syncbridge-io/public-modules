@@ -331,7 +331,7 @@
     "variables": {
       "port": {
         "label": "Puerto",
-        "description": "Número de puerto del destino"
+        "description": "Número de puerto en el que escuchar"
       },
       "broadcast": {
         "label": "Difusión",

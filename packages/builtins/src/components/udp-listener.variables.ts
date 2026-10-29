@@ -7,7 +7,7 @@ import { IoClientBaseComponent } from './io-client-base.component.js';
 export class UdpListenerVariables extends IoClientBaseComponent.Variables {
   @DefineVariable({
     label: 'Port',
-    description: 'Port number of target listener',
+    description: 'Port number to listen on',
     required: true,
     minValue: 1,
     maxValue: 65535,
