@@ -52,3 +52,8 @@ jobs:
           pnpm exec tsc -b tsconfig-test.json --noEmit
           rman build
           rman run test
+
+      # Every module's tests once more from the root, under c8 (.c8rc.json):
+      # the coverage of all modules in one table
+      - name: Coverage
+        run: pnpm citest
