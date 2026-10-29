@@ -89,6 +89,9 @@ export class ResultSenderApp extends AppBase {
   place with a new client. Handlers and hooks are kept.
 - With TLS, `bindInterface` is applied as the local address, as without it,
   and the reconnect strategy defaults to `exponential`.
-- The Proxy settings are shown because the component inherits them from the
-  TCP client. They do nothing: the hl7v2-net library cannot use a SOCKS
-  proxy, so connections never go through one.
+- With Proxy Enabled, every connection, reconnections included, goes through
+  the SOCKS proxy (v4 or v5; the user name and password are sent when a v5
+  proxy asks for them). With TLS, the tunnel is opened first and the TLS
+  handshake runs through it, checked against the HL7 server's host as
+  without a proxy. Connect timeout covers the proxy, the tunnel and the
+  handshake together.

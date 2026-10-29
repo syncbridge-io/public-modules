@@ -4,7 +4,7 @@ import { peerOf } from '@syncbridge/builtins';
 import { Component, ServiceStatus } from '@syncbridge/common';
 import colors from 'ansi-colors';
 import { HL7Message } from 'hl7v2';
-import { Hl7Client } from 'hl7v2-net';
+import { Hl7Client, type HL7ProxyOptions } from 'hl7v2-net';
 import { noOp } from '../constants.js';
 import { HL7ClientVariables } from './hl7-client.variables.js';
 import { HL7EndpointComponent } from './hl7-endpoint.component.js';
@@ -53,6 +53,7 @@ export class HL7ClientComponent<
       connectTimeout: this.values.connectTimeout,
       responseTimeout: this.values.responseTimeout,
       keepAlive: this.values.keepAlive,
+      proxy: this._proxyOptions(),
       ...hl7ProtocolOptions(this.values),
       reconnect: {
         // @ts-ignore
@@ -130,6 +131,19 @@ export class HL7ClientComponent<
     this.client.on('write', data => {
       this.emit('transmit', data, this._address);
     });
+  }
+
+  /** The SOCKS proxy of TcpClient's settings, as hl7v2-net takes it */
+  protected _proxyOptions(): HL7ProxyOptions | undefined {
+    if (!this.values.proxy_enabled) return undefined;
+    const { host, port, proxyType, username, password } = this.values.proxy;
+    return {
+      host,
+      port,
+      type: proxyType === 'v4' ? 4 : 5,
+      userId: username,
+      password,
+    };
   }
 
   protected async _start(abortSignal: AbortSignal): Promise<void> {

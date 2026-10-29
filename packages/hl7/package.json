@@ -24,8 +24,8 @@
   "peerDependencies": {
     "@syncbridge/common": "^2.3.1",
     "ansi-colors": ">=4.1.0 <5",
-    "hl7v2": ">=2.2.0 <3",
-    "hl7v2-net": ">=2.2.0 <3"
+    "hl7v2": ">=2.3.0 <3",
+    "hl7v2-net": ">=2.3.0 <3"
   },
   "exports": {
     ".": {

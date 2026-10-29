@@ -4,6 +4,7 @@ import { expect } from 'expect';
 import { HL7Message } from 'hl7v2';
 import { HL7Server, type HL7Socket } from 'hl7v2-net';
 import { HL7ClientComponent } from '../src/index.js';
+import { Socks5Server } from './_fixtures/socks5-server.js';
 
 const ORU =
   'MSH|^~\\&|MONITOR|ICU|SB|HOSP|20261011120000||ORU^R01|MSG0001|P|2.5\r' +
@@ -166,5 +167,80 @@ describe('HL7ClientComponent handlers', () => {
     );
     expect(received).toEqual(['ADT0001']);
     expect(ack.get('MSA-1')).toBe('AA');
+  });
+});
+
+describe('HL7ClientComponent through a SOCKS proxy', () => {
+  let server: HL7Server;
+  let proxy: Socks5Server;
+  let client: HL7ClientComponent;
+
+  function create(proxyValues: Record<string, any>) {
+    client = new HL7ClientComponent({
+      app: {} as any,
+      parent: {} as any,
+      name: 'hl7Client',
+      path: 'hl7Client',
+      values: {
+        host: '127.0.0.1',
+        port: (server.address() as net.AddressInfo).port,
+        reconnect: { initialDelay: 30000, maxDelay: 60000 },
+        proxy_enabled: true,
+        proxy: {
+          host: '127.0.0.1',
+          port: proxy.port,
+          proxyType: 'v5',
+          ...proxyValues,
+        },
+      },
+    });
+    return client;
+  }
+
+  beforeEach(async () => {
+    server = HL7Server.createServer();
+    server.use((req, res) => {
+      res.message = req.message.createAck();
+    });
+    await server.listen(0, '127.0.0.1');
+    proxy = await new Socks5Server({
+      username: 'hl7',
+      password: 'secret',
+    }).listen();
+  });
+
+  afterEach(async () => {
+    await client?.stop();
+    await proxy.close();
+    await server.close();
+  });
+
+  it('should reach the server through the proxy, logging in to it', async () => {
+    await create({ username: 'hl7', password: 'secret' }).init();
+    await client.start();
+    await statusOf(client, 'started');
+    const ack = await client.client.sendMessageWaitAck(HL7Message.parse(ORU));
+    expect(ack.get('MSA-1')).toBe('AA');
+    expect(proxy.logins).toEqual([{ username: 'hl7', password: 'secret' }]);
+    expect(proxy.tunnels).toEqual([
+      `127.0.0.1:${(server.address() as net.AddressInfo).port}`,
+    ]);
+  });
+
+  it('should not connect when the proxy refuses its login', async () => {
+    await create({ username: 'hl7', password: 'wrong' }).init();
+    await client.start();
+    await new Promise(r => setTimeout(r, 200));
+    expect(client.client.connected).toBe(false);
+    expect(client.status).toBe('unhealthy');
+    expect(proxy.tunnels).toEqual([]);
+  });
+
+  it('should connect directly when the proxy is not enabled', async () => {
+    await create({ username: 'hl7', password: 'secret' }).init();
+    client.values.proxy_enabled = false;
+    await client.start();
+    await statusOf(client, 'started');
+    expect(proxy.logins).toEqual([]);
   });
 });
