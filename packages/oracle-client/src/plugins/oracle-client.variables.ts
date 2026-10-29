@@ -16,7 +16,7 @@ export class OracleClientSettings {
   @DefineVariable({
     label: 'Download address',
     description:
-      'Where the Basic package is downloaded from. Left empty, the address is built from the version and the server\'s architecture; "{version}" and "{arch}" ("x64" or "arm64") are replaced in one that is given. Oracle moves these addresses, so a server that fails to download takes the current one here',
+      'Where the Basic package is downloaded from. Left empty, the address is built from the version and the server\'s architecture; "{version}" and "{arch}" ("x64" or "arm64") are replaced in one that is given. Oracle moves these addresses, so a server that fails to download takes the current one here. It must be on download.oracle.com, the only host the plugin may reach',
     index: 101,
   })
   declare downloadUrl?: string;

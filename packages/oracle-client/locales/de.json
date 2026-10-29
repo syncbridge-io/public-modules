@@ -1,0 +1,20 @@
+{
+  "OracleClientPlugin": {
+    "title": "Oracle Instant Client",
+    "description": "Lädt Oracle Instant Client herunter, sobald ein Administrator die Lizenz von Oracle akzeptiert hat, und fügt ihn der Umgebung jedes Workers hinzu",
+    "variables": {
+      "version": {
+        "label": "Version",
+        "description": "Die zu installierende Instant-Client-Version, wie Oracle den Download benennt (z. B. 23.9.0.25.07). Sie wird im Status angezeigt, und aus ihr wird die Standardadresse gebildet"
+      },
+      "downloadUrl": {
+        "label": "Download-Adresse",
+        "description": "Woher das Basic-Paket heruntergeladen wird. Leer gelassen, wird die Adresse aus der Version und der Architektur des Servers gebildet; in einer angegebenen Adresse werden \"{version}\" und \"{arch}\" (\"x64\" oder \"arm64\") ersetzt. Oracle verschiebt diese Adressen; ein Server, dessen Download fehlschlägt, trägt hier die aktuelle ein. Sie muss auf download.oracle.com liegen, dem einzigen Host, den das Plugin erreichen darf"
+      },
+      "sha256": {
+        "label": "SHA-256",
+        "description": "Die Prüfsumme, die Oracle neben dem Download veröffentlicht. Ist sie angegeben, wird ein Download abgelehnt, der nicht passt"
+      }
+    }
+  }
+}
