@@ -95,16 +95,26 @@ export class OracleClientPlugin extends PluginBase<OracleClientSettings> {
     );
   }
 
-  /** The license, then the client: installed already, or downloaded */
+  /**
+   * The license, then the client: installed already, or downloaded. A client
+   * of another version than the settings' is given meanwhile and replaced,
+   * so changing the version and restarting is how it is updated.
+   */
   protected async _bringUp(): Promise<void> {
+    const installed = this._installed();
     try {
       if (!(await this._licenseAccepted())) return;
-      const installed = this._installed();
       if (installed) this._give(installed);
-      else await this._install();
+      if (installed?.version !== this.settings.version) await this._install();
     } catch (err: any) {
       this.logger?.error(err);
-      this.host.status.set({ state: 'error', message: err.message });
+      /* The unpacking replaces the old client last: a failed update leaves
+       * it whole, and the workers keep it */
+      const message =
+        installed && this._removeEnvironment
+          ? `${err.message}. The workers keep Instant Client ${installed.version}`
+          : err.message;
+      this.host.status.set({ state: 'error', message });
     }
   }
 

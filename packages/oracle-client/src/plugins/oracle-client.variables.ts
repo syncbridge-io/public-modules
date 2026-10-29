@@ -7,7 +7,7 @@ export class OracleClientSettings {
   @DefineVariable({
     label: 'Version',
     description:
-      "The Instant Client version to install, as Oracle names its download (e.g. 23.9.0.25.07). It is what the status tells, and what Oracle's download address is built from",
+      "The Instant Client version to install, as Oracle names its download (e.g. 23.9.0.25.07). It is what the status tells, and what Oracle's download address is built from. Changed, the new version replaces the installed one at the next start",
     default: '23.9.0.25.07',
     index: 100,
   })

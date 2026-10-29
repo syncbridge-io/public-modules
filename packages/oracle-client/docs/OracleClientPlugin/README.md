@@ -31,7 +31,16 @@ the license here and the plugin downloads it from Oracle.
 6. Its status then reads `Instant Client <version>`.
 
 A client already installed is given to the workers at the next start without
-asking Oracle for anything.
+asking Oracle for anything - as long as it is the version the settings name.
+
+## Updating the client
+
+The Version setting names the Instant Client to install, as Oracle names its
+download (`23.9.0.25.07`). To update, change it and restart the server, or run
+**Install now**. At the start the plugin finds the installed client is of
+another version, gives it to the workers meanwhile, downloads the new one and
+replaces it; a running worker takes it when it restarts. A download that fails
+leaves the old client whole, the workers keep it, and the card tells why.
 
 ## Permissions
 

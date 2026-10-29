@@ -5,7 +5,7 @@
     "variables": {
       "version": {
         "label": "Versão",
-        "description": "A versão do Instant Client a instalar, como a Oracle nomeia o download (ex.: 23.9.0.25.07). É o que o status mostra e a partir do que o endereço de download da Oracle é montado"
+        "description": "A versão do Instant Client a instalar, como a Oracle nomeia o download (ex.: 23.9.0.25.07). É o que o status mostra e a partir do que o endereço de download da Oracle é montado. Alterada, a nova versão substitui a instalada na próxima inicialização"
       },
       "sha256": {
         "label": "SHA-256",

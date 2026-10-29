@@ -217,4 +217,33 @@ describe('OracleClientPlugin', () => {
     expect(server.requests.length).toBe(requests);
     expect(env.environments.length).toBe(1);
   });
+
+  it('should install the version of the settings at the next start when it changed', async () => {
+    const first = plugin();
+    await first.activate();
+    await waitFor(() => env.last()?.state === 'ready');
+    const requests = server.requests.length;
+    const updated = plugin({ version: '23.26.0.0.0' });
+    await updated.activate();
+    await waitFor(() => env.last()?.message === 'Instant Client 23.26.0.0.0');
+    expect(server.requests.length).toBe(requests + 1);
+    expect(env.asked).toEqual(['license']);
+  });
+
+  it('should leave the workers the client they have when the update fails', async () => {
+    const first = plugin();
+    await first.activate();
+    await waitFor(() => env.last()?.state === 'ready');
+    const updated = plugin({ version: '23.26.0.0.0' }, {}, '/nowhere.zip');
+    await updated.activate();
+    await waitFor(() => env.last()?.state === 'error');
+    expect(env.last()?.message).toContain('404');
+    expect(env.last()?.message).toContain(
+      'The workers keep Instant Client 23.9.0.25.07',
+    );
+    expect(env.environments.length).toBe(1);
+    expect(
+      fs.existsSync(path.join(updated.clientDirectory, 'libclntsh.so')),
+    ).toBe(true);
+  });
 });
