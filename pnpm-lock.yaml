@@ -167,14 +167,14 @@ importers:
   .:
     devDependencies:
       '@panates/eslint-config':
-        specifier: ^2.3.3
-        version: 2.3.3(@eslint/js@10.0.1(eslint@10.13.0(supports-color@8.1.1)))(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.72.0(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1))(eslint-plugin-prettier@5.5.7(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(prettier@3.9.10))(eslint-plugin-security@4.2.0)(eslint-plugin-simple-import-sort@14.0.0(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(globals@17.13.0)
+        specifier: ^2.3.4
+        version: 2.3.4(@eslint/js@10.0.1(eslint@10.13.0(supports-color@8.1.1)))(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.72.0(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1))(eslint-plugin-prettier@5.5.7(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(prettier@3.9.10))(eslint-plugin-security@4.2.0)(eslint-plugin-simple-import-sort@14.0.0(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(globals@17.13.0)
       '@panates/eslint-config-ts':
-        specifier: ^2.3.3
-        version: 2.3.3(@eslint/js@10.0.1(eslint@10.13.0(supports-color@8.1.1)))(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.72.0(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1))(eslint-plugin-prettier@5.5.7(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(prettier@3.9.10))(eslint-plugin-security@4.2.0)(eslint-plugin-simple-import-sort@14.0.0(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(globals@17.13.0)(typescript-eslint@8.72.0(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(typescript@6.0.3)
+        specifier: ^2.3.4
+        version: 2.3.4(@eslint/js@10.0.1(eslint@10.13.0(supports-color@8.1.1)))(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.72.0(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1))(eslint-plugin-prettier@5.5.7(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(prettier@3.9.10))(eslint-plugin-security@4.2.0)(eslint-plugin-simple-import-sort@14.0.0(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(globals@17.13.0)(typescript-eslint@8.72.0(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(typescript@6.0.3)
       '@panates/rman-preset':
-        specifier: ^1.12.1
-        version: 1.12.1(dpdm@4.3.0)(eslint@10.13.0(supports-color@8.1.1))(prettier@3.9.10)(rman@2.39.0)
+        specifier: ^2.2.1
+        version: 2.2.1(dpdm@4.3.0)(eslint@10.13.0(supports-color@8.1.1))(prettier@3.9.10)(rman@2.40.1)
       '@panates/tsconfig':
         specifier: ^2.1.8
         version: 2.1.8
@@ -218,14 +218,14 @@ importers:
         specifier: ^2.11.0
         version: 2.11.0(@syncbridge/common@2.11.0(@opra/common@1.33.0))(supports-color@8.1.1)
       '@syncbridge/testing':
-        specifier: ^2.0.0
-        version: 2.0.0(@syncbridge/common@2.11.0(@opra/common@1.33.0))
+        specifier: ^2.2.0
+        version: 2.2.0(@syncbridge/common@2.11.0(@opra/common@1.33.0))
       '@types/mocha':
         specifier: ^10.0.10
         version: 10.0.10
       '@types/node':
-        specifier: ^26.6.5
-        version: 26.6.5
+        specifier: ^26.6.6
+        version: 26.6.6
       c8:
         specifier: ^12.0.0
         version: 12.0.0
@@ -245,8 +245,8 @@ importers:
         specifier: ^3.9.10
         version: 3.9.10
       rman:
-        specifier: ^2.39.0
-        version: 2.39.0
+        specifier: ^2.40.1
+        version: 2.40.1
       ts-gems:
         specifier: ^4.0.4
         version: 4.0.4
@@ -282,8 +282,8 @@ importers:
         version: 2.8.1
     devDependencies:
       '@syncbridge/testing':
-        specifier: ^2.0.0
-        version: 2.0.0(@syncbridge/common@2.11.0(@opra/common@1.33.0))
+        specifier: ^2.2.0
+        version: 2.2.0(@syncbridge/common@2.11.0(@opra/common@1.33.0))
       expect:
         specifier: ^30.5.2
         version: 30.5.2
@@ -435,8 +435,8 @@ importers:
         version: 2.8.1
     devDependencies:
       '@syncbridge/testing':
-        specifier: ^2.0.0
-        version: 2.0.0(@syncbridge/common@2.11.0(@opra/common@1.33.0))
+        specifier: ^2.2.0
+        version: 2.2.0(@syncbridge/common@2.11.0(@opra/common@1.33.0))
       expect:
         specifier: ^30.5.2
         version: 30.5.2
@@ -457,7 +457,7 @@ importers:
         version: 6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(@sqb/connect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(reflect-metadata@0.2.2)(supports-color@8.1.1))(@sqb/mssql-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1)))(mssql@12.7.13(supports-color@8.1.1))
       '@sqb/mysql':
         specifier: '>=6.3.1 <7'
-        version: 6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(@sqb/connect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(reflect-metadata@0.2.2)(supports-color@8.1.1))(@sqb/mysql-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1)))(mysql2@3.24.6(@types/node@26.6.5))
+        version: 6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(@sqb/connect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(reflect-metadata@0.2.2)(supports-color@8.1.1))(@sqb/mysql-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1)))(mysql2@3.24.6(@types/node@26.6.6))
       '@sqb/oracle':
         specifier: '>=6.3.1 <7'
         version: 6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(@sqb/connect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(reflect-metadata@0.2.2)(supports-color@8.1.1))(@sqb/oracle-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1)))(oracledb@26.0.0)
@@ -481,7 +481,7 @@ importers:
         version: 12.7.13(supports-color@8.1.1)
       mysql2:
         specifier: '>=3.24.6 <4'
-        version: 3.24.6(@types/node@26.6.5)
+        version: 3.24.6(@types/node@26.6.6)
       oracledb:
         specifier: '>=7.0.1'
         version: 26.0.0
@@ -1045,17 +1045,17 @@ packages:
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
 
-  '@npmcli/git@7.0.2':
-    resolution: {integrity: sha512-oeolHDjExNAJAnlYP2qzNjMX/Xi9bmu78C9dIGr4xjobrSKbuMYCph8lTzn4vnW3NjIqVmw/f8BCfouqyJXlRg==}
-    engines: {node: ^20.17.0 || >=22.9.0}
+  '@npmcli/git@8.0.0':
+    resolution: {integrity: sha512-5P1oo+TbxZNAiiMBtpzHA8QyEGh5D69LYLexNWJEDXLdxnAZvT/SLitGJBXxjtCE4ftAcFOS/Tu2185MeIjooQ==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
-  '@npmcli/package-json@7.0.5':
-    resolution: {integrity: sha512-iVuTlG3ORq2iaVa1IWUxAO/jIp77tUKBhoMjuzYW2kL4MLN1bi/ofqkZ7D7OOwh8coAx1/S2ge0rMdGv8sLSOQ==}
-    engines: {node: ^20.17.0 || >=22.9.0}
+  '@npmcli/package-json@8.0.0':
+    resolution: {integrity: sha512-agNZzYQ18MR0wKp3Emg1q5QbcC8CXigYp3Z3CvB0Sax9Ge9aF4cVyyuSG+5SbACSrZUKTvMjVULWiE1RJA38wg==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
-  '@npmcli/promise-spawn@9.0.1':
-    resolution: {integrity: sha512-OLUaoqBuyxeTqUvjA3FZFiXUfYC1alp3Sa99gW3EUDz3tZ3CbXDdcZ7qWKBzicrJleIgucoWamWH1saAmH/l2Q==}
-    engines: {node: ^20.17.0 || >=22.9.0}
+  '@npmcli/promise-spawn@10.0.1':
+    resolution: {integrity: sha512-IstFcKAoEIZ7olS9iTwBsyNOZkIturafO2da9ocSP3LifRlm1+sxuo8IVM5phg5sNe0tNYLT0ZqCBRTLNzz0AA==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
   '@opra/common@1.33.0':
     resolution: {integrity: sha512-CcdLvwtN4tTZLCDpPvkQcAqIhLhKeWDy0pI6j9h+g5OcGOnlDVUCIKnC/UzEUJGpM4PdQwnq8A8X8M7fVcGu2Q==}
@@ -1164,15 +1164,15 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@panates/eslint-config-ts@2.3.3':
-    resolution: {integrity: sha512-vyT5McaiDkG/tDThGP7pZh0GUr0q7I9307DRIPUx37hLDHAG6H6rQOTzSmVNNJi2our3VacRvmmxxmsks8538Q==}
+  '@panates/eslint-config-ts@2.3.4':
+    resolution: {integrity: sha512-rP6H/d1vE13AV04kU0Q9nusOcxxfa7HJ+pFQ+Iuf4dXdqPv6fS3pMO13Ghboy+OKjTWwXq4qOYpUfhYaUNjqXg==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       typescript: '>=6 <7'
       typescript-eslint: '>=8'
 
-  '@panates/eslint-config@2.3.3':
-    resolution: {integrity: sha512-BnzLINZsfFcjQ2Szhwr/eXxhGo/2yEMIyF4ES6H6hBKNUBnqs/qE5ZqnseJsH56q4S9kd3+7ijrBIOZJmbUFzQ==}
+  '@panates/eslint-config@2.3.4':
+    resolution: {integrity: sha512-aSJ2lgKfOVUlpZgvi3i8zHvzscKbsCcflj+moTDA9/M6gBwH7+MRtRXQfB21A6mjFBUySktk7TsV62xQIlEXtg==}
     engines: {node: '>=18.0.0'}
     peerDependencies:
       '@eslint/js': '>=10'
@@ -1184,14 +1184,14 @@ packages:
       eslint-plugin-simple-import-sort: ^14
       globals: '>=15'
 
-  '@panates/rman-preset@1.12.1':
-    resolution: {integrity: sha512-dv7UEgOdMkAbDF711iyHhYJa6fDnwwPUvs29bTccyazsD9VyvhyYOm3uZt9c5K7X8daWI2tf+U8hUQ9cdVe9KQ==}
+  '@panates/rman-preset@2.2.1':
+    resolution: {integrity: sha512-ZxiT8LntbYxSyEcbTtOgsMpnbRyMVMkumZA53juHK1X4CmYgHU51fdLUNPnjlJ8+fWAT3xrZx6CSm0j8falIQQ==}
     engines: {node: '>=20.0.0'}
     peerDependencies:
       dpdm: '>=4'
       eslint: '>=9'
       prettier: '>=3'
-      rman: '>=2.28.0'
+      rman: '>=2.39.0'
 
   '@panates/tsconfig@2.1.8':
     resolution: {integrity: sha512-XETzSW6BXQbwA2bQAVn6Wf/xjmyo/B7lViWUuYa41ybzmxkj1NLXhPBTHqYWiyCaxhv4u8VqJmCHf7uF0nGAwA==}
@@ -1596,11 +1596,11 @@ packages:
     peerDependencies:
       '@syncbridge/common': ^2.10.0
 
-  '@syncbridge/testing@2.0.0':
-    resolution: {integrity: sha512-PNo/Y76t0jjXDl/7u/XpW0tE69/p1NCdufIi5DUQPRNArFvVhZBOGZX9dx/Gsbc6AdLBNJ45EpMyMGjP7kjenw==}
+  '@syncbridge/testing@2.2.0':
+    resolution: {integrity: sha512-Ntm4ZZx7oF62W6RMawwbmGl1P7RwS4CPDfPLNzUMcnqDkwlZImpzavo8fCpKevv4DI96NvYawfPvrHvFvmWFAw==}
     engines: {node: '>=22.12.0'}
     peerDependencies:
-      '@syncbridge/common': ^2.0.0
+      '@syncbridge/common': ^2.10.0
 
   '@tediousjs/connection-string@1.1.0':
     resolution: {integrity: sha512-z9ZBWEG+8pIB5V1zYzlRPXx0oRJ5H7coPnMQK8EZOw03UTPI9Umn6viL36f5w+CuqkKsnCM50RVStpjZmR0Bng==}
@@ -1646,6 +1646,9 @@ packages:
 
   '@types/node@26.6.5':
     resolution: {integrity: sha512-uMzsv9stDdofIZBx4UGh4Z9ZgXnGC9seRDscilBcTHAeOFk67MZg/k9bWVfO+bk4qZmG+l52hRnLwUiH2LnJTg==}
+
+  '@types/node@26.6.6':
+    resolution: {integrity: sha512-MzQj+8Kx3XI40OmUAE6Qoh58ZMNstNNMwn2nfd3qWsfe7nDNSqJNzes4njhz6AHwrSHOffSLwXU6yb474Q4aog==}
 
   '@types/readable-stream@4.0.25':
     resolution: {integrity: sha512-7GsxL8Wd5X3jh73/qgW7WCnbBvGSdD8U3E4Jiuus3/8I+PN20DtlkJtwFhr/sImXfDDQ2Z03i/9wNiIF3TVSsw==}
@@ -2422,9 +2425,9 @@ packages:
   hookified@2.2.0:
     resolution: {integrity: sha512-p/LgFzRN5FeoD3DLS6bkUapeye6E4SI6yJs6KetENd18S+FBthqYq2amJUWpt5z0EQwwHemidjY5OqJGEKm5uA==}
 
-  hosted-git-info@9.0.3:
-    resolution: {integrity: sha512-Hc+ghLoSt6QaYZUv0WBiIvmMDZuZZ7oaDvdH8MbfOO4lOsxdXLEvuC6ePoGs9H1X9oCLyq6+NVN0MKqD+ydxyg==}
-    engines: {node: ^20.17.0 || >=22.9.0}
+  hosted-git-info@10.1.1:
+    resolution: {integrity: sha512-DeOnSPAvOndYKfw075gt8yZzQ7S2hNztw34zBTfhIzLhmBTswIBg5/y+pqu/VD5cYWm5goAFTusDmUEmKZ0PEQ==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
   html-escaper@2.0.2:
     resolution: {integrity: sha512-H2iMtd0I4Mt5eYiapRdIDjp+XzelXQ0tFE4JS7YFwFevXXMmOp9myNrUvCg0D6ws8iqkRPBfKHgbwig1SmlLfg==}
@@ -2458,10 +2461,6 @@ packages:
 
   inherits@2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
-
-  ini@6.0.0:
-    resolution: {integrity: sha512-IBTdIkzZNOpqm7q3dRqJvMaldXjDHWkEDfrwGEQTs5eaQMWV+djAhR+wahyNNMAa+qpbDUhBMVt4ZKNwpPm7xQ==}
-    engines: {node: ^20.17.0 || >=22.9.0}
 
   ini@7.0.0:
     resolution: {integrity: sha512-ifK0CgjALofS5bkrcTy4RaQ9Vx2Knf/eLeIO+NaswQEpH1UblrtTSCIvN71qQDMq0PeQ/SSPojvEJp9vvvfr+w==}
@@ -2580,9 +2579,9 @@ packages:
     resolution: {integrity: sha512-paNr4LFIFPjeeSmwNYdrb8FafLLG/Cr2Af3GjbsHJ5CxIjH4r0c2emlmRdAtpPAieP1gRVzk6buBbVP5gBMGAg==}
     hasBin: true
 
-  json-parse-even-better-errors@5.0.0:
-    resolution: {integrity: sha512-ZF1nxZ28VhQouRWhUcVlUIN3qwSgPuswK05s/HIaoetAoE/9tngVmCHjSxmSQPav1nd+lPtTL0YZ/2AFdR/iYQ==}
-    engines: {node: ^20.17.0 || >=22.9.0}
+  json-parse-even-better-errors@6.0.0:
+    resolution: {integrity: sha512-2/8adwnK1/+Fdjyts4r6wSpfANWw8zdNhU9U/Llk59c6O+DjSisPWPykwoL8gZmocP9Dy64S7oie2g+Mia123A==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
   json-schema-traverse@0.4.1:
     resolution: {integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==}
@@ -2900,21 +2899,21 @@ packages:
     engines: {node: ^20.17.0 || >=22.9.0}
     hasBin: true
 
-  npm-install-checks@8.0.0:
-    resolution: {integrity: sha512-ScAUdMpyzkbpxoNekQ3tNRdFI8SJ86wgKZSQZdUxT+bj0wVFpsEMWnkXP0twVe1gJyNF5apBWDJhhIbgrIViRA==}
-    engines: {node: ^20.17.0 || >=22.9.0}
+  npm-install-checks@9.0.0:
+    resolution: {integrity: sha512-t05Izcgi7p15cpldqoiXYpjzlkTTvBw33sgjmL/JjcvtV0ydbm2O4iEXO8A6smqComu5FAQhUas86HTMQ6Z1Uw==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
-  npm-normalize-package-bin@5.0.0:
-    resolution: {integrity: sha512-CJi3OS4JLsNMmr2u07OJlhcrPxCeOeP/4xq67aWNai6TNWWbTrlNDgl8NcFKVlcBKp18GPj+EzbNIgrBfZhsag==}
-    engines: {node: ^20.17.0 || >=22.9.0}
+  npm-normalize-package-bin@6.0.0:
+    resolution: {integrity: sha512-tdt4aFn9QamlhdN3HV2D2ccpBwO5/fyjjbXUxYA6uBjyekMZcZvDq0aSj9t5Jo+tih6AYFnt/cuIRn9013e0Uw==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
-  npm-package-arg@13.0.2:
-    resolution: {integrity: sha512-IciCE3SY3uE84Ld8WZU23gAPPV9rIYod4F+rc+vJ7h7cwAJt9Vk6TVsK60ry7Uj3SRS3bqRRIGuTp9YVlk6WNA==}
-    engines: {node: ^20.17.0 || >=22.9.0}
+  npm-package-arg@14.0.0:
+    resolution: {integrity: sha512-69XQh3k+dtGa1p+7RaR57IuG3rCko96xr/nUfN4yDYBXbTYICiWcOpsFKLN2GtGE9cyIljE+f1exnaYt9MvM+Q==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
-  npm-pick-manifest@11.0.3:
-    resolution: {integrity: sha512-buzyCfeoGY/PxKqmBqn1IUJrZnUi1VVJTdSSRPGI60tJdUhUoSQFhs0zycJokDdOznQentgrpf8LayEHyyYlqQ==}
-    engines: {node: ^20.17.0 || >=22.9.0}
+  npm-pick-manifest@12.0.0:
+    resolution: {integrity: sha512-8Fs3YLrnNOhrCdPNZy18MzNgVC58LTDAFzq1FdZO/p3BHeCC/coz+t4F5Pxabys8HJpyTUorMea26GkXsb4J/Q==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
   object-hash@3.0.0:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
@@ -3023,6 +3022,10 @@ packages:
     resolution: {integrity: sha512-iG+GYldRf2BQ0UDUAd6JQ/RwzaQy6mXmsk/IzlYyal4A4SNFw54MeH4/tLkF4I5WoWG9SQwuqWzS99jaFQHBuQ==}
     engines: {node: ^20.17.0 || >=22.9.0}
 
+  proc-log@7.0.0:
+    resolution: {integrity: sha512-FYgfaA69XZ93zaXLoMNQ+ViDXGGBgR8aLh03txzcFhV+9xOXx7+8DLCULrKKpR9+GsH9ZfHm82aSUPpozX0Ztg==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
+
   process@0.11.10:
     resolution: {integrity: sha512-cdGef/drWFoydD1JsMzuFf8100nZl+GT+yacc2bEced5f9Rjk4z+WtFUTBu9PhOi9j/jfmBPu0mMEY4wIdAF8A==}
     engines: {node: '>= 0.6.0'}
@@ -3105,8 +3108,8 @@ packages:
     resolution: {integrity: sha512-g6QUff04oZpHs0eG5p83rFLhHeV00ug/Yf9nZM6fLeUrPguBTkTQOdpAWWspMh55TZfVQDPaN3NQJfbVRAxdIw==}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
 
-  rman@2.39.0:
-    resolution: {integrity: sha512-nkwf51Am5kWUpoGzbFIJwYEo3b0WHzcc6uXj2dX94XQ05JctPIk/jBZDjNw4vYpUu7BAKEgeJ6X6cVkBx1e2kg==}
+  rman@2.40.1:
+    resolution: {integrity: sha512-HhU5JvQ3h6MbiK7rW0spQBBH8qNHjYPlUqP63uP8wH+7v6OlIO2qKdN45DqnkB3oK32lr1hoBnZG0wQWnwrF4g==}
     engines: {node: '>=20.0'}
     hasBin: true
 
@@ -3356,9 +3359,9 @@ packages:
     resolution: {integrity: sha512-3Qe8g8tE1peemiCMYsQmOKC0raOFalI59CjRbwSqPCXfd3wwOK70BJyZOUdOJar+1pGhmsCJX5++V4rvArDgAg==}
     engines: {node: '>=22.0'}
 
-  validate-npm-package-name@7.0.2:
-    resolution: {integrity: sha512-hVDIBwsRruT73PbK7uP5ebUt+ezEtCmzZz3F59BSr2F6OVFnJ/6h8liuvdLrQ88Xmnk6/+xGGuq+pG9WwTuy3A==}
-    engines: {node: ^20.17.0 || >=22.9.0}
+  validate-npm-package-name@8.0.0:
+    resolution: {integrity: sha512-SCv6OOV6Xj2/3cXy3dGmADluJTNcL3o7hZAglNPTe+WYuEuvxgJzxPrSDLZhF+CwyQOubqgecjMmTJGMVLWjYQ==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
   wcwidth@1.0.1:
     resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
@@ -3377,6 +3380,11 @@ packages:
   which@6.0.1:
     resolution: {integrity: sha512-oGLe46MIrCRqX7ytPUf66EAYvdeMIZYn3WaocqqKZAxrBpkqHfL/qvTyJ/bTk5+AqHCjXmrv3CEWgy368zhRUg==}
     engines: {node: ^20.17.0 || >=22.9.0}
+    hasBin: true
+
+  which@7.0.0:
+    resolution: {integrity: sha512-RancgH2dmbLdHl6LRhEqvklWMgl/Hdnun0Y90KhBOLkMefg8Qa7/Zel8Sm+8HEcP6DEjzsWzpkuBQEZok58isA==}
+    engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
     hasBin: true
 
   word-wrap@1.2.5:
@@ -3957,30 +3965,30 @@ snapshots:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.3
 
-  '@npmcli/git@7.0.2':
+  '@npmcli/git@8.0.0':
     dependencies:
       '@gar/promise-retry': 1.0.3
-      '@npmcli/promise-spawn': 9.0.1
-      ini: 6.0.0
+      '@npmcli/promise-spawn': 10.0.1
+      ini: 7.0.0
       lru-cache: 11.5.3
-      npm-pick-manifest: 11.0.3
-      proc-log: 6.1.0
+      npm-pick-manifest: 12.0.0
+      proc-log: 7.0.0
       semver: 7.8.5
-      which: 6.0.1
+      which: 7.0.0
 
-  '@npmcli/package-json@7.0.5':
+  '@npmcli/package-json@8.0.0':
     dependencies:
-      '@npmcli/git': 7.0.2
+      '@npmcli/git': 8.0.0
       glob: 13.0.6
-      hosted-git-info: 9.0.3
-      json-parse-even-better-errors: 5.0.0
-      proc-log: 6.1.0
+      hosted-git-info: 10.1.1
+      json-parse-even-better-errors: 6.0.0
+      proc-log: 7.0.0
       semver: 7.8.5
       spdx-expression-parse: 4.0.0
 
-  '@npmcli/promise-spawn@9.0.1':
+  '@npmcli/promise-spawn@10.0.1':
     dependencies:
-      which: 6.0.1
+      which: 7.0.0
 
   '@opra/common@1.33.0':
     dependencies:
@@ -4062,9 +4070,9 @@ snapshots:
   '@oxc-resolver/binding-win32-x64-msvc@11.24.2':
     optional: true
 
-  '@panates/eslint-config-ts@2.3.3(@eslint/js@10.0.1(eslint@10.13.0(supports-color@8.1.1)))(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.72.0(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1))(eslint-plugin-prettier@5.5.7(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(prettier@3.9.10))(eslint-plugin-security@4.2.0)(eslint-plugin-simple-import-sort@14.0.0(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(globals@17.13.0)(typescript-eslint@8.72.0(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(typescript@6.0.3)':
+  '@panates/eslint-config-ts@2.3.4(@eslint/js@10.0.1(eslint@10.13.0(supports-color@8.1.1)))(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.72.0(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1))(eslint-plugin-prettier@5.5.7(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(prettier@3.9.10))(eslint-plugin-security@4.2.0)(eslint-plugin-simple-import-sort@14.0.0(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(globals@17.13.0)(typescript-eslint@8.72.0(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(typescript@6.0.3)':
     dependencies:
-      '@panates/eslint-config': 2.3.3(@eslint/js@10.0.1(eslint@10.13.0(supports-color@8.1.1)))(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.72.0(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1))(eslint-plugin-prettier@5.5.7(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(prettier@3.9.10))(eslint-plugin-security@4.2.0)(eslint-plugin-simple-import-sort@14.0.0(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(globals@17.13.0)
+      '@panates/eslint-config': 2.3.4(@eslint/js@10.0.1(eslint@10.13.0(supports-color@8.1.1)))(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.72.0(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1))(eslint-plugin-prettier@5.5.7(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(prettier@3.9.10))(eslint-plugin-security@4.2.0)(eslint-plugin-simple-import-sort@14.0.0(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(globals@17.13.0)
       typescript: 6.0.3
       typescript-eslint: 8.72.0(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3)
     transitivePeerDependencies:
@@ -4077,7 +4085,7 @@ snapshots:
       - eslint-plugin-simple-import-sort
       - globals
 
-  '@panates/eslint-config@2.3.3(@eslint/js@10.0.1(eslint@10.13.0(supports-color@8.1.1)))(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.72.0(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1))(eslint-plugin-prettier@5.5.7(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(prettier@3.9.10))(eslint-plugin-security@4.2.0)(eslint-plugin-simple-import-sort@14.0.0(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(globals@17.13.0)':
+  '@panates/eslint-config@2.3.4(@eslint/js@10.0.1(eslint@10.13.0(supports-color@8.1.1)))(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.72.0(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint@10.13.0(supports-color@8.1.1))(supports-color@8.1.1))(eslint-plugin-prettier@5.5.7(eslint-config-prettier@10.1.8(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(prettier@3.9.10))(eslint-plugin-security@4.2.0)(eslint-plugin-simple-import-sort@14.0.0(eslint@10.13.0(supports-color@8.1.1)))(eslint@10.13.0(supports-color@8.1.1))(globals@17.13.0)':
     dependencies:
       '@eslint/js': 10.0.1(eslint@10.13.0(supports-color@8.1.1))
       eslint: 10.13.0(supports-color@8.1.1)
@@ -4088,13 +4096,13 @@ snapshots:
       eslint-plugin-simple-import-sort: 14.0.0(eslint@10.13.0(supports-color@8.1.1))
       globals: 17.13.0
 
-  '@panates/rman-preset@1.12.1(dpdm@4.3.0)(eslint@10.13.0(supports-color@8.1.1))(prettier@3.9.10)(rman@2.39.0)':
+  '@panates/rman-preset@2.2.1(dpdm@4.3.0)(eslint@10.13.0(supports-color@8.1.1))(prettier@3.9.10)(rman@2.40.1)':
     dependencies:
-      '@npmcli/package-json': 7.0.5
+      '@npmcli/package-json': 8.0.0
       dpdm: 4.3.0
       eslint: 10.13.0(supports-color@8.1.1)
       prettier: 3.9.10
-      rman: 2.39.0
+      rman: 2.40.1
       tinyglobby: 0.2.17
 
   '@panates/tsconfig@2.1.8': {}
@@ -4296,12 +4304,12 @@ snapshots:
       '@sqb/builder': 6.3.1(supports-color@8.1.1)
       tslib: 2.8.1
 
-  '@sqb/mysql@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(@sqb/connect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(reflect-metadata@0.2.2)(supports-color@8.1.1))(@sqb/mysql-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1)))(mysql2@3.24.6(@types/node@26.6.5))':
+  '@sqb/mysql@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(@sqb/connect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(reflect-metadata@0.2.2)(supports-color@8.1.1))(@sqb/mysql-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1)))(mysql2@3.24.6(@types/node@26.6.6))':
     dependencies:
       '@sqb/builder': 6.3.1(supports-color@8.1.1)
       '@sqb/connect': 6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(reflect-metadata@0.2.2)(supports-color@8.1.1)
       '@sqb/mysql-dialect': 6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))
-      mysql2: 3.24.6(@types/node@26.6.5)
+      mysql2: 3.24.6(@types/node@26.6.6)
       tslib: 2.8.1
 
   '@sqb/oracle-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))':
@@ -4482,7 +4490,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@syncbridge/testing@2.0.0(@syncbridge/common@2.11.0(@opra/common@1.33.0))':
+  '@syncbridge/testing@2.2.0(@syncbridge/common@2.11.0(@opra/common@1.33.0))':
     dependencies:
       '@syncbridge/common': 2.11.0(@opra/common@1.33.0)
       caller-callsite: 6.0.0
@@ -4531,6 +4539,10 @@ snapshots:
       undici-types: 6.21.0
 
   '@types/node@26.6.5':
+    dependencies:
+      undici-types: 8.9.0
+
+  '@types/node@26.6.6':
     dependencies:
       undici-types: 8.9.0
 
@@ -5253,7 +5265,7 @@ snapshots:
 
   hookified@2.2.0: {}
 
-  hosted-git-info@9.0.3:
+  hosted-git-info@10.1.1:
     dependencies:
       lru-cache: 11.5.3
 
@@ -5286,8 +5298,6 @@ snapshots:
   imurmurhash@0.1.4: {}
 
   inherits@2.0.4: {}
-
-  ini@6.0.0: {}
 
   ini@7.0.0: {}
 
@@ -5406,7 +5416,7 @@ snapshots:
     dependencies:
       argparse: 3.0.4
 
-  json-parse-even-better-errors@5.0.0: {}
+  json-parse-even-better-errors@6.0.0: {}
 
   json-schema-traverse@0.4.1: {}
 
@@ -5869,9 +5879,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  mysql2@3.24.6(@types/node@26.6.5):
+  mysql2@3.24.6(@types/node@26.6.6):
     dependencies:
-      '@types/node': 26.6.5
+      '@types/node': 26.6.6
       aws-ssl-profiles: 1.1.2
       generate-function: 2.3.1
       iconv-lite: 0.7.3
@@ -5924,24 +5934,24 @@ snapshots:
     dependencies:
       abbrev: 4.0.0
 
-  npm-install-checks@8.0.0:
+  npm-install-checks@9.0.0:
     dependencies:
       semver: 7.8.5
 
-  npm-normalize-package-bin@5.0.0: {}
+  npm-normalize-package-bin@6.0.0: {}
 
-  npm-package-arg@13.0.2:
+  npm-package-arg@14.0.0:
     dependencies:
-      hosted-git-info: 9.0.3
-      proc-log: 6.1.0
+      hosted-git-info: 10.1.1
+      proc-log: 7.0.0
       semver: 7.8.5
-      validate-npm-package-name: 7.0.2
+      validate-npm-package-name: 8.0.0
 
-  npm-pick-manifest@11.0.3:
+  npm-pick-manifest@12.0.0:
     dependencies:
-      npm-install-checks: 8.0.0
-      npm-normalize-package-bin: 5.0.0
-      npm-package-arg: 13.0.2
+      npm-install-checks: 9.0.0
+      npm-normalize-package-bin: 6.0.0
+      npm-package-arg: 14.0.0
       semver: 7.8.5
 
   object-hash@3.0.0: {}
@@ -6085,6 +6095,8 @@ snapshots:
 
   proc-log@6.1.0: {}
 
+  proc-log@7.0.0: {}
+
   process@0.11.10: {}
 
   protobufjs@8.8.1:
@@ -6144,7 +6156,7 @@ snapshots:
 
   reusify@1.1.0: {}
 
-  rman@2.39.0:
+  rman@2.40.1:
     dependencies:
       '@jsopen/objects': 2.3.4
       '@netlify/parse-npm-script': 0.1.2
@@ -6443,7 +6455,7 @@ snapshots:
       ts-gems: 4.0.4
       tslib: 2.8.1
 
-  validate-npm-package-name@7.0.2: {}
+  validate-npm-package-name@8.0.0: {}
 
   wcwidth@1.0.1:
     dependencies:
@@ -6462,6 +6474,10 @@ snapshots:
       isexe: 2.0.0
 
   which@6.0.1:
+    dependencies:
+      isexe: 4.0.0
+
+  which@7.0.0:
     dependencies:
       isexe: 4.0.0
 
