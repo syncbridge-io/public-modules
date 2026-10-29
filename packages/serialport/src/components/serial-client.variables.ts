@@ -84,7 +84,7 @@ export class SerialClientVariables extends IoClientBaseComponent.Variables {
 
   @DefineVariable({
     type: VariableType.Enum,
-    label: 'Parity flow control',
+    label: 'Parity',
     enumValues: ['none', 'even', 'mark', 'odd', 'space'],
     default: 'none',
     index: 104,
