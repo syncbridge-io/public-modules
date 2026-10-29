@@ -5,11 +5,7 @@
     "variables": {
       "version": {
         "label": "Sürüm",
-        "description": "Kurulacak Instant Client sürümü, Oracle'ın indirme dosyasını adlandırdığı biçimde (ör. 23.9.0.25.07). Durumda gösterilen ve varsayılan adresin oluşturulduğu değer budur"
-      },
-      "downloadUrl": {
-        "label": "İndirme adresi",
-        "description": "Basic paketinin indirileceği adres. Boş bırakılırsa adres sürümden ve sunucunun mimarisinden oluşturulur; verilen bir adreste \"{version}\" ve \"{arch}\" (\"x64\" ya da \"arm64\") yerine konur. Oracle bu adresleri değiştirir; indiremeyen bir sunucu güncel adresi buraya yazar. Adres, plugin'in erişebildiği tek sunucu olan download.oracle.com üzerinde olmalıdır"
+        "description": "Kurulacak Instant Client sürümü, Oracle'ın indirme dosyasını adlandırdığı biçimde (ör. 23.9.0.25.07). Durumda gösterilen ve Oracle'daki indirme adresinin oluşturulduğu değer budur"
       },
       "sha256": {
         "label": "SHA-256",

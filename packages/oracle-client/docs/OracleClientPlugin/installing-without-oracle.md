@@ -24,11 +24,9 @@ with its own download. Nothing leaves the server.
 
 ## Not from another address
 
-**Install from file** also takes an `http(s)` address, and the Download
-address setting can name one, but the plugin is granted the network to
-`download.oracle.com` alone: the engine refuses a download from any other
-host, an internal artifact store included. Copy the zip to the server
-instead.
+The plugin downloads from Oracle alone: **Install from file** takes a path on
+the server, not an address, and no setting names another host. A zip kept in
+an internal artifact store is copied to the server first.
 
 ## The license still has to be accepted
 

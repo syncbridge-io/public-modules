@@ -6,12 +6,18 @@ import { OracleClientPlugin } from '../src/index.js';
 import { type FakeHost, fakeHost, waitFor } from './_support/fake-host.js';
 import { clientZip, type ZipServer, zipServer } from './_support/zip-server.js';
 
-/** The plugin with the host's libaio played: a runner has none */
+/** The plugin with the host's libaio played, a runner having none, and
+ * Oracle's download played by a local server */
 class TestPlugin extends OracleClientPlugin {
   libaio = true;
+  downloadUrl = '';
 
   protected override _hasLibaio(): boolean {
     return this.libaio;
+  }
+
+  protected override _downloadUrl(): string {
+    return this.downloadUrl;
   }
 }
 
@@ -23,19 +29,18 @@ describe('OracleClientPlugin', () => {
   const plugin = (
     overrides: Record<string, any> = {},
     answer: Record<string, any> = {},
+    downloadPath?: string,
   ): TestPlugin => {
     env = fakeHost(answer);
-    return new TestPlugin({
+    const p = new TestPlugin({
       name: 'oracle-client',
-      settings: {
-        version: '23.9.0.25.07',
-        downloadUrl: server.url(),
-        ...overrides,
-      } as any,
+      settings: { version: '23.9.0.25.07', ...overrides } as any,
       logger: undefined as any,
       dataDirectory,
       host: env.host,
     });
+    p.downloadUrl = server.url(downloadPath);
+    return p;
   };
 
   beforeEach(async () => {
@@ -105,7 +110,7 @@ describe('OracleClientPlugin', () => {
   });
 
   it('should tell an address that answers 404', async () => {
-    const p = plugin({ downloadUrl: server.url('/nowhere.zip') });
+    const p = plugin({}, {}, '/nowhere.zip');
     await p.activate();
     await waitFor(() => env.last()?.state === 'error');
     expect(env.last()?.message).toContain('404');
@@ -113,7 +118,7 @@ describe('OracleClientPlugin', () => {
   });
 
   it('should tell a download that is not an Instant Client package', async () => {
-    const p = plugin({ downloadUrl: server.url('/garbage.zip') });
+    const p = plugin({}, {}, '/garbage.zip');
     await p.activate();
     await waitFor(() => env.last()?.state === 'error');
     expect(env.last()?.message).toMatch(/not a zip file|no libclntsh/);
@@ -143,7 +148,7 @@ describe('OracleClientPlugin', () => {
   it('should install from a zip on the server, without reaching Oracle', async () => {
     const zip = path.join(dataDirectory, 'from-file.zip');
     fs.writeFileSync(zip, clientZip());
-    const p = plugin({ downloadUrl: server.url('/nowhere.zip') }, {});
+    const p = plugin({}, {}, '/nowhere.zip');
     await p.activate();
     await waitFor(() => env.last()?.state === 'error');
     const action = env.actions.get('from-file')!;
@@ -163,6 +168,18 @@ describe('OracleClientPlugin', () => {
     await expect(
       action.run({ source: path.join(dataDirectory, 'missing.zip') }),
     ).rejects.toThrow('There is no file at');
+  });
+
+  it('should take no address in the file action: it downloads from Oracle alone', async () => {
+    const p = plugin();
+    await p.activate();
+    await waitFor(() => env.last()?.state === 'ready');
+    const requests = server.requests.length;
+    const action = env.actions.get('from-file')!;
+    await expect(action.run({ source: server.url() })).rejects.toThrow(
+      'There is no file at',
+    );
+    expect(server.requests.length).toBe(requests);
   });
 
   it('should ask the license again when "install" is run', async () => {

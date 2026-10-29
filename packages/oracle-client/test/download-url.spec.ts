@@ -17,16 +17,6 @@ describe('downloadUrlOf', () => {
     );
   });
 
-  it('should take the address given, with the version and the arch in it', () => {
-    expect(
-      downloadUrlOf(
-        '23.9.0.25.07',
-        'arm64',
-        'https://mirror/{arch}/{version}.zip',
-      ),
-    ).toBe('https://mirror/arm64/23.9.0.25.07.zip');
-  });
-
   it('should refuse an architecture Oracle does not publish for', () => {
     expect(() => downloadUrlOf('23.9.0.25.07', 'ppc64')).toThrow(
       'no Instant Client for "ppc64"',

@@ -57,19 +57,20 @@ client, and the engine keeps the record of who accepted it.
 To answer it again - a new license version, or a decline you want to take
 back - run **Install now**, which asks it anew.
 
-## Download address
+## Where it downloads from
 
-Oracle moves its download addresses between versions. A server that fails to
-download takes the current address from Oracle's download page and puts it in
-the Download address setting, with `{version}` and `{arch}` (`x64` or
-`arm64`) where they belong. The plugin is granted the network to
-`download.oracle.com` only, so an address on another host is refused.
+From Oracle alone: the plugin builds Oracle's own address on
+`download.oracle.com` from the Version setting and the server's architecture
+(`x64` or `arm64`), and is granted the network to that host only. No address
+is asked of the admin. Should Oracle move its downloads, a new version of the
+plugin follows it; a server that cannot download meanwhile installs from a
+file.
 
 ## Actions
 
 | Action              | What it does                                                                                          |
 | ------------------- | ----------------------------------------------------------------------------------------------------- |
-| `install`           | Downloads the client again from the address in the settings, and asks Oracle's license again first     |
+| `install`           | Downloads the client again from Oracle, and asks Oracle's license again first                          |
 | `from-file`         | Installs a zip that is already on the server, by its path - see [installing without reaching Oracle](installing-without-oracle.md) |
 | `remove`            | Deletes the client and takes it back from the workers' environment. They keep it until they restart    |
 

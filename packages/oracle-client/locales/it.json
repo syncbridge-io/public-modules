@@ -5,11 +5,7 @@
     "variables": {
       "version": {
         "label": "Versione",
-        "description": "La versione di Instant Client da installare, come Oracle chiama il suo download (es. 23.9.0.25.07). È ciò che mostra lo stato e da cui si costruisce l'indirizzo predefinito"
-      },
-      "downloadUrl": {
-        "label": "Indirizzo di download",
-        "description": "Da dove si scarica il pacchetto Basic. Se lasciato vuoto, l'indirizzo è costruito dalla versione e dall'architettura del server; in un indirizzo indicato vengono sostituiti \"{version}\" e \"{arch}\" (\"x64\" o \"arm64\"). Oracle sposta questi indirizzi: un server che non riesce a scaricare vi indica quello attuale. Deve essere su download.oracle.com, l'unico host che il plugin può raggiungere"
+        "description": "La versione di Instant Client da installare, come Oracle chiama il suo download (es. 23.9.0.25.07). È ciò che mostra lo stato e da cui si costruisce l'indirizzo di download di Oracle"
       },
       "sha256": {
         "label": "SHA-256",

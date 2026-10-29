@@ -15,8 +15,7 @@ import { OracleClientSettings } from './oracle-client.variables.js';
 export class InstallFromFileInput {
   @DefineVariable({
     label: 'Zip',
-    description:
-      "The Basic package's path on this server, or an address to download it from",
+    description: "The Basic package's path on this server",
     required: true,
   })
   declare source: string;
@@ -187,16 +186,13 @@ export class OracleClientPlugin extends PluginBase<OracleClientSettings> {
     const zip = path.join(this.dataDirectory, 'download.zip');
     fs.mkdirSync(this.dataDirectory, { recursive: true });
     try {
-      if (source && !/^https?:\/\//.test(source)) {
+      if (source) {
         if (!fs.existsSync(source))
           throw new Error(`There is no file at "${source}" on this server`);
         this.host.status.set({ state: 'busy', message: `Reading ${source}` });
         fs.copyFileSync(source, zip);
       } else {
-        const url =
-          source ||
-          downloadUrlOf(version, process.arch, this.settings.downloadUrl);
-        await this._download(url, zip);
+        await this._download(this._downloadUrl(version), zip);
       }
       if (this.settings.sha256) this._verify(zip, this.settings.sha256);
       this.host.status.set({ state: 'busy', message: 'Unpacking' });
@@ -218,6 +214,11 @@ export class OracleClientPlugin extends PluginBase<OracleClientSettings> {
     } finally {
       fs.rmSync(zip, { force: true });
     }
+  }
+
+  /** Oracle's address of the version, for this server's architecture */
+  protected _downloadUrl(version: string): string {
+    return downloadUrlOf(version, process.arch);
   }
 
   /** The download, its progress on the card while it runs */
@@ -261,7 +262,7 @@ export class OracleClientPlugin extends PluginBase<OracleClientSettings> {
         name: 'install',
         label: 'Install now',
         description:
-          "Downloads the client again from the address in the settings. It also asks Oracle's license again when it was declined",
+          "Downloads the client again from Oracle. It also asks Oracle's license again when it was declined",
         confirm: 'Download Instant Client and replace what is installed?',
         run: async () => {
           if (!(await this._licenseAccepted(true)))
@@ -274,7 +275,7 @@ export class OracleClientPlugin extends PluginBase<OracleClientSettings> {
         name: 'from-file',
         label: 'Install from file',
         description:
-          'For a server that does not reach Oracle: the zip downloaded elsewhere, by its path here or its address',
+          'For a server that does not reach Oracle: the zip downloaded elsewhere and copied here, by its path',
         input: InstallFromFileInput,
         run: async ({ source }) => {
           if (!(await this._licenseAccepted()))
