@@ -22,7 +22,7 @@ export function fakeHost(answer: Partial<PluginHost.Answer> = {}): FakeHost {
   const asked: string[] = [];
   const forgotten: string[] = [];
   const host = {
-    engine: { version: '2.0.0-test', apiVersion: '2.1.0' },
+    engine: { version: '2.0.0-test', apiVersion: '2.3.0' },
     logs: { registerTarget: () => undefined },
     events: { on: () => () => undefined },
     workers: {

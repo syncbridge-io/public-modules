@@ -369,7 +369,7 @@ importers:
         specifier: ^2.3.1
         version: 2.11.0(@opra/common@1.33.0)
       '@syncbridge/plugin-api':
-        specifier: ^2.1.0
+        specifier: ^2.2.0
         version: 2.3.0(@syncbridge/common@2.11.0(@opra/common@1.33.0))
       adm-zip:
         specifier: ^0.6.1

@@ -24,7 +24,7 @@
   },
   "peerDependencies": {
     "@syncbridge/common": "^2.3.1",
-    "@syncbridge/plugin-api": "^2.1.0"
+    "@syncbridge/plugin-api": "^2.2.0"
   },
   "exports": {
     ".": {

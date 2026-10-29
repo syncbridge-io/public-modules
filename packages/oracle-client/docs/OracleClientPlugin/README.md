@@ -11,6 +11,8 @@ the license here and the plugin downloads it from Oracle.
 
 1. The plugin is turned on under Settings → Plugins
    (`plugins.oracle-client.enabled`) and the server is restarted.
+   An admin approves its permissions on its card (see
+   [Permissions](#permissions)); until then it is given none.
 2. It asks Oracle's license on its card. The answer is kept with who gave it
    and when, so the question is asked once, not at every start. Declined, the
    plugin installs nothing, gives the workers nothing, and says so.
@@ -30,6 +32,20 @@ the license here and the plugin downloads it from Oracle.
 
 A client already installed is given to the workers at the next start without
 asking Oracle for anything.
+
+## Permissions
+
+The plugin declares what it reaches beyond its own data directory, and the
+engine gives it that once an admin approves it on the plugin's card:
+
+- **Worker environment**: to add the client to every worker's environment.
+  Without it the client is installed but no worker sees it.
+- **Network**, to `download.oracle.com` only: Oracle's download.
+- **Child processes**: `ldconfig`, asked whether the host has libaio when it
+  is not in the usual directories.
+
+It needs a SyncBridge built on `@syncbridge/plugin-api` 2.2 or newer, which
+is the first to grant permissions.
 
 ## Oracle's license
 

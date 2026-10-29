@@ -3,7 +3,7 @@ import fs, { createWriteStream } from 'node:fs';
 import path from 'node:path';
 import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
-import { DefineVariable } from '@syncbridge/common';
+import { DefineVariable, PluginPermission } from '@syncbridge/common';
 import { Plugin, PluginBase, type PluginHost } from '@syncbridge/plugin-api';
 import { CLIENT_DIR, INSTALL_RECORD } from '../constants.js';
 import { downloadUrlOf } from '../utils/download-url.js';
@@ -43,6 +43,14 @@ interface InstallRecord {
   description:
     "Downloads Oracle Instant Client, once an admin has accepted Oracle's license, and adds it to every worker's environment",
   settings: OracleClientSettings,
+  /* The client to the workers, Oracle's download, and `ldconfig` asked for
+   * libaio */
+  permissions: [
+    PluginPermission.WorkerEnvironment,
+    PluginPermission.Network,
+    PluginPermission.ChildProcesses,
+  ],
+  hosts: ['download.oracle.com'],
 })
 export class OracleClientPlugin extends PluginBase<OracleClientSettings> {
   protected _removeActions: (() => void)[] = [];
@@ -55,7 +63,7 @@ export class OracleClientPlugin extends PluginBase<OracleClientSettings> {
   }
 
   async activate(): Promise<void> {
-    this._needsPluginApi21();
+    this._needsPluginApi22();
     this._registerActions();
     /* The engine waits for activate, and the license is answered by a person:
      * the question and the download are told through the status instead */
@@ -72,22 +80,19 @@ export class OracleClientPlugin extends PluginBase<OracleClientSettings> {
   /**
    * The engine tells a plugin the plugin-api version it has itself, and
    * refuses a plugin whose peer range it does not satisfy - but an engine
-   * built on 2.0 that reaches here anyway has none of what this plugin
-   * talks through. Said plainly, on its card, rather than failing at the
-   * first call.
+   * older than 2.2 that reaches here anyway does not give a plugin the
+   * permissions it declares, nor has a 2.0 one the status, questions and
+   * workers' environment this plugin talks through. Said plainly, on its
+   * card, rather than failing at the first call.
    */
-  protected _needsPluginApi21(): void {
-    /* The types promise all of it; an engine built on 2.0 does not */
-    const host = this.host as Partial<PluginHost>;
-    if (
-      host.status &&
-      host.ui &&
-      typeof host.workers?.addEnvironment === 'function'
-    )
-      return;
+  protected _needsPluginApi22(): void {
+    /* The types promise it; an engine built on 2.0 may not tell it */
+    const apiVersion = (this.host as Partial<PluginHost>).engine?.apiVersion;
+    const [major, minor] = (apiVersion || '0.0').split('.').map(Number);
+    if (major > 2 || (major === 2 && minor >= 2)) return;
     throw new Error(
-      'This plugin needs a SyncBridge built on @syncbridge/plugin-api 2.1 or newer: ' +
-        `this one provides ${host.engine?.apiVersion || 'an older API'}, which has no status, questions or workers' environment. Update SyncBridge.`,
+      'This plugin needs a SyncBridge built on @syncbridge/plugin-api 2.2 or newer: ' +
+        `this one provides ${apiVersion || 'an older API'}, which does not grant a plugin its permissions. Update SyncBridge.`,
     );
   }
 
