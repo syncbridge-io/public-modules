@@ -1,5 +1,5 @@
 {
-  "name": "syncbridge-public-modules",
+  "name": "syncbridge-extensions",
   "description": "Open source SyncBridge modules: components and apps to run, and examples to build your own",
   "private": true,
   "license": "Apache-2.0",
