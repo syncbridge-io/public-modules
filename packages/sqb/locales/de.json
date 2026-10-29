@@ -2,7 +2,7 @@
   "SqbClient": {
     "displayName": "SqbClient",
     "description": "Datenbankverbindungs-Client",
-    "summary": "Verbindet sich über SQB mit einer PostgreSQL-, Oracle-, SQL Server-, MySQL-, MariaDB- oder SQLite-Datenbank, mit Verbindungspool und einem Protokoll des ausgeführten SQL.",
+    "summary": "Verbindet sich über SQB mit PostgreSQL, Oracle, SQL Server, MySQL, MariaDB oder SQLite, mit Verbindungspool und Protokoll des ausgeführten SQL.",
     "variables": {
       "dialect": {
         "label": "Dialekt",
