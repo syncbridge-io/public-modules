@@ -202,6 +202,9 @@ importers:
       '@syncbridge/ngrok':
         specifier: workspace:*
         version: link:packages/ngrok
+      '@syncbridge/oracle-client':
+        specifier: workspace:*
+        version: link:packages/oracle-client
       '@syncbridge/pinggy':
         specifier: workspace:*
         version: link:packages/pinggy
@@ -356,6 +359,28 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
+      expect:
+        specifier: ^30.5.2
+        version: 30.5.2
+
+  packages/oracle-client:
+    dependencies:
+      '@syncbridge/common':
+        specifier: ^2.3.1
+        version: 2.11.0(@opra/common@1.33.0)
+      '@syncbridge/plugin-api':
+        specifier: ^2.1.0
+        version: 2.3.0(@syncbridge/common@2.11.0(@opra/common@1.33.0))
+      adm-zip:
+        specifier: ^0.6.1
+        version: 0.6.1
+      tslib:
+        specifier: ^2.8.1
+        version: 2.8.1
+    devDependencies:
+      '@types/adm-zip':
+        specifier: ^0.5.8
+        version: 0.5.8
       expect:
         specifier: ^30.5.2
         version: 30.5.2
@@ -1579,6 +1604,12 @@ packages:
     peerDependencies:
       '@opra/common': '>=1.17.1 <2'
 
+  '@syncbridge/plugin-api@2.3.0':
+    resolution: {integrity: sha512-uujykRGRVgwc9G+yVN7GPa8GW8Src5yk7cyVmjq/zPfIrfdDKq4DgRNHoY0FLrbEcPZvppJP+9bqxjqjoPglIA==}
+    engines: {node: '>=22.12.0'}
+    peerDependencies:
+      '@syncbridge/common': ^2.4.0
+
   '@syncbridge/pnpm-config@1.0.0':
     resolution: {integrity: sha512-UTojxoNnzo36FuS0l/PRg/U/x/ESkIW0FoEtx/ViNl3oFjf4VLWtcmXbbooercfvd1oQ/ISb28eLkfeD+1sBdA==}
     engines: {node: '>=22.12.0'}
@@ -1607,6 +1638,9 @@ packages:
 
   '@tybys/wasm-util@0.10.4':
     resolution: {integrity: sha512-W3c4gRigFS0T/Ma4qIYF3GDAc5AQdHb1yL5znJT1Zv1YaD9Kitx656wBjvr19qbiosmZT8lWDM5BEMynUqX65A==}
+
+  '@types/adm-zip@0.5.8':
+    resolution: {integrity: sha512-RVVH7QvZYbN+ihqZ4kX/dMiowf6o+Jk1fNwiSdx0NahBJLU787zkULhGhJM8mf/obmLGmgdMM0bXsQTmyfbR7Q==}
 
   '@types/debug@4.1.13':
     resolution: {integrity: sha512-KSVgmQmzMwPlmtljOomayoR89W4FynCAi3E8PPs7vmDVPe84hT+vGPKkJfThkmXs0x0jAaa9U8uW8bbfyS2fWw==}
@@ -4457,6 +4491,12 @@ snapshots:
       ts-gems: 4.0.4
       valgen: 7.0.6
 
+  '@syncbridge/plugin-api@2.3.0(@syncbridge/common@2.11.0(@opra/common@1.33.0))':
+    dependencies:
+      '@syncbridge/common': 2.11.0(@opra/common@1.33.0)
+      reflect-metadata: 0.2.2
+      ts-gems: 4.0.4
+
   '@syncbridge/pnpm-config@1.0.0': {}
 
   '@syncbridge/runtime@2.3.1(@syncbridge/common@2.11.0(@opra/common@1.33.0))':
@@ -4503,6 +4543,10 @@ snapshots:
     dependencies:
       tslib: 2.8.1
     optional: true
+
+  '@types/adm-zip@0.5.8':
+    dependencies:
+      '@types/node': 26.6.6
 
   '@types/debug@4.1.13':
     dependencies:

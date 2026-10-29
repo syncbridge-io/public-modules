@@ -1,0 +1,39 @@
+---
+title: Installing without reaching Oracle
+order: 2
+---
+
+# Installing without reaching Oracle
+
+A server behind a firewall, or one on a network that does not reach
+`download.oracle.com`, cannot fetch Instant Client itself. The plugin then
+takes the package from somewhere you can reach.
+
+## From a file on the server
+
+1. On a machine that reaches Oracle, download **Instant Client Basic** for
+   the server's architecture (`linux.x64` or `linux.arm64`) from Oracle's
+   Instant Client download page. Accept Oracle's license there as well: it is
+   the same license the plugin asks about.
+2. Copy the zip to the server, somewhere the SyncBridge process can read -
+   `/var/tmp/instantclient-basic.zip`, say.
+3. On the plugin's card, run **Install from file** and give that path.
+
+The plugin checks the zip, unpacks it and gives it to the workers as it does
+with its own download. Nothing leaves the server.
+
+## From another address
+
+Give **Install from file** an `http(s)` address instead of a path - an
+internal artifact store, say. The plugin downloads from there and reports its
+progress as it does for Oracle's address.
+
+When every server takes the package from that address, put it in the
+`downloadUrl` setting instead: the plugin then uses it on its own, and
+**Install now** works unattended.
+
+## The license still has to be accepted
+
+Installing from a file does not skip the question: the plugin asks Oracle's
+license before it installs anything, whatever the package comes from. A
+declined license leaves the action telling you so and nothing installed.

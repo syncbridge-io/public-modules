@@ -29,6 +29,7 @@
     "@syncbridge/hl7": "workspace:*",
     "@syncbridge/kafka": "workspace:*",
     "@syncbridge/ngrok": "workspace:*",
+    "@syncbridge/oracle-client": "workspace:*",
     "@syncbridge/pinggy": "workspace:*",
     "@syncbridge/redis": "workspace:*",
     "@syncbridge/serialport": "workspace:*",

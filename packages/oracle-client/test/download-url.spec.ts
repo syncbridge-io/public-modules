@@ -1,0 +1,41 @@
+import { expect } from 'expect';
+import { downloadUrlOf } from '../src/utils/download-url.js';
+
+describe('downloadUrlOf', () => {
+  it('should build the address Oracle serves for 23 and later', () => {
+    expect(downloadUrlOf('23.9.0.25.07', 'x64')).toBe(
+      'https://download.oracle.com/otn_software/linux/instantclient/2390000/instantclient-basic-linux.x64-23.9.0.25.07.zip',
+    );
+    expect(downloadUrlOf('23.9.0.25.07', 'arm64')).toBe(
+      'https://download.oracle.com/otn_software/linux/instantclient/2390000/instantclient-basic-linux.arm64-23.9.0.25.07.zip',
+    );
+  });
+
+  it('should keep the dbru suffix of 21 and earlier', () => {
+    expect(downloadUrlOf('21.13.0.0.0', 'x64')).toBe(
+      'https://download.oracle.com/otn_software/linux/instantclient/2113000/instantclient-basic-linux.x64-21.13.0.0.0dbru.zip',
+    );
+  });
+
+  it('should take the address given, with the version and the arch in it', () => {
+    expect(
+      downloadUrlOf(
+        '23.9.0.25.07',
+        'arm64',
+        'https://mirror/{arch}/{version}.zip',
+      ),
+    ).toBe('https://mirror/arm64/23.9.0.25.07.zip');
+  });
+
+  it('should refuse an architecture Oracle does not publish for', () => {
+    expect(() => downloadUrlOf('23.9.0.25.07', 'ppc64')).toThrow(
+      'no Instant Client for "ppc64"',
+    );
+  });
+
+  it('should refuse a version that is not one', () => {
+    expect(() => downloadUrlOf('latest', 'x64')).toThrow(
+      'is not an Instant Client version',
+    );
+  });
+});

@@ -23,7 +23,15 @@ const PLATFORM = path.resolve(
   process.env.SB_PLATFORM_DIR || '../node-sdk',
 );
 /* In the order they depend on each other */
-const PACKAGES = ['common', 'runtime', 'testing', 'syncbuild'];
+const ALL = ['common', 'plugin-api', 'runtime', 'testing', 'syncbuild'];
+/* Named packages, for a branch's worktree that has built only some of them */
+const asked = process.argv.slice(2);
+for (const name of asked)
+  if (!ALL.includes(name)) {
+    console.error(`No @syncbridge/${name} here: one of ${ALL.join(', ')}.`);
+    process.exit(1);
+  }
+const PACKAGES = asked.length ? ALL.filter(name => asked.includes(name)) : ALL;
 const OUT = path.join(ROOT, '.platform');
 const VIRTUAL_STORE = path.join(ROOT, 'node_modules', '.pnpm');
 

@@ -11,6 +11,7 @@
       "@syncbridge/hl7": ["./packages/hl7/src/index.js"],
       "@syncbridge/kafka": ["./packages/kafka/src/index.js"],
       "@syncbridge/ngrok": ["./packages/ngrok/src/index.js"],
+      "@syncbridge/oracle-client": ["./packages/oracle-client/src/index.js"],
       "@syncbridge/pinggy": ["./packages/pinggy/src/index.js"],
       "@syncbridge/redis": ["./packages/redis/src/index.js"],
       "@syncbridge/serialport": ["./packages/serialport/src/index.js"],
