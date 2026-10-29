@@ -166,7 +166,7 @@ export class KafkaConsumerVariables {
   @DefineVariable({
     label: 'Heartbeat Interval',
     description:
-      'Interval in seconds between heartbeats. Not supported for `groupProtocol=consumer`, ',
+      'Interval in seconds between heartbeats. Not supported for `groupProtocol=consumer`.',
     index: 103,
     default: 3, // 3 seconds
     minValue: 0,
@@ -191,7 +191,7 @@ export class KafkaConsumerVariables {
   @DefineVariable({
     label: 'High Watermark',
     description:
-      'The maximum amount of messages to store in memory before delaying fetch requests. Note that this severely impacts both performance at the cost of memory use.',
+      'The maximum amount of messages to store in memory before delaying fetch requests. This value has a large effect on both performance and memory use.',
     index: 105,
     default: 1024,
     minValue: 0,
