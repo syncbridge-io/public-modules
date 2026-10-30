@@ -43,6 +43,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@syncbridge/builtins": "workspace:^",
     "expect": "^30.5.2"
   }
 }

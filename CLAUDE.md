@@ -43,8 +43,10 @@ Console, registry), `syncbridge-io/syncbridge`, at
 - Modules depend on each other as **registry dependencies**, in the
   manifest's `dependencies` (`syncbridge-manifest.json`, written by
   `spm add @syncbridge/builtins@^2.0.1`), so a server installs from the
-  registry a newer version a module needs; and on `@syncbridge/common` as an
-  npm peer: the engine provides it.
+  registry a newer version a module needs - with `"@syncbridge/builtins":
+  "workspace:^"` in its `devDependencies` too, for its build to find the
+  types (rman leaves devDependencies out of what it publishes); and on
+  `@syncbridge/common` as an npm peer: the engine provides it.
 
 ## The platform
 

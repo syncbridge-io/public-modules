@@ -309,6 +309,9 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
+      '@syncbridge/builtins':
+        specifier: workspace:^
+        version: link:../builtins
       expect:
         specifier: ^30.5.2
         version: 30.5.2
@@ -325,6 +328,9 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
+      '@syncbridge/builtins':
+        specifier: workspace:^
+        version: link:../builtins
       expect:
         specifier: ^30.5.2
         version: 30.5.2
@@ -350,6 +356,9 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
+      '@syncbridge/builtins':
+        specifier: workspace:^
+        version: link:../builtins
       expect:
         specifier: ^30.5.2
         version: 30.5.2
@@ -394,6 +403,9 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
+      '@syncbridge/builtins':
+        specifier: workspace:^
+        version: link:../builtins
       expect:
         specifier: ^30.5.2
         version: 30.5.2
@@ -413,6 +425,9 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
+      '@syncbridge/builtins':
+        specifier: workspace:^
+        version: link:../builtins
       expect:
         specifier: ^30.5.2
         version: 30.5.2
@@ -441,6 +456,9 @@ importers:
         specifier: ^2.8.1
         version: 2.8.1
     devDependencies:
+      '@syncbridge/builtins':
+        specifier: workspace:^
+        version: link:../builtins
       '@syncbridge/testing':
         specifier: ^2.2.0
         version: 2.2.0(@syncbridge/common@2.13.1(@opra/common@1.33.0))
