@@ -1,4 +1,8 @@
 import { expect } from 'expect';
+import {
+  DEFAULT_INSTANT_CLIENT_VERSION,
+  INSTANT_CLIENT_VERSIONS,
+} from '../src/plugins/oracle-client.variables.js';
 import { downloadUrlOf } from '../src/utils/download-url.js';
 
 describe('downloadUrlOf', () => {
@@ -33,5 +37,17 @@ describe('downloadUrlOf', () => {
     expect(() => downloadUrlOf('latest', 'x64')).toThrow(
       'is not an Instant Client version',
     );
+  });
+
+  it('should build an address for every version offered, on both architectures', () => {
+    for (const version of INSTANT_CLIENT_VERSIONS)
+      for (const arch of ['x64', 'arm64'])
+        expect(downloadUrlOf(version, arch)).toContain(
+          `instantclient-basic-linux.${arch}-${version}`,
+        );
+  });
+
+  it('should offer its default among the versions', () => {
+    expect(INSTANT_CLIENT_VERSIONS).toContain(DEFAULT_INSTANT_CLIENT_VERSION);
   });
 });

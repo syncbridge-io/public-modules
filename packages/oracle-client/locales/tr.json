@@ -5,7 +5,7 @@
     "variables": {
       "version": {
         "label": "Sürüm",
-        "description": "Kurulacak Instant Client sürümü, Oracle'ın indirme dosyasını adlandırdığı biçimde (ör. 23.9.0.25.07). Durumda gösterilen ve Oracle'daki indirme adresinin oluşturulduğu değer budur. Değiştirilirse yeni sürüm bir sonraki açılışta kurulu olanın yerini alır"
+        "description": "Kurulacak Instant Client sürümü. 19, Oracle Database 11.2 ve sonrasına; 23, 19 ve sonrasına bağlanır. Değiştirilirse yeni sürüm bir sonraki açılışta kurulu olanın yerini alır"
       },
       "sha256": {
         "label": "SHA-256",

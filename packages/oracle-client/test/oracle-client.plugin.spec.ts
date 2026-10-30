@@ -223,9 +223,9 @@ describe('OracleClientPlugin', () => {
     await first.activate();
     await waitFor(() => env.last()?.state === 'ready');
     const requests = server.requests.length;
-    const updated = plugin({ version: '23.26.0.0.0' });
+    const updated = plugin({ version: '23.26.4.0.0' });
     await updated.activate();
-    await waitFor(() => env.last()?.message === 'Instant Client 23.26.0.0.0');
+    await waitFor(() => env.last()?.message === 'Instant Client 23.26.4.0.0');
     expect(server.requests.length).toBe(requests + 1);
     expect(env.asked).toEqual(['license']);
   });
@@ -234,7 +234,7 @@ describe('OracleClientPlugin', () => {
     const first = plugin();
     await first.activate();
     await waitFor(() => env.last()?.state === 'ready');
-    const updated = plugin({ version: '23.26.0.0.0' }, {}, '/nowhere.zip');
+    const updated = plugin({ version: '23.26.4.0.0' }, {}, '/nowhere.zip');
     await updated.activate();
     await waitFor(() => env.last()?.state === 'error');
     expect(env.last()?.message).toContain('404');
