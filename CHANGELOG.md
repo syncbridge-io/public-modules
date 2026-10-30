@@ -1,6 +1,21 @@
 # Changelog
 
-<!-- rman:documented-up-to 645cc7062b2338628dea819b7095621fbb81a535 -->
+<!-- rman:documented-up-to 8246c15502e46289901f5c343273687e602f530d -->
+
+## v2026.10.30-2303 (2026-10-30)
+
+### 📚 Documentation
+
+- pnpm build is part of the definition of done, and syncbridge-engine makes the SDK's changes (5ded09e)
+
+### 🧹 Chores
+
+- syncbuild 2.13.0 and @syncbridge/common 2.14.0 for development, spm checking peers against what the engine provides (9833f7c)
+- rman 2.41.0, whose release commits name their package (5ca3128)
+- rman 2.41.2, syncbuild 2.14.0 and eslint 10.14.0 for development (2a3b1cd)
+- rman 2.41.3 for development (6065c17)
+
+---
 
 ## v2026.10.30-943 (2026-10-30)
 
