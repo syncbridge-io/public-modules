@@ -1,7 +1,15 @@
 # Changelog
 
 
-<!-- rman:documented-up-to 645cc7062b2338628dea819b7095621fbb81a535 -->
+<!-- rman:documented-up-to 28217f96794fdb1f22de72989fb917862e2fff6f -->
+
+## @syncbridge/sqb@2.1.1 (2026-10-30)
+
+### 🐛 Bug Fixes
+
+- **sqb:** the SQL Server, MySQL and MariaDB drivers are dependencies, the engine does not provide them (28217f9)
+
+---
 
 ## @syncbridge/sqb@2.1.0 (2026-10-30)
 
