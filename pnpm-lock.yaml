@@ -174,7 +174,7 @@ importers:
         version: 2.3.4(@eslint/js@10.0.1(eslint@10.14.0(supports-color@8.1.1)))(eslint-config-prettier@10.1.8(eslint@10.14.0(supports-color@8.1.1)))(eslint-plugin-import-x@4.17.1(@typescript-eslint/utils@8.72.1(eslint@10.14.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(eslint@10.14.0(supports-color@8.1.1))(supports-color@8.1.1))(eslint-plugin-prettier@5.5.7(eslint-config-prettier@10.1.8(eslint@10.14.0(supports-color@8.1.1)))(eslint@10.14.0(supports-color@8.1.1))(prettier@3.9.10))(eslint-plugin-security@4.2.0)(eslint-plugin-simple-import-sort@14.0.0(eslint@10.14.0(supports-color@8.1.1)))(eslint@10.14.0(supports-color@8.1.1))(globals@17.13.0)(typescript-eslint@8.72.1(eslint@10.14.0(supports-color@8.1.1))(supports-color@8.1.1)(typescript@6.0.3))(typescript@6.0.3)
       '@panates/rman-preset':
         specifier: ^2.2.1
-        version: 2.2.1(dpdm@4.3.0)(eslint@10.14.0(supports-color@8.1.1))(prettier@3.9.10)(rman@2.41.2)
+        version: 2.2.1(dpdm@4.3.0)(eslint@10.14.0(supports-color@8.1.1))(prettier@3.9.10)(rman@2.41.3)
       '@panates/tsconfig':
         specifier: ^2.1.8
         version: 2.1.8
@@ -248,8 +248,8 @@ importers:
         specifier: ^3.9.10
         version: 3.9.10
       rman:
-        specifier: ^2.41.2
-        version: 2.41.2
+        specifier: ^2.41.3
+        version: 2.41.3
       ts-gems:
         specifier: ^4.0.4
         version: 4.0.4
@@ -3139,8 +3139,8 @@ packages:
     resolution: {integrity: sha512-g6QUff04oZpHs0eG5p83rFLhHeV00ug/Yf9nZM6fLeUrPguBTkTQOdpAWWspMh55TZfVQDPaN3NQJfbVRAxdIw==}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
 
-  rman@2.41.2:
-    resolution: {integrity: sha512-slBktGrmuUhkoBfoBQqP0Qj55aptVF0Uct+7Oz8qVlo+UlNUaxJdUwJ31sMCZ/95oTqeu7YQj5/oyiUBmDV/yg==}
+  rman@2.41.3:
+    resolution: {integrity: sha512-sKOp+1kOzS3u4BveZ167uOognenYB8ObDGkuRDUzH56ziV73SPJctfm9ngOEd/jJdDvNTJ87eA62Edl2aKpKDA==}
     engines: {node: '>=20.0'}
     hasBin: true
 
@@ -4127,13 +4127,13 @@ snapshots:
       eslint-plugin-simple-import-sort: 14.0.0(eslint@10.14.0(supports-color@8.1.1))
       globals: 17.13.0
 
-  '@panates/rman-preset@2.2.1(dpdm@4.3.0)(eslint@10.14.0(supports-color@8.1.1))(prettier@3.9.10)(rman@2.41.2)':
+  '@panates/rman-preset@2.2.1(dpdm@4.3.0)(eslint@10.14.0(supports-color@8.1.1))(prettier@3.9.10)(rman@2.41.3)':
     dependencies:
       '@npmcli/package-json': 8.0.0
       dpdm: 4.3.0
       eslint: 10.14.0(supports-color@8.1.1)
       prettier: 3.9.10
-      rman: 2.41.2
+      rman: 2.41.3
       tinyglobby: 0.2.17
 
   '@panates/tsconfig@2.1.8': {}
@@ -6194,7 +6194,7 @@ snapshots:
 
   reusify@1.1.0: {}
 
-  rman@2.41.2:
+  rman@2.41.3:
     dependencies:
       '@jsopen/objects': 2.3.4
       '@netlify/parse-npm-script': 0.1.2
