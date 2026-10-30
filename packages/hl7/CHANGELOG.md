@@ -1,6 +1,22 @@
 # Changelog
 
 
+<!-- rman:documented-up-to 645cc7062b2338628dea819b7095621fbb81a535 -->
+
+## @syncbridge/hl7@2.1.0 (2026-10-30)
+
+### ✨ Features
+
+- **hl7:** HL7Endpoint, the abstract base of HL7Client and HL7Server (10614a2)
+- **hl7:** names, summaries and settings in Turkish, German, French, Spanish, Italian and Brazilian Portuguese (1c53a7f)
+- **hl7:** HL7Client connects through its SOCKS proxy settings (69d346a)
+
+### 🧪 Tests
+
+- **hl7:** wait for the server to see the connection before restarting the client (8fd8bfe)
+
+---
+
 ## @syncbridge/hl7@1.2.0 (2026-10-12)
 
 ### ✨ Features
