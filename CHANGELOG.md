@@ -1,6 +1,55 @@
 # Changelog
 
-<!-- rman:documented-up-to bd6b4bdc6e706421f7248c0751266d4a62e789cf -->
+<!-- rman:documented-up-to 645cc7062b2338628dea819b7095621fbb81a535 -->
+
+## v2026.10.30-943 (2026-10-30)
+
+### ✨ Features
+
+- **oracle-client:** the Oracle Instant Client plugin (ac745cc)
+- **sqb:** SQL Server, MySQL, MariaDB and SQLite dialects (7688960)
+- **hl7:** HL7Client connects through its SOCKS proxy settings (69d346a)
+
+### 🐛 Bug Fixes
+
+- take rman 2.39 as a root devDependency (3ad5487)
+- **oracle-client:** declare its permissions and require plugin-api 2.2 (c941e5d)
+
+### 🔧 Refactoring
+
+- modules take @syncbridge/builtins as a registry dependency (c6658a1)
+
+### 📚 Documentation
+
+- install the modules from the SyncBridge registry, not npm (e98633b)
+- the trusted publisher follows a renamed repository by its id (bae8c87)
+- this directory is extensions, beside syncbridge and node-sdk (756dc5e)
+- drop the settings tables, the UI shows them (a644367)
+- the old npm versions are removed, and private beside publishConfig keeps nothing out of a release (ab6a48c)
+
+### 🧹 Chores
+
+- sync lockfile [skip ci] (2cf5322)
+- **oracle-client:** take the released plugin-api 2.1 and syncbuild 2.6 (45b0724)
+- run spm and tsc with pnpm exec, not npx (71c97dd)
+- no minimum release age in this repository (a929d9b)
+- the repository is syncbridge-io/syncbridge-extensions (fe706f6)
+- dpdm is not a devDependency, rman installs it (de5dc18)
+- take @syncbridge/common 2.9 and syncbuild 2.10, which build translations (4b9bbf4)
+- syncbuild 2.11 and @syncbridge/common 2.11 (6e62bc5)
+- upgrade dependencies (1e30741)
+- lockfile from a clean install (021b479)
+- coverage of all modules in the test workflow (cdc125d)
+- root package named after the repository (db668e3)
+- rman 2.40.3, @syncbridge/common 2.13.1 and syncbuild 2.12.1 for development (a57eb70)
+- the modules peer @syncbridge/common ^2.13.1, oracle-client @syncbridge/plugin-api ^2.3.0 (9428ecb)
+- the modules built on builtins take it as a workspace devDependency, for their build's types (645cc70)
+
+### 💬 General Changes
+
+- Merge branch 'oracle-client' into dev (1536ff6)
+
+---
 
 ## v2026.10.26-1439 (2026-10-26)
 
