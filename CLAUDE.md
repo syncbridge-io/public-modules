@@ -20,12 +20,13 @@ This repository does three things:
    registry with `spm` (`@syncbridge/syncbuild`), so they appear in the
    Marketplace and can be installed on SyncBridge servers.
 
-The SyncBridge platform lives in two other repositories, both worked on by
-one Claude session named **`syncbridge`**: the **SDK** (`@syncbridge/common`,
-`runtime`, `syncbuild`, `testing`, `plugin-api`), public, `syncbridge-io/node-sdk`
-at `/Users/ehanoglu/dev/syncbridge/node-sdk`, and the private rest (engine,
-Console, registry), `syncbridge-io/syncbridge`, at
-`/Users/ehanoglu/dev/syncbridge/syncbridge`. See "The platform" below.
+The SyncBridge platform lives in two other repositories: the **SDK**
+(`@syncbridge/common`, `runtime`, `syncbuild`, `testing`, `plugin-api`),
+public, `syncbridge-io/node-sdk` at `/Users/ehanoglu/dev/syncbridge/node-sdk`,
+and the private rest (engine, Console, registry), `syncbridge-io/syncbridge`,
+at `/Users/ehanoglu/dev/syncbridge/syncbridge`. Claude sessions work on them:
+**`syncbridge`** takes every platform report and routes it, and
+**`syncbridge-engine`** makes the SDK's changes. See "The platform" below.
 
 ## Layout
 
@@ -83,7 +84,8 @@ its build is missing or stale:
    of a platform package, no copy of its code here, no shim, no `any` cast
    to get past it, no edit in the platform repository.
 2. Tell the platform's session: find it with `ListAgents` (named
-   `syncbridge`) and `SendMessage` it. Say what you were doing, what you
+   `syncbridge`; it hands SDK work to `syncbridge-engine`) and
+   `SendMessage` it. Say what you were doing, what you
    expected, what happened (the exact error, command, file and line), and
    what you need - a fix, a feature, or a fresh build.
 3. Tell the user you did, and go on with work that does not depend on it.
@@ -103,8 +105,10 @@ rman check        # circular dependencies, package sanity
 pnpm exec prettier --check .
 ```
 
-Definition of done for a code change: `pnpm test`, `rman lint`,
-`rman check` and prettier all pass.
+Definition of done for a code change: `pnpm test`, `pnpm build`,
+`rman lint`, `rman check` and prettier all pass. `pnpm test` compiles every
+module from the root, so it does not show a module that fails to build on
+its own (CI's `rman build` does): `pnpm build` is what catches that.
 
 ## How to work here
 
@@ -122,8 +126,7 @@ Definition of done for a code change: `pnpm test`, `rman lint`,
 - **Push:** ask before every `git push`; push with `--follow-tags`.
   Before pushing, run `rman deps`. When it lists newer versions, upgrade
   the manifests with `rman deps -u`, run `pnpm install`, and run the
-  definition of done again (`pnpm test`, `rman lint`, `rman check`,
-  prettier); commit the upgrade as `chore: ...` before the push.
+  definition of done again; commit the upgrade as `chore: ...` before the push.
 - **Secrets:** never print a token, key or password, never commit one.
   This repository is public.
 - **Found a bug or something odd in passing?** Tell the user; don't fix it
