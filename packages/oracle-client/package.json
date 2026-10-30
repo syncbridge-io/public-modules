@@ -23,8 +23,8 @@
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
-    "@syncbridge/common": "^2.3.1",
-    "@syncbridge/plugin-api": "^2.2.0"
+    "@syncbridge/common": "^2.13.1",
+    "@syncbridge/plugin-api": "^2.3.0"
   },
   "exports": {
     ".": {

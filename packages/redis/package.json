@@ -23,7 +23,7 @@
   },
   "peerDependencies": {
     "@jsopen/objects": ">=2.3.4 <3",
-    "@syncbridge/common": "^2.3.1",
+    "@syncbridge/common": "^2.13.1",
     "ioredis": ">=6.0.0 <7"
   },
   "exports": {
