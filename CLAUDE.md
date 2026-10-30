@@ -191,8 +191,11 @@ install, a short example, link to its docs.
   create packages" on for the first publish; a package then stays bound to
   it. A release that failed at publishing is finished by running the workflow
   again. The engine's image installs the builtins from the registry. The old
-  npm versions stay, deprecated, pointing at the registry; the SDK packages
-  (`@syncbridge/common` and the others) stay on npm.
+  npm versions of the modules were removed from npm (2026-10); the SDK
+  packages (`@syncbridge/common` and the others) stay on npm.
+- `"private": true` in a module's `package.json`, beside its
+  `publishConfig`, only guards against a stray `npm publish`: rman drops it
+  and publishes the module like the others. It keeps nothing out of a release.
 - The first release bumps all eight modules: the published 1.0.x builds are
   stale against `@syncbridge/common` 2.
 
@@ -206,7 +209,7 @@ install, a short example, link to its docs.
   follow it.
 - `@syncbridge/net` was folded into `@syncbridge/builtins` (2026-10-20): its
   components are `@syncbridge/builtins:TcpClient` and so on now. The package
-  is gone; its last npm version is to be deprecated by the user.
+  is gone, from npm too.
 - The platform's `@syncbridge/testing` tests of the virtual network and
   serial port moved here: `packages/builtins/test/virtual-network.spec.ts` and
   `packages/serialport/test/virtual-serial.spec.ts`, with their
@@ -217,7 +220,6 @@ install, a short example, link to its docs.
   (renamed from `public-modules` on 2026-10-28, and this directory from
   `public-modules` to `extensions`). The registry's trusted publisher matches the
   repository by its GitHub id, not its name, so a rename needs nothing there.
-  Not done yet: deprecating the old npm versions.
 
 ## graphify
 
