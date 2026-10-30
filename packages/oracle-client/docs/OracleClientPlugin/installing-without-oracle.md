@@ -15,8 +15,11 @@ takes the package from somewhere you can reach.
    the server's architecture (`linux.x64` or `linux.arm64`) from Oracle's
    Instant Client download page. Accept Oracle's license there as well: it is
    the same license the plugin asks about.
-2. Copy the zip to the server, somewhere the SyncBridge process can read -
-   `/var/tmp/instantclient-basic.zip`, say.
+2. Copy the zip into the plugin's data directory on the server -
+   `/var/lib/syncbridge/plugins/oracle-client/instantclient-basic.zip` on a
+   server installed from the Linux package, say. The engine lets the plugin
+   read that directory alone: given a path elsewhere, the action says so and
+   names the directory.
 3. On the plugin's card, run **Install from file** and give that path.
 
 The plugin checks the zip, unpacks it and gives it to the workers as it does

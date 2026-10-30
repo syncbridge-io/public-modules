@@ -22,12 +22,25 @@ export function hasLibaio(): boolean {
   /* Only Linux links against it; elsewhere the client is not ours to judge */
   if (process.platform !== 'linux') return true;
   for (const dir of DIRECTORIES)
-    for (const name of NAMES)
-      if (fs.existsSync(path.join(dir, name))) return true;
+    for (const name of NAMES) if (readable(path.join(dir, name))) return true;
   /* A distribution that keeps it elsewhere: ask the linker's own cache */
   try {
     const out = execFileSync('ldconfig', ['-p'], { encoding: 'utf8' });
     return /\blibaio\.so/.test(out);
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Whether the file is there. Under the engine's permission model a plugin
+ * may not look outside its data directory, and `existsSync` throws there
+ * rather than answer: a path it may not read tells nothing, and `ldconfig`
+ * is asked instead.
+ */
+function readable(file: string): boolean {
+  try {
+    return fs.existsSync(file);
   } catch {
     return false;
   }

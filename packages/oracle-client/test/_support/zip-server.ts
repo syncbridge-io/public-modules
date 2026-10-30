@@ -1,13 +1,30 @@
 import http from 'node:http';
 import AdmZip from 'adm-zip';
 
-/** An Instant Client package as Oracle's: one directory, the client in it */
+/**
+ * An Instant Client package as Oracle's: one directory, the client in it,
+ * and `libclntsh.so` a symlink to the versioned library
+ */
 export function clientZip(version = '23.9.0.25.07'): Buffer {
   const zip = new AdmZip();
-  const root = `instantclient_${version.split('.').slice(0, 2).join('_')}`;
-  zip.addFile(`${root}/libclntsh.so`, Buffer.from('not really a library'));
+  const [major, minor] = version.split('.');
+  const root = `instantclient_${major}_${minor}`;
+  zip.addFile(
+    `${root}/libclntsh.so.${major}.1`,
+    Buffer.from('not really a library'),
+    '',
+    0o755,
+  );
+  addSymlink(zip, `${root}/libclntsh.so`, `libclntsh.so.${major}.1`);
   zip.addFile(`${root}/network/admin/README`, Buffer.from('tnsnames here'));
   return zip.toBuffer();
+}
+
+/** A symlink as Info-ZIP stores one: its target as the data, its type in
+ * the Unix mode */
+export function addSymlink(zip: AdmZip, name: string, target: string): void {
+  zip.addFile(name, Buffer.from(target));
+  zip.getEntry(name)!.header.attr = (0o120777 << 16) >>> 0;
 }
 
 export interface ZipServer {

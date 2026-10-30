@@ -197,7 +197,7 @@ export class OracleClientPlugin extends PluginBase<OracleClientSettings> {
     fs.mkdirSync(this.dataDirectory, { recursive: true });
     try {
       if (source) {
-        if (!fs.existsSync(source))
+        if (!this._present(source))
           throw new Error(`There is no file at "${source}" on this server`);
         this.host.status.set({ state: 'busy', message: `Reading ${source}` });
         fs.copyFileSync(source, zip);
@@ -223,6 +223,23 @@ export class OracleClientPlugin extends PluginBase<OracleClientSettings> {
       return record;
     } finally {
       fs.rmSync(zip, { force: true });
+    }
+  }
+
+  /**
+   * Whether the file action's zip is there. The engine lets a plugin read
+   * its data directory alone, and `existsSync` throws on a path outside it:
+   * the admin is told where to copy the zip instead.
+   */
+  protected _present(source: string): boolean {
+    try {
+      return fs.existsSync(source);
+    } catch (err: any) {
+      if (err.code !== 'ERR_ACCESS_DENIED') throw err;
+      throw new Error(
+        `This plugin may read only its own directory, not "${source}": copy the zip into ${this.dataDirectory} and give that path`,
+        { cause: err },
+      );
     }
   }
 
