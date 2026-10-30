@@ -1,6 +1,15 @@
 # Changelog
 
-<!-- rman:documented-up-to 645cc7062b2338628dea819b7095621fbb81a535 -->
+<!-- rman:documented-up-to 8246c15502e46289901f5c343273687e602f530d -->
+
+## @syncbridge/oracle-client@1.1.1 (2026-10-30)
+
+### 🐛 Bug Fixes
+
+- **oracle-client:** install under the engine's permission model (874d649)
+- **oracle-client:** give the workers a client they may read (8246c15)
+
+---
 
 ## @syncbridge/oracle-client@1.1.0 (2026-10-30)
 
