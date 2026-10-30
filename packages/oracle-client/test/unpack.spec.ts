@@ -38,8 +38,33 @@ describe('unpackClient', () => {
     const link = fs.statSync(path.join(target, 'libclntsh.so'));
     const library = fs.statSync(path.join(target, 'libclntsh.so.23.1'));
     expect(link.ino).toBe(library.ino);
-    /* The mode the zip keeps */
-    expect(library.mode & 0o777).toBe(0o755);
+  });
+
+  it('should take the directory holding libclntsh, leaving META-INF out', () => {
+    const target = path.join(data, 'instantclient');
+    unpackClient(write(clientZip()), target);
+    expect(fs.readdirSync(target).sort()).toEqual([
+      'libclntsh.so',
+      'libclntsh.so.23.1',
+      'network',
+    ]);
+  });
+
+  it('should leave what it unpacks readable by all, whatever the umask', () => {
+    const umask = process.umask(0o077);
+    try {
+      const target = path.join(data, 'instantclient');
+      unpackClient(write(clientZip()), target);
+      const mode = (file: string) =>
+        fs.statSync(path.join(target, file)).mode & 0o777;
+      expect(mode('.')).toBe(0o755);
+      expect(mode('network')).toBe(0o755);
+      expect(mode('network/admin')).toBe(0o755);
+      expect(mode('libclntsh.so.23.1')).toBe(0o755);
+      expect(mode('network/admin/README')).toBe(0o644);
+    } finally {
+      process.umask(umask);
+    }
   });
 
   it('should link a symlink that comes before its target', () => {

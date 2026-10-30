@@ -2,13 +2,14 @@ import http from 'node:http';
 import AdmZip from 'adm-zip';
 
 /**
- * An Instant Client package as Oracle's: one directory, the client in it,
- * and `libclntsh.so` a symlink to the versioned library
+ * An Instant Client package as Oracle's: the client in a directory beside
+ * its signature, and `libclntsh.so` a symlink to the versioned library
  */
 export function clientZip(version = '23.9.0.25.07'): Buffer {
   const zip = new AdmZip();
   const [major, minor] = version.split('.');
   const root = `instantclient_${major}_${minor}`;
+  zip.addFile('META-INF/MANIFEST.MF', Buffer.from('Manifest-Version: 1.0'));
   zip.addFile(
     `${root}/libclntsh.so.${major}.1`,
     Buffer.from('not really a library'),

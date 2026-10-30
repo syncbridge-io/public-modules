@@ -5,7 +5,7 @@ import { Readable } from 'node:stream';
 import { pipeline } from 'node:stream/promises';
 import { DefineVariable, PluginPermission } from '@syncbridge/common';
 import { Plugin, PluginBase, type PluginHost } from '@syncbridge/plugin-api';
-import { CLIENT_DIR, INSTALL_RECORD } from '../constants.js';
+import { CLIENT_DIR, INSTALL_RECORD, SHARED_DIR } from '../constants.js';
 import { downloadUrlOf } from '../utils/download-url.js';
 import { hasLibaio, LIBAIO_MISSING } from '../utils/libaio.js';
 import { unpackClient } from '../utils/unpack.js';
@@ -58,7 +58,20 @@ export class OracleClientPlugin extends PluginBase<OracleClientSettings> {
   protected _installing?: Promise<InstallRecord>;
 
   get clientDirectory(): string {
-    return path.join(this.dataDirectory, CLIENT_DIR);
+    return path.join(this.dataDirectory, SHARED_DIR, CLIENT_DIR);
+  }
+
+  /**
+   * 1.1.0 unpacked the client beside its record, where the workers may not
+   * read it: that one is dropped, and the client installed again under
+   * `shared/` as the plugin starts
+   */
+  install({ from }: PluginBase.Install): void {
+    if (from)
+      fs.rmSync(path.join(this.dataDirectory, CLIENT_DIR), {
+        recursive: true,
+        force: true,
+      });
   }
 
   async activate(): Promise<void> {
@@ -195,6 +208,10 @@ export class OracleClientPlugin extends PluginBase<OracleClientSettings> {
     const { version } = this.settings;
     const zip = path.join(this.dataDirectory, 'download.zip');
     fs.mkdirSync(this.dataDirectory, { recursive: true });
+    /* The workers run as users of their own: they pass through it */
+    const shared = path.dirname(this.clientDirectory);
+    fs.mkdirSync(shared, { recursive: true });
+    fs.chmodSync(shared, 0o755);
     try {
       if (source) {
         if (!this._present(source))

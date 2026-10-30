@@ -20,10 +20,10 @@ the license here and the plugin downloads it from Oracle.
    background - the server starts meanwhile - and tells its progress on the
    card.
 4. It checks that what arrived is an Instant Client package (and its SHA-256,
-   when the setting gives one), then unpacks it into `instantclient` under
-   the plugin's data directory. Oracle's zip holds one directory; its
-   contents are what is installed, so the libraries sit directly in
-   `instantclient`.
+   when the setting gives one), then unpacks it into `shared/instantclient`
+   under the plugin's data directory - `shared/` is what the workers may
+   read. Of Oracle's zip, the directory holding the libraries is what is
+   installed, so they sit directly in `instantclient`.
 5. It adds that directory to `LD_LIBRARY_PATH` and
    `instantclient/network/admin` to `TNS_ADMIN` for every worker that starts.
    A worker already running is marked "Restart required" - it takes the

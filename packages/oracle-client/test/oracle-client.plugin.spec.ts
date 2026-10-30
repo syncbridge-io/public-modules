@@ -75,7 +75,11 @@ describe('OracleClientPlugin', () => {
     await p.activate();
     await waitFor(() => env.last()?.state === 'ready');
     expect(env.asked).toEqual(['license']);
-    /* The zip's own directory is dropped: the libraries sit in it */
+    /* Under shared/, which the workers may read; the zip's own directory
+     * dropped: the libraries sit in it */
+    expect(p.clientDirectory).toBe(
+      path.join(dataDirectory, 'shared', 'instantclient'),
+    );
     expect(fs.existsSync(path.join(p.clientDirectory, 'libclntsh.so'))).toBe(
       true,
     );
@@ -228,6 +232,14 @@ describe('OracleClientPlugin', () => {
     await waitFor(() => env.last()?.message === 'Instant Client 23.26.4.0.0');
     expect(server.requests.length).toBe(requests + 1);
     expect(env.asked).toEqual(['license']);
+  });
+
+  it("should drop 1.1.0's client, which the workers may not read, when updated from it", () => {
+    const old = path.join(dataDirectory, 'instantclient');
+    fs.mkdirSync(old);
+    fs.writeFileSync(path.join(old, 'libclntsh.so'), 'old');
+    plugin().install({ from: '1.1.0', to: '1.1.1' });
+    expect(fs.existsSync(old)).toBe(false);
   });
 
   it('should leave the workers the client they have when the update fails', async () => {

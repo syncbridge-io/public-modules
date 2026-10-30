@@ -11,8 +11,11 @@ const S_IFLNK = 0o120000;
 
 /**
  * Unpacks the Basic package into `target`, replacing what is there. Oracle's
- * zip holds one directory (`instantclient_23_9`); its contents are what
- * `LD_LIBRARY_PATH` points at, so the directory itself is dropped.
+ * zip holds the client in a directory (`instantclient_19_32`), beside its
+ * signature in `META-INF/` for 19; the directory holding libclntsh is what
+ * `LD_LIBRARY_PATH` points at, so it becomes `target` and the rest is
+ * dropped. What is unpacked is readable by everyone: the workers run as
+ * users of their own.
  *
  * Throws when the zip is not an Instant Client package - a download that
  * answered with an error page reaches here as a broken zip.
@@ -27,21 +30,19 @@ export function unpackClient(zip: string, target: string): void {
     });
   }
   const entries = archive.getEntries();
-  if (
-    !entries.some(entry => CLIENT_LIBRARY.test(path.basename(entry.entryName)))
-  )
+  const library = entries.find(entry =>
+    CLIENT_LIBRARY.test(path.basename(entry.entryName)),
+  );
+  if (!library)
     throw new Error(
       'The zip carries no libclntsh: it is not an Instant Client Basic package',
     );
   const staging = path.resolve(`${target}.unpacking`);
   fs.rmSync(staging, { recursive: true, force: true });
   fs.mkdirSync(staging, { recursive: true });
+  fs.chmodSync(staging, 0o755);
   extract(entries, staging);
-  const unpacked = fs.readdirSync(staging, { withFileTypes: true });
-  const root =
-    unpacked.length === 1 && unpacked[0].isDirectory()
-      ? path.join(staging, unpacked[0].name)
-      : staging;
+  const root = path.dirname(inside(staging, library.entryName));
   fs.rmSync(target, { recursive: true, force: true });
   fs.renameSync(root, target);
   fs.rmSync(staging, { recursive: true, force: true });
@@ -61,18 +62,19 @@ function extract(entries: AdmZip.IZipEntry[], directory: string): void {
   for (const entry of entries) {
     const file = inside(directory, entry.entryName);
     if (entry.isDirectory) {
-      fs.mkdirSync(file, { recursive: true });
+      makeDirectory(directory, file);
       continue;
     }
-    fs.mkdirSync(path.dirname(file), { recursive: true });
+    makeDirectory(directory, path.dirname(file));
     const mode = entry.header.attr >>> 16;
     if ((mode & S_IFMT) === S_IFLNK) {
       const target = entry.getData().toString('utf8');
       links.push({ file, target: inside(directory, target, file) });
       continue;
     }
-    /* A zip made elsewhere than Unix keeps no mode: the default then */
-    fs.writeFileSync(file, entry.getData(), { mode: mode & 0o777 || 0o644 });
+    fs.writeFileSync(file, entry.getData());
+    /* Set after writing: the mode written with is narrowed by the umask */
+    fs.chmodSync(file, readableByAll(mode & 0o777));
   }
   /* A link may name one that comes after it, or another link: each round
    * links what has its target written, until none is left */
@@ -87,6 +89,23 @@ function extract(entries: AdmZip.IZipEntry[], directory: string): void {
       links.splice(links.indexOf(link), 1);
     }
   }
+}
+
+/** A directory and those above it up to `directory`, each readable by all */
+function makeDirectory(directory: string, dir: string): void {
+  if (fs.existsSync(dir)) return;
+  makeDirectory(directory, path.dirname(dir));
+  fs.mkdirSync(dir);
+  fs.chmodSync(dir, 0o755);
+}
+
+/**
+ * The zip's mode, readable by all and runnable by all when it is by its
+ * owner; a zip made elsewhere than Unix keeps none, and is given 0644
+ */
+function readableByAll(mode: number): number {
+  if (!mode) return 0o644;
+  return mode & 0o100 ? mode | 0o555 : mode | 0o444;
 }
 
 /**
