@@ -1,7 +1,22 @@
 # Changelog
 
 
-<!-- rman:documented-up-to 645cc7062b2338628dea819b7095621fbb81a535 -->
+<!-- rman:documented-up-to 16840e8bfe4c1a6d3bae9e8ae33b04fae86168c0 -->
+
+## @syncbridge/builtins@2.2.0 (2026-10-31)
+
+### ✨ Features
+
+- **builtins:** dashboards of the IO clients and servers (a70567b)
+- **builtins:** traffic charts on the IO dashboards (6d309a8)
+- **builtins:** a Bridge dashboard for the IO Bridge app (6f5e0db)
+- **builtins:** dashboard texts in six languages (2e91f7d)
+
+### 🔧 Refactoring
+
+- **builtins:** IO widgets shown where an app includes them (27faa82)
+
+---
 
 ## @syncbridge/builtins@2.1.0 (2026-10-30)
 
