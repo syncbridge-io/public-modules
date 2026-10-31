@@ -1,7 +1,16 @@
 # Changelog
 
 
-<!-- rman:documented-up-to 645cc7062b2338628dea819b7095621fbb81a535 -->
+<!-- rman:documented-up-to 16840e8bfe4c1a6d3bae9e8ae33b04fae86168c0 -->
+
+## @syncbridge/kafka@2.2.0 (2026-10-31)
+
+### ✨ Features
+
+- **kafka:** a dashboard for the consumer and the producer (affd970)
+- **kafka:** dashboard texts in six languages (a388c94)
+
+---
 
 ## @syncbridge/kafka@2.1.0 (2026-10-30)
 
