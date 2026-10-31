@@ -6,9 +6,11 @@ import {
   ComponentBase,
   LogChannel,
   ServiceStatus,
+  UseDashboard,
 } from '@syncbridge/common';
 import { HL7Message } from 'hl7v2';
 import type { HL7Middleware, HL7ResponseHook, HL7Socket } from 'hl7v2-net';
+import { HL7Dashboard } from './hl7-endpoint.dashboard.js';
 import type { HL7ProtocolVariables } from './hl7-protocol.variables.js';
 
 /**
@@ -53,9 +55,17 @@ export class HL7EndpointComponent<
   })
   declare readonly communicationLog: LogChannel;
 
+  /** Its messages and errors, a tab of the worker's page */
+  @UseDashboard({ title: 'Messages' })
+  declare readonly messages: HL7Dashboard;
+
   /* Each subclass attaches its own variables class: they extend different
    * TCP variable classes */
   declare values: HL7EndpointComponent.Variables;
+
+  /* Since the worker started: a dashboard keeps nothing over a restart */
+  protected _errors!: number;
+  protected _received!: Map<string, number>;
 
   /** Whether a peer is connected: the server for the client, any device for the server */
   get connected(): boolean {
@@ -74,6 +84,13 @@ export class HL7EndpointComponent<
 
   protected async _init(): Promise<void> {
     await super._init();
+    this._errors = 0;
+    this._received = new Map();
+    /* A component made outside an app factory has no channels nor dashboards */
+    this.messages?.errors.set(0);
+    this.on('message', (message, info) => this._show('in', message, info));
+    this.on('send', (message, info) => this._show('out', message, info));
+    this.on('error', () => this.messages?.errors.set(++this._errors));
     this.on('data', (data, info) => {
       this.communicationLog?.write({
         direction: 'in',
@@ -93,6 +110,29 @@ export class HL7EndpointComponent<
         this.setStatus(ServiceStatus.unhealthy, err.message),
       ),
     );
+  }
+
+  /** A message on the dashboard: its rate, its type's bar, its feed row */
+  protected _show(
+    direction: 'in' | 'out',
+    message: HL7Message,
+    info?: AddressInfo,
+  ): void {
+    if (!this.messages) return;
+    const type = message.messageType || '?';
+    this.messages.rate.count(direction === 'in' ? 'received' : 'sent');
+    if (direction === 'in') {
+      const n = (this._received.get(type) || 0) + 1;
+      this._received.set(type, n);
+      this.messages.types.upsert(type, { value: n });
+    }
+    this.messages.last.append({
+      direction,
+      type,
+      controlId: String(message.get('MSH-10') ?? ''),
+      ack: String(message.get('MSA-1') ?? ''),
+      peer: peerOf(info) || '',
+    });
   }
 
   /** Gives a newly created client or server the handlers and hooks added so far */

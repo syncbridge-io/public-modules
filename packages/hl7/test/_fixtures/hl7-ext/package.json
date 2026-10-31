@@ -1,0 +1,13 @@
+{
+  "name": "@test/hl7-ext",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "module": "./index.js",
+  "dependencies": {
+    "@syncbridge/hl7": "*"
+  },
+  "peerDependencies": {
+    "@syncbridge/common": "*"
+  }
+}

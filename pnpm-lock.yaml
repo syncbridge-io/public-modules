@@ -294,7 +294,7 @@ importers:
   packages/hl7:
     dependencies:
       '@syncbridge/common':
-        specifier: ^2.13.1
+        specifier: ^2.16.0
         version: 2.16.0(@opra/common@1.33.0)
       ansi-colors:
         specifier: '>=4.1.0 <5'
@@ -312,6 +312,9 @@ importers:
       '@syncbridge/builtins':
         specifier: workspace:^
         version: link:../builtins
+      '@syncbridge/testing':
+        specifier: ^2.4.0
+        version: 2.4.0(@syncbridge/common@2.16.0(@opra/common@1.33.0))
       expect:
         specifier: ^30.5.2
         version: 30.5.2

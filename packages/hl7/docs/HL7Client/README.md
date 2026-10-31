@@ -53,6 +53,10 @@ and `details` (the server as `address:port`).
 | `in`      |              | The bytes received | Data arrives from the server.         |
 | `out`     |              | The bytes written  | Data is written to the server.        |
 
+## Dashboard
+
+The **Messages** tab shows messages a second, errors, the types received and the last messages with their acknowledgments: see [HL7Endpoint](../HL7Endpoint/README.md#dashboard).
+
 ## Status
 
 - Started: the connection is open. `start()` begins to connect and does not

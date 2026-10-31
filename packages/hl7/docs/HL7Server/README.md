@@ -66,6 +66,10 @@ and `details` (the peer as `address:port`).
 | `in`      |              | The bytes received            | Data arrives from a peer.   |
 | `out`     |              | The bytes written             | Data is written to a peer.  |
 
+## Dashboard
+
+The **Messages** tab shows messages a second, errors, the types received and the last messages with their acknowledgments: see [HL7Endpoint](../HL7Endpoint/README.md#dashboard).
+
 ## Status
 
 - Started: the server listens.
