@@ -1,6 +1,30 @@
 # Changelog
 
-<!-- rman:documented-up-to 8246c15502e46289901f5c343273687e602f530d -->
+<!-- rman:documented-up-to 16840e8bfe4c1a6d3bae9e8ae33b04fae86168c0 -->
+
+## v2026.10.31-2058 (2026-10-31)
+
+### ✨ Features
+
+- **builtins:** dashboards of the IO clients and servers (a70567b)
+- **builtins:** traffic charts on the IO dashboards (6d309a8)
+- **hl7:** a Messages dashboard for the client and the server (f70b738)
+- **sqb:** a dashboard of the database client (ba3998b)
+
+### 🔧 Refactoring
+
+- **builtins:** IO widgets shown where an app includes them (27faa82)
+
+### 🧪 Tests
+
+- each module's test tsconfig extends the root's (67a9c09)
+
+### 🧹 Chores
+
+- upgrade dependencies (44ef9c8)
+- @syncbridge/common 2.18 and syncbuild 2.15 (5541b38)
+
+---
 
 ## v2026.10.30-2303 (2026-10-30)
 
