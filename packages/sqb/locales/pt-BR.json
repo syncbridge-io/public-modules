@@ -72,6 +72,30 @@
         "label": "Fila máxima",
         "description": "Número máximo de requisições aceitas pelo pool"
       }
+    },
+    "dashboards": {
+      "database": {
+        "title": "Banco de dados",
+        "widgets": {
+          "link": {
+            "title": "Banco de dados"
+          },
+          "rate": {
+            "title": "Consultas",
+            "unit": "/s",
+            "series": {
+              "queries": "Consultas",
+              "errors": "Erros"
+            }
+          },
+          "errors": {
+            "title": "Erros"
+          },
+          "inUse": {
+            "title": "Conexões em uso"
+          }
+        }
+      }
     }
   }
 }

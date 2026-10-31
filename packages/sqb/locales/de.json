@@ -72,6 +72,30 @@
         "label": "Max. Warteschlange",
         "description": "Maximale Anzahl von Anforderungen, die der Pool annimmt"
       }
+    },
+    "dashboards": {
+      "database": {
+        "title": "Datenbank",
+        "widgets": {
+          "link": {
+            "title": "Datenbank"
+          },
+          "rate": {
+            "title": "Abfragen",
+            "unit": "/s",
+            "series": {
+              "queries": "Abfragen",
+              "errors": "Fehler"
+            }
+          },
+          "errors": {
+            "title": "Fehler"
+          },
+          "inUse": {
+            "title": "Verbindungen in Benutzung"
+          }
+        }
+      }
     }
   }
 }

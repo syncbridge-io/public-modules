@@ -9,6 +9,7 @@ export class SqbClientDashboard extends DashboardBase {
   @Widget.Chart({
     title: 'Queries',
     series: ['queries', 'errors'],
+    labels: { queries: 'Queries', errors: 'Errors' },
     unit: '/s',
     size: { width: 2 },
   })

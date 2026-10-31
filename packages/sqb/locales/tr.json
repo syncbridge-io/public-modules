@@ -72,6 +72,30 @@
         "label": "En fazla kuyruk",
         "description": "Havuzun kabul edeceği en fazla istek sayısı"
       }
+    },
+    "dashboards": {
+      "database": {
+        "title": "Veritabanı",
+        "widgets": {
+          "link": {
+            "title": "Veritabanı"
+          },
+          "rate": {
+            "title": "Sorgular",
+            "unit": "/sn",
+            "series": {
+              "queries": "Sorgular",
+              "errors": "Hatalar"
+            }
+          },
+          "errors": {
+            "title": "Hatalar"
+          },
+          "inUse": {
+            "title": "Kullanımdaki bağlantılar"
+          }
+        }
+      }
     }
   }
 }

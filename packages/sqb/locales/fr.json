@@ -72,6 +72,30 @@
         "label": "File d'attente max.",
         "description": "Nombre maximal de requêtes acceptées par le pool"
       }
+    },
+    "dashboards": {
+      "database": {
+        "title": "Base de données",
+        "widgets": {
+          "link": {
+            "title": "Base de données"
+          },
+          "rate": {
+            "title": "Requêtes",
+            "unit": "/s",
+            "series": {
+              "queries": "Requêtes",
+              "errors": "Erreurs"
+            }
+          },
+          "errors": {
+            "title": "Erreurs"
+          },
+          "inUse": {
+            "title": "Connexions utilisées"
+          }
+        }
+      }
     }
   }
 }

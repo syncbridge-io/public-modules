@@ -72,6 +72,30 @@
         "label": "Coda massima",
         "description": "Numero massimo di richieste accettate dal pool"
       }
+    },
+    "dashboards": {
+      "database": {
+        "title": "Database",
+        "widgets": {
+          "link": {
+            "title": "Database"
+          },
+          "rate": {
+            "title": "Query",
+            "unit": "/s",
+            "series": {
+              "queries": "Query",
+              "errors": "Errori"
+            }
+          },
+          "errors": {
+            "title": "Errori"
+          },
+          "inUse": {
+            "title": "Connessioni in uso"
+          }
+        }
+      }
     }
   }
 }

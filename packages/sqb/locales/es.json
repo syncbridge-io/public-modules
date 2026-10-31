@@ -72,6 +72,30 @@
         "label": "Cola máxima",
         "description": "Número máximo de solicitudes que acepta el pool en cola"
       }
+    },
+    "dashboards": {
+      "database": {
+        "title": "Base de datos",
+        "widgets": {
+          "link": {
+            "title": "Base de datos"
+          },
+          "rate": {
+            "title": "Consultas",
+            "unit": "/s",
+            "series": {
+              "queries": "Consultas",
+              "errors": "Errores"
+            }
+          },
+          "errors": {
+            "title": "Errores"
+          },
+          "inUse": {
+            "title": "Conexiones en uso"
+          }
+        }
+      }
     }
   }
 }
