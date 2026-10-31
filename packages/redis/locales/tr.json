@@ -1,5 +1,21 @@
 {
+  "Redis": {
+    "dashboards": {
+      "connection": {
+        "title": "Redis",
+        "widgets": {
+          "link": {
+            "title": "Redis"
+          },
+          "reconnects": {
+            "title": "Yeniden bağlanmalar"
+          }
+        }
+      }
+    }
+  },
   "RedisSentinel": {
+    "@extends": "Redis",
     "displayName": "Redis Sentinel İstemcisi",
     "description": "Redis Sentinel istemci bileşeni",
     "summary": "Bir Redis Sentinel grubunun master sunucusuna bağlanır ve uygulamalara ioredis istemcisini verir.",
@@ -137,6 +153,7 @@
     }
   },
   "RedisStandalone": {
+    "@extends": "Redis",
     "displayName": "Redis Tek Sunucu İstemcisi",
     "description": "Redis tek sunucu istemci bileşeni",
     "summary": "Tek bir Redis sunucusuna bağlanır ve uygulamalara ioredis istemcisini verir.",

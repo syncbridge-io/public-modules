@@ -1,5 +1,21 @@
 {
+  "Redis": {
+    "dashboards": {
+      "connection": {
+        "title": "Redis",
+        "widgets": {
+          "link": {
+            "title": "Redis"
+          },
+          "reconnects": {
+            "title": "Riconnessioni"
+          }
+        }
+      }
+    }
+  },
   "RedisSentinel": {
+    "@extends": "Redis",
     "displayName": "Client Redis Sentinel",
     "description": "Componente client Redis Sentinel",
     "summary": "Si connette al master di un gruppo Redis Sentinel e fornisce alle app il suo client ioredis.",
@@ -137,6 +153,7 @@
     }
   },
   "RedisStandalone": {
+    "@extends": "Redis",
     "displayName": "Client Redis standalone",
     "description": "Componente client Redis standalone",
     "summary": "Si connette a un singolo server Redis e fornisce alle app il suo client ioredis.",
