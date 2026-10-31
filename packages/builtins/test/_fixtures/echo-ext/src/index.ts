@@ -1,6 +1,6 @@
 import type net from 'node:net';
 import { TcpClientComponent, TcpServerComponent } from '@syncbridge/builtins';
-import { App, AppBase } from '@syncbridge/common';
+import { App, AppBase, DashboardBase, UseDashboard } from '@syncbridge/common';
 
 /**
  * Answers what it is sent in capitals, and greets a device it connects to,
@@ -13,6 +13,16 @@ export class EchoApp extends AppBase {
 
   @App.UseComponent()
   declare readonly device?: TcpClientComponent;
+
+  /* The server's widgets all, the client's link and traffic only */
+  @UseDashboard({ title: 'Listener', include: [{ component: 'listener' }] })
+  declare readonly listenerTab: DashboardBase;
+
+  @UseDashboard({
+    title: 'Device',
+    include: [{ component: 'device', widgets: ['link', 'traffic'] }],
+  })
+  declare readonly deviceTab: DashboardBase;
 
   readonly fromDevice: string[] = [];
 

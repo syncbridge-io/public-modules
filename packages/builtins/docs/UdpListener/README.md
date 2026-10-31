@@ -56,7 +56,7 @@ The component writes no `connect` or `disconnect` records.
 
 ## Dashboard
 
-The **Connection** tab shows `Listening on port <port>` once the socket is bound, the bytes received and sent, and a chart of bytes a second: see [IoClient](../guides/io-client.md#dashboard).
+Its `connection` dashboard shows `Listening on port <port>` once the socket is bound, the bytes received and sent, and a chart of bytes a second, where an app takes it: see [IoClient](../guides/io-client.md#dashboard).
 
 ## Status
 

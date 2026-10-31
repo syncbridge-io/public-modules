@@ -58,7 +58,7 @@ is aborted before it finishes has no `response` record.
 
 ## Dashboard
 
-The **Connections** tab is inherited from [IoServer](../guides/io-server.md#dashboard). `HttpServer` serves requests, not connections, so it stays empty.
+The `connections` dashboard is inherited from [IoServer](../guides/io-server.md#dashboard). `HttpServer` serves requests, not connections, so it stays empty: an app has no reason to take it.
 
 ## Status
 

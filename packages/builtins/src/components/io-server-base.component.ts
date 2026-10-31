@@ -43,7 +43,7 @@ export class IoServerBaseComponent<
   })
   declare readonly communicationLog: LogChannel;
 
-  /** Its connections and what each moved, a tab of the worker's page */
+  /** Its connections and what each moved: shown where an app includes it */
   @UseDashboard({ title: 'Connections' })
   declare readonly connections: IoServerDashboard;
 

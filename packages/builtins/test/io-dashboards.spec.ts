@@ -11,7 +11,7 @@ describe('IO dashboards', () => {
   afterEach(() => env.reset());
   after(() => env.dispose());
 
-  it("should show a client's link and the bytes it moved", async () => {
+  it("should show a client's link and traffic, as the app takes them", async () => {
     const device = env.serve({ port: 4101 });
     const app = await env.start(EchoApp, {
       components: {
@@ -26,12 +26,9 @@ describe('IO dashboards', () => {
     expect(env.dashboard(app, 'device/connection/link')).toMatchObject({
       value: { status: 'ok', text: 'Connected to analyzer.lab:4101' },
     });
-    expect(env.dashboard(app, 'device/connection/sent')).toMatchObject({
-      value: 'hello'.length,
-    });
-    expect(env.dashboard(app, 'device/connection/received')).toMatchObject({
-      value: 'result 42'.length,
-    });
+    /* Widgets the app does not take are not written */
+    expect(env.dashboard(app, 'device/connection/sent')).toBeUndefined();
+    expect(env.dashboard(app, 'device/connection/received')).toBeUndefined();
     /* Counted in the worker, written as one point an interval */
     env.flushCounts(app);
     expect(env.dashboard(app, 'device/connection/traffic')).toMatchObject({

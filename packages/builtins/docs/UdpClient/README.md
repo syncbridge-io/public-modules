@@ -63,7 +63,7 @@ The component writes no `disconnect` record.
 
 ## Dashboard
 
-The **Connection** tab shows the link the bytes received and sent, and a chart of bytes a second: see [IoClient](../guides/io-client.md#dashboard).
+Its `connection` dashboard shows the link, the bytes received and sent, and a chart of bytes a second, where an app takes it: see [IoClient](../guides/io-client.md#dashboard).
 
 ## Status
 

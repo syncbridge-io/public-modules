@@ -25,7 +25,7 @@
     "@swc/core": "^1.16.20",
     "@swc/helpers": "^0.5.23",
     "@syncbridge/builtins": "workspace:*",
-    "@syncbridge/common": "^2.16.0",
+    "@syncbridge/common": "^2.17.0",
     "@syncbridge/hl7": "workspace:*",
     "@syncbridge/kafka": "workspace:*",
     "@syncbridge/ngrok": "workspace:*",

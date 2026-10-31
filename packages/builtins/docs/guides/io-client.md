@@ -100,15 +100,18 @@ writes with `this.communicationLog?.`, so it works without one.
 
 ## Dashboard
 
-The base class gives every client a **Connection** tab on the worker's page
-(`IoClientDashboard`, the `connection` property), filled from its events:
+The base class gives every client a dashboard, `connection`
+(`IoClientDashboard`), filled from its events. A component's widgets are
+not a tab of their own: an app shows those it takes (see
+[Showing it in an app](#showing-it-in-an-app)), and the others are not
+written at all.
 
-| Widget   | Shows                                                                     |
-| -------- | ------------------------------------------------------------------------- |
-| Link     | `Not connected` at first; `Connected to <peerAddress>` on `connect`; `Disconnected` (a warning) or `Disconnected: <error>` (an error) on `disconnect`. |
-| Received | The bytes of the `data` events since the worker started.                  |
-| Sent     | The bytes of the `transmit` events since the worker started.              |
-| Traffic  | Bytes a second received and sent, a chart of the last 200 seconds.        |
+| Widget     | Id         | Shows                                                                     |
+| ---------- | ---------- | ------------------------------------------------------------------------- |
+| Link       | `link`     | `Not connected` at first; `Connected to <peerAddress>` on `connect`; `Disconnected` (a warning) or `Disconnected: <error>` (an error) on `disconnect`. |
+| Received   | `received` | The bytes of the `data` events since the worker started.                  |
+| Sent       | `sent`     | The bytes of the `transmit` events since the worker started.              |
+| Traffic    | `traffic`  | Bytes a second received and sent, a chart of the last 200 seconds.        |
 
 A subclass only emits the events. The totals are set on every event, and
 SyncBridge sends each one's last value at most once a second. The chart's
@@ -149,6 +152,31 @@ this.on('data', data => {
 
 A component created outside an app has no dashboard: the base class writes
 with `this.connection?.`.
+
+### Showing it in an app
+
+An app takes the widgets into one of its dashboards with `include`, by
+the component's property name: all of them, or those whose ids match
+(`*` any characters):
+
+```ts
+@App({ displayName: 'Analyzer' })
+export class AnalyzerApp extends AppBase {
+  @App.UseComponent({ required: true })
+  declare readonly device: TcpClientComponent;
+
+  // A tab of the client's widgets alone
+  @UseDashboard({ title: 'Device', include: [{ component: 'device' }] })
+  declare readonly deviceTab: DashboardBase;
+
+  // Or only some of them, beside the app's own widgets
+  @UseDashboard({
+    title: 'Overview',
+    include: [{ component: 'device', widgets: ['link', 'traffic'] }],
+  })
+  declare readonly overview: OverviewDashboard;
+}
+```
 
 ## Status
 

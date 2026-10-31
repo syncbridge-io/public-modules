@@ -75,14 +75,17 @@ Without a channel (a component created outside an app) nothing is written.
 
 ## Dashboard
 
-The base class gives every server a **Connections** tab on the worker's
-page (`IoServerDashboard`, the `connections` property):
+The base class gives every server a dashboard, `connections`
+(`IoServerDashboard`). A component's widgets are not a tab of their own:
+an app shows those it takes (see
+[Showing it in an app](#showing-it-in-an-app)), and the others are not
+written at all.
 
-| Widget            | Shows                                                         |
-| ----------------- | ------------------------------------------------------------- |
-| Connections       | How many connections are open.                                |
-| Traffic           | Bytes a second received and sent over all connections, a chart of the last 200 seconds. |
-| Connected peers   | A row per open connection: its peer, since when, bytes received and sent. |
+| Widget          | Id            | Shows                                                         |
+| --------------- | ------------- | ------------------------------------------------------------- |
+| Connections     | `count`       | How many connections are open.                                |
+| Traffic         | `traffic`     | Bytes a second received and sent over all connections, a chart of the last 200 seconds. |
+| Connected peers | `connections` | A row per open connection: its peer, since when, bytes received and sent. |
 
 A row is added on `connect` and removed on `disconnect`, keyed by
 `peerOf(peer)`; `data` and `transmit` add to the bytes of the row of their
@@ -111,6 +114,23 @@ export class IoServerBaseComponent extends ComponentBase {
 
 A component created outside an app has no dashboard: the base class writes
 with `this.connections?.`.
+
+### Showing it in an app
+
+An app takes the widgets into one of its dashboards with `include`, by
+the component's property name: all of them, or those whose ids match
+(`*` any characters):
+
+```ts
+@App({ displayName: 'Gateway' })
+export class GatewayApp extends AppBase {
+  @App.UseComponent({ required: true })
+  declare readonly listener: TcpServerComponent;
+
+  @UseDashboard({ title: 'Connections', include: [{ component: 'listener' }] })
+  declare readonly connectionsTab: DashboardBase;
+}
+```
 
 ## Status
 
