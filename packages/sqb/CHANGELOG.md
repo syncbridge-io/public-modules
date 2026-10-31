@@ -1,7 +1,16 @@
 # Changelog
 
 
-<!-- rman:documented-up-to 28217f96794fdb1f22de72989fb917862e2fff6f -->
+<!-- rman:documented-up-to 16840e8bfe4c1a6d3bae9e8ae33b04fae86168c0 -->
+
+## @syncbridge/sqb@2.2.0 (2026-10-31)
+
+### ✨ Features
+
+- **sqb:** a dashboard of the database client (ba3998b)
+- **sqb:** dashboard texts in six languages (16840e8)
+
+---
 
 ## @syncbridge/sqb@2.1.1 (2026-10-30)
 
