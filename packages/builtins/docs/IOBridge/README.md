@@ -49,6 +49,54 @@ it.
 The app writes no log records of its own. Each peer writes its traffic to
 its own `communication` channel when that channel is on.
 
+## Dashboard
+
+The app has one tab, **Bridge** (`IOBridgeDashboard`, the `bridge`
+property). Its own widgets are in the **Bridge** section:
+
+| Widget     | Id          | Shows                                                                 |
+| ---------- | ----------- | --------------------------------------------------------------------- |
+| Forwarded  | `forwarded` | Bytes a second passed on each way, `peer1 to peer2` and `peer2 to peer1`, a chart of the last 200 seconds. |
+| Dropped    | `dropped`   | Bytes dropped since the worker started, as their write failed; a warning from the first. |
+| Last error | `lastError` | `No errors`, or the last write failure's message.                     |
+
+Beside them, in the sections **Peer 1** and **Peer 2**, are the peers'
+own widgets - their link, the bytes they received and sent, their traffic
+(see [IoClient](../guides/io-client.md#dashboard)). They are the
+components', and the app takes them with `include`, each into its own
+section, so the two links are told apart:
+
+```ts
+@DashboardSections([
+  { id: 'bridge', title: 'Bridge' },
+  { id: 'peer1', title: 'Peer 1' },
+  { id: 'peer2', title: 'Peer 2' },
+])
+export class IOBridgeDashboard extends DashboardBase {
+  @Widget.Chart({ title: 'Forwarded', section: 'bridge',
+    series: ['peer1 to peer2', 'peer2 to peer1'], unit: 'B/s' })
+  declare readonly forwarded: Widget.Chart;
+  // ...
+}
+
+export class IOBridgeApp extends AppBase {
+  @UseDashboard({
+    title: 'Bridge',
+    include: [
+      { component: 'peer1', section: 'peer1' },
+      { component: 'peer2', section: 'peer2' },
+    ],
+  })
+  declare readonly bridge: IOBridgeDashboard;
+}
+
+// a write that went through
+this.bridge?.forwarded.count('peer1 to peer2', data.length);
+```
+
+The forwarded bytes are counted with `count()`: summed in the worker and
+written as one point a second, however busy the bridge is.
+
 ## Status
 
 The app has the status of its components. It is started when both peers are

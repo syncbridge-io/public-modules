@@ -1,7 +1,8 @@
 import { Buffer } from 'node:buffer';
 import { EventEmitter } from 'node:events';
+import { createTestEnv } from '@syncbridge/testing';
 import { expect } from 'expect';
-import { IOBridgeApp } from '../src/index.js';
+import { IOBridgeApp, TcpClientComponent } from '../src/index.js';
 
 /** A peer that keeps what is written to it */
 class Peer extends EventEmitter {
@@ -41,5 +42,78 @@ describe('IOBridgeApp', () => {
     expect(errors.map(e => e.message)).toEqual([
       'Failed to write data to peer2: not connected',
     ]);
+  });
+});
+
+describe('IOBridgeApp dashboard', () => {
+  const env = createTestEnv();
+
+  afterEach(() => env.reset());
+  after(() => env.dispose());
+
+  async function startBridge() {
+    const device1 = env.serve({ port: 4201 });
+    const device2 = env.serve({ port: 4202 });
+    const app = await env.start(IOBridgeApp, {
+      components: {
+        peer1: {
+          use: TcpClientComponent,
+          values: { host: 'device1.lab', port: 4201 },
+        },
+        peer2: {
+          use: TcpClientComponent,
+          values: { host: 'device2.lab', port: 4202 },
+        },
+      },
+    });
+    return {
+      app,
+      conn1: await device1.connection(),
+      conn2: await device2.connection(),
+    };
+  }
+
+  it('should show what it passed on, beside both peers', async () => {
+    const { app, conn1, conn2 } = await startBridge();
+    conn1.send('from 1');
+    expect((await conn2.receive()).toString()).toBe('from 1');
+    conn2.send('2');
+    expect((await conn1.receive()).toString()).toBe('2');
+
+    env.flushCounts(app);
+    expect(env.dashboard(app, 'bridge/forwarded')).toMatchObject({
+      series: {
+        'peer1 to peer2': [[expect.any(Number), 'from 1'.length]],
+        'peer2 to peer1': [[expect.any(Number), 1]],
+      },
+    });
+    expect(env.dashboard(app, 'bridge/dropped')).toMatchObject({ value: 0 });
+    /* The peers' own widgets, included */
+    expect(env.dashboard(app, 'peer1/connection/link')).toMatchObject({
+      value: { status: 'ok', text: 'Connected to device1.lab:4201' },
+    });
+    expect(env.dashboard(app, 'peer2/connection/received')).toMatchObject({
+      value: 1,
+    });
+    expect(env.dashboardIssues(app)).toEqual({});
+  });
+
+  it('should show what it dropped and why', async () => {
+    const { app, conn1, conn2 } = await startBridge();
+    app.on('error', () => undefined);
+    conn2.close();
+    await env.waitForEvent(app.peer2, 'disconnect');
+    conn1.send('lost');
+    await env.waitForEvent(app, 'error');
+
+    expect(env.dashboard(app, 'bridge/dropped')).toMatchObject({
+      value: 'lost'.length,
+    });
+    expect(env.dashboard(app, 'bridge/lastError')).toMatchObject({
+      value: {
+        status: 'error',
+        text: expect.stringMatching(/^Failed to write data to peer2: /),
+      },
+    });
   });
 });
