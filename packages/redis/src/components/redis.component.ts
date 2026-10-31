@@ -1,7 +1,13 @@
 import { IoClientBaseComponent } from '@syncbridge/builtins';
-import { Component, ComponentBase, LogChannel } from '@syncbridge/common';
+import {
+  Component,
+  ComponentBase,
+  LogChannel,
+  UseDashboard,
+} from '@syncbridge/common';
 import * as ioredis from 'ioredis';
 import { CommonRedisVariables } from './common-redis.variables.js';
+import { RedisDashboard } from './redis.dashboard.js';
 
 @Component({
   displayName: 'Redis Client',
@@ -30,18 +36,33 @@ export class RedisComponent<
   })
   declare readonly communicationLog: LogChannel;
 
+  /** Its connection: shown where an app includes it */
+  @UseDashboard({ title: 'Redis' })
+  declare readonly connection: RedisDashboard;
+
+  protected _reconnects!: number;
+
   protected async _init(): Promise<void> {
     await super._init();
+    this._reconnects = 0;
+    this.connection?.link.set('unknown', 'Not connected');
+    this.connection?.reconnects.set(0);
     const note = (event: string, message: string) =>
       this.communicationLog?.write({ direction: 'info', event, message });
-    this.on('connect', () => note('connect', 'Connected'));
-    this.on('disconnect', error =>
-      note(
-        'disconnect',
-        error ? `Disconnected: ${error.message}` : 'Disconnected',
-      ),
-    );
-    this.on('reconnecting', () => note('reconnecting', 'Connecting again'));
+    this.on('connect', () => {
+      note('connect', 'Connected');
+      this.connection?.link.set('ok', 'Connected');
+    });
+    this.on('disconnect', error => {
+      const message = error ? `Disconnected: ${error.message}` : 'Disconnected';
+      note('disconnect', message);
+      this.connection?.link.set(error ? 'error' : 'warning', message);
+    });
+    this.on('reconnecting', () => {
+      note('reconnecting', 'Connecting again');
+      this.connection?.link.set('warning', 'Connecting again');
+      this.connection?.reconnects.set(++this._reconnects);
+    });
   }
 
   get client(): ioredis.Redis | ioredis.Cluster {

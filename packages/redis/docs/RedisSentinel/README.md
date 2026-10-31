@@ -41,6 +41,10 @@ settings. It records the connection, not the commands. Every record has
 | `disconnect`   | `Disconnected`, or `Disconnected: <error text>`  | The connection is closed.             |
 | `reconnecting` | `Connecting again`                               | The client is connecting again.       |
 
+## Dashboard
+
+Its `connection` dashboard shows whether it is connected and how often it connected again, where an app takes it: see [Redis](../guides/redis.md#dashboard).
+
 ## Status
 
 - Started: the client is ready, connected to the master the sentinel named.
