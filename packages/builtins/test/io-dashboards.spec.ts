@@ -32,6 +32,15 @@ describe('IO dashboards', () => {
     expect(env.dashboard(app, 'device/connection/received')).toMatchObject({
       value: 'result 42'.length,
     });
+    /* Counted in the worker, written as one point an interval */
+    env.flushCounts(app);
+    expect(env.dashboard(app, 'device/connection/traffic')).toMatchObject({
+      kind: 'series',
+      series: {
+        received: [[expect.any(Number), 'result 42'.length]],
+        sent: [[expect.any(Number), 'hello'.length]],
+      },
+    });
     expect(env.dashboardIssues(app)).toEqual({});
   });
 
@@ -60,6 +69,14 @@ describe('IO dashboards', () => {
           },
         },
       ],
+    });
+
+    env.flushCounts(app);
+    expect(env.dashboard(app, 'listener/connections/traffic')).toMatchObject({
+      series: {
+        received: [[expect.any(Number), 4]],
+        sent: [[expect.any(Number), 4]],
+      },
     });
 
     conn.close();

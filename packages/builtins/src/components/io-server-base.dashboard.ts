@@ -13,6 +13,15 @@ export class IoServerDashboard extends DashboardBase {
   @Widget.Stat({ title: 'Connections' })
   declare readonly count: Widget.Stat;
 
+  /** All connections' bytes a second, summed in the worker */
+  @Widget.Chart({
+    title: 'Traffic',
+    series: ['received', 'sent'],
+    unit: 'B/s',
+    size: { width: 2 },
+  })
+  declare readonly traffic: Widget.Chart;
+
   @Widget.Table({
     title: 'Connected peers',
     size: { width: 3 },

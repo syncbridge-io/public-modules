@@ -81,13 +81,16 @@ page (`IoServerDashboard`, the `connections` property):
 | Widget            | Shows                                                         |
 | ----------------- | ------------------------------------------------------------- |
 | Connections       | How many connections are open.                                |
+| Traffic           | Bytes a second received and sent over all connections, a chart of the last 200 seconds. |
 | Connected peers   | A row per open connection: its peer, since when, bytes received and sent. |
 
 A row is added on `connect` and removed on `disconnect`, keyed by
 `peerOf(peer)`; `data` and `transmit` add to the bytes of the row of their
-peer. A subclass only emits the events. The values are set as they change;
-SyncBridge sends each one's last value at most once a second, so a busy
-connection sends no more than a quiet one.
+peer, and are counted into the chart with `count()`. A subclass only emits
+the events. The values are set as they change, and SyncBridge sends each
+one's last value at most once a second; the chart's bytes are summed in the
+worker and written as one point a second. A busy connection sends no more
+than a quiet one.
 
 The dashboard is a class of its own, declared on the component:
 

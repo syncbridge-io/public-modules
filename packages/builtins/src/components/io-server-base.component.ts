@@ -92,16 +92,18 @@ export class IoServerBaseComponent<
     });
   }
 
-  /** A connection's bytes, on its row */
+  /** Bytes on the chart, and on their connection's row */
   protected _count(
     peer: unknown,
     field: 'received' | 'sent',
     data: Buffer | string,
   ): void {
+    const bytes = Buffer.byteLength(data);
+    this.connections?.traffic.count(field, bytes);
     const key = peerOf(peer);
     const row = key && this._connections.get(key);
     if (!row) return;
-    row[field] += Buffer.byteLength(data);
+    row[field] += bytes;
     this.connections?.connections.upsert(key, row);
   }
 

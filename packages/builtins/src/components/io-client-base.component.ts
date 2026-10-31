@@ -66,8 +66,10 @@ export class IoClientBaseComponent<
         details: peerOf(peer),
       });
       /* A value set many times is sent as its last, once a second */
-      this._received += Buffer.byteLength(data);
+      const bytes = Buffer.byteLength(data);
+      this._received += bytes;
       this.connection?.received.set(this._received);
+      this.connection?.traffic.count('received', bytes);
     });
     this.on('transmit', (data, peer) => {
       this.communicationLog?.write({
@@ -75,8 +77,10 @@ export class IoClientBaseComponent<
         data,
         details: peerOf(peer),
       });
-      this._sent += Buffer.byteLength(data);
+      const bytes = Buffer.byteLength(data);
+      this._sent += bytes;
       this.connection?.sent.set(this._sent);
+      this.connection?.traffic.count('sent', bytes);
     });
     this.on('connect', () => {
       this.communicationLog?.write({

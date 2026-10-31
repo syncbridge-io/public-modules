@@ -10,4 +10,13 @@ export class IoClientDashboard extends DashboardBase {
 
   @Widget.Stat({ title: 'Sent', format: 'bytes' })
   declare readonly sent: Widget.Stat;
+
+  /** Bytes a second, summed in the worker: one point a second is sent */
+  @Widget.Chart({
+    title: 'Traffic',
+    series: ['received', 'sent'],
+    unit: 'B/s',
+    size: { width: 2 },
+  })
+  declare readonly traffic: Widget.Chart;
 }

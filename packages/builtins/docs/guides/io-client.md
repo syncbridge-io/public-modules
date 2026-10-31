@@ -108,10 +108,12 @@ The base class gives every client a **Connection** tab on the worker's page
 | Link     | `Not connected` at first; `Connected to <peerAddress>` on `connect`; `Disconnected` (a warning) or `Disconnected: <error>` (an error) on `disconnect`. |
 | Received | The bytes of the `data` events since the worker started.                  |
 | Sent     | The bytes of the `transmit` events since the worker started.              |
+| Traffic  | Bytes a second received and sent, a chart of the last 200 seconds.        |
 
-A subclass only emits the events. The totals are set on every event;
-SyncBridge sends each one's last value at most once a second, so a busy
-link sends no more than a quiet one. A subclass with a link of another
+A subclass only emits the events. The totals are set on every event, and
+SyncBridge sends each one's last value at most once a second. The chart's
+bytes are counted with `count()`: they are summed in the worker and written
+as one point a second, so a busy link sends no more than a quiet one. A subclass with a link of another
 kind sets it itself: `UdpListener` sets `Listening on port <port>`.
 
 ```ts
@@ -124,6 +126,9 @@ export class IoClientDashboard extends DashboardBase {
 
   @Widget.Stat({ title: 'Sent', format: 'bytes' })
   declare readonly sent: Widget.Stat;
+
+  @Widget.Chart({ title: 'Traffic', series: ['received', 'sent'], unit: 'B/s' })
+  declare readonly traffic: Widget.Chart;
 }
 
 export class IoClientBaseComponent extends ComponentBase {
@@ -135,6 +140,11 @@ export class IoClientBaseComponent extends ComponentBase {
 this.on('connect', () =>
   this.connection?.link.set('ok', `Connected to ${this.peerAddress}`),
 );
+this.on('data', data => {
+  this._received += data.length;
+  this.connection?.received.set(this._received);
+  this.connection?.traffic.count('received', data.length);
+});
 ```
 
 A component created outside an app has no dashboard: the base class writes

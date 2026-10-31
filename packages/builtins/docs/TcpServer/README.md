@@ -77,7 +77,7 @@ The `communication` channel is off by default. It takes the events
 
 ## Dashboard
 
-The **Connections** tab shows how many connections are open and a row for each - its peer, since when, bytes received and sent: see [IoServer](../guides/io-server.md#dashboard).
+The **Connections** tab shows how many connections are open, a chart of bytes a second, and a row for each - its peer, since when, bytes received and sent: see [IoServer](../guides/io-server.md#dashboard).
 
 ## Status
 
