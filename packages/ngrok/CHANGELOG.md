@@ -1,7 +1,15 @@
 # Changelog
 
 
-<!-- rman:documented-up-to 645cc7062b2338628dea819b7095621fbb81a535 -->
+<!-- rman:documented-up-to 16840e8bfe4c1a6d3bae9e8ae33b04fae86168c0 -->
+
+## @syncbridge/ngrok@2.1.1 (2026-10-31)
+
+### 🧹 Chores
+
+- @syncbridge/common 2.18 and syncbuild 2.15 (5541b38)
+
+---
 
 ## @syncbridge/ngrok@2.1.0 (2026-10-30)
 
