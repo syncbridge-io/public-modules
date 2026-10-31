@@ -67,10 +67,12 @@ export class TcpServerComponent<
         details: peerOf(peer),
       });
     note('connect', 'Connected');
+    this.emit('connect', peer);
     this._sockets.add(socket);
     socket.once('close', () => {
       this._sockets.delete(socket);
       note('disconnect', 'Disconnected');
+      this.emit('disconnect', peer);
     });
     const emit = socket.emit;
     socket.emit = function (this: net.Socket, event: string | symbol, ...args) {

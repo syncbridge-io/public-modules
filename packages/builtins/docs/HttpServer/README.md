@@ -56,6 +56,10 @@ default, retention 14 days. It takes the events `request` and `response`.
 The bodies of the requests and responses are not written. A response that
 is aborted before it finishes has no `response` record.
 
+## Dashboard
+
+The **Connections** tab is inherited from [IoServer](../guides/io-server.md#dashboard). `HttpServer` serves requests, not connections, so it stays empty.
+
 ## Status
 
 | Status    | When                                                                          |

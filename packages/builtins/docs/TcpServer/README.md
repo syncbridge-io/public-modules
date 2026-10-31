@@ -35,6 +35,8 @@ The TLS values are PEM text, passed to Node's `tls.createServer()`.
 | ---------- | ---------------------------- | ----------------------------------------------------------------- |
 | `data`     | `data: Buffer, peer`         | A `data` event was emitted on a connection's socket.              |
 | `transmit` | `data: string \| Buffer, peer` | `write()` or `end(data)` was called on a connection's socket.   |
+| `connect`    | `peer`                     | A connection was accepted.                                        |
+| `disconnect` | `peer`                     | A connection closed.                                              |
 | `error`    | `error: Error`               | Inherited.                                                        |
 
 `peer` is `{ address, port }` of the connection's remote end.
@@ -72,6 +74,10 @@ The `communication` channel is off by default. It takes the events
 | a connection closes                   | `info`      | `disconnect` | `Disconnected` |          | `address:port`       |
 
 `address` can be an IPv4-mapped IPv6 form such as `::ffff:127.0.0.1`.
+
+## Dashboard
+
+The **Connections** tab shows how many connections are open and a row for each - its peer, since when, bytes received and sent: see [IoServer](../guides/io-server.md#dashboard).
 
 ## Status
 

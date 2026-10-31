@@ -54,6 +54,10 @@ The `communication` channel is off by default. It takes the events
 
 The component writes no `connect` or `disconnect` records.
 
+## Dashboard
+
+The **Connection** tab shows `Listening on port <port>` once the socket is bound, and the bytes received and sent: see [IoClient](../guides/io-client.md#dashboard).
+
 ## Status
 
 | Status    | When                                    |

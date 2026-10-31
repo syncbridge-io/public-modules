@@ -98,6 +98,48 @@ into itself and a string into itself. It returns nothing for anything else.
 A component that is created outside an app has no channel. The base class
 writes with `this.communicationLog?.`, so it works without one.
 
+## Dashboard
+
+The base class gives every client a **Connection** tab on the worker's page
+(`IoClientDashboard`, the `connection` property), filled from its events:
+
+| Widget   | Shows                                                                     |
+| -------- | ------------------------------------------------------------------------- |
+| Link     | `Not connected` at first; `Connected to <peerAddress>` on `connect`; `Disconnected` (a warning) or `Disconnected: <error>` (an error) on `disconnect`. |
+| Received | The bytes of the `data` events since the worker started.                  |
+| Sent     | The bytes of the `transmit` events since the worker started.              |
+
+A subclass only emits the events. The totals are set on every event;
+SyncBridge sends each one's last value at most once a second, so a busy
+link sends no more than a quiet one. A subclass with a link of another
+kind sets it itself: `UdpListener` sets `Listening on port <port>`.
+
+```ts
+export class IoClientDashboard extends DashboardBase {
+  @Widget.Status({ title: 'Link' })
+  declare readonly link: Widget.Status;
+
+  @Widget.Stat({ title: 'Received', format: 'bytes' })
+  declare readonly received: Widget.Stat;
+
+  @Widget.Stat({ title: 'Sent', format: 'bytes' })
+  declare readonly sent: Widget.Stat;
+}
+
+export class IoClientBaseComponent extends ComponentBase {
+  @UseDashboard({ title: 'Connection' })
+  declare readonly connection: IoClientDashboard;
+}
+
+// in _init
+this.on('connect', () =>
+  this.connection?.link.set('ok', `Connected to ${this.peerAddress}`),
+);
+```
+
+A component created outside an app has no dashboard: the base class writes
+with `this.connection?.`.
+
 ## Status
 
 The base class does not start or stop anything. A subclass implements

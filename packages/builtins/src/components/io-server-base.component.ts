@@ -1,6 +1,15 @@
 import { Buffer } from 'node:buffer';
-import { Component, ComponentBase, LogChannel } from '@syncbridge/common';
+import {
+  Component,
+  ComponentBase,
+  LogChannel,
+  UseDashboard,
+} from '@syncbridge/common';
 import { peerOf } from '../utils/peer-of.js';
+import {
+  type IoServerConnectionRow,
+  IoServerDashboard,
+} from './io-server-base.dashboard.js';
 import { IoServerComponentVariables } from './io-server-base.variables.js';
 
 /**
@@ -34,18 +43,28 @@ export class IoServerBaseComponent<
   })
   declare readonly communicationLog: LogChannel;
 
+  /** Its connections and what each moved, a tab of the worker's page */
+  @UseDashboard({ title: 'Connections' })
+  declare readonly connections: IoServerDashboard;
+
   @Component.UseVariables()
   declare values: IoServerComponentVariables;
 
+  /** The connections open, by peer: what their rows show */
+  protected _connections!: Map<string, IoServerConnectionRow>;
+
   protected async _init(): Promise<void> {
     await super._init();
-    /* A component made outside an app factory has no channels */
+    this._connections = new Map();
+    /* A component made outside an app factory has no channels nor dashboards */
+    this.connections?.count.set(0);
     this.on('data', (data, peer) => {
       this.communicationLog?.write({
         direction: 'in',
         data,
         details: peerOf(peer),
       });
+      this._count(peer, 'received', data);
     });
     this.on('transmit', (data, peer) => {
       this.communicationLog?.write({
@@ -53,7 +72,37 @@ export class IoServerBaseComponent<
         data,
         details: peerOf(peer),
       });
+      this._count(peer, 'sent', data);
     });
+    /* A server of connections tells them; one of requests does not, and
+     * its table stays empty */
+    this.on('connect', peer => {
+      const key = peerOf(peer);
+      if (!key) return;
+      const row = { peer: key, since: new Date(), received: 0, sent: 0 };
+      this._connections.set(key, row);
+      this.connections?.connections.upsert(key, row);
+      this.connections?.count.set(this._connections.size);
+    });
+    this.on('disconnect', peer => {
+      const key = peerOf(peer);
+      if (!key || !this._connections.delete(key)) return;
+      this.connections?.connections.remove(key);
+      this.connections?.count.set(this._connections.size);
+    });
+  }
+
+  /** A connection's bytes, on its row */
+  protected _count(
+    peer: unknown,
+    field: 'received' | 'sent',
+    data: Buffer | string,
+  ): void {
+    const key = peerOf(peer);
+    const row = key && this._connections.get(key);
+    if (!row) return;
+    row[field] += Buffer.byteLength(data);
+    this.connections?.connections.upsert(key, row);
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -71,6 +120,9 @@ export namespace IoServerBaseComponent {
   export interface Events extends ComponentBase.Events {
     data: [data: Buffer, ...any];
     transmit: [data: Buffer, ...any];
+    /** A connection opened and closed: its row on the dashboard */
+    connect: [peer: unknown];
+    disconnect: [peer: unknown];
   }
   export const Variables = IoServerComponentVariables;
   export type Variables = IoServerComponentVariables;

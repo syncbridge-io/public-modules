@@ -61,6 +61,10 @@ The `communication` channel is off by default. It takes the events
 
 The component writes no `disconnect` record.
 
+## Dashboard
+
+The **Connection** tab shows the link and the bytes received and sent: see [IoClient](../guides/io-client.md#dashboard).
+
 ## Status
 
 | Status    | When                                                                                  |

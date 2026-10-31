@@ -77,6 +77,10 @@ and `write`.
 The reason of a `disconnect` record is the message of the error the event
 carries.
 
+## Dashboard
+
+The **Connection** tab shows the link to `host:port` and the bytes received and sent: see [IoClient](../guides/io-client.md#dashboard).
+
 ## Status
 
 | Status      | When                                                                                          |

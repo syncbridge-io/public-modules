@@ -68,6 +68,8 @@ export class UdpListenerComponent<
       }
       const port = this.socket.address().port;
       this.emit('listening', port);
+      /* It connects to no one: listening is its link being up */
+      this.connection?.link.set('ok', `Listening on port ${port}`);
       this.logger?.info(
         `UDP socket listening on port ${port}` +
           (bindInterface ? ` interface ${bindInterface}` : ''),

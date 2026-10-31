@@ -28,12 +28,15 @@ extending it.
 
 | Event      | Arguments               | Emitted                                 |
 | ---------- | ----------------------- | --------------------------------------- |
-| `data`     | `data: Buffer, ...peer` | By the subclass, when it receives data. |
-| `transmit` | `data: Buffer, ...peer` | By the subclass, when it sends data.    |
+| `data`       | `data: Buffer, ...peer` | By the subclass, when it receives data.        |
+| `transmit`   | `data: Buffer, ...peer` | By the subclass, when it sends data.           |
+| `connect`    | `peer`                  | By the subclass, when a connection is opened.  |
+| `disconnect` | `peer`                  | By the subclass, when a connection is closed.  |
 
 The base class listens to these events and emits none of them. The `peer`
 argument is the peer the data came from or went to: an object with
-`address` and `port`, or a string.
+`address` and `port`, or a string. A server of requests rather than
+connections, such as `HttpServer`, emits no `connect` or `disconnect`.
 
 ## Methods
 
@@ -70,6 +73,42 @@ a subclass writes them itself, as `TcpServer` does.
 
 Without a channel (a component created outside an app) nothing is written.
 
+## Dashboard
+
+The base class gives every server a **Connections** tab on the worker's
+page (`IoServerDashboard`, the `connections` property):
+
+| Widget            | Shows                                                         |
+| ----------------- | ------------------------------------------------------------- |
+| Connections       | How many connections are open.                                |
+| Connected peers   | A row per open connection: its peer, since when, bytes received and sent. |
+
+A row is added on `connect` and removed on `disconnect`, keyed by
+`peerOf(peer)`; `data` and `transmit` add to the bytes of the row of their
+peer. A subclass only emits the events. The values are set as they change;
+SyncBridge sends each one's last value at most once a second, so a busy
+connection sends no more than a quiet one.
+
+The dashboard is a class of its own, declared on the component:
+
+```ts
+export class IoServerDashboard extends DashboardBase {
+  @Widget.Stat({ title: 'Connections' })
+  declare readonly count: Widget.Stat;
+
+  @Widget.Table({ title: 'Connected peers', columns: [/* ... */] })
+  declare readonly connections: Widget.Table<IoServerConnectionRow>;
+}
+
+export class IoServerBaseComponent extends ComponentBase {
+  @UseDashboard({ title: 'Connections' })
+  declare readonly connections: IoServerDashboard;
+}
+```
+
+A component created outside an app has no dashboard: the base class writes
+with `this.connections?.`.
+
 ## Status
 
 The base class does not start or stop anything. A subclass implements
@@ -96,6 +135,8 @@ export class ShoutServerComponent extends IoServerBaseComponent {
     await super._init();
     this._server = net.createServer(socket => {
       const peer = { address: socket.remoteAddress, port: socket.remotePort };
+      this.emit('connect', peer);
+      socket.on('close', () => this.emit('disconnect', peer));
       socket.on('data', chunk => {
         this.emit('data', chunk, peer);
         const answer = Buffer.from(chunk.toString().toUpperCase());

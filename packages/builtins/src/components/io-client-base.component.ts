@@ -1,6 +1,12 @@
 import { Buffer } from 'node:buffer';
-import { Component, ComponentBase, LogChannel } from '@syncbridge/common';
+import {
+  Component,
+  ComponentBase,
+  LogChannel,
+  UseDashboard,
+} from '@syncbridge/common';
 import { peerOf } from '../utils/peer-of.js';
+import { IoClientDashboard } from './io-client-base.dashboard.js';
 import { IoClientComponentVariables } from './io-client-base.variables.js';
 
 /**
@@ -34,18 +40,34 @@ export class IoClientBaseComponent<
   })
   declare readonly communicationLog: LogChannel;
 
+  /** Its link and the bytes it moved, a tab of the worker's page */
+  @UseDashboard({ title: 'Connection' })
+  declare readonly connection: IoClientDashboard;
+
   @Component.UseVariables()
   declare values: IoClientComponentVariables;
 
+  /* Totals since the worker started: a dashboard keeps nothing over a restart */
+  protected _received!: number;
+  protected _sent!: number;
+
   protected async _init(): Promise<void> {
     await super._init();
-    /* A component made outside an app factory has no channels */
+    this._received = 0;
+    this._sent = 0;
+    /* A component made outside an app factory has no channels nor dashboards */
+    this.connection?.link.set('unknown', 'Not connected');
+    this.connection?.received.set(0);
+    this.connection?.sent.set(0);
     this.on('data', (data, peer) => {
       this.communicationLog?.write({
         direction: 'in',
         data,
         details: peerOf(peer),
       });
+      /* A value set many times is sent as its last, once a second */
+      this._received += Buffer.byteLength(data);
+      this.connection?.received.set(this._received);
     });
     this.on('transmit', (data, peer) => {
       this.communicationLog?.write({
@@ -53,23 +75,31 @@ export class IoClientBaseComponent<
         data,
         details: peerOf(peer),
       });
+      this._sent += Buffer.byteLength(data);
+      this.connection?.sent.set(this._sent);
     });
-    this.on('connect', () =>
+    this.on('connect', () => {
       this.communicationLog?.write({
         direction: 'info',
         event: 'connect',
         message: 'Connected',
         details: this.peerAddress,
-      }),
-    );
-    this.on('disconnect', error =>
+      });
+      this.connection?.link.set(
+        'ok',
+        this.peerAddress ? `Connected to ${this.peerAddress}` : 'Connected',
+      );
+    });
+    this.on('disconnect', error => {
+      const message = error ? `Disconnected: ${error.message}` : 'Disconnected';
       this.communicationLog?.write({
         direction: 'info',
         event: 'disconnect',
-        message: error ? `Disconnected: ${error.message}` : 'Disconnected',
+        message,
         details: this.peerAddress,
-      }),
-    );
+      });
+      this.connection?.link.set(error ? 'error' : 'warning', message);
+    });
   }
 
   /**
