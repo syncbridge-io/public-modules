@@ -76,6 +76,29 @@
         "label": "High watermark",
         "description": "Número máximo de mensagens mantidas em memória antes de adiar as requisições de busca. Este valor afeta bastante o desempenho e o uso de memória."
       }
+    },
+    "dashboards": {
+      "kafka": {
+        "title": "Kafka",
+        "widgets": {
+          "link": {
+            "title": "Brokers"
+          },
+          "rate": {
+            "title": "Mensagens",
+            "unit": "msg/s",
+            "series": {
+              "messages": "Mensagens"
+            }
+          },
+          "errors": {
+            "title": "Erros"
+          },
+          "topics": {
+            "title": "Mensagens por tópico"
+          }
+        }
+      }
     }
   },
   "KafkaProducer": {
@@ -118,6 +141,29 @@
       "repeatOnStaleMetadata": {
         "label": "Repetir com metadados desatualizados",
         "description": "Define se uma operação de produção é repetida quando são detectadas informações desatualizadas de tópico ou broker."
+      }
+    },
+    "dashboards": {
+      "kafka": {
+        "title": "Kafka",
+        "widgets": {
+          "link": {
+            "title": "Brokers"
+          },
+          "rate": {
+            "title": "Mensagens",
+            "unit": "msg/s",
+            "series": {
+              "messages": "Mensagens"
+            }
+          },
+          "errors": {
+            "title": "Erros"
+          },
+          "topics": {
+            "title": "Mensagens por tópico"
+          }
+        }
       }
     }
   }

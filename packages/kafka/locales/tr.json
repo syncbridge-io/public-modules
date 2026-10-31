@@ -76,6 +76,29 @@
         "label": "High watermark",
         "description": "Getirme istekleri geciktirilmeden önce bellekte tutulacak en fazla mesaj sayısı. Bu değer performansı ve bellek kullanımını önemli ölçüde etkiler."
       }
+    },
+    "dashboards": {
+      "kafka": {
+        "title": "Kafka",
+        "widgets": {
+          "link": {
+            "title": "Broker'lar"
+          },
+          "rate": {
+            "title": "Mesajlar",
+            "unit": "mesaj/sn",
+            "series": {
+              "messages": "Mesajlar"
+            }
+          },
+          "errors": {
+            "title": "Hatalar"
+          },
+          "topics": {
+            "title": "Topic'e göre mesajlar"
+          }
+        }
+      }
     }
   },
   "KafkaProducer": {
@@ -118,6 +141,29 @@
       "repeatOnStaleMetadata": {
         "label": "Eski meta veride yeniden dene",
         "description": "Sistem güncel olmayan topic veya broker bilgisi algıladığında üretim işleminin yeniden denenip denenmeyeceği."
+      }
+    },
+    "dashboards": {
+      "kafka": {
+        "title": "Kafka",
+        "widgets": {
+          "link": {
+            "title": "Broker'lar"
+          },
+          "rate": {
+            "title": "Mesajlar",
+            "unit": "mesaj/sn",
+            "series": {
+              "messages": "Mesajlar"
+            }
+          },
+          "errors": {
+            "title": "Hatalar"
+          },
+          "topics": {
+            "title": "Topic'e göre mesajlar"
+          }
+        }
       }
     }
   }

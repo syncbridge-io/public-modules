@@ -76,6 +76,29 @@
         "label": "High Watermark",
         "description": "Maximale Anzahl von Nachrichten, die im Speicher gehalten werden, bevor Fetch-Anfragen verzögert werden. Dieser Wert wirkt sich deutlich auf die Leistung und den Speicherverbrauch aus."
       }
+    },
+    "dashboards": {
+      "kafka": {
+        "title": "Kafka",
+        "widgets": {
+          "link": {
+            "title": "Broker"
+          },
+          "rate": {
+            "title": "Nachrichten",
+            "unit": "Nachr./s",
+            "series": {
+              "messages": "Nachrichten"
+            }
+          },
+          "errors": {
+            "title": "Fehler"
+          },
+          "topics": {
+            "title": "Nachrichten nach Topic"
+          }
+        }
+      }
     }
   },
   "KafkaProducer": {
@@ -118,6 +141,29 @@
       "repeatOnStaleMetadata": {
         "label": "Bei veralteten Metadaten wiederholen",
         "description": "Gibt an, ob ein Produce-Vorgang wiederholt wird, wenn veraltete Topic- oder Broker-Informationen erkannt werden."
+      }
+    },
+    "dashboards": {
+      "kafka": {
+        "title": "Kafka",
+        "widgets": {
+          "link": {
+            "title": "Broker"
+          },
+          "rate": {
+            "title": "Nachrichten",
+            "unit": "Nachr./s",
+            "series": {
+              "messages": "Nachrichten"
+            }
+          },
+          "errors": {
+            "title": "Fehler"
+          },
+          "topics": {
+            "title": "Nachrichten nach Topic"
+          }
+        }
       }
     }
   }

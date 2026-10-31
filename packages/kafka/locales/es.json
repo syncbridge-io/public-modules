@@ -76,6 +76,29 @@
         "label": "Límite de mensajes en memoria",
         "description": "Número máximo de mensajes que se guardan en memoria antes de retrasar las solicitudes de lectura. Afecta notablemente al rendimiento y al uso de memoria."
       }
+    },
+    "dashboards": {
+      "kafka": {
+        "title": "Kafka",
+        "widgets": {
+          "link": {
+            "title": "Brokers"
+          },
+          "rate": {
+            "title": "Mensajes",
+            "unit": "msj/s",
+            "series": {
+              "messages": "Mensajes"
+            }
+          },
+          "errors": {
+            "title": "Errores"
+          },
+          "topics": {
+            "title": "Mensajes por topic"
+          }
+        }
+      }
     }
   },
   "KafkaProducer": {
@@ -118,6 +141,29 @@
       "repeatOnStaleMetadata": {
         "label": "Reintentar con metadatos obsoletos",
         "description": "Indica si se reintenta una operación de producción cuando se detecta información obsoleta de un topic o un broker."
+      }
+    },
+    "dashboards": {
+      "kafka": {
+        "title": "Kafka",
+        "widgets": {
+          "link": {
+            "title": "Brokers"
+          },
+          "rate": {
+            "title": "Mensajes",
+            "unit": "msj/s",
+            "series": {
+              "messages": "Mensajes"
+            }
+          },
+          "errors": {
+            "title": "Errores"
+          },
+          "topics": {
+            "title": "Mensajes por topic"
+          }
+        }
       }
     }
   }

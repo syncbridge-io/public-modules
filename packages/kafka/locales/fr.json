@@ -76,6 +76,29 @@
         "label": "Seuil haut (high watermark)",
         "description": "Nombre maximal de messages conservés en mémoire avant de différer les requêtes de récupération. Ce réglage influe fortement sur les performances et sur l'utilisation de la mémoire."
       }
+    },
+    "dashboards": {
+      "kafka": {
+        "title": "Kafka",
+        "widgets": {
+          "link": {
+            "title": "Brokers"
+          },
+          "rate": {
+            "title": "Messages",
+            "unit": "msg/s",
+            "series": {
+              "messages": "Messages"
+            }
+          },
+          "errors": {
+            "title": "Erreurs"
+          },
+          "topics": {
+            "title": "Messages par topic"
+          }
+        }
+      }
     }
   },
   "KafkaProducer": {
@@ -118,6 +141,29 @@
       "repeatOnStaleMetadata": {
         "label": "Réessayer si métadonnées obsolètes",
         "description": "Indique s'il faut réessayer une opération de production lorsque des informations obsolètes sur les topics ou les brokers sont détectées."
+      }
+    },
+    "dashboards": {
+      "kafka": {
+        "title": "Kafka",
+        "widgets": {
+          "link": {
+            "title": "Brokers"
+          },
+          "rate": {
+            "title": "Messages",
+            "unit": "msg/s",
+            "series": {
+              "messages": "Messages"
+            }
+          },
+          "errors": {
+            "title": "Erreurs"
+          },
+          "topics": {
+            "title": "Messages par topic"
+          }
+        }
       }
     }
   }

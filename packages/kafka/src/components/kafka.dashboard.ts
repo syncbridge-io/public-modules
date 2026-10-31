@@ -9,6 +9,7 @@ export class KafkaDashboard extends DashboardBase {
   @Widget.Chart({
     title: 'Messages',
     series: ['messages'],
+    labels: { messages: 'Messages' },
     unit: 'msg/s',
     size: { width: 2 },
   })

@@ -76,6 +76,29 @@
         "label": "Soglia massima (high watermark)",
         "description": "Numero massimo di messaggi da tenere in memoria prima di rimandare le richieste di recupero. Influisce notevolmente sulle prestazioni e sull'uso della memoria."
       }
+    },
+    "dashboards": {
+      "kafka": {
+        "title": "Kafka",
+        "widgets": {
+          "link": {
+            "title": "Broker"
+          },
+          "rate": {
+            "title": "Messaggi",
+            "unit": "msg/s",
+            "series": {
+              "messages": "Messaggi"
+            }
+          },
+          "errors": {
+            "title": "Errori"
+          },
+          "topics": {
+            "title": "Messaggi per topic"
+          }
+        }
+      }
     }
   },
   "KafkaProducer": {
@@ -118,6 +141,29 @@
       "repeatOnStaleMetadata": {
         "label": "Riprova con metadati obsoleti",
         "description": "Indica se ritentare un'operazione di produzione quando vengono rilevate informazioni obsolete su topic o broker."
+      }
+    },
+    "dashboards": {
+      "kafka": {
+        "title": "Kafka",
+        "widgets": {
+          "link": {
+            "title": "Broker"
+          },
+          "rate": {
+            "title": "Messaggi",
+            "unit": "msg/s",
+            "series": {
+              "messages": "Messaggi"
+            }
+          },
+          "errors": {
+            "title": "Errori"
+          },
+          "topics": {
+            "title": "Messaggi per topic"
+          }
+        }
       }
     }
   }
