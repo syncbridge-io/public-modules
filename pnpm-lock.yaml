@@ -191,8 +191,8 @@ importers:
         specifier: workspace:*
         version: link:packages/builtins
       '@syncbridge/common':
-        specifier: ^2.17.0
-        version: 2.17.0(@opra/common@1.33.0)
+        specifier: ^2.18.0
+        version: 2.18.0(@opra/common@1.33.0)
       '@syncbridge/hl7':
         specifier: workspace:*
         version: link:packages/hl7
@@ -218,11 +218,11 @@ importers:
         specifier: workspace:*
         version: link:packages/sqb
       '@syncbridge/syncbuild':
-        specifier: ^2.14.1
-        version: 2.14.1(@syncbridge/common@2.17.0(@opra/common@1.33.0))(supports-color@8.1.1)
+        specifier: ^2.15.0
+        version: 2.15.0(@syncbridge/common@2.18.0(@opra/common@1.33.0))(supports-color@8.1.1)
       '@syncbridge/testing':
         specifier: ^2.4.0
-        version: 2.4.0(@syncbridge/common@2.17.0(@opra/common@1.33.0))
+        version: 2.4.0(@syncbridge/common@2.18.0(@opra/common@1.33.0))
       '@types/mocha':
         specifier: ^10.0.10
         version: 10.0.10
@@ -263,8 +263,8 @@ importers:
         specifier: ^2.3.4
         version: 2.3.4
       '@syncbridge/common':
-        specifier: ^2.17.0
-        version: 2.17.0(@opra/common@1.33.0)
+        specifier: ^2.18.0
+        version: 2.18.0(@opra/common@1.33.0)
       ansi-colors:
         specifier: ^4.1.3
         version: 4.1.3
@@ -286,7 +286,7 @@ importers:
     devDependencies:
       '@syncbridge/testing':
         specifier: ^2.4.0
-        version: 2.4.0(@syncbridge/common@2.17.0(@opra/common@1.33.0))
+        version: 2.4.0(@syncbridge/common@2.18.0(@opra/common@1.33.0))
       expect:
         specifier: ^30.5.2
         version: 30.5.2
@@ -294,8 +294,8 @@ importers:
   packages/hl7:
     dependencies:
       '@syncbridge/common':
-        specifier: ^2.17.0
-        version: 2.17.0(@opra/common@1.33.0)
+        specifier: ^2.18.0
+        version: 2.18.0(@opra/common@1.33.0)
       ansi-colors:
         specifier: '>=4.1.0 <5'
         version: 4.1.3
@@ -314,7 +314,7 @@ importers:
         version: link:../builtins
       '@syncbridge/testing':
         specifier: ^2.4.0
-        version: 2.4.0(@syncbridge/common@2.17.0(@opra/common@1.33.0))
+        version: 2.4.0(@syncbridge/common@2.18.0(@opra/common@1.33.0))
       expect:
         specifier: ^30.5.2
         version: 30.5.2
@@ -325,8 +325,8 @@ importers:
         specifier: '>=1.34.0 <3'
         version: 2.14.0(supports-color@8.1.1)
       '@syncbridge/common':
-        specifier: ^2.17.0
-        version: 2.17.0(@opra/common@1.33.0)
+        specifier: ^2.18.0
+        version: 2.18.0(@opra/common@1.33.0)
       tslib:
         specifier: ^2.9.1
         version: 2.9.1
@@ -336,7 +336,7 @@ importers:
         version: link:../builtins
       '@syncbridge/testing':
         specifier: ^2.4.0
-        version: 2.4.0(@syncbridge/common@2.17.0(@opra/common@1.33.0))
+        version: 2.4.0(@syncbridge/common@2.18.0(@opra/common@1.33.0))
       expect:
         specifier: ^30.5.2
         version: 30.5.2
@@ -350,8 +350,8 @@ importers:
         specifier: '>=1.7.0 <2'
         version: 1.7.0
       '@syncbridge/common':
-        specifier: ^2.17.0
-        version: 2.17.0(@opra/common@1.33.0)
+        specifier: ^2.18.0
+        version: 2.18.0(@opra/common@1.33.0)
       ansi-colors:
         specifier: '>=4.1.3 <5'
         version: 4.1.3
@@ -373,10 +373,10 @@ importers:
     dependencies:
       '@syncbridge/common':
         specifier: ^2.13.1
-        version: 2.17.0(@opra/common@1.33.0)
+        version: 2.18.0(@opra/common@1.33.0)
       '@syncbridge/plugin-api':
         specifier: ^2.3.0
-        version: 2.3.0(@syncbridge/common@2.17.0(@opra/common@1.33.0))
+        version: 2.3.0(@syncbridge/common@2.18.0(@opra/common@1.33.0))
       adm-zip:
         specifier: ^0.6.1
         version: 0.6.1
@@ -400,8 +400,8 @@ importers:
         specifier: '>=0.5.3 <0.6'
         version: 0.5.3(supports-color@8.1.1)
       '@syncbridge/common':
-        specifier: ^2.17.0
-        version: 2.17.0(@opra/common@1.33.0)
+        specifier: ^2.18.0
+        version: 2.18.0(@opra/common@1.33.0)
       ansi-colors:
         specifier: '>=4.1.3 <5'
         version: 4.1.3
@@ -422,8 +422,8 @@ importers:
         specifier: '>=2.3.4 <3'
         version: 2.3.4
       '@syncbridge/common':
-        specifier: ^2.17.0
-        version: 2.17.0(@opra/common@1.33.0)
+        specifier: ^2.18.0
+        version: 2.18.0(@opra/common@1.33.0)
       ioredis:
         specifier: '>=6.0.0 <7'
         version: 6.0.0(supports-color@8.1.1)
@@ -436,7 +436,7 @@ importers:
         version: link:../builtins
       '@syncbridge/testing':
         specifier: ^2.4.0
-        version: 2.4.0(@syncbridge/common@2.17.0(@opra/common@1.33.0))
+        version: 2.4.0(@syncbridge/common@2.18.0(@opra/common@1.33.0))
       expect:
         specifier: ^30.5.2
         version: 30.5.2
@@ -447,8 +447,8 @@ importers:
         specifier: '>=1.2.2 <2'
         version: 1.2.2
       '@syncbridge/common':
-        specifier: ^2.17.0
-        version: 2.17.0(@opra/common@1.33.0)
+        specifier: ^2.18.0
+        version: 2.18.0(@opra/common@1.33.0)
       ansi-colors:
         specifier: '>=4.1.3 <5'
         version: 4.1.3
@@ -470,7 +470,7 @@ importers:
         version: link:../builtins
       '@syncbridge/testing':
         specifier: ^2.4.0
-        version: 2.4.0(@syncbridge/common@2.17.0(@opra/common@1.33.0))
+        version: 2.4.0(@syncbridge/common@2.18.0(@opra/common@1.33.0))
       expect:
         specifier: ^30.5.2
         version: 30.5.2
@@ -502,8 +502,8 @@ importers:
         specifier: '>=6.3.1 <7'
         version: 6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(@sqb/connect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(reflect-metadata@0.2.2)(supports-color@8.1.1))(@sqb/sqlite-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1)))
       '@syncbridge/common':
-        specifier: ^2.17.0
-        version: 2.17.0(@opra/common@1.33.0)
+        specifier: ^2.18.0
+        version: 2.18.0(@opra/common@1.33.0)
       ansi-colors:
         specifier: '>=4.1.3 <5'
         version: 4.1.3
@@ -528,7 +528,7 @@ importers:
     devDependencies:
       '@syncbridge/testing':
         specifier: ^2.4.0
-        version: 2.4.0(@syncbridge/common@2.17.0(@opra/common@1.33.0))
+        version: 2.4.0(@syncbridge/common@2.18.0(@opra/common@1.33.0))
       expect:
         specifier: ^30.5.2
         version: 30.5.2
@@ -1610,8 +1610,8 @@ packages:
   '@swc/types@0.1.28':
     resolution: {integrity: sha512-V6Mnml8v09QALx6K0elJ7o9K/MkVDtW3t6L+7Ou/JcWtb3xwId2AH4FeOceySd2JaO87IMw4+6vSZxLm34LPbw==}
 
-  '@syncbridge/common@2.17.0':
-    resolution: {integrity: sha512-Sc13k0eKclcub3V5rqoJe5SiLkRVn4jEmqfG3wOl+a5XdaeG8iJffm/K84GxWUASFWjGgIS+PvjoQ3Mt+uHoLQ==}
+  '@syncbridge/common@2.18.0':
+    resolution: {integrity: sha512-/t1r262TMYzLQzv+4d3bzNCQvqpUoXATwEaH7NzrS8Z3ocn2eOJRk4aGHTOHx9Kg+LR3AVy8DJw0uHVdmOOK8g==}
     engines: {node: '>=22.12.0'}
     peerDependencies:
       '@opra/common': '>=1.17.1 <2'
@@ -1632,12 +1632,12 @@ packages:
     peerDependencies:
       '@syncbridge/common': ^2.16.0
 
-  '@syncbridge/syncbuild@2.14.1':
-    resolution: {integrity: sha512-BTu1MPRuSCVXUhE1cmI/vnmS5VuafkMw4svdLRDKYcYkbNaKhBzrHOKex3ESOEZuGlZ3b91W0aXmKmgUPJWYMg==}
+  '@syncbridge/syncbuild@2.15.0':
+    resolution: {integrity: sha512-aSCpbrT2/DIPPkodba/PYowcyEqnr25OnJmI8p1AQ6TtgdyKEGHhNsybLS/bk/ptNEbHYARXl+c/Vglk4ExSTw==}
     engines: {node: '>=22.15'}
     hasBin: true
     peerDependencies:
-      '@syncbridge/common': ^2.14.0
+      '@syncbridge/common': ^2.18.0
 
   '@syncbridge/testing@2.4.0':
     resolution: {integrity: sha512-avxXKCvDkvQfTjmjUKqJq1cHQX1vq4j/IjG3cZMgHn7xos5ZpMxGucTE4uv3EftpY6+eEv0yPaarMJscbKKH8g==}
@@ -3687,7 +3687,7 @@ snapshots:
   '@emnapi/core@1.10.0':
     dependencies:
       '@emnapi/wasi-threads': 1.2.1
-      tslib: 2.8.1
+      tslib: 2.9.1
     optional: true
 
   '@emnapi/core@1.11.2':
@@ -3698,7 +3698,7 @@ snapshots:
 
   '@emnapi/runtime@1.10.0':
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
     optional: true
 
   '@emnapi/runtime@1.11.2':
@@ -3708,7 +3708,7 @@ snapshots:
 
   '@emnapi/wasi-threads@1.2.1':
     dependencies:
-      tslib: 2.8.1
+      tslib: 2.9.1
     optional: true
 
   '@emnapi/wasi-threads@1.2.2':
@@ -4051,7 +4051,7 @@ snapshots:
       reflect-metadata: 0.2.2
       super-fast-md5: 1.0.3
       ts-gems: 4.0.4
-      tslib: 2.8.1
+      tslib: 2.9.1
       uid: 2.0.2
       valgen: 7.0.7
 
@@ -4321,7 +4321,7 @@ snapshots:
   '@sqb/mariadb-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))':
     dependencies:
       '@sqb/builder': 6.3.1(supports-color@8.1.1)
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@sqb/mariadb@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(@sqb/connect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(reflect-metadata@0.2.2)(supports-color@8.1.1))(@sqb/mariadb-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1)))(mariadb@3.5.4)':
     dependencies:
@@ -4334,7 +4334,7 @@ snapshots:
   '@sqb/mssql-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))':
     dependencies:
       '@sqb/builder': 6.3.1(supports-color@8.1.1)
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@sqb/mssql@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(@sqb/connect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(reflect-metadata@0.2.2)(supports-color@8.1.1))(@sqb/mssql-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1)))(mssql@12.7.13(supports-color@8.1.1))':
     dependencies:
@@ -4348,7 +4348,7 @@ snapshots:
   '@sqb/mysql-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))':
     dependencies:
       '@sqb/builder': 6.3.1(supports-color@8.1.1)
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@sqb/mysql@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(@sqb/connect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(reflect-metadata@0.2.2)(supports-color@8.1.1))(@sqb/mysql-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1)))(mysql2@3.24.6(@types/node@26.6.6))':
     dependencies:
@@ -4361,7 +4361,7 @@ snapshots:
   '@sqb/oracle-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))':
     dependencies:
       '@sqb/builder': 6.3.1(supports-color@8.1.1)
-      tslib: 2.8.1
+      tslib: 2.9.1
       valgen: 7.0.7
 
   '@sqb/oracle@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(@sqb/connect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(reflect-metadata@0.2.2)(supports-color@8.1.1))(@sqb/oracle-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1)))(oracledb@26.0.0)':
@@ -4375,7 +4375,7 @@ snapshots:
   '@sqb/postgres-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))':
     dependencies:
       '@sqb/builder': 6.3.1(supports-color@8.1.1)
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@sqb/postgres@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(@sqb/connect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(reflect-metadata@0.2.2)(supports-color@8.1.1))(@sqb/postgres-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1)))(postgrejs@3.14.1)':
     dependencies:
@@ -4390,7 +4390,7 @@ snapshots:
   '@sqb/sqlite-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))':
     dependencies:
       '@sqb/builder': 6.3.1(supports-color@8.1.1)
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   '@sqb/sqlite@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(@sqb/connect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1))(reflect-metadata@0.2.2)(supports-color@8.1.1))(@sqb/sqlite-dialect@6.3.1(@sqb/builder@6.3.1(supports-color@8.1.1)))':
     dependencies:
@@ -4491,7 +4491,7 @@ snapshots:
     dependencies:
       '@swc/counter': 0.1.3
 
-  '@syncbridge/common@2.17.0(@opra/common@1.33.0)':
+  '@syncbridge/common@2.18.0(@opra/common@1.33.0)':
     dependencies:
       '@jsopen/objects': 2.3.4
       '@opra/common': 1.33.0
@@ -4503,28 +4503,28 @@ snapshots:
       ts-gems: 4.0.4
       valgen: 7.0.7
 
-  '@syncbridge/plugin-api@2.3.0(@syncbridge/common@2.17.0(@opra/common@1.33.0))':
+  '@syncbridge/plugin-api@2.3.0(@syncbridge/common@2.18.0(@opra/common@1.33.0))':
     dependencies:
-      '@syncbridge/common': 2.17.0(@opra/common@1.33.0)
+      '@syncbridge/common': 2.18.0(@opra/common@1.33.0)
       reflect-metadata: 0.2.2
       ts-gems: 4.0.4
 
   '@syncbridge/pnpm-config@1.0.0': {}
 
-  '@syncbridge/runtime@2.5.0(@syncbridge/common@2.17.0(@opra/common@1.33.0))':
+  '@syncbridge/runtime@2.5.0(@syncbridge/common@2.18.0(@opra/common@1.33.0))':
     dependencies:
       '@jsopen/objects': 2.3.4
-      '@syncbridge/common': 2.17.0(@opra/common@1.33.0)
+      '@syncbridge/common': 2.18.0(@opra/common@1.33.0)
       adm-zip: 0.6.1
       jsonc-parser: 3.3.1
       semver: 7.8.5
 
-  '@syncbridge/syncbuild@2.14.1(@syncbridge/common@2.17.0(@opra/common@1.33.0))(supports-color@8.1.1)':
+  '@syncbridge/syncbuild@2.15.0(@syncbridge/common@2.18.0(@opra/common@1.33.0))(supports-color@8.1.1)':
     dependencies:
       '@jsopen/objects': 2.3.4
-      '@syncbridge/common': 2.17.0(@opra/common@1.33.0)
+      '@syncbridge/common': 2.18.0(@opra/common@1.33.0)
       '@syncbridge/pnpm-config': 1.0.0
-      '@syncbridge/runtime': 2.5.0(@syncbridge/common@2.17.0(@opra/common@1.33.0))
+      '@syncbridge/runtime': 2.5.0(@syncbridge/common@2.18.0(@opra/common@1.33.0))
       adm-zip: 0.6.1
       ansi-colors: 4.1.3
       commander: 15.0.0
@@ -4542,9 +4542,9 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@syncbridge/testing@2.4.0(@syncbridge/common@2.17.0(@opra/common@1.33.0))':
+  '@syncbridge/testing@2.4.0(@syncbridge/common@2.18.0(@opra/common@1.33.0))':
     dependencies:
-      '@syncbridge/common': 2.17.0(@opra/common@1.33.0)
+      '@syncbridge/common': 2.18.0(@opra/common@1.33.0)
       caller-callsite: 6.0.0
       reflect-metadata: 0.2.2
       ts-gems: 4.0.4
@@ -5030,7 +5030,7 @@ snapshots:
       fs-extra: 11.4.1
       glob: 13.0.6
       ora: 9.4.1
-      tslib: 2.8.1
+      tslib: 2.9.1
       typescript: 5.9.3
       yargs: 18.2.0
 
@@ -5291,7 +5291,7 @@ snapshots:
     dependencies:
       '@jsopen/objects': 2.3.4
       ts-gems: 4.0.4
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   hl7v2-net@2.3.0(hl7v2-dictionary@2.3.0)(hl7v2@2.3.0(hl7v2-dictionary@2.3.0)):
     dependencies:
@@ -6508,7 +6508,7 @@ snapshots:
       date-fns: 4.4.0
       reflect-metadata: 0.2.2
       ts-gems: 4.0.4
-      tslib: 2.8.1
+      tslib: 2.9.1
 
   validate-npm-package-name@8.0.0: {}
 
