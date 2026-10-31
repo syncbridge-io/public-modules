@@ -10,6 +10,7 @@ import {
   ComponentBase,
   LogChannel,
   ServiceStatus,
+  UseDashboard,
 } from '@syncbridge/common';
 import { noOp } from '../constants.js';
 import {
@@ -17,6 +18,7 @@ import {
   messageData,
   messageDetails,
 } from '../utils/communication.js';
+import { KafkaDashboard } from './kafka.dashboard.js';
 import { KafkaSaslVariables } from './kafka-client.variables.js';
 import { KafkaProducerVariables } from './kafka-producer.variables.js';
 
@@ -49,8 +51,20 @@ export class KafkaProducerComponent<
   @LogChannel(COMMUNICATION_CHANNEL)
   declare readonly communicationLog: LogChannel;
 
+  /** Its brokers, messages and errors: shown where an app includes it */
+  @UseDashboard({ title: 'Kafka' })
+  declare readonly kafka: KafkaDashboard;
+
+  protected _errors!: number;
+  protected _byTopic!: Map<string, number>;
+
   protected async _init(): Promise<void> {
     await super._init();
+    this._errors = 0;
+    this._byTopic = new Map();
+    this.kafka?.link.set('unknown', 'Not connected');
+    this.kafka?.errors.set(0);
+    this.on('error', () => this.kafka?.errors.set(++this._errors));
     this.on('values-updated', async () => {
       await this._configureProducer();
     });
@@ -127,6 +141,7 @@ export class KafkaProducerComponent<
 
       this.producer.on('client:broker:connect', () => {
         this.setStatus(ServiceStatus.started);
+        this.kafka?.link.set('ok', 'Connected');
         this.communicationLog?.write({
           direction: 'info',
           event: 'connect',
@@ -136,6 +151,7 @@ export class KafkaProducerComponent<
       });
       this.producer.on('client:broker:failed', () => {
         this.setStatus(ServiceStatus.unhealthy, 'Kafka broker failed');
+        this.kafka?.link.set('error', 'Kafka broker failed');
         this.communicationLog?.write({
           direction: 'info',
           event: 'error',
@@ -149,6 +165,10 @@ export class KafkaProducerComponent<
             'Kafka broker disconnected unexpectedly',
           );
         }
+        this.kafka?.link.set(
+          this._stopping ? 'unknown' : 'warning',
+          'Disconnected',
+        );
         this.communicationLog?.write({
           direction: 'info',
           event: 'disconnect',
@@ -178,14 +198,32 @@ export class KafkaProducerComponent<
       [kTransaction]?: number;
     },
   ): Promise<ProduceResult> {
-    const result = await this.producer.send(options);
-    for (const message of options.messages)
+    let result: ProduceResult;
+    try {
+      result = await this.producer.send(options);
+    } catch (err) {
+      this.kafka?.errors.set(++this._errors);
+      throw err;
+    }
+    for (const message of options.messages) {
       this.communicationLog?.write({
         direction: 'out',
         data: messageData(message.value),
         details: messageDetails(message),
       });
+      this._count(message.topic);
+    }
     return result;
+  }
+
+  /** A message read or written: its rate, and its topic's bar */
+  protected _count(topic: string | undefined) {
+    if (!this.kafka) return;
+    this.kafka.rate.count('messages');
+    if (!topic) return;
+    const n = (this._byTopic.get(topic) ?? 0) + 1;
+    this._byTopic.set(topic, n);
+    this.kafka.topics.upsert(topic, { value: n });
   }
 }
 

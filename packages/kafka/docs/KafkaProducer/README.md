@@ -45,6 +45,34 @@ For a sent message, the details hold the topic and, when the message names
 them, the partition: `orders[0]`, or `orders`. A message that fails to send is
 not written.
 
+## Dashboard
+
+The component has a dashboard, `kafka` (`KafkaDashboard`). A component's
+widgets are not a tab of their own: an app shows those it takes with
+`include`, and the others are not written at all.
+
+| Widget            | Id       | Shows                                                               |
+| ----------------- | -------- | ------------------------------------------------------------------- |
+| Brokers           | `link`   | `Not connected` at first; `Connected`; `Disconnected` (a warning) or `Kafka broker failed` (an error). |
+| Messages          | `rate`   | Messages a second sent, a chart of the last 200 seconds.      |
+| Errors            | `errors` | The `error` events and the `send()` calls that failed, since the worker started; a warning from the first.                               |
+| Messages by topic | `topics` | A bar per topic, the messages sent since the worker started.  |
+
+The rate is counted with the chart's `count()`: summed in the worker and
+written as one point a second, however busy the topics are. The messages'
+contents are not shown: they are in the communication log, when it is on.
+
+```ts
+@App({ displayName: 'Invoices' })
+export class MyApp extends AppBase {
+  @App.UseComponent({ required: true })
+  declare readonly producer: KafkaProducerComponent;
+
+  @UseDashboard({ title: 'Kafka', include: [{ component: 'producer' }] })
+  declare readonly kafkaTab: DashboardBase;
+}
+```
+
 ## Status
 
 - Started: a broker connection is made.

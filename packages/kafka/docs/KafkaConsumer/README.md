@@ -46,6 +46,34 @@ settings.
 | `info`    | `disconnect` |                                                              |                            | A broker connection is closed.                |
 | `info`    | `error`      |                                                              |                            | A broker connection failed (`Kafka broker failed`). |
 
+## Dashboard
+
+The component has a dashboard, `kafka` (`KafkaDashboard`). A component's
+widgets are not a tab of their own: an app shows those it takes with
+`include`, and the others are not written at all.
+
+| Widget            | Id       | Shows                                                               |
+| ----------------- | -------- | ------------------------------------------------------------------- |
+| Brokers           | `link`   | `Not connected` at first; `Connected`; `Disconnected` (a warning) or `Kafka broker failed` (an error). |
+| Messages          | `rate`   | Messages a second read, a chart of the last 200 seconds.      |
+| Errors            | `errors` | The `error` events since the worker started; a warning from the first.                               |
+| Messages by topic | `topics` | A bar per topic, the messages read since the worker started.  |
+
+The rate is counted with the chart's `count()`: summed in the worker and
+written as one point a second, however busy the topics are. The messages'
+contents are not shown: they are in the communication log, when it is on.
+
+```ts
+@App({ displayName: 'Orders' })
+export class MyApp extends AppBase {
+  @App.UseComponent({ required: true })
+  declare readonly consumer: KafkaConsumerComponent;
+
+  @UseDashboard({ title: 'Kafka', include: [{ component: 'consumer' }] })
+  declare readonly kafkaTab: DashboardBase;
+}
+```
+
 ## Status
 
 - Started: a broker connection is made.
