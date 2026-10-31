@@ -83,8 +83,8 @@ describe('IOBridgeApp dashboard', () => {
     env.flushCounts(app);
     expect(env.dashboard(app, 'bridge/forwarded')).toMatchObject({
       series: {
-        'peer1 to peer2': [[expect.any(Number), 'from 1'.length]],
-        'peer2 to peer1': [[expect.any(Number), 1]],
+        toPeer2: [[expect.any(Number), 'from 1'.length]],
+        toPeer1: [[expect.any(Number), 1]],
       },
     });
     expect(env.dashboard(app, 'bridge/dropped')).toMatchObject({ value: 0 });

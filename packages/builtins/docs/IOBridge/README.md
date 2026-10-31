@@ -56,7 +56,7 @@ property). Its own widgets are in the **Bridge** section:
 
 | Widget     | Id          | Shows                                                                 |
 | ---------- | ----------- | --------------------------------------------------------------------- |
-| Forwarded  | `forwarded` | Bytes a second passed on each way, `peer1 to peer2` and `peer2 to peer1`, a chart of the last 200 seconds. |
+| Forwarded  | `forwarded` | Bytes a second passed on each way, `toPeer2` (shown as Peer 1 → Peer 2) and `toPeer1`, a chart of the last 200 seconds. |
 | Dropped    | `dropped`   | Bytes dropped since the worker started, as their write failed; a warning from the first. |
 | Last error | `lastError` | `No errors`, or the last write failure's message.                     |
 
@@ -74,7 +74,8 @@ section, so the two links are told apart:
 ])
 export class IOBridgeDashboard extends DashboardBase {
   @Widget.Chart({ title: 'Forwarded', section: 'bridge',
-    series: ['peer1 to peer2', 'peer2 to peer1'], unit: 'B/s' })
+    series: ['toPeer2', 'toPeer1'], unit: 'B/s',
+    labels: { toPeer2: 'Peer 1 → Peer 2', toPeer1: 'Peer 2 → Peer 1' } })
   declare readonly forwarded: Widget.Chart;
   // ...
 }
@@ -91,7 +92,7 @@ export class IOBridgeApp extends AppBase {
 }
 
 // a write that went through
-this.bridge?.forwarded.count('peer1 to peer2', data.length);
+this.bridge?.forwarded.count('toPeer2', data.length);
 ```
 
 The forwarded bytes are counted with `count()`: summed in the worker and

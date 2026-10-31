@@ -1,5 +1,61 @@
 {
+  "IoClient": {
+    "dashboards": {
+      "connection": {
+        "title": "Verbindung",
+        "widgets": {
+          "link": {
+            "title": "Verbindungsstatus"
+          },
+          "received": {
+            "title": "Empfangen"
+          },
+          "sent": {
+            "title": "Gesendet"
+          },
+          "traffic": {
+            "title": "Datenverkehr",
+            "unit": "B/s",
+            "series": {
+              "received": "Empfangen",
+              "sent": "Gesendet"
+            }
+          }
+        }
+      }
+    }
+  },
+  "IoServer": {
+    "dashboards": {
+      "connections": {
+        "title": "Verbindungen",
+        "widgets": {
+          "count": {
+            "title": "Verbindungen"
+          },
+          "traffic": {
+            "title": "Datenverkehr",
+            "unit": "B/s",
+            "series": {
+              "received": "Empfangen",
+              "sent": "Gesendet"
+            }
+          },
+          "connections": {
+            "title": "Verbundene Gegenstellen",
+            "columns": {
+              "peer": "Gegenstelle",
+              "since": "Seit",
+              "received": "Empfangen",
+              "sent": "Gesendet"
+            }
+          }
+        }
+      }
+    }
+  },
   "HttpServer": {
+    "@extends": "IoServer",
     "displayName": "HTTP-Server",
     "description": "HTTP-Server-Komponente",
     "summary": "Betreibt einen HTTP- oder HTTPS-Server, über den eine App Anfragen beantwortet, mit TLS und Socket-Limits.",
@@ -131,6 +187,7 @@
     }
   },
   "TcpClient": {
+    "@extends": "IoClient",
     "displayName": "TCP-Client",
     "description": "TCP-Client-Komponente",
     "summary": "Verbindet sich mit einem TCP-Server und liest und schreibt dessen Bytes, mit TLS, SOCKS-Proxys und automatischer Wiederverbindung.",
@@ -211,6 +268,7 @@
     }
   },
   "TcpServer": {
+    "@extends": "IoServer",
     "displayName": "TCP-Server",
     "description": "TCP-Server-Komponente",
     "summary": "Nimmt TCP-Verbindungen an und liest und schreibt deren Bytes, mit optionalem TLS und Sperrlisten.",
@@ -306,6 +364,7 @@
     }
   },
   "UdpClient": {
+    "@extends": "IoClient",
     "displayName": "UDP-Client",
     "description": "UDP-Client-Komponente",
     "summary": "Sendet UDP-Datagramme und liest die Antworten, optional an eine Netzwerkschnittstelle gebunden.",
@@ -325,6 +384,7 @@
     }
   },
   "UdpListener": {
+    "@extends": "IoClient",
     "displayName": "UDP-Listener",
     "description": "UDP-Listener-Komponente",
     "summary": "Lauscht auf einem UDP-Port, einschließlich Broadcast- und Multicast-Gruppen, und liest die an ihn gesendeten Datagramme.",
@@ -354,6 +414,38 @@
   "IOBridge": {
     "displayName": "IO Bridge",
     "description": "Erstellt eine Brücke zwischen zwei IO-Gegenstellen",
-    "summary": "Verbindet zwei IO-Gegenstellen: Was die eine liest, schreibt sie in die andere, zum Beispiel eine serielle Schnittstelle in einen TCP-Socket."
+    "summary": "Verbindet zwei IO-Gegenstellen: Was die eine liest, schreibt sie in die andere, zum Beispiel eine serielle Schnittstelle in einen TCP-Socket.",
+    "dashboards": {
+      "bridge": {
+        "title": "Brücke",
+        "sections": {
+          "bridge": {
+            "title": "Brücke"
+          },
+          "peer1": {
+            "title": "Gegenstelle 1"
+          },
+          "peer2": {
+            "title": "Gegenstelle 2"
+          }
+        },
+        "widgets": {
+          "forwarded": {
+            "title": "Weitergeleitet",
+            "unit": "B/s",
+            "series": {
+              "toPeer2": "Gegenstelle 1 → Gegenstelle 2",
+              "toPeer1": "Gegenstelle 2 → Gegenstelle 1"
+            }
+          },
+          "dropped": {
+            "title": "Verworfen"
+          },
+          "lastError": {
+            "title": "Letzter Fehler"
+          }
+        }
+      }
+    }
   }
 }

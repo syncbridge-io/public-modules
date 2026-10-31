@@ -2,8 +2,6 @@ import { App, AppBase, UseDashboard } from '@syncbridge/common';
 import { IoClientBaseComponent } from '../components.js';
 import { IOBridgeDashboard } from './io-bridge.dashboard.js';
 
-type Side = 'peer1' | 'peer2';
-
 @App({
   className: 'IOBridge',
   formerly: 'IOBridgeApp',
@@ -45,11 +43,13 @@ export class IOBridgeApp extends AppBase {
     this.peer2.on('data', (data: Buffer) => this._pass(data, 'peer1'));
   }
 
-  protected _pass(data: Buffer, to: Side) {
-    const from: Side = to === 'peer1' ? 'peer2' : 'peer1';
+  protected _pass(data: Buffer, to: 'peer1' | 'peer2') {
     try {
       this[to].write(data);
-      this.bridge?.forwarded.count(`${from} to ${to}`, data.length);
+      this.bridge?.forwarded.count(
+        to === 'peer2' ? 'toPeer2' : 'toPeer1',
+        data.length,
+      );
     } catch (err: any) {
       err.message = `Failed to write data to ${to}: ${err.message}`;
       this._dropped += data.length;

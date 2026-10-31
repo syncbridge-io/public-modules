@@ -1,5 +1,61 @@
 {
+  "IoClient": {
+    "dashboards": {
+      "connection": {
+        "title": "Bağlantı",
+        "widgets": {
+          "link": {
+            "title": "Bağlantı durumu"
+          },
+          "received": {
+            "title": "Alınan"
+          },
+          "sent": {
+            "title": "Gönderilen"
+          },
+          "traffic": {
+            "title": "Trafik",
+            "unit": "B/sn",
+            "series": {
+              "received": "Alınan",
+              "sent": "Gönderilen"
+            }
+          }
+        }
+      }
+    }
+  },
+  "IoServer": {
+    "dashboards": {
+      "connections": {
+        "title": "Bağlantılar",
+        "widgets": {
+          "count": {
+            "title": "Bağlantılar"
+          },
+          "traffic": {
+            "title": "Trafik",
+            "unit": "B/sn",
+            "series": {
+              "received": "Alınan",
+              "sent": "Gönderilen"
+            }
+          },
+          "connections": {
+            "title": "Bağlı uçlar",
+            "columns": {
+              "peer": "Karşı uç",
+              "since": "Bağlandığı zaman",
+              "received": "Alınan",
+              "sent": "Gönderilen"
+            }
+          }
+        }
+      }
+    }
+  },
   "HttpServer": {
+    "@extends": "IoServer",
     "displayName": "HTTP Sunucusu",
     "description": "HTTP sunucu bileşeni",
     "summary": "Bir uygulamanın isteklere yanıt vermesi için HTTP veya HTTPS sunucusu çalıştırır; TLS ve soket sınırlarıyla.",
@@ -131,6 +187,7 @@
     }
   },
   "TcpClient": {
+    "@extends": "IoClient",
     "displayName": "TCP İstemcisi",
     "description": "TCP istemci bileşeni",
     "summary": "Bir TCP sunucusuna bağlanır ve baytlarını okuyup yazar; TLS, SOCKS proxy ve otomatik yeniden bağlanmayla.",
@@ -211,6 +268,7 @@
     }
   },
   "TcpServer": {
+    "@extends": "IoServer",
     "displayName": "TCP Sunucusu",
     "description": "TCP sunucu bileşeni",
     "summary": "TCP bağlantılarını kabul eder ve baytlarını okuyup yazar; isteğe bağlı TLS ve engelleme listeleriyle.",
@@ -306,6 +364,7 @@
     }
   },
   "UdpClient": {
+    "@extends": "IoClient",
     "displayName": "UDP İstemcisi",
     "description": "UDP istemci bileşeni",
     "summary": "UDP datagramları gönderir ve yanıtları okur; isteğe bağlı olarak tek bir ağ arayüzüne bağlı.",
@@ -325,6 +384,7 @@
     }
   },
   "UdpListener": {
+    "@extends": "IoClient",
     "displayName": "UDP Dinleyicisi",
     "description": "UDP dinleyici bileşeni",
     "summary": "Bir UDP portunu, broadcast ve multicast grupları dahil dinler ve gönderilen datagramları okur.",
@@ -354,6 +414,38 @@
   "IOBridge": {
     "displayName": "IO Bridge",
     "description": "İki IO ucu arasında köprü kurar",
-    "summary": "İki IO ucunu birbirine bağlar: birinden okunanı diğerine yazar, örneğin bir seri portu bir TCP soketine."
+    "summary": "İki IO ucunu birbirine bağlar: birinden okunanı diğerine yazar, örneğin bir seri portu bir TCP soketine.",
+    "dashboards": {
+      "bridge": {
+        "title": "Köprü",
+        "sections": {
+          "bridge": {
+            "title": "Köprü"
+          },
+          "peer1": {
+            "title": "Uç 1"
+          },
+          "peer2": {
+            "title": "Uç 2"
+          }
+        },
+        "widgets": {
+          "forwarded": {
+            "title": "Aktarılan",
+            "unit": "B/sn",
+            "series": {
+              "toPeer2": "Uç 1 → Uç 2",
+              "toPeer1": "Uç 2 → Uç 1"
+            }
+          },
+          "dropped": {
+            "title": "Düşürülen"
+          },
+          "lastError": {
+            "title": "Son hata"
+          }
+        }
+      }
+    }
   }
 }

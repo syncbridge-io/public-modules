@@ -15,6 +15,7 @@ export class IoClientDashboard extends DashboardBase {
   @Widget.Chart({
     title: 'Traffic',
     series: ['received', 'sent'],
+    labels: { received: 'Received', sent: 'Sent' },
     unit: 'B/s',
     size: { width: 2 },
   })

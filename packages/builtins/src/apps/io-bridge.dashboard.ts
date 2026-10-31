@@ -14,7 +14,8 @@ export class IOBridgeDashboard extends DashboardBase {
   @Widget.Chart({
     title: 'Forwarded',
     section: 'bridge',
-    series: ['peer1 to peer2', 'peer2 to peer1'],
+    series: ['toPeer2', 'toPeer1'],
+    labels: { toPeer2: 'Peer 1 → Peer 2', toPeer1: 'Peer 2 → Peer 1' },
     unit: 'B/s',
     size: { width: 2 },
   })
