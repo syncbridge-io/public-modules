@@ -1,5 +1,39 @@
 {
+  "HL7Endpoint": {
+    "dashboards": {
+      "messages": {
+        "title": "Mesajlar",
+        "widgets": {
+          "rate": {
+            "title": "Mesajlar",
+            "unit": "mesaj/sn",
+            "series": {
+              "received": "Alınan",
+              "sent": "Gönderilen"
+            }
+          },
+          "errors": {
+            "title": "Hatalar"
+          },
+          "types": {
+            "title": "Türe göre alınan"
+          },
+          "last": {
+            "title": "Son mesajlar",
+            "columns": {
+              "direction": "Yön",
+              "type": "Tür",
+              "controlId": "Kontrol No",
+              "ack": "ACK",
+              "peer": "Karşı uç"
+            }
+          }
+        }
+      }
+    }
+  },
   "HL7Client": {
+    "@extends": "HL7Endpoint",
     "displayName": "HL7 İstemcisi",
     "description": "HL7 istemci bileşeni",
     "summary": "MLLP üzerinden bir HL7 v2 sunucusuna bağlanır, mesaj gönderir ve onaylarını bekler; TLS ve yeniden bağlanmayla.",
@@ -100,6 +134,7 @@
     }
   },
   "HL7Server": {
+    "@extends": "HL7Endpoint",
     "displayName": "HL7 Sunucusu",
     "description": "HL7 sunucu bileşeni",
     "summary": "MLLP üzerinden HL7 v2 mesajlarını alır ve onaylar; TLS, adres engelleme ve işleyiciler için middleware ile.",

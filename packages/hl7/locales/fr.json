@@ -1,5 +1,39 @@
 {
+  "HL7Endpoint": {
+    "dashboards": {
+      "messages": {
+        "title": "Messages",
+        "widgets": {
+          "rate": {
+            "title": "Messages",
+            "unit": "msg/s",
+            "series": {
+              "received": "Reçu",
+              "sent": "Envoyé"
+            }
+          },
+          "errors": {
+            "title": "Erreurs"
+          },
+          "types": {
+            "title": "Reçus par type"
+          },
+          "last": {
+            "title": "Derniers messages",
+            "columns": {
+              "direction": "Sens",
+              "type": "Type",
+              "controlId": "ID de contrôle",
+              "ack": "ACK",
+              "peer": "Pair"
+            }
+          }
+        }
+      }
+    }
+  },
   "HL7Client": {
+    "@extends": "HL7Endpoint",
     "displayName": "Client HL7",
     "description": "Composant client HL7",
     "summary": "Se connecte à un serveur HL7 v2 via MLLP, envoie des messages et attend leurs accusés de réception, avec TLS et reconnexion.",
@@ -100,6 +134,7 @@
     }
   },
   "HL7Server": {
+    "@extends": "HL7Endpoint",
     "displayName": "Serveur HL7",
     "description": "Composant serveur HL7",
     "summary": "Reçoit des messages HL7 v2 via MLLP et en accuse réception, avec TLS, blocage d'adresses et middleware pour les gestionnaires.",

@@ -18,6 +18,7 @@ export class HL7Dashboard extends DashboardBase {
   @Widget.Chart({
     title: 'Messages',
     series: ['received', 'sent'],
+    labels: { received: 'Received', sent: 'Sent' },
     unit: 'msg/s',
     size: { width: 2 },
   })
