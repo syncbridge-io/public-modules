@@ -1,0 +1,13 @@
+{
+  "name": "@test/sqb-ext",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "module": "./index.js",
+  "dependencies": {
+    "@syncbridge/sqb": "*"
+  },
+  "peerDependencies": {
+    "@syncbridge/common": "*"
+  }
+}

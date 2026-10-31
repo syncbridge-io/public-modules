@@ -5,10 +5,12 @@ import {
   ComponentBase,
   LogChannel,
   ServiceStatus,
+  UseDashboard,
   WorkerPermission,
 } from '@syncbridge/common';
 import colors from 'ansi-colors';
 import { noOp } from '../constants.js';
+import { SqbClientDashboard } from './sqb-client.dashboard.js';
 import {
   SqbClientPoolVariables,
   SqbClientVariables,
@@ -60,8 +62,18 @@ export class SqbClientComponent<
   })
   declare readonly queriesLog: LogChannel;
 
+  /** Its database, queries and pool: shown where an app includes it */
+  @UseDashboard({ title: 'Database' })
+  declare readonly database: SqbClientDashboard;
+
+  protected _errors!: number;
+  protected _inUse!: number;
+
   protected async _init(): Promise<void> {
     await super._init();
+    this._errors = 0;
+    this.database?.link.set('unknown', 'Not connected');
+    this.database?.errors.set(0);
     await this._createClient();
     this.on('values-updated', () =>
       this._restart().catch(err =>
@@ -88,6 +100,8 @@ export class SqbClientComponent<
       pool: this.values.pool,
     });
     this.client = client;
+    this._inUse = 0;
+    this.database?.inUse.set(0);
     client.on('error', (err: Error) => {
       if (err instanceof SQBError && this.logger?.level === 'debug') {
         const query = err.request?.sql || String(err.query);
@@ -112,15 +126,18 @@ export class SqbClientComponent<
         );
       }
     });
-    client.on('execute', request =>
+    client.on('execute', request => {
       this.queriesLog?.write({
         level: 'info',
         event: 'execute',
         message: request.sql,
         fields: request.params ? { params: request.params } : undefined,
-      }),
-    );
-    client.on('error', (err: Error) =>
+      });
+      this.database?.rate.count('queries');
+    });
+    client.on('error', (err: Error) => {
+      this.database?.errors.set(++this._errors);
+      this.database?.rate.count('errors');
       this.queriesLog?.write({
         level: 'error',
         event: 'error',
@@ -132,10 +149,14 @@ export class SqbClientComponent<
           err instanceof SQBError && err.request?.params
             ? { params: err.request.params }
             : undefined,
-      }),
-    );
-    client.on('acquire', () => {
+      });
+    });
+    client.on('acquire', async () => {
       this._resetLiveness();
+      if (client === this.client) this.database?.inUse.set(++this._inUse);
+    });
+    client.on('connection-return', async () => {
+      if (client === this.client) this.database?.inUse.set(--this._inUse);
     });
   }
 
@@ -173,10 +194,12 @@ export class SqbClientComponent<
       .test()
       .then(() => {
         this.setStatus(ServiceStatus.started);
+        this.database?.link.set('ok', `Connected to ${this.values.dialect}`);
       })
       .catch(err => {
         const msg = `Database connection failed. ${err.message}`;
         this.logger?.error(msg);
+        this.database?.link.set('error', msg);
         this.setStatus(ServiceStatus.unhealthy, msg);
         throw err;
       })

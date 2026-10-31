@@ -49,6 +49,34 @@ kept, which is why the channel is off by default. When the component's
 logger is at `debug` level, a failing query is also written to the text
 log with its SQL and parameters.
 
+## Dashboard
+
+The component has a dashboard, `database` (`SqbClientDashboard`). A
+component's widgets are not a tab of their own: an app shows those it
+takes with `include`, and the others are not written at all.
+
+| Widget             | Id       | Shows                                                               |
+| ------------------ | -------- | ------------------------------------------------------------------- |
+| Database           | `link`   | `Not connected` at first; `Connected to <dialect>` when the connection test passes; `Database connection failed. <error>` (an error) when it fails. It is tested on start, and every 5 seconds once the pool was used. |
+| Queries            | `rate`   | Queries a second, and of them those that failed, a chart of the last 200 seconds. |
+| Errors             | `errors` | The client's errors since the worker started; a warning from the first. |
+| Connections in use | `inUse`  | The pool's connections taken and not yet returned.                  |
+
+The rate is counted with the chart's `count()`: summed in the worker and
+written as one point a second, however many queries run. The SQL itself is
+not shown: it is in the `queries` log channel, when it is on.
+
+```ts
+@App({ displayName: 'Records' })
+export class RecordsApp extends AppBase {
+  @App.UseComponent({ required: true })
+  declare readonly db: SqbClientComponent;
+
+  @UseDashboard({ title: 'Database', include: [{ component: 'db' }] })
+  declare readonly databaseTab: DashboardBase;
+}
+```
+
 ## Status
 
 - `starting`: the component builds its client and runs a connection test.
