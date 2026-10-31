@@ -55,7 +55,7 @@ export class HL7EndpointComponent<
   })
   declare readonly communicationLog: LogChannel;
 
-  /** Its messages and errors, a tab of the worker's page */
+  /** Its messages and errors: shown where an app includes it */
   @UseDashboard({ title: 'Messages' })
   declare readonly messages: HL7Dashboard;
 

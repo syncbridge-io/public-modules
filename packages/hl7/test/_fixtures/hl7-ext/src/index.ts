@@ -1,4 +1,4 @@
-import { App, AppBase } from '@syncbridge/common';
+import { App, AppBase, DashboardBase, UseDashboard } from '@syncbridge/common';
 import { HL7ServerComponent } from '@syncbridge/hl7';
 
 /** Acknowledges what it receives, rejecting an ADT: one of each answer */
@@ -6,6 +6,9 @@ import { HL7ServerComponent } from '@syncbridge/hl7';
 export class HL7ReceiverApp extends AppBase {
   @App.UseComponent({ required: true })
   declare readonly receiver: HL7ServerComponent;
+
+  @UseDashboard({ title: 'Messages', include: [{ component: 'receiver' }] })
+  declare readonly messages: DashboardBase;
 
   protected async _init(): Promise<void> {
     await super._init();

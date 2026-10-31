@@ -35,16 +35,18 @@ component (`client` of HL7Client; `connection` / `disconnect` of HL7Server).
 
 ## Dashboard
 
-Both components show their messages on a **Messages** tab of the worker's
-page (`HL7Dashboard`, the `messages` property), filled from the `message`,
-`send` and `error` events:
+Both components have a dashboard, `messages` (`HL7Dashboard`), filled
+from the `message`, `send` and `error` events. A component's widgets are
+not a tab of their own: an app shows those it takes (see
+[Showing it in an app](#showing-it-in-an-app)), and the others are not
+written at all.
 
-| Widget           | Shows                                                                     |
-| ---------------- | ------------------------------------------------------------------------- |
-| Messages         | Messages a second received and sent, a chart of the last 200 seconds.     |
-| Errors           | Errors since the worker started, a warning from the first.                |
-| Received by type | A bar per message type received (`ORU^R01`, `ADT^A01`).                   |
-| Last messages    | The last 50 received and sent: direction, type, control ID, an acknowledgment's code (MSA-1), peer. |
+| Widget           | Id       | Shows                                                                     |
+| ---------------- | -------- | ------------------------------------------------------------------------- |
+| Messages         | `rate`   | Messages a second received and sent, a chart of the last 200 seconds.     |
+| Errors           | `errors` | Errors since the worker started, a warning from the first.                |
+| Received by type | `types`  | A bar per message type received (`ORU^R01`, `ADT^A01`).                   |
+| Last messages    | `last`   | The last 50 received and sent: direction, type, control ID, an acknowledgment's code (MSA-1), peer. |
 
 An acknowledgment is a message like any other: the server's answers are
 listed as sent, `ACK^R01` with `AA`, `AE` or `AR` in the ACK column, and
@@ -72,6 +74,24 @@ this.messages?.last.append({ direction: 'in', type, controlId, ack, peer });
 
 A component created outside an app has no dashboard: the base class writes
 with `this.messages?.`.
+
+### Showing it in an app
+
+An app takes the widgets into one of its dashboards with `include`, by
+the component's property name: all of them, or those whose ids match
+(`*` any characters):
+
+```ts
+@App({ displayName: 'Lab Interface' })
+export class LabInterfaceApp extends AppBase {
+  @App.UseComponent({ required: true })
+  declare readonly receiver: HL7ServerComponent;
+
+  // A tab of the server's widgets alone
+  @UseDashboard({ title: 'Messages', include: [{ component: 'receiver' }] })
+  declare readonly messagesTab: DashboardBase;
+}
+```
 
 ## Example
 

@@ -68,7 +68,7 @@ and `details` (the peer as `address:port`).
 
 ## Dashboard
 
-The **Messages** tab shows messages a second, errors, the types received and the last messages with their acknowledgments: see [HL7Endpoint](../HL7Endpoint/README.md#dashboard).
+Its `messages` dashboard shows messages a second, errors, the types received and the last messages with their acknowledgments, where an app takes it: see [HL7Endpoint](../HL7Endpoint/README.md#dashboard).
 
 ## Status
 
