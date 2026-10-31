@@ -1,7 +1,20 @@
 # Changelog
 
 
-<!-- rman:documented-up-to 645cc7062b2338628dea819b7095621fbb81a535 -->
+<!-- rman:documented-up-to 16840e8bfe4c1a6d3bae9e8ae33b04fae86168c0 -->
+
+## @syncbridge/hl7@2.2.0 (2026-10-31)
+
+### ✨ Features
+
+- **hl7:** a Messages dashboard for the client and the server (f70b738)
+- **hl7:** dashboard texts in six languages (6826137)
+
+### 🔧 Refactoring
+
+- **hl7:** Messages widgets shown where an app includes them (8d3bd4f)
+
+---
 
 ## @syncbridge/hl7@2.1.0 (2026-10-30)
 
